@@ -4,4 +4,4 @@
 
 ## URL
 
-[🔗](https://promesa.vercel.app)
+[🔗](https://ceos-promesa.vercel.app)
