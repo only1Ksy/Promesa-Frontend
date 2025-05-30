@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+@import './color-system.css';
+@import './typography.css';
+
+@layer base {
+  body {
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+}
+
+@layer components {
+  .frame {
+    width: 100vw;
+    height: 100vh;
+    max-width: 402px;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
