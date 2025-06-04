@@ -10,7 +10,7 @@
 }
 
 @layer components {
-  .frame {
+  #frame {
     width: 100vw;
     height: 100vh;
     max-width: 402px;

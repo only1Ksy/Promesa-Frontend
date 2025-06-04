@@ -1,3 +1,5 @@
+// Strict product여서 추후 props로 width랑 height 추가해서 제어 필요
+
 'use client';
 
 import { useState } from 'react';
@@ -16,7 +18,7 @@ export default function ProductPreview({ artist, name, sale, price }: ProductPre
   const [liked, setLiked] = useState(false);
 
   return (
-    <div className="relative flex h-75 w-44 flex-col gap-2.5">
+    <div className="relative flex h-75 w-full flex-col gap-2.5">
       <button onClick={() => setLiked(!liked)} className="absolute top-1.25 right-1.25 z-10 cursor-pointer">
         {liked ? (
           <HeartFilledIcon className="text-orange h-7.5 w-7.5" />

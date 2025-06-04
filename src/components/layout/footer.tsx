@@ -1,11 +1,24 @@
-import PromesaGreyIcon from '@/public/icons/default/promesa-grey-900.svg';
+'use client';
 
-export default function Footer() {
+import { RefObject } from 'react';
+
+import PromesaGreyIcon from '@/public/icons/default/promesa-grey-900.svg';
+import MoveToTopIcon from '@/public/icons/layout/move-to-top.svg';
+
+interface FooterProps {
+  scrollRef: RefObject<HTMLDivElement | null>;
+}
+
+export default function Footer({ scrollRef }: FooterProps) {
   return (
     <div className="text-caption-01 text-grey-900 mx-5 mt-5 mb-9 flex flex-col gap-5">
-      <div className="my-2.5 flex">
+      <div className="my-2.5 flex justify-between">
         <PromesaGreyIcon />
-        <div className="h-[23px] w-[24px]"></div>
+        <button onClick={() => scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })} className="cursor-pointer">
+          <div className="flex w-6 items-center justify-center">
+            <MoveToTopIcon />
+          </div>
+        </button>
       </div>
       <div className="mb-1 flex gap-15 font-medium">
         <div className="flex flex-col gap-1">

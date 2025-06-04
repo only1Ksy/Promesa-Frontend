@@ -52,16 +52,20 @@ const items = [
 export default function ShopSwiper() {
   return (
     <Swiper slidesPerView="auto" spaceBetween={10} centeredSlides={false}>
-      {items.map((item, idx) => (
-        <SwiperSlide key={`shop-swiper-${idx}`} className="flex !w-44 items-center justify-center">
-          <ProductPreview
-            artist={item['artist']}
-            name={item['product']['name']}
-            sale={item['product']['sale']}
-            price={item['product']['price']}
-          />
-        </SwiperSlide>
-      ))}
+      {items.map((item, idx) => {
+        const isLast = idx === items.length - 1;
+
+        return (
+          <SwiperSlide key={`shop-swiper-${idx}`} className={`!w-44 ${isLast ? 'pr-5' : ''}`}>
+            <ProductPreview
+              artist={item['artist']}
+              name={item['product']['name']}
+              sale={item['product']['sale']}
+              price={item['product']['price']}
+            />
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 }
