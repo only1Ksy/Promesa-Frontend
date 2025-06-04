@@ -42,7 +42,9 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.className} flex min-h-screen items-center justify-center`}>
         <QueryProvider>
-          <div className="frame bg-pale-green hide-scrollbar relative">{children}</div>
+          <div id="frame" className="bg-pale-green hide-scrollbar relative">
+            {children}
+          </div>
         </QueryProvider>
       </body>
     </html>
