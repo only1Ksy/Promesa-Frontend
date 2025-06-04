@@ -13,7 +13,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: '프로메사',
+  title: '프로메사 - 도예 전공자들의 작품을 전시하고 판매하는 플랫폼',
   description: '프로메사는 도예 전공자들의 작품을 전시하고 판매하는 플랫폼입니다.',
   keywords: ['프로메사'],
   authors: [],
@@ -42,7 +42,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.className} flex min-h-screen items-center justify-center`}>
         <QueryProvider>
-          <div className="frame bg-pale-green relative">{children}</div>
+          <div className="frame bg-pale-green hide-scrollbar relative">{children}</div>
         </QueryProvider>
       </body>
     </html>
