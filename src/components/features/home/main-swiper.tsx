@@ -6,10 +6,21 @@ import { useState } from 'react';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const items = ['item 0', 'item 1', 'item 2', 'item 3', 'item 4'];
+import { useThumbnailItemsQuery } from '@/hooks/query/use-thumbnail-items-query';
 
 export default function MainSwiper() {
   const [active, setActive] = useState(0);
+  const { data: items = [], isLoading } = useThumbnailItemsQuery();
+
+  if (isLoading) {
+    return (
+      <div className="flex w-full gap-15">
+        <div className="bg-green my-10.75 h-38.5 w-5.25" />
+        <div className="bg-green h-60 w-60" />
+        <div className="bg-green my-10.75 h-38.5 w-5.25" />
+      </div>
+    );
+  }
 
   return (
     <Swiper
@@ -26,11 +37,11 @@ export default function MainSwiper() {
         const isActive = idx === active;
 
         return (
-          <SwiperSlide key={`main-swiper-${idx}`} className={`!h-60 !w-60`}>
+          <SwiperSlide key={`main-swiper-${idx}`} className="!w-60">
             <div
               className={`bg-green text-headline-01 flex w-full items-center justify-center ${isActive ? 'h-60' : 'my-10.75 h-38.5 opacity-50'}`}
             >
-              {item}
+              {item.itemName}
             </div>
           </SwiperSlide>
         );

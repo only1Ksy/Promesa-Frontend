@@ -26,4 +26,9 @@
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  .custom-break-words {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
 }
