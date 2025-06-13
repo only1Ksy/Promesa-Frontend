@@ -22,7 +22,7 @@ export default function HomePage() {
           <PromesaTextLargeIcon className="text-grey-1" />
         </div>
         <Link href="/shop?categoryId=&sort=price,DESC">
-          <div className="text-body-02 font-regular text-pale-green border-pale-green hover:bg-pale-green hover:text-grey-6 flex h-8 w-35 items-center justify-center rounded-[10rem] border-[1.2px] backdrop-blur-[2.35px] transition duration-200">
+          <div className="text-body-02 font-regular text-grey-1 border-grey-1 hover:bg-grey-1 hover:text-grey-6 flex h-8 w-35 items-center justify-center rounded-[10rem] border-[1.2px] backdrop-blur-[2.35px] transition duration-200">
             <p>둘러보기</p>
           </div>
         </Link>
