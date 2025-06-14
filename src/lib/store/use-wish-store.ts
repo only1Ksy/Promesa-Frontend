@@ -3,17 +3,16 @@ import { persist } from 'zustand/middleware';
 
 import type { Item } from '@/types/item.dto';
 
-type itemId = Item['itemId'];
+type ItemId = Item['itemId'];
 
 interface WishStore {
-  wishedIds: itemId[];
-  toggleWish: (itemId: itemId) => void;
-  isWished: (itemId: itemId) => boolean;
+  wishedIds: ItemId[];
+  toggleWish: (itemId: ItemId) => void;
 }
 
 export const useWishStore = create<WishStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       wishedIds: [],
       toggleWish: (itemId) =>
         set((state) => ({
@@ -21,7 +20,6 @@ export const useWishStore = create<WishStore>()(
             ? state.wishedIds.filter((id) => id !== itemId)
             : [...state.wishedIds, itemId],
         })),
-      isWished: (itemId) => get().wishedIds.includes(itemId),
     }),
     {
       name: 'wish-store',

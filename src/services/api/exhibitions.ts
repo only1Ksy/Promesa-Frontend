@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+// mock API code
 
 interface Exhibition {
   exhibitionId: number;
@@ -6,8 +6,8 @@ interface Exhibition {
   exhibitionDescription: string;
 }
 
-const mockFetchExhibitions = async (): Promise<Exhibition[]> => {
-  return [
+export const fetchExhibitions = async () => {
+  const data = [
     {
       exhibitionId: 2001,
       exhibitionTitle: '작가 영은의 작업실에서',
@@ -33,12 +33,6 @@ const mockFetchExhibitions = async (): Promise<Exhibition[]> => {
       exhibitionTitle: '작가 영은의 작업실에서',
       exhibitionDescription: '핸드메이드 도자기 탐방',
     },
-  ];
+  ] as Exhibition[];
+  return { data };
 };
-
-export const useExhibitionsQuery = () =>
-  useQuery({
-    queryKey: ['exhibitions'],
-    queryFn: mockFetchExhibitions,
-    staleTime: 1000,
-  });
