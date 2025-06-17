@@ -23,3 +23,9 @@ export const INTRODUCTION_LINE_LIST = [
   '저희 프로메사는 도예를 사랑하는 모두를 위해',
   '열정을 다하겠습니다.',
 ] as const;
+
+export const SHOP_INTRODUCTION_LINE_LIST = [
+  '프로메사, 예술과 일상의 교차로',
+  '대학생 도예가의 섬세한 손길이 깃든 작품으로',
+  '특별한 오기를 느껴보세요',
+] as const;

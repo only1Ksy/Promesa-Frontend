@@ -6,21 +6,21 @@ import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
 import type { Item } from '@/types/item.dto';
 
-type ItemPreviewGridProps = Pick<Item, 'itemId' | 'itemName' | 'price' | 'artistName' | 'sale'>;
+type ItemPreviewMasonryProps = Pick<Item, 'itemId' | 'itemName' | 'price' | 'artistName' | 'sale'>;
 
-export default function ItemPreviewGrid({ itemId, itemName, price, artistName, sale }: ItemPreviewGridProps) {
+export default function ItemPreviewMasonry({ itemId, itemName, price, artistName, sale }: ItemPreviewMasonryProps) {
   const { mutate } = useToggleWish();
 
   const wished = useWishStore((state) => state.wishedIds.includes(itemId));
 
-  if (itemId < 0) return <div className="h-81 w-44" />;
+  if (itemId < 0) return <div className="h-62 w-29" />;
 
   return (
-    <div className="relative flex h-81 w-44 flex-col gap-2.5">
+    <div className="relative flex h-62 w-29 flex-col gap-2.5">
       <button onClick={() => mutate(itemId)} className="absolute top-2 right-2 z-10 cursor-pointer">
         {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-pale-green" />}
       </button>
-      <div className="bg-green h-55 w-full" />
+      <div className="bg-green h-36.25 w-full" />
       <div className="flex flex-col gap-1.5">
         <div className="flex flex-col">
           <p className="text-caption-01 text-grey-600 font-medium">{artistName}</p>
