@@ -66,7 +66,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
             chunkList(items, params.frame === 'grid' ? 2 : 3).map((group, idx) => {
               const ItemPreview = params.frame === 'grid' ? ItemPreviewGrid : ItemPreviewMasonry;
 
-              const placeholders = Array(params.frame === 'grid' ? 2 : 3 - group.length).fill(null);
+              const placeholders = Array((params.frame === 'grid' ? 2 : 3) - group.length).fill(null);
 
               return (
                 <div key={`item-list-group-${params.frame}-${idx}`} className={`flex justify-between`}>
