@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import DropDownIcon from '@/public/icons/item/drop-down.svg';
 import type { ArtistItemListParams, ItemListCommon, ShopItemListParams } from '@/types/params.dto';
@@ -14,19 +14,34 @@ interface ItemListFilteringHeaderProps {
 }
 
 export default function ItemListFilteringHeader({ categoryId, sort, frame, push }: ItemListFilteringHeaderProps) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+
+  const scrollToActive = () => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+
+    const active = wrap.querySelector<HTMLButtonElement>(`#category-id-${categoryId}`);
+    if (!active) return;
+
+    active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  };
+
+  useLayoutEffect(scrollToActive);
+  useEffect(scrollToActive, [categoryId]);
 
   return (
     <div className="flex flex-col gap-3">
       <div className="relative">
         {/* 카테고리 */}
-        <div className="to-pale-green absolute top-0 right-0 z-10 h-full w-8 bg-gradient-to-r from-[rgba(238,239,233,0)]" />
-        <div className="hide-scrollbar flex gap-5.5 overflow-x-auto pr-8">
+        <div className="to-pale-green absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r from-[rgba(238,239,233,0)]" />
+        <div ref={wrapRef} className="hide-scrollbar flex gap-5.5 overflow-x-auto pr-8">
           {CATEGORY_ID_KEYS.map(({ label, value }) => {
             const isActive = categoryId === value;
             return (
               <button
                 key={`category-id-${value}`}
+                id={`category-id-${value}`}
                 onClick={() => push({ categoryId: value, page: '1' })}
                 className={`text-body-01 flex-shrink-0 cursor-pointer font-medium ${isActive ? 'text-grey-9' : 'text-grey-4'}`}
               >

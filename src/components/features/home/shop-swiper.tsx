@@ -31,7 +31,7 @@ export default function ShopSwiper() {
         const isLast = idx === items.length - 1;
 
         return (
-          <div key={`shop-swiper-${idx}`} className={isLast ? 'mr-5' : ''}>
+          <div key={`shop-swiper-${idx}`} className={`w-44 flex-none ${isLast ? 'mr-5' : ''}`}>
             <ItemPreviewGrid
               itemId={item.itemId}
               itemName={item.itemName}
