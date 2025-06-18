@@ -1,14 +1,23 @@
 import FrameGridIcon from '@/public/icons/item/frame-grid.svg';
 import FrameMasonryIcon from '@/public/icons/item/frame-masonry.svg';
 
-export interface ItemListParams {
+export interface ItemListCommon {
   categoryId: string;
   sort: string;
-  page: string;
   frame: string;
 }
 
-export type ItemListServerParams = Pick<ItemListParams, 'categoryId' | 'sort' | 'page'>;
+export interface ShopItemListParams extends ItemListCommon {
+  page: string;
+}
+
+export interface ArtistItemListParams extends ItemListCommon {
+  artistId: string;
+}
+
+export type ItemListServerParams =
+  | Pick<ShopItemListParams, 'categoryId' | 'sort' | 'page'>
+  | Pick<ArtistItemListParams, 'categoryId' | 'sort' | 'artistId'>;
 
 export const CATEGORY_ID_KEYS = [
   { label: 'ALL', value: '0' },

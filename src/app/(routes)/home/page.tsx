@@ -1,6 +1,6 @@
 import { dehydrate } from '@tanstack/react-query';
 
-import ClientHomePage from '@/components/features/home/client/client-home-page';
+import ClientHomePage from '@/components/client/home/page';
 import { fetchExhibitions } from '@/services/api/exhibitions';
 import { fetchNowPopularItems, fetchThumbnailItems } from '@/services/api/items';
 import { createQueryClient } from '@/services/query/server';

@@ -1,4 +1,4 @@
-import ClientRoutesLayout from '@/components/layout/client/client-routes-layout';
+import ClientRoutesLayout from '@/components/client/layout/routes-layout';
 
 export default function RoutesLayout({
   children,

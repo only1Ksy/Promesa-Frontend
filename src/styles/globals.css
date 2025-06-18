@@ -2,6 +2,10 @@
 @import './color-system.css';
 @import './typography.css';
 
+@theme {
+  --frame-width: 402px;
+}
+
 @layer base {
   body {
     background-color: var(--color-white);
@@ -13,7 +17,7 @@
   #frame {
     width: 100vw;
     height: 100vh;
-    max-width: 402px;
+    max-width: var(--frame-width);
     overflow: auto;
   }
 
@@ -44,5 +48,11 @@
   .custom-break-words {
     word-break: break-all;
     overflow-wrap: break-word;
+  }
+
+  .scroll-x-area {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }

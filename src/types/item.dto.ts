@@ -4,6 +4,7 @@ export interface Item {
   itemDescription: string;
   price: number;
   thumbnailUrl: string;
+  artistId: number;
   artistName: string;
   isWished: boolean;
   sale: number; // not in swagger
