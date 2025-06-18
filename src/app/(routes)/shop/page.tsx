@@ -1,10 +1,10 @@
 import { dehydrate } from '@tanstack/react-query';
 
-import ClientShopPage from '@/components/features/shop/client/client-shop-page';
+import ClientShopPage from '@/components/client/shop/page';
 import pickItemListServerParams from '@/lib/utils/pick-item-list-server-params';
 import { fetchShopItems } from '@/services/api/items';
 import { createQueryClient } from '@/services/query/server';
-import type { ItemListParams } from '@/types/params.dto';
+import type { ShopItemListParams } from '@/types/params.dto';
 
 export default async function ShopPage({
   searchParams: searchParamsPromise,
@@ -14,7 +14,7 @@ export default async function ShopPage({
   const raw = await searchParamsPromise;
   const norm = (v: string | string[] | undefined): string => (Array.isArray(v) ? v[0] : (v ?? ''));
 
-  const initialParams: ItemListParams = {
+  const initialParams: ShopItemListParams = {
     categoryId: norm(raw.categoryId) || '0',
     sort: norm(raw.sort) || 'price,DESC',
     page: norm(raw.page) || '1',

@@ -3,12 +3,12 @@ import PageLeftDoubleIcon from '@/public/icons/item/page-left-double.svg';
 import PageLeftSingleIcon from '@/public/icons/item/page-left-single.svg';
 import PageRightDoubleIcon from '@/public/icons/item/page-right-double.svg';
 import PageRightSingleIcon from '@/public/icons/item/page-right-single.svg';
-import { ItemListParams } from '@/types/params.dto';
+import { ShopItemListParams } from '@/types/params.dto';
 
 interface ItemListPaginationFooterProps {
   currentPage: number;
   totalPage: number;
-  push: (next: Partial<ItemListParams>) => void;
+  push: (next: Partial<ShopItemListParams>) => void;
 }
 
 export default function ItemListPaginationFooter({ currentPage, totalPage, push }: ItemListPaginationFooterProps) {

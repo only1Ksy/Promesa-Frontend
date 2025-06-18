@@ -1,6 +1,12 @@
-import type { ItemListParams, ItemListServerParams } from '@/types/params.dto';
+import type { ArtistItemListParams, ItemListServerParams, ShopItemListParams } from '@/types/params.dto';
 
-export default function pickItemListServerParams(params: ItemListParams): ItemListServerParams {
-  const { categoryId, sort, page } = params;
-  return { categoryId, sort, page };
+export const isArtistParams = (params: ShopItemListParams | ArtistItemListParams): params is ArtistItemListParams =>
+  'artistId' in params && !!params.artistId;
+
+export default function pickItemListServerParams(
+  params: ShopItemListParams | ArtistItemListParams,
+): ItemListServerParams {
+  return isArtistParams(params)
+    ? { categoryId: params.categoryId, sort: params.sort, artistId: params.artistId }
+    : { categoryId: params.categoryId, sort: params.sort, page: params.page };
 }

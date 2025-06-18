@@ -3,14 +3,14 @@
 import { useState } from 'react';
 
 import DropDownIcon from '@/public/icons/item/drop-down.svg';
-import type { ItemListParams } from '@/types/params.dto';
+import type { ArtistItemListParams, ItemListCommon, ShopItemListParams } from '@/types/params.dto';
 import { CATEGORY_ID_KEYS, FRAME_KEYS, SORT_KEYS } from '@/types/params.dto';
 
 interface ItemListFilteringHeaderProps {
-  categoryId: ItemListParams['categoryId'];
-  sort: ItemListParams['sort'];
-  frame: ItemListParams['frame'];
-  push: (next: Partial<ItemListParams>) => void;
+  categoryId: ItemListCommon['categoryId'];
+  sort: ItemListCommon['sort'];
+  frame: ItemListCommon['frame'];
+  push: (next: Partial<ShopItemListParams | ArtistItemListParams>) => void;
 }
 
 export default function ItemListFilteringHeader({ categoryId, sort, frame, push }: ItemListFilteringHeaderProps) {

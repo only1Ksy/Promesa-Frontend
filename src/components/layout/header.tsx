@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import BackIcon from '@/public/icons/layout/back.svg';
 import CartIcon from '@/public/icons/layout/cart.svg';
 import HamburgerIcon from '@/public/icons/layout/hamburger.svg';
 import MyIcon from '@/public/icons/layout/my.svg';
@@ -11,14 +12,21 @@ import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 
 export default function Header() {
   const pathname = usePathname();
-  const isSearch = pathname.startsWith('shop');
+  const isSearch = pathname.startsWith('/shop');
+  const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail');
 
   return (
     <div className="mx-5 my-2 flex items-center justify-between">
       <div className="mr-17">
-        <Link href="/menu">
-          <HamburgerIcon className="text-grey-9" />
-        </Link>
+        {!isBack ? (
+          <Link href="/menu">
+            <HamburgerIcon className="text-grey-9" />
+          </Link>
+        ) : (
+          <Link href="/shop">
+            <BackIcon className="text-grey-9" />
+          </Link>
+        )}
       </div>
       <Link href="/">
         <PromesaTextSmallIcon className="text-black" />
