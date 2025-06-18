@@ -71,7 +71,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
         <ItemListFilteringHeader categoryId={params.categoryId} sort={params.sort} frame={params.frame} push={push} />
         {/* 아이템 리스트 */}
         <div
-          className={`flex flex-col gap-4 ${!open && items.length >= 10 && (params.frame === 'grid' ? 'h-421 overflow-hidden' : params.frame === 'masonry' ? 'h-261 overflow-hidden' : '')}`}
+          className={`flex flex-col gap-4 ${isArtistParams(initialParams) && !open && items.length >= 10 && (params.frame === 'grid' ? 'h-421 overflow-hidden' : params.frame === 'masonry' ? 'h-261 overflow-hidden' : '')}`}
         >
           {['grid', 'masonry'].includes(params.frame) &&
             chunkList(items, params.frame === 'grid' ? 2 : 3).map((group, idx) => {
@@ -99,7 +99,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
                 </div>
               );
             })}
-          {!open && items.length >= 10 && (
+          {isArtistParams(initialParams) && !open && items.length >= 10 && (
             <>
               <div className="from-pale-green/0 to-pale-green/80 absolute bottom-0 z-5 h-70 w-full bg-gradient-to-b from-8% to-100%" />
               <div className="absolute bottom-0 z-10 flex w-full justify-center">
