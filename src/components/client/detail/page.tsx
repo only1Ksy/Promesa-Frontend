@@ -25,7 +25,9 @@ export default function ClientDetailPage() {
         {/* 하단 상세 페이지 */}
         <div className="w-full">
           {/* 이동 바 */}
-          <DetailNavBar />
+          <div className="sticky top-[46px] z-40">
+            <DetailNavBar />
+          </div>
           {/* 상품 정보 */}
           <div className="flex w-full flex-col items-start">
             <ProductDetail />
