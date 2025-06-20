@@ -16,7 +16,7 @@ export default function ReviewCard() {
         <div className="bg-green h-29 w-[115px]">
           <Image alt="review image" src={''} />
         </div>
-        <div className="text-grey-9 text-body-02 max-w-90.5 overflow-hidden font-medium overflow-ellipsis">
+        <div className="text-grey-9 text-body-02 max-h-10.5 max-w-90.5 overflow-hidden font-medium overflow-ellipsis">
           너므기여워요너무귀여워용너므기여워요너무귀여워용너므기여워요너무귀여{' '}
         </div>
       </div>

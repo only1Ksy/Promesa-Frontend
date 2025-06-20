@@ -6,6 +6,7 @@ import DetailNavBar from '@/components/features/detail/detail-nav-bar';
 import ProductDetail from '@/components/features/detail/product-detail';
 import ProductNotice from '@/components/features/detail/product-notice';
 import ReviewCard from '@/components/features/detail/review-card';
+import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
 import Divider from '@/public/icons/item/divider.svg';
 import ReviewStar from '@/public/icons/item/review-star.svg';
 
@@ -57,6 +58,9 @@ export default function ClientDetailPage() {
         </div>
       </div>
       {/* 하단 고정 바 */}
+      <div className="border-green bg-pale-green fixed bottom-0 left-1/2 z-50 flex w-[402px] -translate-x-1/2 items-center justify-between self-stretch border-t px-5 py-3 shadow-md">
+        <BottomFixedBar />
+      </div>
     </div>
   );
 }
