@@ -5,6 +5,8 @@ import ProductInformation from '@/components/features/detail/product-information
 import DetailNavBar from '@/components/features/detail/detail-nav-bar';
 import ProductDetail from '@/components/features/detail/product-detail';
 import ProductNotice from '@/components/features/detail/product-notice';
+import ReviewCard from '@/components/features/detail/review-card';
+import Divider from '@/public/icons/item/divider.svg';
 
 export default function ClientDetailPage() {
   return (
@@ -19,7 +21,7 @@ export default function ClientDetailPage() {
           <ProductInformation />
         </div>
         {/* 하단 상세 페이지 */}
-        <div>
+        <div className="w-full">
           {/* 이동 바 */}
           <DetailNavBar />
           {/* 상품 정보 */}
@@ -27,12 +29,30 @@ export default function ClientDetailPage() {
             <ProductDetail />
           </div>
           {/* 안내사항 */}
-          <div className="flex flex-col items-start gap-3 self-stretch px-5 py-10">
+          <div className="mb-10 flex flex-col items-start gap-3 self-stretch px-5 py-10">
             <ProductNotice />
           </div>
           {/* 리뷰 */}
+          <div className="flex flex-col items-center">
+            {/* 리뷰 상단바 */}
+            <div className="flex w-full items-end justify-between px-5">
+              <div className="flex">
+                <span>리뷰 (4) </span>
+                <div>별점 3.2...</div>
+              </div>
+              <div>리뷰쓰기</div>
+            </div>
+            <div className="pt-2 pb-3">
+              <Divider />
+            </div>
+            {/* 리뷰 나열 */}
+            <div className="flex w-full flex-col items-center gap-5">
+              <ReviewCard />
+            </div>
+          </div>
         </div>
       </div>
+      {/* 하단 고정 바 */}
     </div>
   );
 }
