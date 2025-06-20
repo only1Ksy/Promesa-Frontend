@@ -4,7 +4,7 @@ export default function ProductDetail() {
   return (
     <>
       {/* 상세 정보 */}
-      <div className="flex flex-col items-start gap-2 self-stretch px-5 py-8">
+      <div className="text-grey-8 text-caption-01 flex flex-col items-start gap-2 self-stretch px-5 py-8 font-medium">
         <div className="flex items-center gap-4">
           <span className="w-8">품번</span>
           <span>11029292929292929</span>

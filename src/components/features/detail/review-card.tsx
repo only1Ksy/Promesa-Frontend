@@ -6,17 +6,19 @@ export default function ReviewCard() {
       {/* 닉네임, 별점, 날짜 */}
       <div className="flex items-start justify-between self-stretch">
         <div className="flex w-53 items-start gap-2">
-          <span>닉네임</span>
-          <span>별점 ...</span>
+          <span className="text-grey-9 text-body-02 font-medium">닉네임</span>
+          <span className="text-grey-6 text-caption-01 self-center font-medium">4</span>
         </div>
-        <span>2025.06.20</span>
+        <span className="text-caption-01 text-grey-5 font-medium">2025.06.20</span>
       </div>
       {/* 사진, 코멘트 */}
       <div className="flex flex-col items-start gap-5 self-stretch">
         <div className="bg-green h-29 w-[115px]">
           <Image alt="review image" src={''} />
         </div>
-        <div>너므기여워요너무귀여워용</div>
+        <div className="text-grey-9 text-body-02 max-w-90.5 overflow-hidden font-medium overflow-ellipsis">
+          너므기여워요너무귀여워용너므기여워요너무귀여워용너므기여워요너무귀여{' '}
+        </div>
       </div>
     </div>
   );
