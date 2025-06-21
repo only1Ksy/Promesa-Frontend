@@ -1,22 +1,29 @@
+import clsx from 'clsx';
+
 interface DetailNavBarProps {
   onSelect: (section: 'product' | 'notice' | 'review') => void;
-  active: 'product' | 'notice' | 'review'; // 현재 활성 탭
+  active: 'product' | 'notice' | 'review';
 }
 
 export default function DetailNavBar({ onSelect, active }: DetailNavBarProps) {
+  const sections: { id: 'product' | 'notice' | 'review'; label: string }[] = [
+    { id: 'product', label: '상품정보' },
+    { id: 'notice', label: '안내사항' },
+    { id: 'review', label: '리뷰' },
+  ];
+
   return (
     <div className="bg-pale-green text-subhead border-grey-2 flex h-12 w-full items-start border-t font-medium">
-      {(['product', 'notice', 'review'] as const).map((section) => (
+      {sections.map(({ id, label }) => (
         <div
-          key={section}
-          onClick={() => onSelect(section)}
-          className={`flex w-33.5 cursor-pointer flex-col items-center gap-2 pt-3 pb-2 ${
-            active === section ? 'border-b border-black' : ''
-          }`}
+          key={id}
+          onClick={() => onSelect(id)}
+          className={clsx(
+            'flex w-33.5 cursor-pointer flex-col items-center gap-2 pt-3',
+            active === id && 'border-b-2 border-black',
+          )}
         >
-          <span className={active === section ? 'text-grey-9' : 'text-grey-4'}>
-            {section === 'product' ? '상품정보' : section === 'notice' ? '안내사항' : '리뷰'}
-          </span>
+          <span className={clsx(active === id ? 'text-grey-9' : 'text-grey-4')}>{label}</span>
         </div>
       ))}
     </div>
