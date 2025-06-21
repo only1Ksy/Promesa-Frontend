@@ -14,7 +14,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { fetchItemDetail } from '@/services/api/item';
 import { useQuery } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 interface ClientDetailPageProps {
   itemId: Item['itemId'];
@@ -34,20 +34,60 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   const noticeRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
+  // 현재 섹션 상태
+  const [activeTab, setActiveTab] = useState<'product' | 'notice' | 'review'>('product');
+
   // 스크롤 핸들러
   const scrollTo = (section: 'product' | 'notice' | 'review') => {
     const target =
-      section === 'product'
-        ? productRef.current
-        : section === 'notice'
-          ? noticeRef.current
-          : section === 'review'
-            ? reviewRef.current
-            : null;
+      section === 'product' ? productRef.current : section === 'notice' ? noticeRef.current : reviewRef.current;
+
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActiveTab(section);
     }
   };
+
+  // 현재 보이는 섹션 감지 (IntersectionObserver)
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '-100px 0px -70% 0px', // 상단에 닿으면 바로 active 되지 않도록 조정
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id as 'product' | 'notice' | 'review';
+          setActiveTab(id);
+        }
+      });
+    }, options);
+
+    const product = productRef.current;
+    const notice = noticeRef.current;
+    const review = reviewRef.current;
+
+    if (product) {
+      product.setAttribute('id', 'product');
+      observer.observe(product);
+    }
+    if (notice) {
+      notice.setAttribute('id', 'notice');
+      observer.observe(notice);
+    }
+    if (review) {
+      review.setAttribute('id', 'review');
+      observer.observe(review);
+    }
+
+    return () => {
+      if (product) observer.unobserve(product);
+      if (notice) observer.unobserve(notice);
+      if (review) observer.unobserve(review);
+    };
+  }, []);
 
   return (
     <HydrationBoundary state={itemDetailState}>
@@ -64,8 +104,8 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
         <div className="w-full">
           {/* 이동 바 */}
           <div className="sticky top-[46px] z-40">
-            {/* scrollTo 함수 전달 */}
-            <DetailNavBar onSelect={scrollTo} />
+            {/* scrollTo 함수 및 activeTab 전달 */}
+            <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
           {/* 상품 정보 */}
           <div ref={productRef} className="flex w-full flex-col items-start">
