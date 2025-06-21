@@ -27,7 +27,6 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res.data,
   });
-  if (!item) return null;
 
   // 스크롤 이동을 위한 ref들
   const productRef = useRef<HTMLDivElement>(null);
@@ -89,6 +88,8 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     };
   }, []);
 
+  if (!item) return null;
+
   return (
     <HydrationBoundary state={itemDetailState}>
       {/* 메인 이미지 */}
@@ -98,7 +99,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
         <div className="flex h-109.5 w-full flex-col items-start gap-5">
-          <ProductInformation itemId={itemId} />
+          <ProductInformation onSelect={scrollTo} itemId={itemId} />
         </div>
         {/* 하단 상세 페이지 */}
         <div className="w-full">
@@ -129,7 +130,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
                   <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
                 </div>
               </div>
-              <div className="text-grey-6 text-caption-01 font-medium">리뷰쓰기</div>
+              <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
             </div>
             <div className="pt-2 pb-3">
               <Divider />

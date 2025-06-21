@@ -2,13 +2,15 @@ import ArtistPageButton from './artist-page-button';
 import RightSingle from '@/public/icons/item/page-right-single.svg';
 import type { Item } from '@/types/item.dto';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import { fetchItemDetail } from '@/services/api/item';
 
 interface ProductInformationProps {
+  onSelect: (section: 'product' | 'notice' | 'review') => void;
   itemId: Item['itemId'];
 }
 
-export default function ProductInformation({ itemId }: ProductInformationProps) {
+export default function ProductInformation({ onSelect, itemId }: ProductInformationProps) {
   const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
@@ -24,15 +26,19 @@ export default function ProductInformation({ itemId }: ProductInformationProps) 
         {/* 카테고리, 상품명, 리뷰 */}
         <div className="flex flex-col items-start gap-1 self-stretch">
           <div className="flex flex-col items-start gap-2 self-stretch">
-            <span className="text-grey-5 text-body-02 flex items-center">
-              잔
-              <RightSingle className="text-grey-5" />
-              높은 잔
-            </span>
+            <Link href="/shop?categoryId=1&sort=wishCount,DESC">
+              <span className="text-grey-5 text-body-02 flex items-center">
+                잔
+                <RightSingle className="text-grey-5" />
+                높은 잔
+              </span>
+            </Link>
             <span className="text-grey-9 text-subhead font-medium">{item.itemName}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-grey-6 text-caption-01 underline">4건 리뷰보기</span>
+            <span onClick={() => onSelect('review')} className="text-grey-6 text-caption-01 cursor-pointer underline">
+              4건 리뷰보기
+            </span>
           </div>
         </div>
         {/* 가격 */}
