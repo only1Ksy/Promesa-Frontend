@@ -125,8 +125,8 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 (4) </span>
                 <div className="flex items-center gap-1">
-                  <ReviewStar />
-                  <div className="text-grey-6 text-body-02 font-medium">3.2...</div>
+                  <ReviewStar className="h-4 w-4" />
+                  <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
                 </div>
               </div>
               <div className="text-grey-6 text-caption-01 font-medium">리뷰쓰기</div>

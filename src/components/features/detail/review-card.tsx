@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ReviewStar from '@/public/icons/item/review-star.svg';
 
 export default function ReviewCard() {
   return (
@@ -7,7 +8,18 @@ export default function ReviewCard() {
       <div className="flex items-start justify-between self-stretch">
         <div className="flex w-53 items-start gap-2">
           <span className="text-grey-9 text-body-02 font-medium">닉네임</span>
-          <span className="text-grey-6 text-caption-01 self-center font-medium">4</span>
+          {/* 별점 아이콘 반복 */}
+          <div className="flex items-center self-center">
+            {Array.from({ length: 5 }).map(
+              (_, i) =>
+                i < 4 ? (
+                  <ReviewStar key={i} className="h-[12px] w-[13px]" />
+                ) : (
+                  <ReviewStar key={i} className="h-[12px] w-[13px] opacity-30" />
+                ), // or ReviewStarEmpty
+            )}
+            <span className="text-grey-6 text-caption-01 self-center pl-1 font-medium">4</span>
+          </div>
         </div>
         <span className="text-caption-01 text-grey-5 font-medium">2025.06.20</span>
       </div>
