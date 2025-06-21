@@ -19,7 +19,7 @@ export default function DetailNavBar({ onSelect, active }: DetailNavBarProps) {
           key={id}
           onClick={() => onSelect(id)}
           className={clsx(
-            'flex w-33.5 cursor-pointer flex-col items-center gap-2 pt-3',
+            'flex w-33.5 cursor-pointer flex-col items-center gap-2 pt-3 pb-2',
             active === id && 'border-b-2 border-black',
           )}
         >
