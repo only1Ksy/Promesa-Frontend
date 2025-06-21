@@ -3,26 +3,31 @@ import Image from 'next/image';
 import RightSingle from '@/public/icons/item/page-right-single.svg';
 import BookMarkFilled from '@/public/icons/artist/book-mark-filled.svg';
 
-export default function ArtistPageButton() {
+import Link from 'next/link';
+
+interface ArtistPageButtonProps {
+  artistId: number;
+}
+
+export default function ArtistPageButton({ artistId }: ArtistPageButtonProps) {
   return (
-    <div className="relative flex h-19 w-full flex-col items-start gap-[10px] px-5">
-      <div className="bg-deep-green h-full w-full">
-        <Image alt="product detail page artist image" src={''} />
-      </div>
-      <div className="absolute flex h-19 w-90.5 items-center justify-between self-stretch px-5">
-        <div className="flex items-start gap-2">
-          <div className="flex flex-col">
+    <div className="relative z-10 flex h-19 w-full flex-col items-start gap-[10px] px-5">
+      <Link href={`/artist/${artistId}`} className="block w-full">
+        <div className="bg-deep-green relative flex h-19 w-full items-center px-5">
+          <Image alt="..." src={''} fill />
+          <div className="absolute left-5 z-10 flex flex-col text-white">
             <div className="flex items-center">
-              <span className="text-body-01 font-medium text-white">박아름</span>
+              <span className="text-body-01 font-medium">박아름</span>
               <RightSingle className="text-white" />
             </div>
             <span className="text-grey-3 text-caption-01 font-medium">Artist</span>
           </div>
         </div>
-        <div className="flex flex-col items-center">
-          <BookMarkFilled className="text-grey-0" />
-          <span className="text-grey-0 text-caption-02 font-medium">28</span>
-        </div>
+      </Link>
+
+      <div className="absolute top-1/2 right-10 z-20 flex -translate-y-1/2 flex-col items-center">
+        <BookMarkFilled className="text-grey-0" />
+        <span className="text-grey-0 text-caption-02 font-medium">28</span>
       </div>
     </div>
   );

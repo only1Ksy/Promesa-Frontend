@@ -1,6 +1,21 @@
 import Image from 'next/image';
+import type { Item } from '@/types/item.dto';
+import { useQuery } from '@tanstack/react-query';
+import { fetchItemDetail } from '@/services/api/item';
 
-export default function ProductDetail() {
+interface ProductDetailProps {
+  itemId: Item['itemId'];
+}
+
+export default function ProductDetail({ itemId }: ProductDetailProps) {
+  const { data: item } = useQuery({
+    queryKey: ['itemDetail', itemId],
+    queryFn: () => fetchItemDetail(itemId),
+    select: (res) => res.data,
+  });
+
+  if (!item) return null;
+
   return (
     <>
       {/* 상세 정보 */}

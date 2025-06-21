@@ -9,35 +9,77 @@ import ReviewCard from '@/components/features/detail/review-card';
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
 import Divider from '@/public/icons/item/divider.svg';
 import ReviewStar from '@/public/icons/item/review-star.svg';
+import type { Item } from '@/types/item.dto';
+import { DehydratedState } from '@tanstack/react-query';
+import { HydrationBoundary } from '@tanstack/react-query';
+import { fetchItemDetail } from '@/services/api/item';
+import { useQuery } from '@tanstack/react-query';
+import { useRef } from 'react';
 
-export default function ClientDetailPage() {
+interface ClientDetailPageProps {
+  itemId: Item['itemId'];
+  itemDetailState: DehydratedState;
+}
+
+export default function ClientDetailPage({ itemId, itemDetailState }: ClientDetailPageProps) {
+  const { data: item } = useQuery({
+    queryKey: ['itemDetail', itemId],
+    queryFn: () => fetchItemDetail(itemId),
+    select: (res) => res.data,
+  });
+  if (!item) return null;
+
+  // 스크롤 이동을 위한 ref들
+  const productRef = useRef<HTMLDivElement>(null);
+  const noticeRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+
+  // 스크롤 핸들러
+  const scrollTo = (section: 'product' | 'notice' | 'review') => {
+    const target =
+      section === 'product'
+        ? productRef.current
+        : section === 'notice'
+          ? noticeRef.current
+          : section === 'review'
+            ? reviewRef.current
+            : null;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
-    <div>
+    <HydrationBoundary state={itemDetailState}>
       {/* 메인 이미지 */}
       <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-[10px]">
-        <Image alt="product detail imageß" src={''} />
+        <Image alt="product detail imageß" src={item.thumbnailUrl} />
       </div>
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
         <div className="flex h-109.5 w-full flex-col items-start gap-5">
-          <ProductInformation />
+          <ProductInformation itemId={itemId} />
         </div>
         {/* 하단 상세 페이지 */}
         <div className="w-full">
           {/* 이동 바 */}
           <div className="sticky top-[46px] z-40">
-            <DetailNavBar />
+            {/* scrollTo 함수 전달 */}
+            <DetailNavBar onSelect={scrollTo} />
           </div>
           {/* 상품 정보 */}
-          <div className="flex w-full flex-col items-start">
-            <ProductDetail />
+          <div ref={productRef} className="flex w-full flex-col items-start">
+            <ProductDetail itemId={itemId} />
           </div>
           {/* 안내사항 */}
-          <div className="text-grey-6 text-caption-01 mb-10 flex flex-col items-start gap-3 self-stretch px-5 py-10 font-medium">
+          <div
+            ref={noticeRef}
+            className="text-grey-6 text-caption-01 mb-10 flex flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
+          >
             <ProductNotice />
           </div>
           {/* 리뷰 */}
-          <div className="flex flex-col items-center">
+          <div ref={reviewRef} className="flex flex-col items-center">
             {/* 리뷰 상단바 */}
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
@@ -63,6 +105,6 @@ export default function ClientDetailPage() {
       <div className="border-green bg-pale-green fixed bottom-0 left-1/2 z-50 flex w-[402px] -translate-x-1/2 items-center justify-between self-stretch border-t px-5 py-3 shadow-md">
         <BottomFixedBar />
       </div>
-    </div>
+    </HydrationBoundary>
   );
 }
