@@ -3,11 +3,6 @@
 import { ITEM_LIST } from '@/lib/constants/temp-item-list';
 import { CATEGORY_ID_KEYS, SORT_KEYS } from '@/types/params.dto';
 
-export const fetchThumbnailItems = async () => {
-  const data = ITEM_LIST.filter((item) => item.itemId >= 1800 && item.itemId < 1900);
-  return { data };
-};
-
 export const fetchNowPopularItems = async () => {
   const data = ITEM_LIST.filter((item) => item.itemId >= 1900 && item.itemId < 2000);
   return { data };
