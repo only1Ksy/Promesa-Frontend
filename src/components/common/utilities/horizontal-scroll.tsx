@@ -3,9 +3,9 @@
 import { PropsWithChildren, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
-type HorizontalScrollProps = PropsWithChildren<{
+interface HorizontalScrollProps extends PropsWithChildren {
   className?: string;
-}>;
+}
 
 export default function HorizontalScroll({ children, className }: HorizontalScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
