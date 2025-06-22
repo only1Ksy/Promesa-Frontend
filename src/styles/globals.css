@@ -37,11 +37,13 @@
 
   .fixed-component {
     position: fixed;
-    left: 50%;
-    z-index: 900;
+    margin: 0 auto;
     width: 100%;
+    z-index: 900;
     max-width: var(--frame-width);
-    transform: translateX(-50%);
+  }
+  .fixed-component#no-z-index {
+    z-index: 0;
   }
 
   .hide-scrollbar {
