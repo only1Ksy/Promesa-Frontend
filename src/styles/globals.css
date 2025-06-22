@@ -14,13 +14,6 @@
 }
 
 @layer components {
-  #frame {
-    width: 100vw;
-    height: 100vh;
-    max-width: var(--frame-width);
-    overflow: auto;
-  }
-
   #loader {
     width: 50px;
     aspect-ratio: 1;
@@ -37,17 +30,26 @@
 }
 
 @layer utilities {
+  .custom-break-words {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+
+  .fixed-component {
+    position: fixed;
+    left: 50%;
+    z-index: 900;
+    width: 100%;
+    max-width: var(--frame-width);
+    transform: translateX(-50%);
+  }
+
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
-  }
-
-  .custom-break-words {
-    word-break: break-all;
-    overflow-wrap: break-word;
   }
 
   .scroll-x-area {

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import ReviewStar from '@/public/icons/item/review-star.svg';
 
 export default function ReviewCard() {

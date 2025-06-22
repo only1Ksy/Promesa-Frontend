@@ -48,7 +48,7 @@ export default function Footer() {
               ) : null,
             )}
           </div>
-          <div className="text-grey-6 flex gap-4">
+          <div className="text-grey-6 mb-4 flex gap-4">
             <p>회사소개</p>
             <p>이용약관</p>
             <p>개인정보처리방침</p>
