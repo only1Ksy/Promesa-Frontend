@@ -36,35 +36,55 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   // 현재 섹션 상태
   const [activeTab, setActiveTab] = useState<'product' | 'notice' | 'review'>('product');
+  const [isScrolling, setIsScrolling] = useState(false); // 프로그래매틱 스크롤 상태
 
   // 스크롤 핸들러
   const scrollTo = (section: 'product' | 'notice' | 'review') => {
+    setIsScrolling(true); // 수동 스크롤 설정
+    setActiveTab(section); // 즉시 탭 변경
+
     const target =
       section === 'product' ? productRef.current : section === 'notice' ? noticeRef.current : reviewRef.current;
 
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveTab(section);
+
+      // 스크롤 상태 해제
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 800);
     }
   };
 
-  // 현재 보이는 섹션 감지 (IntersectionObserver)
+  // 현재 보이는 섹션 감지
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '-100px 0px -70% 0px', // 상단에 닿으면 바로 active 되지 않도록 조정
-      threshold: 0,
+      rootMargin: '-100px 0px -50% 0px',
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver((entries) => {
+      // 프로그래매틱 스크롤 중에는 observer 무시
+      if (isScrolling) return;
+
+      // 가장 많이 보이는 섹션 찾기
+      let maxIntersectionRatio = 0;
+      let mostVisibleSection: 'product' | 'notice' | 'review' | null = null;
+
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id as 'product' | 'notice' | 'review';
-          setActiveTab(id);
+        if (entry.isIntersecting && entry.intersectionRatio > maxIntersectionRatio) {
+          maxIntersectionRatio = entry.intersectionRatio;
+          mostVisibleSection = entry.target.id as 'product' | 'notice' | 'review';
         }
       });
+
+      if (mostVisibleSection) {
+        setActiveTab(mostVisibleSection);
+      }
     }, options);
 
+    // ref에 id 설정 및 observer 등록
     const product = productRef.current;
     const notice = noticeRef.current;
     const review = reviewRef.current;
@@ -83,11 +103,9 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     }
 
     return () => {
-      if (product) observer.unobserve(product);
-      if (notice) observer.unobserve(notice);
-      if (review) observer.unobserve(review);
+      observer.disconnect();
     };
-  }, []);
+  }, [isScrolling]); // isScrolling 의존성
 
   if (!item) return null;
 
@@ -106,22 +124,21 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
         <div className="w-full">
           {/* 이동 바 */}
           <div className="sticky top-[46px] z-40">
-            {/* scrollTo 함수 및 activeTab 전달 */}
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
           {/* 상품 정보 */}
-          <div ref={productRef} className="flex w-full scroll-mt-24 flex-col items-start">
+          <div ref={productRef} className="flex min-h-[400px] w-full scroll-mt-24 flex-col items-start">
             <ProductDetail itemId={itemId} />
           </div>
           {/* 안내사항 */}
           <div
             ref={noticeRef}
-            className="text-grey-6 text-caption-01 mb-10 flex scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
+            className="text-grey-6 text-caption-01 mb-10 flex min-h-[400px] scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
           >
             <ProductNotice />
           </div>
           {/* 리뷰 */}
-          <div ref={reviewRef} className="flex scroll-mt-26 flex-col items-center">
+          <div ref={reviewRef} className="flex min-h-[400px] scroll-mt-26 flex-col items-center">
             {/* 리뷰 상단바 */}
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
