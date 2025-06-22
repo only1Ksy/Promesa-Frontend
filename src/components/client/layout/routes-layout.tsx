@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
-import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
 

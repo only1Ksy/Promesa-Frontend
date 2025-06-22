@@ -1,9 +1,11 @@
-import ArtistPageButton from './artist-page-button';
-import RightSingle from '@/public/icons/item/page-right-single.svg';
-import type { Item } from '@/types/item.dto';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+
+import RightSingle from '@/public/icons/item/page-right-single.svg';
 import { fetchItemDetail } from '@/services/api/item';
+import type { Item } from '@/types/item.dto';
+
+import ArtistPageButton from './artist-page-button';
 
 interface ProductInformationProps {
   onSelect: (section: 'product' | 'notice' | 'review') => void;

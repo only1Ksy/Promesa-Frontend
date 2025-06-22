@@ -1,8 +1,8 @@
 'use client';
 
-import HeartFilled from '@/public/icons/item/heart-filled.svg';
-import HeartEmpty from '@/public/icons/item/heart-empty.svg';
 import { useWishStore } from '@/lib/store/use-wish-store';
+import HeartEmpty from '@/public/icons/item/heart-empty.svg';
+import HeartFilled from '@/public/icons/item/heart-filled.svg';
 import type { Item } from '@/types/item.dto';
 
 interface BottomFixedBarProps {

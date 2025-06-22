@@ -1,7 +1,8 @@
-import Image from 'next/image';
-import type { Item } from '@/types/item.dto';
 import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+
 import { fetchItemDetail } from '@/services/api/item';
+import type { Item } from '@/types/item.dto';
 
 interface ProductDetailProps {
   itemId: Item['itemId'];

@@ -4,8 +4,8 @@ import { useEffect, useRef } from 'react';
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
 import KakaoIcon from '@/public/icons/layout/kakao.svg';
+import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
 
 export default function ClientDetailLayout({
   children,

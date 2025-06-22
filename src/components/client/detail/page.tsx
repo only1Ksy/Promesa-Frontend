@@ -1,20 +1,21 @@
 'use client';
 
-import Image from 'next/image';
-import ProductInformation from '@/components/features/detail/product-information';
-import DetailNavBar from '@/components/features/detail/detail-nav-bar';
-import ProductDetail from '@/components/features/detail/product-detail';
-import ProductNotice from '@/components/features/detail/product-notice';
-import ReviewCard from '@/components/features/detail/review-card';
-import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
-import Divider from '@/public/icons/item/divider.svg';
-import ReviewStar from '@/public/icons/item/review-star.svg';
-import type { Item } from '@/types/item.dto';
+import { useEffect, useRef, useState } from 'react';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { fetchItemDetail } from '@/services/api/item';
 import { useQuery } from '@tanstack/react-query';
-import { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
+
+import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
+import DetailNavBar from '@/components/features/detail/detail-nav-bar';
+import ProductDetail from '@/components/features/detail/product-detail';
+import ProductInformation from '@/components/features/detail/product-information';
+import ProductNotice from '@/components/features/detail/product-notice';
+import ReviewCard from '@/components/features/detail/review-card';
+import Divider from '@/public/icons/item/divider.svg';
+import ReviewStar from '@/public/icons/item/review-star.svg';
+import { fetchItemDetail } from '@/services/api/item';
+import type { Item } from '@/types/item.dto';
 
 interface ClientDetailPageProps {
   itemId: Item['itemId'];
