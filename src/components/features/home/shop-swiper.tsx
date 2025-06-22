@@ -1,9 +1,9 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { notFound } from 'next/navigation';
 
 import ItemPreviewGrid from '@/components/common/item/item-preview-grid';
+import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
 import { fetchNowPopularItems } from '@/services/api/items';
 
 export default function ShopSwiper() {
@@ -13,7 +13,7 @@ export default function ShopSwiper() {
     select: (res) => res.data,
   });
 
-  if (!items) notFound();
+  if (!items) return null;
 
   if (isLoading) {
     return (
@@ -26,12 +26,12 @@ export default function ShopSwiper() {
   }
 
   return (
-    <div className="hide-scrollbar scroll-x-area ml-5 flex gap-2.5">
+    <HorizontalScroll className="ml-5 flex gap-2.5">
       {items.map((item, idx) => {
         const isLast = idx === items.length - 1;
 
         return (
-          <div key={`shop-swiper-${idx}`} className={`w-44 flex-none ${isLast ? 'mr-5' : ''}`}>
+          <div key={idx} className={`w-44 flex-none ${isLast ? 'mr-5' : ''}`}>
             <ItemPreviewGrid
               itemId={item.itemId}
               itemName={item.itemName}
@@ -42,6 +42,6 @@ export default function ShopSwiper() {
           </div>
         );
       })}
-    </div>
+    </HorizontalScroll>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext, useEffect, useState } from 'react';
+import Link from 'next/link';
 
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 import KakaoIcon from '@/public/icons/layout/kakao.svg';
@@ -48,10 +49,12 @@ export default function FloatingButton() {
         >
           <ScrollToTopIcon className="text-grey-8" />
         </button>
-        <button className="bg-pale-green border-grey-5 text-grey-8 flex h-max w-max cursor-pointer flex-col items-center gap-0.5 rounded-[20px] border-[1.4px] p-3">
-          <KakaoIcon />
-          <span className="text-caption-02 font-medium">문의하기</span>
-        </button>
+        <Link href="https://www.kakaocorp.com/" target="_blank" rel="noopener noreferrer">
+          <button className="bg-pale-green border-grey-5 text-grey-8 flex h-max w-max cursor-pointer flex-col items-center gap-0.5 rounded-[20px] border-[1.4px] p-3">
+            <KakaoIcon />
+            <span className="text-caption-02 font-medium">문의하기</span>
+          </button>
+        </Link>
       </div>
     </div>
   );

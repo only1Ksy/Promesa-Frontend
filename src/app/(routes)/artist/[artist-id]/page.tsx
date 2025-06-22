@@ -43,19 +43,7 @@ export default async function ArtistPage({
     queryClient.prefetchQuery({ queryKey: ['exhibitions'], queryFn: fetchExhibitions }),
   ]);
 
-  const artistInformationState = dehydrate(queryClient, {
-    shouldDehydrateQuery: (q) => q.queryKey[0] === 'artistInformation',
-  });
-  const artistItemsState = dehydrate(queryClient, { shouldDehydrateQuery: (q) => q.queryKey[0] === 'artistItems' });
-  const exhibitionsState = dehydrate(queryClient, { shouldDehydrateQuery: (q) => q.queryKey[0] === 'exhibitions' });
+  const dehydratedState = dehydrate(queryClient);
 
-  return (
-    <ClientArtistPage
-      artistId={artistId}
-      artistInformationState={artistInformationState}
-      artistItemsState={artistItemsState}
-      exhibitionsState={exhibitionsState}
-      initialParams={initialParams}
-    />
-  );
+  return <ClientArtistPage dehydratedState={dehydratedState} artistId={artistId} initialParams={initialParams} />;
 }

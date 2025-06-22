@@ -30,7 +30,7 @@ export default async function ShopPage({
     queryFn: () => fetchShopItems(serverParams),
   });
 
-  const shopItemsState = dehydrate(queryClient, { shouldDehydrateQuery: (q) => q.queryKey[0] === 'shopItems' });
+  const dehydratedState = dehydrate(queryClient);
 
-  return <ClientShopPage shopItemsState={shopItemsState} initialParams={initialParams} />;
+  return <ClientShopPage dehydratedState={dehydratedState} initialParams={initialParams} />;
 }

@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
+import stringToMultilineTSX from '@/lib/utils/string-to-multiline-tsx';
 import LinkToHomePageIcon from '@/public/icons/artist/link-to-home-page.svg';
 import LinkToInstagramProfileIcon from '@/public/icons/artist/link-to-instagram-profile.svg';
 import LinkIcon from '@/public/icons/common/link.svg';
@@ -16,28 +17,29 @@ interface ArtistInformationSectionProps {
 }
 
 export default function ArtistInformationSection({ artistId }: ArtistInformationSectionProps) {
+  const [open, setOpen] = useState(false);
+
   const { data: information, isLoading } = useQuery({
     queryKey: ['artistInformation', artistId],
     queryFn: () => fetchArtistInformation(artistId),
     select: (res) => res.data,
   });
 
-  const [open, setOpen] = useState(false);
-
-  if (!information) notFound();
+  if (!information) return null;
 
   if (isLoading) return null;
 
   const { artistName, artistDescription } = information;
 
   return (
-    <div className={`relative mx-5 flex flex-col gap-5 ${open ? '' : 'h-50 overflow-hidden'}`}>
+    <div className={clsx('relative mx-5 flex flex-col gap-5', open ? '' : 'h-50 overflow-hidden')}>
       <div className="flex flex-col gap-1">
         <div className="text-grey-5 text-caption-01 flex items-center gap-1.5 font-medium">
           <span>Artist</span>
           <LinkIcon />
           <span>{artistName}</span>
         </div>
+
         <div className="flex items-center justify-between">
           <div className="text-headline-04 text-grey-9 flex items-end gap-1">
             <span>{artistName}</span>
@@ -53,14 +55,11 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
           </div>
         </div>
       </div>
+
       <span className="custom-break-words text-caption-01 text-grey-7 font-medium">
-        {artistDescription.split('\n').map((line, idx) => (
-          <React.Fragment key={`artist-description-line-${idx}`}>
-            {line}
-            {idx < artistDescription.split('\n').length - 1 && <br />}
-          </React.Fragment>
-        ))}
+        {stringToMultilineTSX(artistDescription)}
       </span>
+
       {/* 작가 설명 더보기 */}
       {!open && (
         <>
