@@ -1,0 +1,58 @@
+'use client';
+
+import { useContext, useEffect, useState } from 'react';
+
+import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
+import KakaoIcon from '@/public/icons/layout/kakao.svg';
+import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
+
+export default function FloatingButton() {
+  const bottomFixedBarRef = useContext(BottomFixedBarTargetContext);
+  const [bottomHeight, setBottomHeight] = useState(12);
+
+  useEffect(() => {
+    if (!bottomFixedBarRef?.current) return;
+
+    const update = () => {
+      const height = bottomFixedBarRef.current!.getBoundingClientRect().height + 12;
+      setBottomHeight(height);
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(bottomFixedBarRef.current);
+
+    return () => ro.disconnect();
+  }, [bottomFixedBarRef]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return !bottomFixedBarRef ? (
+    <div className="fixed-component bottom-10 flex justify-end px-5">
+      <button
+        onClick={scrollToTop}
+        className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+      >
+        <ScrollToTopIcon className="text-grey-8" />
+      </button>
+    </div>
+  ) : (
+    <div className="fixed-component flex justify-end px-5" style={{ bottom: bottomHeight }}>
+      <div className="flex flex-col items-center gap-3">
+        <button
+          onClick={scrollToTop}
+          className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+        >
+          <ScrollToTopIcon className="text-grey-8" />
+        </button>
+        <button className="bg-pale-green border-grey-5 text-grey-8 flex h-max w-max cursor-pointer flex-col items-center gap-0.5 rounded-[20px] border-[1.4px] p-3">
+          <KakaoIcon />
+          <span className="text-caption-02 font-medium">문의하기</span>
+        </button>
+      </div>
+    </div>
+  );
+}

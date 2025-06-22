@@ -1,50 +1,38 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
+import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
+import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 
 export default function ClientRoutesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const pathName = usePathname();
+  const isDetailPage = pathName.startsWith('/detail/');
+  const bottomBarRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    scrollRef.current = document.getElementById('frame') as HTMLDivElement;
-  }, []);
-
-  const scrollToTop = () => {
-    scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const isDetailPage = pathname?.startsWith('/detail/');
-
-  return (
+  return !isDetailPage ? (
     <>
-      <div className="bg-pale-green fixed top-0 left-1/2 z-900 w-full max-w-[var(--frame-width)] -translate-x-1/2">
-        <Header />
-      </div>
-
+      <Header />
       <div className="mt-11.5">{children}</div>
-      {!isDetailPage && (
-        <>
-          <Footer />
-          <div className="fixed bottom-10 left-1/2 z-900 flex w-full max-w-[var(--frame-width)] -translate-x-1/2 justify-end px-5">
-            <button
-              onClick={scrollToTop}
-              className="bg-pale-green border-deep-green flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
-            >
-              <ScrollToTopIcon className="text-grey-8" />
-            </button>
-          </div>
-        </>
-      )}
+      <Footer />
+      <FloatingButton />
     </>
+  ) : (
+    <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
+      <Header />
+      <div className="mt-11.5">{children}</div>
+      <div className="mb-21">
+        <Footer />
+      </div>
+      <FloatingButton />
+      <div ref={bottomBarRef} className="fixed-component bottom-0"></div>
+    </BottomFixedBarTargetContext.Provider>
   );
 }

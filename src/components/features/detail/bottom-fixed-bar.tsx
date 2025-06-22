@@ -20,7 +20,7 @@ export default function BottomFixedBar({ itemId }: BottomFixedBarProps) {
   const isWished = wishedIds.includes(itemId);
 
   return (
-    <>
+    <div className="border-green bg-pale-green flex items-center justify-between border px-5 py-3 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
       <button
         onClick={() => toggleWish(itemId)}
         className="text-orange text-caption-01 z-50 flex h-12 w-12 cursor-pointer flex-col items-center font-bold"
@@ -30,12 +30,12 @@ export default function BottomFixedBar({ itemId }: BottomFixedBarProps) {
       </button>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-grey-9 text-body-01 text-grey-1 h-12 w-75.5 cursor-pointer font-bold"
+        className={`bg-grey-9 text-body-01 text-grey-1 h-15 w-75.5 cursor-pointer font-bold`}
       >
         구매하기
       </button>
 
       <BottomFixedModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-    </>
+    </div>
   );
 }

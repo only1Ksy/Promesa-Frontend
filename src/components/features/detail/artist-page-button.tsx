@@ -1,12 +1,10 @@
-import Image from 'next/image';
-
-import RightSingle from '@/public/icons/item/page-right-single.svg';
-import BookMarkFilled from '@/public/icons/artist/book-mark-filled.svg';
-import BookMarkEmpty from '@/public/icons/artist/book-mark-empty.svg';
-
 import { useState } from 'react';
-
+import Image from 'next/image';
 import Link from 'next/link';
+
+import BookMarkEmpty from '@/public/icons/artist/book-mark-empty.svg';
+import BookMarkFilled from '@/public/icons/artist/book-mark-filled.svg';
+import RightSingle from '@/public/icons/item/page-right-single.svg';
 
 interface ArtistPageButtonProps {
   artistId: number;

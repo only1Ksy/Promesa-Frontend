@@ -16,7 +16,7 @@ export default function Header() {
   const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail');
 
   return (
-    <div className="mx-5 my-2 flex items-center justify-between">
+    <div className="bg-pale-green fixed-component top-0 flex items-center justify-between px-5 py-2">
       <div className="mr-17">
         {!isBack ? (
           <Link href="/menu">

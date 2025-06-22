@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
+import BottomFixedBarPortal from '@/components/features/detail/bottom-fixed-bar-portal';
 import DetailNavBar from '@/components/features/detail/detail-nav-bar';
 import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
@@ -161,9 +162,9 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
         </div>
       </div>
       {/* 하단 고정 바 */}
-      <div className="border-green bg-pale-green fixed bottom-0 left-1/2 z-50 flex w-[402px] -translate-x-1/2 items-center justify-between self-stretch border-t px-5 py-3 shadow-md">
+      <BottomFixedBarPortal>
         <BottomFixedBar itemId={itemId} />
-      </div>
+      </BottomFixedBarPortal>
     </HydrationBoundary>
   );
 }
