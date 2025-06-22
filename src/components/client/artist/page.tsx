@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import type { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -9,8 +8,7 @@ import ItemList from '@/components/common/item/item-list';
 import ArtistInformationSection from '@/components/features/artist/artist-information-section';
 import ArtistQuestionSection from '@/components/features/artist/artist-question-section';
 import ExhibitionSwiper from '@/components/features/home/exhibition-swiper';
-import BookMarkEmptyIcon from '@/public/icons/artist/book-mark-empty.svg';
-import BookMarkFilledIcon from '@/public/icons/artist/book-mark-filled.svg';
+import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 import LinkIcon from '@/public/icons/common/link.svg';
 import type { Artist } from '@/services/api/artist';
 import type { ArtistItemListParams } from '@/types/params.dto';
@@ -22,18 +20,12 @@ interface ClientArtistPageProps {
 }
 
 export default function ClientArtistPage({ dehydratedState, artistId, initialParams }: ClientArtistPageProps) {
-  const [isBookMark, setBookMark] = useState(false);
-
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="relative flex flex-col">
         <div className="fixed-component no-z-index bg-green top-11.5 h-50" />
-        <div className="fixed-component no-z-index text-grey-0 top-15.5 flex justify-end pr-3.5">
-          {isBookMark ? (
-            <BookMarkFilledIcon onClick={() => setBookMark((prev) => !prev)} className="cursor-pointer" />
-          ) : (
-            <BookMarkEmptyIcon onClick={() => setBookMark((prev) => !prev)} className="cursor-pointer" />
-          )}
+        <div className="text-grey-0 absolute top-4 right-3.5 z-5 flex">
+          <BookmarkFilledIcon />
         </div>
 
         <div className="bg-pale-green z-5 mt-50 flex flex-col gap-20 pt-5 pb-20">
