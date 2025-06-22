@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
+import KakaoIcon from '@/public/icons/layout/kakao.svg';
 
 export default function ClientDetailLayout({
   children,
@@ -30,13 +31,26 @@ export default function ClientDetailLayout({
       <div className="mb-18">
         <Footer />
       </div>
-      <div className="fixed bottom-20 left-1/2 z-900 flex w-full max-w-[var(--frame-width)] -translate-x-1/2 justify-end px-5">
-        <button
-          onClick={scrollToTop}
-          className="bg-pale-green border-deep-green flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
-        >
-          <ScrollToTopIcon className="text-grey-8" />
-        </button>
+
+      {/* 스크롤 투 탑 버튼 */}
+      <div className="fixed bottom-40 left-1/2 z-900 w-full max-w-[var(--frame-width)] -translate-x-1/2">
+        <div className="flex justify-end px-[25px]">
+          <div className="flex w-12 justify-center">
+            <button
+              onClick={scrollToTop}
+              className="bg-pale-green border-deep-green flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+            >
+              <ScrollToTopIcon className="text-grey-8" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 카카오 아이콘 */}
+      <div className="fixed bottom-20 left-1/2 z-800 w-full max-w-[var(--frame-width)] -translate-x-1/2">
+        <div className="flex justify-end px-5">
+          <KakaoIcon className="cursor-pointer" />
+        </div>
       </div>
     </>
   );
