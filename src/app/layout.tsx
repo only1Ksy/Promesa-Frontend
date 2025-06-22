@@ -40,10 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} flex min-h-screen items-center justify-center`}>
+      <body className={pretendard.className}>
         <QueryProvider>
-          <div id="frame" className="bg-pale-green hide-scrollbar relative">
-            {children}
+          <div className="min-h-screen w-full overflow-y-auto">
+            <div className="bg-pale-green mx-auto max-w-[var(--frame-width)]">{children}</div>
           </div>
         </QueryProvider>
       </body>
