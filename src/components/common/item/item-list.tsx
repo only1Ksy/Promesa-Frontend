@@ -52,7 +52,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   };
 
   const items = queryData.data || [];
-  const totalPage = queryData.meta.totalPage || 0;
+  const totalPage = queryData.meta?.totalPage || 0;
   const frameIndex = params.frame === 'grid' ? 1 : params.frame === 'masonry' ? 2 : 0;
   const itemNumberPerLine = [0, 2, 3][frameIndex];
 
