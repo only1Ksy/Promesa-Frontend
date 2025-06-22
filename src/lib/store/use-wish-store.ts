@@ -23,6 +23,7 @@ export const useWishStore = create<WishStore>()(
     }),
     {
       name: 'wish-store',
+      skipHydration: true,
     },
   ),
 );
