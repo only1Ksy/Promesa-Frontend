@@ -1,9 +1,11 @@
+import clsx from 'clsx';
+
 import getPaginationRange from '@/lib/utils/get-pagination-range';
 import PageLeftDoubleIcon from '@/public/icons/item/page-left-double.svg';
 import PageLeftSingleIcon from '@/public/icons/item/page-left-single.svg';
 import PageRightDoubleIcon from '@/public/icons/item/page-right-double.svg';
 import PageRightSingleIcon from '@/public/icons/item/page-right-single.svg';
-import { ShopItemListParams } from '@/types/params.dto';
+import type { ShopItemListParams } from '@/types/params.dto';
 
 interface ItemListPaginationFooterProps {
   currentPage: number;
@@ -33,9 +35,12 @@ export default function ItemListPaginationFooter({ currentPage, totalPage, push 
           const isActive = num === currentPage;
           return (
             <button
-              key={`go-to-page-${num}`}
+              key={num}
               onClick={() => !isActive && push({ page: String(num) })}
-              className={`flex h-5 w-5 items-center justify-center ${isActive ? 'text-grey-8' : 'text-grey-5 cursor-pointer'}`}
+              className={clsx(
+                'flex h-5 w-5 items-center justify-center',
+                isActive ? 'text-grey-8' : 'text-grey-5 cursor-pointer',
+              )}
             >
               {num}
             </button>

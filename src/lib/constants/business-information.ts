@@ -13,5 +13,7 @@ export const BUSINESS_INFORMATION = {
   휴일: '주말, 공휴일은 휴일입니다.',
 } as const;
 
-export const SHOP_INTRODUCTION_LINE =
-  '프로메사, 예술과 일상의 교차로\n대학생 도예가의 섬세한 손길이 깃든 작품으로\n특별한 오기를 느껴보세요' as const;
+export const SHOP_INTRODUCTION_LINE_LIST = [
+  '프로메사, 예술과 일상의 교차로',
+  '대학생 도예가의 섬세한 손길이 깃든 작품으로\n특별한 오기를 느껴보세요',
+] as const;

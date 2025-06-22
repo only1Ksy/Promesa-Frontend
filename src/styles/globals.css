@@ -42,7 +42,7 @@
     z-index: 900;
     max-width: var(--frame-width);
   }
-  .fixed-component#no-z-index {
+  .fixed-component.no-z-index {
     z-index: 0;
   }
 

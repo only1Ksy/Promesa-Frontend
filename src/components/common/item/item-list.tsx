@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { notFound } from 'next/navigation';
 
 import chunkList from '@/lib/utils/chunk-list';
 import pickItemListServerParams, { isArtistParams } from '@/lib/utils/pick-item-list-server-params';
@@ -20,10 +20,9 @@ interface ItemListGridProps {
 }
 
 export default function ItemList({ initialParams }: ItemListGridProps) {
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const [open, setOpen] = useState(false);
 
   const params = {
     categoryId: searchParams.get('categoryId') ?? initialParams.categoryId,
@@ -36,69 +35,69 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
 
   const serverParams = pickItemListServerParams(params);
 
-  const {
-    data: queryData,
-    isLoading,
-    isFetching,
-  } = useQuery({
+  const { data: queryData, isLoading } = useQuery({
     queryKey: [isArtistParams(initialParams) ? 'artistItems' : 'shopItems', serverParams],
     queryFn: () => fetchShopItems(serverParams),
   });
 
-  const items = queryData?.data || [];
-  const totalPage = queryData?.meta?.totalPage || 0;
-
-  const push = (next: Partial<ShopItemListParams & ArtistItemListParams>) => {
-    const merged = { ...params, ...next };
-    delete (merged as Partial<ArtistItemListParams>).artistId; // artistId -> URL
-
-    router.push(`?${new URLSearchParams(merged).toString()}`, { scroll: false });
-  };
-
-  if (!items) notFound();
+  if (!queryData) return null;
 
   if (isLoading) return null;
 
+  const push = (next: Partial<ShopItemListParams & ArtistItemListParams>, isScroll: boolean = true) => {
+    const merged = { ...params, ...next };
+    delete (merged as Partial<ArtistItemListParams>).artistId; // artistId -> URL
+
+    router.push(`?${new URLSearchParams(merged).toString()}`, { scroll: isScroll });
+  };
+
+  const items = queryData.data || [];
+  const totalPage = queryData.meta.totalPage || 0;
+  const frameIndex = params.frame === 'grid' ? 1 : params.frame === 'masonry' ? 2 : 0;
+  const itemNumberPerLine = [0, 2, 3][frameIndex];
+
   return (
     <div className="mx-5 flex flex-col gap-20">
-      {isFetching && (
-        <div className="fixed inset-0 z-999 flex items-center justify-center bg-[#000000]/40">
-          <div id="loader" />
-        </div>
-      )}
       <div className="relative flex flex-col gap-4">
         {/* 필터링 헤더 */}
         <ItemListFilteringHeader categoryId={params.categoryId} sort={params.sort} frame={params.frame} push={push} />
+
         {/* 아이템 리스트 */}
         <div
-          className={`flex flex-col gap-4 ${isArtistParams(initialParams) && !open && items.length >= 10 && (params.frame === 'grid' ? 'h-421 overflow-hidden' : params.frame === 'masonry' ? 'h-261 overflow-hidden' : '')}`}
+          className={clsx(
+            'flex flex-col gap-4',
+            isArtistParams(initialParams) &&
+              !open &&
+              items.length >= 10 &&
+              ['', 'h-421 overflow-hidden', 'h-261 overflow-hidden'][frameIndex],
+          )}
         >
-          {['grid', 'masonry'].includes(params.frame) &&
-            chunkList(items, params.frame === 'grid' ? 2 : 3).map((group, idx) => {
-              const ItemPreview = params.frame === 'grid' ? ItemPreviewGrid : ItemPreviewMasonry;
-              const placeholders = Array((params.frame === 'grid' ? 2 : 3) - group.length).fill(null);
+          {params.frame &&
+            chunkList(items, itemNumberPerLine).map((group, idx) => {
+              const ItemPreview = [null, ItemPreviewGrid, ItemPreviewMasonry][frameIndex];
+              const placeholders = Array(itemNumberPerLine - group.length).fill(null);
 
               return (
-                <div
-                  key={`item-list-group-${params.frame}-${idx}`}
-                  className={`flex w-full ${params.frame === 'grid' ? 'gap-2.5' : 'gap-2'}`}
-                >
-                  {group.map((item) => (
-                    <ItemPreview
-                      key={`item-${item.itemId}`}
-                      itemId={item.itemId}
-                      itemName={item.itemName}
-                      price={item.price}
-                      artistName={item.artistName}
-                      sale={item.sale}
-                    />
-                  ))}
-                  {placeholders.map((_, idx) => (
-                    <ItemPreview key={`placeholder-${idx}`} itemId={-1} itemName="" price={0} artistName="" sale={0} />
-                  ))}
+                <div key={idx} className={clsx('flex w-full', ['', 'gap-2.5', 'gap-2'][frameIndex])}>
+                  {ItemPreview &&
+                    group.map((item) => (
+                      <ItemPreview
+                        key={item.itemId}
+                        itemId={item.itemId}
+                        itemName={item.itemName}
+                        price={item.price}
+                        artistName={item.artistName}
+                        sale={item.sale}
+                      />
+                    ))}
+                  {ItemPreview &&
+                    placeholders.map((_, idx) => (
+                      <ItemPreview key={idx} itemId={-1} itemName="" price={0} artistName="" sale={0} />
+                    ))}
                 </div>
               );
             })}
+
           {isArtistParams(initialParams) && !open && items.length >= 10 && (
             <>
               <div className="from-pale-green/0 to-pale-green/80 absolute bottom-0 z-5 h-70 w-full bg-gradient-to-b from-8% to-100%" />
@@ -114,6 +113,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
           )}
         </div>
       </div>
+
       {/* 페이지네이션 */}
       {!isArtistParams(initialParams) && (
         <ItemListPaginationFooter

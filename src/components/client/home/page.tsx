@@ -22,8 +22,7 @@ export default function ClientHomePage({ dehydratedState }: ClientHomePageProps)
       <div className="flex flex-col">
         {/* 상단 배너 */}
         <div
-          id="no-z-index"
-          className="fixed-component top-11.5 flex h-112.5 flex-col items-center justify-center gap-15 bg-cover bg-no-repeat"
+          className="fixed-component no-z-index top-11.5 flex h-112.5 flex-col items-center justify-center gap-15 bg-cover bg-no-repeat"
           style={{ backgroundImage: "url('/images/home-background.png')" }}
         >
           <div className="flex flex-col gap-3">
