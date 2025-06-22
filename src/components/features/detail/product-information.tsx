@@ -37,7 +37,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
           </div>
           <div className="flex items-center gap-2">
             <span onClick={() => onSelect('review')} className="text-grey-6 text-caption-01 cursor-pointer underline">
-              4건 리뷰보기
+              리뷰보기
             </span>
           </div>
         </div>
