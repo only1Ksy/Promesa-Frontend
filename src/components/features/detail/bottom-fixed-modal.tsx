@@ -24,7 +24,7 @@ export default function BottomFixedModal({ isOpen, onClose }: BottomFixedModalPr
 
       {/* 모달 본체 */}
       <div
-        className="border-green bg-pale-green relative z-[9999] w-full max-w-101 border-t px-5 shadow-md shadow-xl"
+        className="border-green bg-pale-green relative z-[9999] w-full max-w-101 border-t px-5 shadow-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col items-start gap-5 self-stretch py-5">

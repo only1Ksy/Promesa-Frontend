@@ -33,12 +33,12 @@ export default function ClientDetailLayout({
       </div>
 
       {/* 스크롤 투 탑 버튼 */}
-      <div className="fixed bottom-40 left-1/2 z-900 w-full max-w-[var(--frame-width)] -translate-x-1/2">
+      <div className="pointer-events-none fixed bottom-40 left-1/2 z-900 w-full max-w-[var(--frame-width)] -translate-x-1/2">
         <div className="flex justify-end px-[25px]">
           <div className="flex w-12 justify-center">
             <button
               onClick={scrollToTop}
-              className="bg-pale-green border-deep-green flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+              className="bg-pale-green border-deep-green pointer-events-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
             >
               <ScrollToTopIcon className="text-grey-8" />
             </button>
@@ -47,9 +47,9 @@ export default function ClientDetailLayout({
       </div>
 
       {/* 카카오 아이콘 */}
-      <div className="fixed bottom-20 left-1/2 z-800 w-full max-w-[var(--frame-width)] -translate-x-1/2">
+      <div className="pointer-events-none fixed bottom-20 left-1/2 z-800 w-full max-w-[var(--frame-width)] -translate-x-1/2">
         <div className="flex justify-end px-5">
-          <KakaoIcon className="cursor-pointer" />
+          <KakaoIcon className="pointer-events-auto cursor-pointer" />
         </div>
       </div>
     </>
