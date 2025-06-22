@@ -4,21 +4,22 @@ import 'swiper/css';
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { notFound } from 'next/navigation';
+import clsx from 'clsx';
+import Image from 'next/image';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { fetchThumbnailItems } from '@/services/api/items';
+import { fetchBrandInfo } from '@/services/api/home-controller';
 
 export default function MainSwiper() {
-  const [active, setActive] = useState(0);
-  const { data: items, isLoading } = useQuery({
-    queryKey: ['thumbnailItems'],
-    queryFn: fetchThumbnailItems,
-    select: (res) => res.data,
+  const [active, setActive] = useState(1);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['brandInfo'],
+    queryFn: fetchBrandInfo,
   });
 
-  if (!items) notFound();
+  if (!data) return null;
 
   if (isLoading) {
     return (
@@ -29,6 +30,9 @@ export default function MainSwiper() {
       </div>
     );
   }
+
+  const baseImageUrls = [data.leftImageUrl, data.mainImageUrl, data.rightImageUrl];
+  const imageUrls = [...baseImageUrls, ...baseImageUrls];
 
   return (
     <div className="my-12.5">
@@ -42,15 +46,19 @@ export default function MainSwiper() {
         onSlideChange={(s) => setActive(s.realIndex)}
         onSwiper={(s) => setActive(s.realIndex)}
       >
-        {items.map((item, idx) => {
+        {imageUrls.map((url, idx) => {
           const isActive = idx === active;
 
           return (
-            <SwiperSlide key={`main-swiper-${idx}`} className="!w-60">
+            <SwiperSlide key={idx} className="!w-60">
               <div
-                className={`bg-green text-headline-01 flex w-full items-center justify-center ${isActive ? 'h-60' : 'my-10.75 h-38.5 opacity-50'}`}
+                className={clsx(
+                  'bg-green text-headline-01 relative flex h-60 w-full items-center justify-center',
+                  'transform transition-all duration-500 ease-in-out will-change-transform',
+                  isActive ? 'scale-100 opacity-100' : 'scale-y-65 opacity-50',
+                )}
               >
-                {item.itemName}
+                <Image src={url} alt={`brand main image ${idx}`} fill priority />
               </div>
             </SwiperSlide>
           );
