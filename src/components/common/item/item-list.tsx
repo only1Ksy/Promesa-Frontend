@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -21,6 +21,7 @@ interface ItemListGridProps {
 
 export default function ItemList({ initialParams }: ItemListGridProps) {
   const [open, setOpen] = useState(false);
+  const scrollTopRef = useRef<number>(0);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -103,7 +104,13 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
               <div className="from-pale-green/0 to-pale-green/80 absolute bottom-0 z-5 h-70 w-full bg-gradient-to-b from-8% to-100%" />
               <div className="absolute bottom-0 z-10 flex w-full justify-center">
                 <button
-                  onClick={() => setOpen(true)}
+                  onClick={() => {
+                    scrollTopRef.current = window.scrollY;
+                    setOpen(true);
+                    setTimeout(() => {
+                      window.scrollTo({ top: scrollTopRef.current });
+                    }, 0);
+                  }}
                   className="bg-pale-green border-grey-7 cursor-pointer rounded-full border px-5 py-2"
                 >
                   <span className="text-body-01 text-grey-7 font-medium">목록 열기</span>

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import BookMarkEmpty from '@/public/icons/artist/book-mark-empty.svg';
-import BookMarkFilled from '@/public/icons/artist/book-mark-filled.svg';
+import BookmarkEmpty from '@/public/icons/artist/bookmark-empty.svg';
+import BookmarkFilled from '@/public/icons/artist/bookmark-filled.svg';
 import RightSingle from '@/public/icons/item/page-right-single.svg';
 
 interface ArtistPageButtonProps {
@@ -11,7 +11,7 @@ interface ArtistPageButtonProps {
 }
 
 export default function ArtistPageButton({ artistId }: ArtistPageButtonProps) {
-  const [isBookMark, setBookMark] = useState(false);
+  const [isBookmark, setBookmark] = useState(false);
 
   return (
     <div className="relative z-10 flex h-19 w-full flex-col items-start gap-[10px] px-5">
@@ -29,10 +29,10 @@ export default function ArtistPageButton({ artistId }: ArtistPageButtonProps) {
       </Link>
 
       <div className="absolute top-1/2 right-10 z-20 flex -translate-y-1/2 flex-col items-center">
-        {isBookMark ? (
-          <BookMarkFilled onClick={() => setBookMark((prev) => !prev)} className="text-grey-0 cursor-pointer" />
+        {isBookmark ? (
+          <BookmarkFilled onClick={() => setBookmark((prev) => !prev)} className="text-grey-0 cursor-pointer" />
         ) : (
-          <BookMarkEmpty onClick={() => setBookMark((prev) => !prev)} className="text-grey-0 cursor-pointer" />
+          <BookmarkEmpty onClick={() => setBookmark((prev) => !prev)} className="text-grey-0 cursor-pointer" />
         )}
         <span className="text-grey-0 text-caption-02 font-medium">28</span>
       </div>

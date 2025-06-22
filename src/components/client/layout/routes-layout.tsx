@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 import FloatingButton from '@/components/layout/floating-button';
@@ -16,6 +16,14 @@ export default function ClientRoutesLayout({
   const pathName = usePathname();
   const isDetailPage = pathName.startsWith('/detail/');
   const bottomBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    window.scrollTo(0, 0);
+  });
 
   return !isDetailPage ? (
     <>

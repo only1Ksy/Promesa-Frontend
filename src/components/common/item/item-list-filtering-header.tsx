@@ -22,7 +22,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
     <div className="flex flex-col gap-3">
       <div className="relative">
         {/* 카테고리 */}
-        <div className="to-pale-green from-pale-green/0 absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
+        <div className="to-pale-green from-pale-green/0 pointer-events-none absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
         <HorizontalScrollwithActive activeId={`category-id-${categoryId}`} className="flex gap-5.5 pr-8">
           {CATEGORY_ID_KEYS.map(({ label, value }) => {
             const isActive = categoryId === value;
