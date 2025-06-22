@@ -22,26 +22,23 @@ export default function Footer() {
       <div className="flex flex-col gap-6">
         <div className="flex gap-15">
           <div className="flex flex-col gap-1">
-            {upperLeftKeys.map((key) =>
-              BUSINESS_INFORMATION[key] ? <p key={`footer-upper-left-${key}`}>{BUSINESS_INFORMATION[key]}</p> : null,
-            )}
+            {upperLeftKeys.map((key) => BUSINESS_INFORMATION[key] && <p key={key}>{BUSINESS_INFORMATION[key]}</p>)}
           </div>
           <div className="flex flex-col gap-1">
-            {upperRightKeys.map((key) =>
-              BUSINESS_INFORMATION[key] ? <p key={`footer-upper-right-${key}`}>{BUSINESS_INFORMATION[key]}</p> : null,
-            )}
+            {upperRightKeys.map((key) => BUSINESS_INFORMATION[key] && <p key={key}>{BUSINESS_INFORMATION[key]}</p>)}
           </div>
         </div>
         <hr className="border-grey-5 w-full" />
         <div className="flex flex-col gap-3.5">
           <div className="flex flex-col gap-0.5">
-            {lowerKeys.map((key) =>
-              BUSINESS_INFORMATION[key] ? (
-                <div key={`footer-lower-${key}`} className="flex gap-2.5">
-                  <p className="text-grey-6">{key}</p>
-                  <p>{BUSINESS_INFORMATION[key]}</p>
-                </div>
-              ) : null,
+            {lowerKeys.map(
+              (key) =>
+                BUSINESS_INFORMATION[key] && (
+                  <div key={key} className="flex gap-2.5">
+                    <p className="text-grey-6">{key}</p>
+                    <p>{BUSINESS_INFORMATION[key]}</p>
+                  </div>
+                ),
             )}
           </div>
           <div className="text-grey-6 mb-4 flex gap-4">
