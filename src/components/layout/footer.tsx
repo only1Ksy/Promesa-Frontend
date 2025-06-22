@@ -25,10 +25,6 @@ export default function Footer() {
             {upperLeftKeys.map((key) =>
               BUSINESS_INFORMATION[key] ? <p key={`footer-upper-left-${key}`}>{BUSINESS_INFORMATION[key]}</p> : null,
             )}
-            <p>{BUSINESS_INFORMATION['전화']}</p>
-            <p>{BUSINESS_INFORMATION['운영시간']}</p>
-            <p>{BUSINESS_INFORMATION['점심시간']}</p>
-            <p>{BUSINESS_INFORMATION['휴일']}</p>
           </div>
           <div className="flex flex-col gap-1">
             {upperRightKeys.map((key) =>
