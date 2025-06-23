@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import HorizontalScrollwithActive from '@/components/common/utilities/horizontal-scroll-with-active';
 import DropDownIcon from '@/public/icons/item/drop-down.svg';
@@ -17,6 +18,13 @@ interface ItemListFilteringHeaderProps {
 
 export default function ItemListFilteringHeader({ categoryId, sort, frame, push }: ItemListFilteringHeaderProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const searchParamKey = useSearchParams().toString();
+
+  // initialize when using router.push(...)
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname, searchParamKey]);
 
   return (
     <div className="flex flex-col gap-3">
