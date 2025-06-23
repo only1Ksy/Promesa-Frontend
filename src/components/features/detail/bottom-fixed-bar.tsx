@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import clsx from 'clsx';
 
 import { useWishStore } from '@/lib/store/use-wish-store';
 import HeartEmpty from '@/public/icons/item/heart-empty.svg';
 import HeartFilled from '@/public/icons/item/heart-filled.svg';
 import type { Item } from '@/types/item.dto';
 
-import BottomFixedModal from './bottom-fixed-modal';
+// import BottomFixedModal from './bottom-fixed-modal';
 
 interface BottomFixedBarProps {
   itemId: Item['itemId'];
@@ -29,13 +30,16 @@ export default function BottomFixedBar({ itemId }: BottomFixedBarProps) {
         <span>{wishedIds.length}</span>
       </button>
       <button
-        onClick={() => setIsOpen(true)}
-        className={`bg-grey-9 text-body-01 text-grey-1 h-15 w-75.5 cursor-pointer font-bold`}
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={clsx(
+          'bg-grey-9 text-body-01 text-grey-1 w-75.5 cursor-pointer font-bold transition-all',
+          isOpen ? 'h-30' : 'h-15',
+        )}
       >
         구매하기
       </button>
 
-      <BottomFixedModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      {/* <BottomFixedModal isOpen={isOpen} onClose={() => setIsOpen(false)} /> */}
     </div>
   );
 }
