@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -18,12 +18,28 @@ interface ArtistInformationSectionProps {
 
 export default function ArtistInformationSection({ artistId }: ArtistInformationSectionProps) {
   const [open, setOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const { data: information, isLoading } = useQuery({
     queryKey: ['artistInformation', artistId],
     queryFn: () => fetchArtistInformation(artistId),
     select: (res) => res.data,
   });
+
+  useEffect(() => {
+    const el = contentRef.current;
+
+    if (!el) return;
+
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+    if (open) {
+      const scrollHeight = el.scrollHeight;
+      el.style.maxHeight = scrollHeight / rootFontSize + 'rem';
+    } else {
+      el.style.maxHeight = 'calc(var(--spacing) * 50)';
+    }
+  }, [open]);
 
   if (!information) return null;
 
@@ -32,7 +48,10 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
   const { artistName, artistDescription } = information;
 
   return (
-    <div className={clsx('relative mx-5 flex flex-col gap-5', open ? '' : 'h-50 overflow-hidden')}>
+    <div
+      ref={contentRef}
+      className={clsx('relative mx-5 flex flex-col gap-5 overflow-hidden transition-all ease-in-out', !open && 'h-50')}
+    >
       <div className="flex flex-col gap-1">
         <div className="text-grey-5 text-caption-01 flex items-center gap-1.5 font-medium">
           <span>Artist</span>

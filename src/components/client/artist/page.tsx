@@ -29,7 +29,9 @@ export default function ClientArtistPage({ dehydratedState, artistId, initialPar
         </div>
 
         <div className="bg-pale-green z-5 mt-50 flex flex-col gap-20 pt-5 pb-20">
+          {/* 작가 정보 */}
           <ArtistInformationSection artistId={artistId} />
+
           {/* 기획전 */}
           <div className="flex flex-col gap-3">
             <div className="mx-5 flex items-center justify-between">
