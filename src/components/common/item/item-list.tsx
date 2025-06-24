@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -22,17 +22,22 @@ interface ItemListGridProps {
 export default function ItemList({ initialParams }: ItemListGridProps) {
   const [open, setOpen] = useState(false);
   const scrollTopRef = useRef<number>(0);
+  const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const params = {
-    categoryId: searchParams.get('categoryId') ?? initialParams.categoryId,
-    sort: searchParams.get('sort') ?? initialParams.sort,
-    frame: searchParams.get('frame') ?? initialParams.frame,
-    ...(isArtistParams(initialParams)
-      ? { artistId: initialParams.artistId }
-      : { page: searchParams.get('page') ?? initialParams.page }),
-  } as ShopItemListParams | ArtistItemListParams;
+  const params = useMemo(
+    () =>
+      ({
+        categoryId: searchParams.get('categoryId') ?? initialParams.categoryId,
+        sort: searchParams.get('sort') ?? initialParams.sort,
+        frame: searchParams.get('frame') ?? initialParams.frame,
+        ...(isArtistParams(initialParams)
+          ? { artistId: initialParams.artistId }
+          : { page: searchParams.get('page') ?? initialParams.page }),
+      }) as ShopItemListParams | ArtistItemListParams,
+    [initialParams, searchParams],
+  );
 
   const serverParams = pickItemListServerParams(params);
 
@@ -40,6 +45,27 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
     queryKey: [isArtistParams(initialParams) ? 'artistItems' : 'shopItems', serverParams],
     queryFn: () => fetchShopItems(serverParams),
   });
+
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    if (!isArtistParams(initialParams)) return;
+    if (!queryData?.data?.length || queryData?.data?.length < 10) return;
+
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+    if (open) {
+      const scrollHeight = el.scrollHeight;
+      el.style.maxHeight = scrollHeight / rootFontSize + 'rem';
+    } else if (params.frame === 'grid') {
+      el.style.maxHeight = 'calc(var(--spacing) * 421)';
+    } else if (params.frame === 'masonry') {
+      el.style.maxHeight = 'calc(var(--spacing) * 261)';
+    } else {
+      el.style.maxHeight = '0rem';
+    }
+  }, [open, initialParams, queryData, params]);
 
   if (!queryData) return null;
 
@@ -65,12 +91,10 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
 
         {/* 아이템 리스트 */}
         <div
+          ref={contentRef}
           className={clsx(
-            'flex flex-col gap-4',
-            isArtistParams(initialParams) &&
-              !open &&
-              items.length >= 10 &&
-              ['', 'h-421 overflow-hidden', 'h-261 overflow-hidden'][frameIndex],
+            'flex flex-col gap-4 overflow-hidden transition-all duration-1000 ease-in-out',
+            isArtistParams(initialParams) && !open && items.length >= 10 && ['', 'h-421', 'h-261'][frameIndex],
           )}
         >
           {params.frame &&
