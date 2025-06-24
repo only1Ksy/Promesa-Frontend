@@ -9,13 +9,15 @@ import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
 
 export default function FloatingButton() {
   const bottomFixedBarRef = useContext(BottomFixedBarTargetContext);
-  const [bottomHeight, setBottomHeight] = useState(12);
+  const [bottomHeight, setBottomHeight] = useState(0);
 
   useEffect(() => {
     if (!bottomFixedBarRef?.current) return;
 
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+
     const update = () => {
-      const height = bottomFixedBarRef.current!.getBoundingClientRect().height + 12;
+      const height = (bottomFixedBarRef.current!.getBoundingClientRect().height + 12) / rootFontSize;
       setBottomHeight(height);
     };
 
@@ -41,7 +43,7 @@ export default function FloatingButton() {
       </button>
     </div>
   ) : (
-    <div className="fixed-component flex justify-end px-5" style={{ bottom: bottomHeight }}>
+    <div className="fixed-component flex justify-end px-5" style={{ bottom: `${bottomHeight}rem` }}>
       <div className="flex flex-col items-center gap-3">
         <button
           onClick={scrollToTop}
