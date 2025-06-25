@@ -21,7 +21,7 @@ export default function BottomFixedBar({ itemId }: BottomFixedBarProps) {
   const isWished = wishedIds.includes(itemId);
 
   return (
-    <div className="bg-pale-green border-green flex w-full flex-col gap-2 px-5 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
+    <div className="bg-pale-green border-green flex w-full flex-col gap-2 border px-5 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
       {isOpen && (
         <div className="text-grey-6 mx-5 my-5 flex items-center justify-between">
           <span className="text-subhead font-medium">단품</span>
