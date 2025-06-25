@@ -15,7 +15,7 @@ export default function Footer() {
   ] as const;
 
   return (
-    <div className="text-caption-01 text-grey-9 bg-green relative z-5 flex flex-col gap-5 px-5 pt-5 pb-9 font-medium">
+    <footer className="text-caption-01 text-grey-9 bg-green relative z-5 flex flex-col gap-5 px-5 pt-5 pb-9 font-medium">
       <div className="my-2.5 flex items-center">
         <PromesaTextExtraSmallIcon className="text-black" />
       </div>
@@ -49,6 +49,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

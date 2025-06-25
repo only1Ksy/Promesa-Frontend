@@ -45,18 +45,18 @@ export default function FloatingButton() {
   ) : (
     <div className="fixed-component flex justify-end px-5" style={{ bottom: `${bottomHeight}rem` }}>
       <div className="flex flex-col items-center gap-3">
-        <button
-          onClick={scrollToTop}
-          className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
-        >
-          <ScrollToTopIcon className="text-grey-8" />
-        </button>
         <Link href="https://www.kakaocorp.com/" target="_blank" rel="noopener noreferrer">
           <button className="bg-pale-green border-grey-5 text-grey-8 flex h-max w-max cursor-pointer flex-col items-center gap-0.5 rounded-[20px] border-[1.4px] p-3">
             <KakaoIcon />
             <span className="text-caption-02 font-medium">문의하기</span>
           </button>
         </Link>
+        <button
+          onClick={scrollToTop}
+          className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+        >
+          <ScrollToTopIcon className="text-grey-8" />
+        </button>
       </div>
     </div>
   );
