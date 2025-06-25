@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 
 import { QA_LIST } from '@/lib/constants/qa-list';
 import DropUpIcon from '@/public/icons/artist/drop-up.svg';
@@ -61,7 +62,12 @@ export default function ArtistQuestionSection({ artistId }: ArtistQuestionSectio
               className="flex flex-col gap-3 overflow-hidden transition-all ease-in-out"
             >
               <div className="flex items-start justify-between">
-                <span className="text-body-02 text-grey-7 custom-break-words max-w-65 font-medium text-ellipsis">
+                <span
+                  className={clsx(
+                    'text-body-02 text-grey-7 custom-break-words max-w-70 font-medium text-ellipsis',
+                    !opens[idx] && 'line-clamp-1',
+                  )}
+                >
                   {question}
                 </span>
                 <button onClick={() => toggleOpen(idx)} className="cursor-pointer">

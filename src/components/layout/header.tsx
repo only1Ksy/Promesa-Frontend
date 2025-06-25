@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
 import BackIcon from '@/public/icons/layout/back.svg';
@@ -11,6 +12,7 @@ import SearchIcon from '@/public/icons/layout/search.svg';
 import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 
 export default function Header() {
+  const router = useRouter();
   const pathname = usePathname();
   const isSearch = pathname.startsWith('/shop');
   const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail');
@@ -23,9 +25,18 @@ export default function Header() {
             <HamburgerIcon className="text-grey-9" />
           </Link>
         ) : (
-          <Link href="/shop">
+          <button
+            onClick={() => {
+              if (window.history.length > 1) {
+                router.back();
+              } else {
+                router.push('/');
+              }
+            }}
+            className="flex cursor-pointer items-center justify-center"
+          >
             <BackIcon className="text-grey-9" />
-          </Link>
+          </button>
         )}
       </div>
       <Link href="/">
