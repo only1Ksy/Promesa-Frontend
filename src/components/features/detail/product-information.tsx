@@ -49,7 +49,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
             <span className="text-grey-4 text-subhead font-medium line-through">54,000원</span>
             <span className="text-orange text-subhead font-bold">50%</span>
           </span>
-          <span className="text-grey-9 text-headline-05 font-bold">{item.price}원</span>
+          <span className="text-grey-9 text-headline-05 font-bold">{item.price.toLocaleString()}원</span>
         </div>
       </div>
       {/* 배송 정보 */}
@@ -57,7 +57,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         <span className="text-grey-8 text-caption-01 w-15 font-bold">배송비</span>
         <div className="flex flex-col">
           <span className="text-orange text-caption-01 font-bold">3000원</span>
-          <span className="text-grey-8 text-caption-01 font-medium">70.000원 이상 구매 시 무료배송</span>
+          <span className="text-grey-8 text-caption-01 font-medium">70,000원 이상 구매 시 무료배송</span>
           <span className="text-grey-8 text-caption-01 font-medium">제주/도서산간 3,000원 추가</span>
         </div>
       </div>
