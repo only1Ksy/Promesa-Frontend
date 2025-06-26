@@ -13,8 +13,8 @@ import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
 import ProductNotice from '@/components/features/detail/product-notice';
 import ReviewCard from '@/components/features/detail/review-card';
-import Divider from '@/public/icons/item/divider.svg';
-import ReviewStar from '@/public/icons/item/review-star.svg';
+import DividerIcon from '@/public/icons/item/divider.svg';
+import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
 import type { Item } from '@/types/item.dto';
 
@@ -24,7 +24,7 @@ interface ClientDetailPageProps {
 }
 
 export default function ClientDetailPage({ itemId, itemDetailState }: ClientDetailPageProps) {
-  const { data: item } = useQuery({
+  const { data: item, isLoading } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res.data,
@@ -109,6 +109,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   }, [isScrolling]); // isScrolling 의존성
 
   if (!item) return null;
+  if (isLoading) return null;
 
   return (
     <HydrationBoundary state={itemDetailState}>
@@ -145,14 +146,14 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 (4) </span>
                 <div className="flex items-center gap-1">
-                  <ReviewStar className="h-4 w-4" />
+                  <ReviewStarIcon className="h-4 w-4" />
                   <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
                 </div>
               </div>
               <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
             </div>
             <div className="pt-2 pb-3">
-              <Divider />
+              <DividerIcon />
             </div>
             {/* 리뷰 나열 */}
             <div className="flex w-full flex-col items-center gap-5">
