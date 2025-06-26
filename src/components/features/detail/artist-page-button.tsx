@@ -17,8 +17,8 @@ export default function ArtistPageButton({ artistId }: ArtistPageButtonProps) {
     <div className="relative z-10 flex h-19 w-full flex-col items-start gap-2.5 px-5">
       <Link href={`/artist/${artistId}`} className="block w-full">
         <div className="bg-deep-green relative flex h-19 w-full items-center px-5">
-          <Image alt="..." src={''} fill />
-          <div className="absolute left-5 z-10 flex flex-col text-white">
+          <Image alt="artist background" src="/your/image/path.jpg" fill className="z-0 object-cover" />
+          <div className="relative z-10 flex flex-col text-white">
             <div className="flex items-center">
               <span className="text-body-01 font-medium">박아름</span>
               <RightSingleIcon className="text-white" />
