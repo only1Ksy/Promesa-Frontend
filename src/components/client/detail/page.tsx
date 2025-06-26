@@ -5,6 +5,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
+import ReviewList from '@/components/common/review/review-list';
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
 import BottomFixedBarPortal from '@/components/features/detail/bottom-fixed-bar-portal';
 import DetailNavBar from '@/components/features/detail/detail-nav-bar';
@@ -12,7 +13,7 @@ import DetailSwiper from '@/components/features/detail/detail-swiper';
 import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
 import ProductNotice from '@/components/features/detail/product-notice';
-import ReviewCard from '@/components/features/detail/review-card';
+import { REVIEW_LIST } from '@/lib/constants/temp-review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
@@ -161,7 +162,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             </div>
             {/* 리뷰 나열 */}
             <div className="flex w-full flex-col items-center gap-5">
-              <ReviewCard />
+              <ReviewList reviews={REVIEW_LIST} />{' '}
             </div>
           </div>
         </div>
