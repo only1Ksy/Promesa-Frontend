@@ -13,8 +13,8 @@ import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
 import ProductNotice from '@/components/features/detail/product-notice';
 import ReviewCard from '@/components/features/detail/review-card';
-import Divider from '@/public/icons/item/divider.svg';
-import ReviewStar from '@/public/icons/item/review-star.svg';
+import DividerIcon from '@/public/icons/item/divider.svg';
+import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
 import type { Item } from '@/types/item.dto';
 
@@ -24,7 +24,7 @@ interface ClientDetailPageProps {
 }
 
 export default function ClientDetailPage({ itemId, itemDetailState }: ClientDetailPageProps) {
-  const { data: item } = useQuery({
+  const { data: item, isLoading } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res.data,
@@ -109,50 +109,46 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   }, [isScrolling]); // isScrolling 의존성
 
   if (!item) return null;
+  if (isLoading) return null;
 
   return (
     <HydrationBoundary state={itemDetailState}>
       {/* 메인 이미지 */}
-      <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-[10px]">
-        <Image alt="product detail imageß" src={item.thumbnailUrl} />
+      <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-2.5">
+        <Image alt="product detail image" src={item.thumbnailUrl} />
       </div>
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
-        <div className="flex h-109.5 w-full flex-col items-start gap-5">
-          <ProductInformation onSelect={scrollTo} itemId={itemId} />
-        </div>
+        <ProductInformation onSelect={scrollTo} itemId={itemId} />
         {/* 하단 상세 페이지 */}
         <div className="w-full">
           {/* 이동 바 */}
-          <div className="sticky top-[46px] z-40">
+          <div className="sticky top-11.5 z-40">
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
           {/* 상품 정보 */}
-          <div ref={productRef} className="flex min-h-[400px] w-full scroll-mt-24 flex-col items-start">
+          <div ref={productRef}>
             <ProductDetail itemId={itemId} />
           </div>
           {/* 안내사항 */}
-          <div
-            ref={noticeRef}
-            className="text-grey-6 text-caption-01 mb-10 flex min-h-[400px] scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
-          >
+          <div ref={noticeRef}>
             <ProductNotice />
           </div>
           {/* 리뷰 */}
-          <div ref={reviewRef} className="flex min-h-[400px] scroll-mt-26 flex-col items-center">
+          <div ref={reviewRef} className="flex min-h-100 scroll-mt-26 flex-col items-center">
             {/* 리뷰 상단바 */}
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 (4) </span>
                 <div className="flex items-center gap-1">
-                  <ReviewStar className="h-4 w-4" />
+                  <ReviewStarIcon className="h-4 w-4" />
                   <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
                 </div>
               </div>
               <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
             </div>
             <div className="pt-2 pb-3">
-              <Divider />
+              <DividerIcon />
             </div>
             {/* 리뷰 나열 */}
             <div className="flex w-full flex-col items-center gap-5">

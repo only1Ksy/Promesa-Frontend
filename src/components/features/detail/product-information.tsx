@@ -22,9 +22,9 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
   if (!item) return null;
 
   return (
-    <>
+    <div className="flex w-full flex-col items-start gap-5">
       {/* 카테고리, 상품명, 리뷰, 가격*/}
-      <div className="flex flex-col items-start gap-[13px] self-stretch px-5">
+      <div className="flex flex-col items-start gap-3.25 self-stretch px-5">
         {/* 카테고리, 상품명, 리뷰 */}
         <div className="flex flex-col items-start gap-1 self-stretch">
           <div className="flex flex-col items-start gap-2 self-stretch">
@@ -49,7 +49,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
             <span className="text-grey-4 text-subhead font-medium line-through">54,000원</span>
             <span className="text-orange text-subhead font-bold">50%</span>
           </span>
-          <span className="text-grey-9 text-headline-05 font-bold">{item.price}원</span>
+          <span className="text-grey-9 text-headline-05 font-bold">{item.price.toLocaleString()}원</span>
         </div>
       </div>
       {/* 배송 정보 */}
@@ -57,7 +57,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         <span className="text-grey-8 text-caption-01 w-15 font-bold">배송비</span>
         <div className="flex flex-col">
           <span className="text-orange text-caption-01 font-bold">3000원</span>
-          <span className="text-grey-8 text-caption-01 font-medium">70.000원 이상 구매 시 무료배송</span>
+          <span className="text-grey-8 text-caption-01 font-medium">70,000원 이상 구매 시 무료배송</span>
           <span className="text-grey-8 text-caption-01 font-medium">제주/도서산간 3,000원 추가</span>
         </div>
       </div>
@@ -72,6 +72,6 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
           구매하기
         </button>
       </div>
-    </>
+    </div>
   );
 }
