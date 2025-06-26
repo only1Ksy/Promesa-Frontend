@@ -18,13 +18,13 @@ export default function BottomFixedModal({ isOpen, onClose }: BottomFixedModalPr
   if (!isOpen || !mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[9998] flex items-end justify-center">
+    <div className="fixed inset-0 z-100 flex items-end justify-center">
       {/* 배경 */}
       <div className="fixed inset-0 h-screen w-screen" onClick={onClose} />
 
       {/* 모달 본체 */}
       <div
-        className="border-green bg-pale-green relative z-[9999] w-full max-w-101 border-t px-5 shadow-md"
+        className="border-green bg-pale-green relative z-105 w-full max-w-101 border-t px-5 shadow-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col items-start gap-5 self-stretch py-5">
@@ -34,10 +34,10 @@ export default function BottomFixedModal({ isOpen, onClose }: BottomFixedModalPr
           </div>
         </div>
         <div className="flex items-center gap-2 self-stretch">
-          <button className="text-body-01 border-grey-9 flex h-12 w-59 items-center justify-center gap-[10px] border font-bold">
+          <button className="text-body-01 border-grey-9 flex h-12 w-59 items-center justify-center gap-2.5 border font-bold">
             장바구니
           </button>
-          <button className="text-body-01 bg-grey-9 flex h-12 w-full items-center justify-center gap-[10px] font-bold text-white">
+          <button className="text-body-01 bg-grey-9 flex h-12 w-full items-center justify-center gap-2.5 font-bold text-white">
             구매하기
           </button>
         </div>

@@ -7,6 +7,8 @@ import { useBottomFixedBarTarget } from '@/lib/utils/portal-target-context';
 
 export default function BottomFixedBarPortal({ children }: PropsWithChildren) {
   const target = useBottomFixedBarTarget();
+
   if (typeof window === 'undefined' || !target) return null;
+
   return createPortal(children, target);
 }
