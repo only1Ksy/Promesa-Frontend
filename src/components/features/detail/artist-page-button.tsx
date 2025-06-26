@@ -30,9 +30,13 @@ export default function ArtistPageButton({ artistId }: ArtistPageButtonProps) {
 
       <div className="absolute top-1/2 right-10 z-20 flex -translate-y-1/2 flex-col items-center">
         {isBookmark ? (
-          <BookmarkFilledIcon onClick={() => setBookmark((prev) => !prev)} className="text-grey-0 cursor-pointer" />
+          <button onClick={() => setBookmark((prev) => !prev)}>
+            <BookmarkFilledIcon className="text-grey-0 cursor-pointer" />
+          </button>
         ) : (
-          <BookmarkEmptyIcon onClick={() => setBookmark((prev) => !prev)} className="text-grey-0 cursor-pointer" />
+          <button onClick={() => setBookmark((prev) => !prev)}>
+            <BookmarkEmptyIcon className="text-grey-0 cursor-pointer" />
+          </button>
         )}
         <span className="text-grey-0 text-caption-02 font-medium">28</span>
       </div>
