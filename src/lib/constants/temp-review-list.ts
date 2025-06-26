@@ -5,7 +5,8 @@ export const REVIEW_LIST: Review[] = [
     nickname: '햇살가득',
     rating: 1,
     date: '2025-05-07',
-    description: '사진보다 실물이 훨씬 고급스럽네요. 만족합니다!',
+    description:
+      '사진보다 실물이 훨씬 고급스럽네요. 만족합니다! 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용 긴 리뷰 테스트용',
     images: ['/src/image/review-image1.jpg', '/src/image/review-image2.jpg'],
   },
   {
