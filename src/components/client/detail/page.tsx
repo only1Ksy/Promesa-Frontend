@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
 
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
 import BottomFixedBarPortal from '@/components/features/detail/bottom-fixed-bar-portal';
 import DetailNavBar from '@/components/features/detail/detail-nav-bar';
+import DetailSwiper from '@/components/features/detail/detail-swiper';
 import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
 import ProductNotice from '@/components/features/detail/product-notice';
@@ -111,12 +111,21 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   if (!item) return null;
   if (isLoading) return null;
 
+  // 이미지 배열 생성 (실제 API 응답에 따라 수정)
+  const images = [
+    // item.thumbnailUrl,
+    '/src/item/image.url',
+    '/src/item/image1.url',
+    // 추가 이미지들이 있다면 여기에 추가
+    // item.imageUrl1,
+    // item.imageUrl2,
+    // ...
+  ].filter(Boolean); // null/undefined 값 제거
+
   return (
     <HydrationBoundary state={itemDetailState}>
-      {/* 메인 이미지 */}
-      <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-2.5">
-        <Image alt="product detail image" src={item.thumbnailUrl} />
-      </div>
+      {/* 메인 이미지 스와이퍼*/}
+      <DetailSwiper images={images} alt="product detail image" />
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
         <ProductInformation onSelect={scrollTo} itemId={itemId} />
