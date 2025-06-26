@@ -14,7 +14,7 @@ export default function ArtistPageButton({ artistId }: ArtistPageButtonProps) {
   const [isBookmark, setBookmark] = useState(false);
 
   return (
-    <div className="relative z-10 flex h-19 w-full flex-col items-start gap-[10px] px-5">
+    <div className="relative z-10 flex h-19 w-full flex-col items-start gap-2.5 px-5">
       <Link href={`/artist/${artistId}`} className="block w-full">
         <div className="bg-deep-green relative flex h-19 w-full items-center px-5">
           <Image alt="..." src={''} fill />

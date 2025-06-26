@@ -14,9 +14,9 @@ export default function ReviewCard() {
             {Array.from({ length: 5 }).map(
               (_, i) =>
                 i < 4 ? (
-                  <ReviewStar key={i} className="h-[12px] w-[13px]" />
+                  <ReviewStar key={i} className="h-3 w-3.25" />
                 ) : (
-                  <ReviewStar key={i} className="h-[12px] w-[13px] opacity-30" />
+                  <ReviewStar key={i} className="h-3 w-3.25 opacity-30" />
                 ), // or ReviewStarEmpty
             )}
             <span className="text-grey-6 text-caption-01 self-center pl-1 font-medium">4</span>

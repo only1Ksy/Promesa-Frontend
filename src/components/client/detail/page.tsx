@@ -114,12 +114,12 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   return (
     <HydrationBoundary state={itemDetailState}>
       {/* 메인 이미지 */}
-      <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-[10px]">
+      <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-2.5">
         <Image alt="product detail image" src={item.thumbnailUrl} />
       </div>
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
-        <div className="flex h-109.5 w-full flex-col items-start gap-5">
+        <div className="flex w-full flex-col items-start gap-5">
           <ProductInformation onSelect={scrollTo} itemId={itemId} />
         </div>
         {/* 하단 상세 페이지 */}
@@ -129,18 +129,18 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
           {/* 상품 정보 */}
-          <div ref={productRef} className="flex min-h-[400px] w-full scroll-mt-24 flex-col items-start">
+          <div ref={productRef} className="flex min-h-100 w-full scroll-mt-24 flex-col items-start">
             <ProductDetail itemId={itemId} />
           </div>
           {/* 안내사항 */}
           <div
             ref={noticeRef}
-            className="text-grey-6 text-caption-01 mb-10 flex min-h-[400px] scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
+            className="text-grey-6 text-caption-01 mb-10 flex min-h-100 scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
           >
             <ProductNotice />
           </div>
           {/* 리뷰 */}
-          <div ref={reviewRef} className="flex min-h-[400px] scroll-mt-26 flex-col items-center">
+          <div ref={reviewRef} className="flex min-h-100 scroll-mt-26 flex-col items-center">
             {/* 리뷰 상단바 */}
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">

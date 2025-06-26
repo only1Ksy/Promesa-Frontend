@@ -24,7 +24,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
   return (
     <>
       {/* 카테고리, 상품명, 리뷰, 가격*/}
-      <div className="flex flex-col items-start gap-[13px] self-stretch px-5">
+      <div className="flex flex-col items-start gap-3.25 self-stretch px-5">
         {/* 카테고리, 상품명, 리뷰 */}
         <div className="flex flex-col items-start gap-1 self-stretch">
           <div className="flex flex-col items-start gap-2 self-stretch">
