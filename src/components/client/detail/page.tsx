@@ -116,8 +116,6 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     // item.thumbnailUrl,
     '/src/item/image.url',
     '/src/item/image1.url',
-    '/src/item/image2.url',
-
     // 추가 이미지들이 있다면 여기에 추가
     // item.imageUrl1,
     // item.imageUrl2,
