@@ -14,9 +14,7 @@ export default async function DetailPage({ params: paramsPromise }: { params: Pr
     queryFn: () => fetchItemDetail(itemId),
   });
 
-  const itemDetailState = dehydrate(queryClient, {
-    shouldDehydrateQuery: (q) => q.queryKey[0] === 'itemDetail',
-  });
+  const dehydratedState = dehydrate(queryClient);
 
-  return <ClientDetailPage itemId={itemId} itemDetailState={itemDetailState} />;
+  return <ClientDetailPage itemId={itemId} itemDetailState={dehydratedState} />;
 }

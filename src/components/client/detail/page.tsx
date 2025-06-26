@@ -114,7 +114,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     <HydrationBoundary state={itemDetailState}>
       {/* 메인 이미지 */}
       <div className="bg-green mb-5 flex h-96 w-full flex-col items-start justify-center gap-[10px]">
-        <Image alt="product detail imageß" src={item.thumbnailUrl} />
+        <Image alt="product detail image" src={item.thumbnailUrl} />
       </div>
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
@@ -124,7 +124,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
         {/* 하단 상세 페이지 */}
         <div className="w-full">
           {/* 이동 바 */}
-          <div className="sticky top-[46px] z-40">
+          <div className="sticky top-11.5 z-40">
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
           {/* 상품 정보 */}
