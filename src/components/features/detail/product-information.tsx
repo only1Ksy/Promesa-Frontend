@@ -22,7 +22,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
   if (!item) return null;
 
   return (
-    <>
+    <div className="flex w-full flex-col items-start gap-5">
       {/* 카테고리, 상품명, 리뷰, 가격*/}
       <div className="flex flex-col items-start gap-3.25 self-stretch px-5">
         {/* 카테고리, 상품명, 리뷰 */}
@@ -72,6 +72,6 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
           구매하기
         </button>
       </div>
-    </>
+    </div>
   );
 }

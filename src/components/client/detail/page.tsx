@@ -119,9 +119,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       </div>
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
         {/* 상단 상품 정보 */}
-        <div className="flex w-full flex-col items-start gap-5">
-          <ProductInformation onSelect={scrollTo} itemId={itemId} />
-        </div>
+        <ProductInformation onSelect={scrollTo} itemId={itemId} />
         {/* 하단 상세 페이지 */}
         <div className="w-full">
           {/* 이동 바 */}
@@ -129,14 +127,11 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
           {/* 상품 정보 */}
-          <div ref={productRef} className="flex min-h-100 w-full scroll-mt-24 flex-col items-start">
+          <div ref={productRef}>
             <ProductDetail itemId={itemId} />
           </div>
           {/* 안내사항 */}
-          <div
-            ref={noticeRef}
-            className="text-grey-6 text-caption-01 mb-10 flex min-h-100 scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium"
-          >
+          <div ref={noticeRef}>
             <ProductNotice />
           </div>
           {/* 리뷰 */}
