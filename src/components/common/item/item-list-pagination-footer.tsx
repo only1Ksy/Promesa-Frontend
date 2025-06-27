@@ -55,7 +55,7 @@ export default function ItemListPaginationFooter({ currentPage, totalPage, push 
           <PageRightSingleIcon />
         </button>
         <button
-          onClick={() => currentPage < totalPage && push({ page: currentPage + 1 })}
+          onClick={() => currentPage < totalPage && push({ page: totalPage })}
           className={currentPage < totalPage ? 'cursor-pointer' : ''}
         >
           <PageRightDoubleIcon />
