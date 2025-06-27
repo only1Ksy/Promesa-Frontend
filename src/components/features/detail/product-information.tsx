@@ -45,10 +45,6 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         </div>
         {/* 가격 */}
         <div className="flex flex-col items-start justify-center">
-          <span className="flex gap-1">
-            <span className="text-grey-4 text-subhead font-medium line-through">54,000원</span>
-            <span className="text-orange text-subhead font-bold">50%</span>
-          </span>
           <span className="text-grey-9 text-headline-05 font-bold">{item.price.toLocaleString()}원</span>
         </div>
       </div>
