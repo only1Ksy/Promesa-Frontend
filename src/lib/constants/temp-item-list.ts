@@ -1,6 +1,6 @@
-import type { Item } from '@/types/item.dto';
+import type { ItemPreviewSchema } from '@/types/item-controller';
 
-export const ITEM_LIST: Item[] = [
+export const ITEM_LIST: ItemPreviewSchema[] = [
   {
     itemId: 1001,
     itemName: '상품명 1줄',
@@ -10,7 +10,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1002,
@@ -21,7 +20,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1003,
@@ -32,7 +30,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1101,
@@ -43,7 +40,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1102,
@@ -54,7 +50,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1103,
@@ -65,7 +60,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1104,
@@ -76,7 +70,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1105,
@@ -87,7 +80,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1106,
@@ -98,7 +90,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1107,
@@ -109,7 +100,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1108,
@@ -120,7 +110,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1109,
@@ -131,7 +120,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1110,
@@ -142,7 +130,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1111,
@@ -153,7 +140,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1112,
@@ -164,7 +150,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1113,
@@ -175,7 +160,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1114,
@@ -186,7 +170,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1115,
@@ -197,7 +180,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1116,
@@ -208,7 +190,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1117,
@@ -219,7 +200,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1118,
@@ -230,7 +210,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1119,
@@ -241,7 +220,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1120,
@@ -252,7 +230,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1121,
@@ -263,7 +240,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1122,
@@ -274,7 +250,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1123,
@@ -285,7 +260,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1124,
@@ -296,7 +270,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1125,
@@ -307,7 +280,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1126,
@@ -318,7 +290,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1127,
@@ -329,7 +300,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1128,
@@ -340,7 +310,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1129,
@@ -351,7 +320,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1130,
@@ -362,7 +330,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1131,
@@ -373,7 +340,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1132,
@@ -384,7 +350,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1133,
@@ -395,7 +360,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1134,
@@ -406,7 +370,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1135,
@@ -417,7 +380,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1136,
@@ -428,7 +390,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1137,
@@ -439,7 +400,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1138,
@@ -450,7 +410,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1139,
@@ -461,7 +420,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1140,
@@ -472,7 +430,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1141,
@@ -483,7 +440,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1142,
@@ -494,7 +450,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1143,
@@ -505,7 +460,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1144,
@@ -516,7 +470,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1145,
@@ -527,7 +480,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1146,
@@ -538,7 +490,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1147,
@@ -549,7 +500,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1148,
@@ -560,7 +510,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1149,
@@ -571,7 +520,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1150,
@@ -582,7 +530,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1201,
@@ -593,7 +540,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1202,
@@ -604,7 +550,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1203,
@@ -615,7 +560,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1204,
@@ -626,7 +570,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1205,
@@ -637,7 +580,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1206,
@@ -648,7 +590,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1207,
@@ -659,7 +600,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1208,
@@ -670,7 +610,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1209,
@@ -681,7 +620,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1210,
@@ -692,7 +630,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1211,
@@ -703,7 +640,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1212,
@@ -714,7 +650,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1213,
@@ -725,7 +660,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1214,
@@ -736,7 +670,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1215,
@@ -747,7 +680,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1216,
@@ -758,7 +690,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1217,
@@ -769,7 +700,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1218,
@@ -780,7 +710,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1219,
@@ -791,7 +720,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1220,
@@ -802,7 +730,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1221,
@@ -813,7 +740,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1222,
@@ -824,7 +750,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1223,
@@ -835,7 +760,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1224,
@@ -846,7 +770,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1225,
@@ -857,7 +780,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1226,
@@ -868,7 +790,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1227,
@@ -879,7 +800,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1228,
@@ -890,7 +810,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1229,
@@ -901,7 +820,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1230,
@@ -912,7 +830,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1231,
@@ -923,7 +840,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1232,
@@ -934,7 +850,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1233,
@@ -945,7 +860,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1234,
@@ -956,7 +870,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1235,
@@ -967,7 +880,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1236,
@@ -978,7 +890,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1237,
@@ -989,7 +900,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1238,
@@ -1000,7 +910,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1239,
@@ -1011,7 +920,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1240,
@@ -1022,7 +930,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1241,
@@ -1033,7 +940,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1242,
@@ -1044,7 +950,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1243,
@@ -1055,7 +960,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1244,
@@ -1066,7 +970,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1245,
@@ -1077,7 +980,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1246,
@@ -1088,7 +990,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1247,
@@ -1099,7 +1000,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1248,
@@ -1110,7 +1010,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1249,
@@ -1121,7 +1020,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1250,
@@ -1132,7 +1030,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1301,
@@ -1143,7 +1040,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1302,
@@ -1154,7 +1050,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1303,
@@ -1165,7 +1060,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1304,
@@ -1176,7 +1070,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1305,
@@ -1187,7 +1080,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1306,
@@ -1198,7 +1090,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1307,
@@ -1209,7 +1100,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1308,
@@ -1220,7 +1110,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1309,
@@ -1231,7 +1120,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1310,
@@ -1242,7 +1130,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1311,
@@ -1253,7 +1140,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1312,
@@ -1264,7 +1150,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1313,
@@ -1275,7 +1160,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1314,
@@ -1286,7 +1170,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1315,
@@ -1297,7 +1180,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1316,
@@ -1308,7 +1190,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1317,
@@ -1319,7 +1200,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1318,
@@ -1330,7 +1210,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1319,
@@ -1341,7 +1220,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1320,
@@ -1352,7 +1230,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1321,
@@ -1363,7 +1240,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1322,
@@ -1374,7 +1250,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1323,
@@ -1385,7 +1260,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1324,
@@ -1396,7 +1270,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1325,
@@ -1407,7 +1280,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1326,
@@ -1418,7 +1290,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1327,
@@ -1429,7 +1300,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1328,
@@ -1440,7 +1310,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1329,
@@ -1451,7 +1320,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1330,
@@ -1462,7 +1330,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1331,
@@ -1473,7 +1340,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1332,
@@ -1484,7 +1350,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1333,
@@ -1495,7 +1360,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1334,
@@ -1506,7 +1370,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1335,
@@ -1517,7 +1380,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1336,
@@ -1528,7 +1390,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1337,
@@ -1539,7 +1400,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1338,
@@ -1550,7 +1410,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1339,
@@ -1561,7 +1420,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1340,
@@ -1572,7 +1430,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1341,
@@ -1583,7 +1440,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1342,
@@ -1594,7 +1450,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1343,
@@ -1605,7 +1460,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1344,
@@ -1616,7 +1470,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1345,
@@ -1627,7 +1480,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1346,
@@ -1638,7 +1490,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1347,
@@ -1649,7 +1500,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1348,
@@ -1660,7 +1510,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1349,
@@ -1671,7 +1520,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1350,
@@ -1682,7 +1530,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1401,
@@ -1693,7 +1540,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1402,
@@ -1704,7 +1550,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1403,
@@ -1715,7 +1560,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1404,
@@ -1726,7 +1570,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1405,
@@ -1737,7 +1580,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1406,
@@ -1748,7 +1590,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1407,
@@ -1759,7 +1600,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1408,
@@ -1770,7 +1610,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1409,
@@ -1781,7 +1620,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1410,
@@ -1792,7 +1630,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1411,
@@ -1803,7 +1640,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1412,
@@ -1814,7 +1650,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1413,
@@ -1825,7 +1660,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1414,
@@ -1836,7 +1670,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1415,
@@ -1847,7 +1680,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1416,
@@ -1858,7 +1690,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1417,
@@ -1869,7 +1700,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1418,
@@ -1880,7 +1710,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1419,
@@ -1891,7 +1720,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1420,
@@ -1902,7 +1730,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1421,
@@ -1913,7 +1740,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1422,
@@ -1924,7 +1750,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1423,
@@ -1935,7 +1760,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1424,
@@ -1946,7 +1770,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1425,
@@ -1957,7 +1780,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1426,
@@ -1968,7 +1790,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1427,
@@ -1979,7 +1800,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1428,
@@ -1990,7 +1810,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1429,
@@ -2001,7 +1820,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1430,
@@ -2012,7 +1830,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1431,
@@ -2023,7 +1840,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1432,
@@ -2034,7 +1850,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1433,
@@ -2045,7 +1860,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1434,
@@ -2056,7 +1870,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1435,
@@ -2067,7 +1880,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1436,
@@ -2078,7 +1890,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1437,
@@ -2089,7 +1900,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1438,
@@ -2100,7 +1910,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1439,
@@ -2111,7 +1920,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1440,
@@ -2122,7 +1930,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1441,
@@ -2133,7 +1940,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1442,
@@ -2144,7 +1950,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1443,
@@ -2155,7 +1960,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1444,
@@ -2166,7 +1970,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1445,
@@ -2177,7 +1980,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1446,
@@ -2188,7 +1990,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1447,
@@ -2199,7 +2000,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1448,
@@ -2210,7 +2010,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1449,
@@ -2221,7 +2020,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1450,
@@ -2232,7 +2030,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1501,
@@ -2243,7 +2040,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1502,
@@ -2254,7 +2050,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1503,
@@ -2265,7 +2060,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1504,
@@ -2276,7 +2070,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1505,
@@ -2287,7 +2080,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1506,
@@ -2298,7 +2090,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1507,
@@ -2309,7 +2100,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1508,
@@ -2320,7 +2110,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1509,
@@ -2331,7 +2120,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1510,
@@ -2342,7 +2130,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1511,
@@ -2353,7 +2140,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1512,
@@ -2364,7 +2150,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1513,
@@ -2375,7 +2160,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1514,
@@ -2386,7 +2170,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1515,
@@ -2397,7 +2180,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1516,
@@ -2408,7 +2190,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1517,
@@ -2419,7 +2200,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1518,
@@ -2430,7 +2210,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1519,
@@ -2441,7 +2220,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1520,
@@ -2452,7 +2230,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1521,
@@ -2463,7 +2240,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1522,
@@ -2474,7 +2250,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1523,
@@ -2485,7 +2260,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1524,
@@ -2496,7 +2270,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1525,
@@ -2507,7 +2280,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1526,
@@ -2518,7 +2290,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1527,
@@ -2529,7 +2300,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1528,
@@ -2540,7 +2310,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1529,
@@ -2551,7 +2320,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1530,
@@ -2562,7 +2330,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1531,
@@ -2573,7 +2340,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1532,
@@ -2584,7 +2350,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1533,
@@ -2595,7 +2360,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1534,
@@ -2606,7 +2370,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1535,
@@ -2617,7 +2380,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1536,
@@ -2628,7 +2390,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1537,
@@ -2639,7 +2400,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1538,
@@ -2650,7 +2410,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1539,
@@ -2661,7 +2420,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1540,
@@ -2672,7 +2430,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1541,
@@ -2683,7 +2440,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1542,
@@ -2694,7 +2450,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1543,
@@ -2705,7 +2460,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1544,
@@ -2716,7 +2470,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1545,
@@ -2727,7 +2480,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1546,
@@ -2738,7 +2490,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1547,
@@ -2749,7 +2500,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1548,
@@ -2760,7 +2510,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1549,
@@ -2771,7 +2520,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1550,
@@ -2782,7 +2530,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1601,
@@ -2793,7 +2540,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1602,
@@ -2804,7 +2550,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1603,
@@ -2815,7 +2560,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1604,
@@ -2826,7 +2570,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1605,
@@ -2837,7 +2580,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1606,
@@ -2848,7 +2590,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1607,
@@ -2859,7 +2600,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1608,
@@ -2870,7 +2610,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1609,
@@ -2881,7 +2620,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1610,
@@ -2892,7 +2630,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1611,
@@ -2903,7 +2640,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1612,
@@ -2914,7 +2650,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1613,
@@ -2925,7 +2660,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1614,
@@ -2936,7 +2670,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1615,
@@ -2947,7 +2680,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1616,
@@ -2958,7 +2690,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1617,
@@ -2969,7 +2700,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1618,
@@ -2980,7 +2710,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1619,
@@ -2991,7 +2720,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1620,
@@ -3002,7 +2730,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1621,
@@ -3013,7 +2740,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1622,
@@ -3024,7 +2750,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1623,
@@ -3035,7 +2760,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1624,
@@ -3046,7 +2770,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1625,
@@ -3057,7 +2780,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1626,
@@ -3068,7 +2790,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1627,
@@ -3079,7 +2800,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1628,
@@ -3090,7 +2810,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1629,
@@ -3101,7 +2820,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1630,
@@ -3112,7 +2830,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1631,
@@ -3123,7 +2840,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1632,
@@ -3134,7 +2850,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1633,
@@ -3145,7 +2860,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1634,
@@ -3156,7 +2870,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1635,
@@ -3167,7 +2880,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1636,
@@ -3178,7 +2890,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1637,
@@ -3189,7 +2900,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1638,
@@ -3200,7 +2910,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1639,
@@ -3211,7 +2920,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1640,
@@ -3222,7 +2930,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1641,
@@ -3233,7 +2940,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1642,
@@ -3244,7 +2950,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1643,
@@ -3255,7 +2960,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1644,
@@ -3266,7 +2970,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1645,
@@ -3277,7 +2980,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1646,
@@ -3288,7 +2990,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1647,
@@ -3299,7 +3000,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1648,
@@ -3310,7 +3010,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1649,
@@ -3321,7 +3020,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1650,
@@ -3332,7 +3030,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 2,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   // Artist
   {
@@ -3344,7 +3041,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1161,
@@ -3355,7 +3051,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1162,
@@ -3366,7 +3061,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1163,
@@ -3377,7 +3071,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1164,
@@ -3388,7 +3081,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1260,
@@ -3399,7 +3091,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1261,
@@ -3410,7 +3101,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1262,
@@ -3421,7 +3111,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1263,
@@ -3432,7 +3121,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1264,
@@ -3443,7 +3131,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1360,
@@ -3454,7 +3141,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1361,
@@ -3465,7 +3151,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1362,
@@ -3476,7 +3161,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1363,
@@ -3487,7 +3171,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1364,
@@ -3498,7 +3181,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1460,
@@ -3509,7 +3191,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1461,
@@ -3520,7 +3201,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1462,
@@ -3531,7 +3211,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1463,
@@ -3542,7 +3221,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1464,
@@ -3553,7 +3231,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1560,
@@ -3564,7 +3241,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1561,
@@ -3575,7 +3251,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1562,
@@ -3586,7 +3261,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1563,
@@ -3597,7 +3271,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1564,
@@ -3608,7 +3281,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1660,
@@ -3619,7 +3291,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1661,
@@ -3630,7 +3301,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1662,
@@ -3641,7 +3311,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1663,
@@ -3652,7 +3321,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1664,
@@ -3663,7 +3331,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 3,
     artistName: '박아름',
     isWished: false,
-    sale: 30,
   },
   // Thumbnail
   {
@@ -3675,7 +3342,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 0,
   },
   {
     itemId: 1802,
@@ -3686,7 +3352,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 0,
   },
   {
     itemId: 1803,
@@ -3697,7 +3362,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 0,
   },
   {
     itemId: 1804,
@@ -3708,7 +3372,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 0,
   },
   {
     itemId: 1805,
@@ -3719,7 +3382,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 0,
   },
   // Now Popular
   {
@@ -3731,7 +3393,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1902,
@@ -3742,7 +3403,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1903,
@@ -3753,7 +3413,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1904,
@@ -3764,7 +3423,6 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
   {
     itemId: 1905,
@@ -3775,6 +3433,5 @@ export const ITEM_LIST: Item[] = [
     artistId: 1,
     artistName: '아티스트',
     isWished: false,
-    sale: 30,
   },
 ];

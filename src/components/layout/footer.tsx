@@ -20,11 +20,11 @@ export default function Footer() {
         <PromesaTextExtraSmallIcon className="text-black" />
       </div>
       <div className="flex flex-col gap-6">
-        <div className="flex gap-15">
-          <div className="flex flex-col gap-1">
+        <div className="flex justify-between">
+          <div className="flex w-36 flex-col gap-1">
             {upperLeftKeys.map((key) => BUSINESS_INFORMATION[key] && <p key={key}>{BUSINESS_INFORMATION[key]}</p>)}
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex w-39.5 flex-col gap-1">
             {upperRightKeys.map((key) => BUSINESS_INFORMATION[key] && <p key={key}>{BUSINESS_INFORMATION[key]}</p>)}
           </div>
         </div>

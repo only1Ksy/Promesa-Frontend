@@ -4,11 +4,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useWishStore } from '@/lib/store/use-wish-store';
 import { toggleWishRequest } from '@/services/api/wishes';
-import type { Item } from '@/types/item.dto';
 
-type ItemId = Item['itemId'];
+type ItemId = number;
 
-const QUERY_KEYS = [['nowPopularItems']];
+const QUERY_KEYS = [['nowPopularItems'], ['items']];
 
 export const useToggleWish = () => {
   const { toggleWish } = useWishStore();

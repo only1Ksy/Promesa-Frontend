@@ -1,29 +1,16 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
-import ItemPreviewGrid from '@/components/common/item/item-preview-grid';
+import ItemPreview from '@/components/common/item/item-preview';
 import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
-import { fetchNowPopularItems } from '@/services/api/items';
+import { fetchNowPopularItems } from '@/services/api/item-controller';
 
 export default function ShopSwiper() {
-  const { data: items, isLoading } = useQuery({
+  const { data: items } = useSuspenseQuery({
     queryKey: ['nowPopularItems'],
     queryFn: fetchNowPopularItems,
-    select: (res) => res.data,
   });
-
-  if (!items) return null;
-
-  if (isLoading) {
-    return (
-      <div className="ml-5 flex w-full gap-2.5">
-        <div className="bg-green mb-26 h-55 w-44" />
-        <div className="bg-green mb-26 h-55 w-44" />
-        <div className="bg-green mb-26 h-55 w-5" />
-      </div>
-    );
-  }
 
   return (
     <HorizontalScroll className="ml-5 flex gap-2.5">
@@ -32,12 +19,13 @@ export default function ShopSwiper() {
 
         return (
           <div key={idx} className={`w-44 flex-none ${isLast ? 'mr-5' : ''}`}>
-            <ItemPreviewGrid
+            <ItemPreview
               itemId={item.itemId}
               itemName={item.itemName}
               artistName={item.artistName}
               price={item.price}
-              sale={item.sale}
+              height={81}
+              maxWidth={44}
             />
           </div>
         );

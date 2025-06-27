@@ -1,91 +1,74 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
 import { QA_LIST } from '@/lib/constants/qa-list';
+import Expandable from '@/lib/utils/expandable';
 import DropUpIcon from '@/public/icons/artist/drop-up.svg';
 import PlusIcon from '@/public/icons/artist/plus.svg';
-import type { Artist } from '@/services/api/artist';
-import { fetchArtistInformation } from '@/services/api/artist';
+import { fetchArtist } from '@/services/api/artist-controller';
 
 interface ArtistQuestionSectionProps {
-  artistId: Artist['artistId'];
+  artistId: number;
 }
 
 export default function ArtistQuestionSection({ artistId }: ArtistQuestionSectionProps) {
   const [opens, setOpens] = useState<boolean[]>(Array(QA_LIST.length).fill(false));
-  const currentRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [clampQs, setClampQs] = useState<boolean[]>(Array(QA_LIST.length).fill(false));
 
-  const { data: information, isLoading } = useQuery({
-    queryKey: ['artistInformation', artistId],
-    queryFn: () => fetchArtistInformation(artistId),
-    select: (res) => res.data,
+  const { data } = useSuspenseQuery({
+    queryKey: ['artist', artistId],
+    queryFn: () => fetchArtist(artistId),
   });
 
-  useEffect(() => {
-    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-
-    currentRefs.current.forEach((el, idx) => {
-      if (!el) return;
-
-      if (opens[idx]) {
-        const scrollHeight = el.scrollHeight;
-        el.style.maxHeight = scrollHeight / rootFontSize + 'rem';
-      } else {
-        el.style.maxHeight = 'calc(var(--spacing) * 6)';
-      }
-    });
-  }, [opens]);
-
-  if (!information) return null;
-
-  if (isLoading) return null;
-
-  const { artistName } = information;
+  const { name } = data;
 
   const toggleOpen = (idx: number) => {
     setOpens((prev) => prev.map((val, i) => (i === idx ? !val : val)));
+
+    if (opens[idx]) {
+      setTimeout(() => {
+        setClampQs((prev) => prev.map((val, i) => (i === idx ? !val : val)));
+      }, 200); // strict control
+    } else {
+      setClampQs((prev) => prev.map((val, i) => (i === idx ? !val : val)));
+    }
   };
 
   return (
-    <div className="mx-5 flex flex-col">
-      <div className="text-subhead font-medium text-black">{`${artistName} 작가에게 묻습니다`}</div>
+    <section className="mx-5 flex flex-col">
+      <span className="text-subhead font-medium text-black">{`${name} 작가에게 묻습니다`}</span>
       <div className="mx-1 mt-6 mb-4 flex flex-col gap-3">
         {QA_LIST.map(({ question, answer }, idx) => (
           <div key={idx} className="flex flex-col gap-3">
-            <div
-              ref={(el) => {
-                currentRefs.current[idx] = el;
-              }}
-              className="flex flex-col gap-3 overflow-hidden transition-all ease-in-out"
-            >
+            <Expandable flag={opens[idx]} collapsedMaxHeight={6} className="flex flex-col gap-3">
               <div className="flex items-start justify-between">
-                <span
+                <p
                   className={clsx(
                     'text-body-02 text-grey-7 custom-break-words max-w-70 font-medium text-ellipsis',
-                    !opens[idx] && 'line-clamp-1',
+                    !clampQs[idx] && 'line-clamp-1',
                   )}
                 >
                   {question}
-                </span>
+                </p>
                 <button onClick={() => toggleOpen(idx)} className="cursor-pointer">
                   {opens[idx] ? <DropUpIcon className="text-grey-5" /> : <PlusIcon className="text-grey-5" />}
                 </button>
               </div>
-              <span className="text-caption-01 text-grey-7 custom-break-words mr-4.5 mb-3 font-medium">{answer}</span>
-            </div>
+              <p className="text-caption-01 text-grey-7 custom-break-words mr-4.5 mb-3 font-medium">{answer}</p>
+            </Expandable>
             <hr className="border-grey-4 w-full" />
           </div>
         ))}
       </div>
 
       <div className="flex justify-end">
-        <div className="text-caption-01 text-grey-8 border-grey-4 flex h-6 w-17.5 flex-shrink-0 items-center justify-center rounded-[20px] border-[0.75px] p-2.5 font-medium">
+        <span className="text-caption-01 text-grey-8 border-grey-4 flex h-6 w-17.5 flex-shrink-0 items-center justify-center rounded-[20px] border-[0.75px] p-2.5 font-medium">
           질문하기
-        </div>
+        </span>
       </div>
-    </div>
+    </section>
   );
 }

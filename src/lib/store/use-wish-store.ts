@@ -1,9 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { Item } from '@/types/item.dto';
-
-type ItemId = Item['itemId'];
+type ItemId = number;
 
 interface WishStore {
   wishedIds: ItemId[];

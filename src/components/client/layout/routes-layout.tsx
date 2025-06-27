@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useIsFetching } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
 import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
+
+import FetchingSpinner from '../../layout/fetching-spinner';
 
 export default function ClientRoutesLayout({
   children,
@@ -17,30 +20,37 @@ export default function ClientRoutesLayout({
   const isDetailPage = pathName.startsWith('/detail/');
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
+  const isFetching = useIsFetching();
+
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
 
     window.scrollTo(0, 0);
-  });
+  }, []);
 
-  return !isDetailPage ? (
+  return (
     <>
-      <Header />
-      <div className="mt-11.5">{children}</div>
-      <Footer />
-      <FloatingButton />
+      {isFetching > 0 && <FetchingSpinner />}
+      {!isDetailPage ? (
+        <>
+          <Header />
+          <div className="mt-11.5">{children}</div>
+          <Footer />
+          <FloatingButton />
+        </>
+      ) : (
+        <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
+          <Header />
+          <div className="mt-11.5">{children}</div>
+          <div className="mb-21">
+            <Footer />
+          </div>
+          <FloatingButton />
+          <div ref={bottomBarRef} className="fixed-component bottom-0"></div>
+        </BottomFixedBarTargetContext.Provider>
+      )}
     </>
-  ) : (
-    <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
-      <Header />
-      <div className="mt-11.5">{children}</div>
-      <div className="mb-21">
-        <Footer />
-      </div>
-      <FloatingButton />
-      <div ref={bottomBarRef} className="fixed-component bottom-0"></div>
-    </BottomFixedBarTargetContext.Provider>
   );
 }
