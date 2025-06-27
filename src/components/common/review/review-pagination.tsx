@@ -30,7 +30,7 @@ export default function ReviewPagination({ currentPage, totalPage, onPageChange 
 
       {/* 페이지 번호 버튼 */}
       <div className="text-caption-01 flex gap-0.5 font-medium">
-        {getPaginationRange(currentPage, totalPage, 5).map((page) => {
+        {getPaginationRange(currentPage, totalPage).map((page) => {
           const isActive = page === currentPage;
           return (
             <button
