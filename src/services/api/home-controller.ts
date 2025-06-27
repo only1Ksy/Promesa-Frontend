@@ -1,17 +1,9 @@
-import { AxiosError } from 'axios';
+import type { BrandInfoSchema } from '@/types/home-controller';
 
-import { BrandInfoSchema } from '@/types/home-controller.dto';
+import { axiosInstance, withErrorBoundary } from './axios';
 
-import { axiosInstance } from './axios';
-
-export const fetchBrandInfo = async (): Promise<BrandInfoSchema | null> => {
-  try {
-    const res = await axiosInstance.get('/api/brand-info');
-    const { data: body } = res;
-    return body.data;
-  } catch (error) {
-    const err = error as AxiosError<{ code: string; reason: string }>;
-    console.log(err);
-    return null;
-  }
-};
+export const fetchBrandInfo = () =>
+  withErrorBoundary<[], BrandInfoSchema>(async () => {
+    const res = await axiosInstance.get('/brand-info');
+    return res.data.data;
+  });

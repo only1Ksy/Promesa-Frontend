@@ -1,95 +1,87 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import clsx from 'clsx';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
+import Expandable from '@/lib/utils/expandable';
 import stringToMultilineTSX from '@/lib/utils/string-to-multiline-tsx';
-import LinkToHomePageIcon from '@/public/icons/artist/link-to-home-page.svg';
 import LinkToInstagramProfileIcon from '@/public/icons/artist/link-to-instagram-profile.svg';
 import LinkIcon from '@/public/icons/common/link.svg';
-import type { Artist } from '@/services/api/artist';
-import { fetchArtistInformation } from '@/services/api/artist';
+import { fetchArtist } from '@/services/api/artist-controller';
 
 interface ArtistInformationSectionProps {
-  artistId: Artist['artistId'];
+  artistId: number;
 }
 
 export default function ArtistInformationSection({ artistId }: ArtistInformationSectionProps) {
   const [open, setOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [showToggle, setShowToggle] = useState(false);
+  const textRef = useRef<HTMLParagraphElement>(null);
 
-  const { data: information, isLoading } = useQuery({
-    queryKey: ['artistInformation', artistId],
-    queryFn: () => fetchArtistInformation(artistId),
-    select: (res) => res.data,
+  const { data } = useSuspenseQuery({
+    queryKey: ['artist', artistId],
+    queryFn: () => fetchArtist(artistId),
   });
 
-  useEffect(() => {
-    const el = contentRef.current;
+  const { name, bio, instagramUrl } = data; // bio dependent
 
+  useLayoutEffect(() => {
+    const el = textRef.current;
     if (!el) return;
 
-    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const spacing = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--spacing'));
+    const collapsedPx = 22.5 / spacing;
 
-    if (open) {
-      const scrollHeight = el.scrollHeight;
-      el.style.maxHeight = scrollHeight / rootFontSize + 'rem';
-    } else {
-      el.style.maxHeight = 'calc(var(--spacing) * 50)';
-    }
-  }, [open]);
-
-  if (!information) return null;
-
-  if (isLoading) return null;
-
-  const { artistName, artistDescription } = information;
+    setShowToggle(el.scrollHeight > collapsedPx);
+  }, [bio]);
 
   return (
-    <div
-      ref={contentRef}
-      className={clsx('relative mx-5 flex flex-col gap-5 overflow-hidden transition-all ease-in-out', !open && 'h-50')}
-    >
+    <section className="mx-5 flex flex-col gap-5">
+      {/* 작가 설명 */}
       <div className="flex flex-col gap-1">
-        <div className="text-grey-5 text-caption-01 flex items-center gap-1.5 font-medium">
+        <p className="text-grey-5 text-caption-01 flex items-center gap-1.5 font-medium">
           <span>Artist</span>
           <LinkIcon />
-          <span>{artistName}</span>
-        </div>
-
+          <span>{name}</span>
+        </p>
         <div className="flex items-center justify-between">
-          <div className="text-headline-04 text-grey-9 flex items-end gap-1">
-            <span>{artistName}</span>
+          <h4 className="text-headline-04 text-grey-9 flex items-end gap-1">
+            <span>{name}</span>
             <span className="font-light">작가</span>
-          </div>
+          </h4>
           <div className="text-grey-6 flex gap-2">
-            <Link href="https://ceos-sinchon.com/" target="_blank" rel="noopener noreferrer">
-              <LinkToHomePageIcon />
-            </Link>
-            <Link href="https://www.instagram.com/promesa_ceramic/" target="_blank" rel="noopener noreferrer">
+            <Link href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <LinkToInstagramProfileIcon />
             </Link>
           </div>
         </div>
       </div>
-
-      <span className="custom-break-words text-caption-01 text-grey-7 font-medium">
-        {stringToMultilineTSX(artistDescription)}
-      </span>
-
-      {/* 작가 설명 더보기 */}
-      {!open && (
-        <>
-          <div className="to-pale-green from-pale-green/0 absolute bottom-0 left-0 z-5 h-25 w-full bg-gradient-to-b from-40% to-80%" />
-          <div className="text-caption-01 text-grey-6 bg-pale-green absolute bottom-0 left-0 z-10 flex h-5 w-full items-end font-medium">
-            <button onClick={() => setOpen(true)} className="cursor-pointer">
-              <span className="underline">작가 설명 더보기</span>
-            </button>
+      <Expandable flag={open} collapsedMaxHeight={22.5}>
+        <p ref={textRef} className="custom-break-words text-caption-01 text-grey-7 font-medium">
+          {stringToMultilineTSX(bio)}
+        </p>
+      </Expandable>
+      {/* 작가 설명 더보기 / 간략하게 */}
+      {showToggle &&
+        (open ? (
+          <>
+            <div className="text-caption-01 text-grey-6 font-medium">
+              <button onClick={() => setOpen(false)} className="cursor-pointer">
+                <span className="underline">간략하게</span>
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="relative -mt-3">
+            <div className="to-pale-green from-pale-green/0 absolute bottom-3 left-0 h-25 w-full bg-gradient-to-b from-40% to-90%" />
+            <div className="text-caption-01 text-grey-6 bg-pale-green relative z-5 font-medium">
+              <button onClick={() => setOpen(true)} className="cursor-pointer">
+                <span className="underline">작가 설명 더보기</span>
+              </button>
+            </div>
           </div>
-        </>
-      )}
-    </div>
+        ))}
+    </section>
   );
 }

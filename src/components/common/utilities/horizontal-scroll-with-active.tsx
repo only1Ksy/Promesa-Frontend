@@ -35,7 +35,8 @@ export default function HorizontalScrollwithActive({ children, activeId, classNa
     const active = wrap.querySelector<HTMLButtonElement>(`#${activeId}`);
     if (!active) return;
 
-    active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    const left = active.offsetLeft - wrap.clientWidth / 2 + active.clientWidth / 2;
+    wrap.scrollTo({ left, behavior: 'smooth' });
   };
 
   useLayoutEffect(scrollToActive);

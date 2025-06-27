@@ -5,12 +5,11 @@ import { useState } from 'react';
 import { useWishStore } from '@/lib/store/use-wish-store';
 import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
-import type { Item } from '@/types/item.dto';
 
 import BottomFixedModal from './bottom-fixed-modal';
 
 interface BottomFixedBarProps {
-  itemId: Item['itemId'];
+  itemId: number;
 }
 
 export default function BottomFixedBar({ itemId }: BottomFixedBarProps) {

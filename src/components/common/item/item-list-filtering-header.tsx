@@ -1,50 +1,72 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import HorizontalScrollwithActive from '@/components/common/utilities/horizontal-scroll-with-active';
 import DropDownIcon from '@/public/icons/item/drop-down.svg';
-import type { ArtistItemListParams, ItemListCommon, ShopItemListParams } from '@/types/params.dto';
-import { CATEGORY_ID_KEYS, FRAME_KEYS, SORT_KEYS } from '@/types/params.dto';
+import FrameGridIcon from '@/public/icons/item/frame-grid.svg';
+import FrameMasonryIcon from '@/public/icons/item/frame-masonry.svg';
+import { fetchCategoryParent } from '@/services/api/category-controller';
+import type { ItemControllerParams } from '@/types/item-controller';
 
 interface ItemListFilteringHeaderProps {
-  categoryId: ItemListCommon['categoryId'];
-  sort: ItemListCommon['sort'];
-  frame: ItemListCommon['frame'];
-  push: (next: Partial<ShopItemListParams | ArtistItemListParams>, isScroll: boolean) => void;
+  categoryId: ItemControllerParams['categoryId'];
+  sort: ItemControllerParams['sort'];
+  frame: ItemControllerParams['frame'];
+  push: (next: Partial<ItemControllerParams>) => void;
 }
 
 export default function ItemListFilteringHeader({ categoryId, sort, frame, push }: ItemListFilteringHeaderProps) {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const searchParamKey = useSearchParams().toString();
+  const [open, setOpen] = useState(false);
+
+  const searchParamKeys = useSearchParams().toString();
+
+  const { data } = useSuspenseQuery({
+    queryKey: ['categoryParent'],
+    queryFn: fetchCategoryParent,
+  });
 
   // initialize when using router.push(...)
   useEffect(() => {
     setOpen(false);
-  }, [pathname, searchParamKey]);
+  }, [pathname, searchParamKeys]);
+
+  const parentCategoryList = data;
+
+  // sort, frame keys
+  const SORT_KEYS = [
+    { label: '높은 가격순', value: 'price,desc' },
+    { label: '낮은 가격순', value: 'price,asc' },
+    { label: '인기순', value: 'wishCount,desc' },
+  ];
+  const FRAME_KEYS = [
+    { label: FrameGridIcon, value: 'grid' },
+    { label: FrameMasonryIcon, value: 'masonry' },
+  ];
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="bg-pale-green sticky top-11.5 z-20 flex flex-col gap-3">
       <div className="relative">
         {/* 카테고리 */}
         <div className="to-pale-green from-pale-green/0 pointer-events-none absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
         <HorizontalScrollwithActive activeId={`category-id-${categoryId}`} className="flex gap-5.5 pr-8">
-          {CATEGORY_ID_KEYS.map(({ label, value }) => {
-            const isActive = categoryId === value;
+          {parentCategoryList.map(({ id, name }) => {
+            const isActive = categoryId === id;
             return (
               <button
-                key={value}
-                id={`category-id-${value}`}
-                onClick={() => push({ categoryId: value, page: '1' }, false)}
+                key={id}
+                id={`category-id-${id}`}
+                onClick={() => push({ categoryId: id, page: 0 })}
                 className={clsx(
                   'text-body-01 flex-shrink-0 cursor-pointer font-medium',
                   isActive ? 'text-grey-9' : 'text-grey-4',
                 )}
               >
-                {label}
+                {name}
               </button>
             );
           })}
@@ -76,7 +98,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
                   <button
                     key={value}
                     onClick={() => {
-                      push({ sort: value, page: '1' }, false);
+                      push({ sort: value, page: 0 });
                       setOpen(false);
                     }}
                     className="mx-2 my-1 h-4 cursor-pointer text-start"
@@ -95,7 +117,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
             return (
               <button
                 key={value}
-                onClick={() => push({ frame: value }, false)}
+                onClick={() => push({ frame: value })}
                 className={clsx('cursor-pointer', isActive ? 'text-orange' : 'text-grey-3')}
               >
                 <LabelIcon />

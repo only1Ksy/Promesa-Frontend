@@ -17,10 +17,9 @@ import { REVIEW_LIST } from '@/lib/constants/temp-review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
-import type { Item } from '@/types/item.dto';
 
 interface ClientDetailPageProps {
-  itemId: Item['itemId'];
+  itemId: number;
   itemDetailState: DehydratedState;
 }
 

@@ -3,7 +3,7 @@
 import 'swiper/css';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { Autoplay } from 'swiper/modules';
@@ -14,24 +14,14 @@ import { fetchBrandInfo } from '@/services/api/home-controller';
 export default function MainSwiper() {
   const [active, setActive] = useState(1);
 
-  const { data, isLoading } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['brandInfo'],
     queryFn: fetchBrandInfo,
   });
 
-  if (!data) return null;
+  const { leftImageUrl, mainImageUrl, rightImageUrl } = data;
 
-  if (isLoading) {
-    return (
-      <div className="my-12.5 flex w-full gap-15">
-        <div className="bg-green my-10.75 h-38.5 w-5.25" />
-        <div className="bg-green h-60 w-60" />
-        <div className="bg-green my-10.75 h-38.5 w-5.25" />
-      </div>
-    );
-  }
-
-  const baseImageUrls = [data.leftImageUrl, data.mainImageUrl, data.rightImageUrl];
+  const baseImageUrls = [leftImageUrl, mainImageUrl, rightImageUrl]; // start from index 1
   const imageUrls = [...baseImageUrls, ...baseImageUrls];
 
   return (
@@ -54,11 +44,11 @@ export default function MainSwiper() {
               <div
                 className={clsx(
                   'bg-green text-headline-01 relative flex h-60 w-full items-center justify-center',
-                  'transform transition-all duration-500 ease-in-out will-change-transform',
+                  'transform transition-all duration-500 will-change-transform',
                   isActive ? 'scale-100 opacity-100' : 'scale-y-65 opacity-50',
                 )}
               >
-                <Image src={url} alt={`brand main image ${idx}`} fill priority />
+                <Image src={url} alt={`프로메사 홈 페이지의 ${idx}번째 메인 이미지.`} fill priority />
               </div>
             </SwiperSlide>
           );

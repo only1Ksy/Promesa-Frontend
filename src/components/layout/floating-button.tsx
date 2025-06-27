@@ -10,7 +10,9 @@ import ScrollToTopIcon from '@/public/icons/layout/scroll-to-top.svg';
 export default function FloatingButton() {
   const bottomFixedBarRef = useContext(BottomFixedBarTargetContext);
   const [bottomHeight, setBottomHeight] = useState(0);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
 
+  // dynamic height control
   useEffect(() => {
     if (!bottomFixedBarRef?.current) return;
 
@@ -29,18 +31,30 @@ export default function FloatingButton() {
     return () => ro.disconnect();
   }, [bottomFixedBarRef]);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // show-scroll-to-top
+  useEffect(() => {
+    const root = document.getElementById('root');
+    if (!root) return;
+
+    const onScroll = () => setShowScrollToTop(root.scrollTop > 10);
+    onScroll();
+
+    root.addEventListener('scroll', onScroll, { passive: true });
+    return () => root.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollToTop = () => document.getElementById('root')?.scrollTo({ top: 0, behavior: 'smooth' });
 
   return !bottomFixedBarRef ? (
     <div className="fixed-component bottom-10 flex justify-end px-5">
-      <button
-        onClick={scrollToTop}
-        className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
-      >
-        <ScrollToTopIcon className="text-grey-8" />
-      </button>
+      {showScrollToTop && (
+        <button
+          onClick={scrollToTop}
+          className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+        >
+          <ScrollToTopIcon className="text-grey-8" />
+        </button>
+      )}
     </div>
   ) : (
     <div className="fixed-component flex justify-end px-5" style={{ bottom: `${bottomHeight}rem` }}>
@@ -51,12 +65,14 @@ export default function FloatingButton() {
             <span className="text-caption-02 font-medium">문의하기</span>
           </button>
         </Link>
-        <button
-          onClick={scrollToTop}
-          className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
-        >
-          <ScrollToTopIcon className="text-grey-8" />
-        </button>
+        {showScrollToTop && (
+          <button
+            onClick={scrollToTop}
+            className="bg-pale-green border-grey-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1.333px] py-3"
+          >
+            <ScrollToTopIcon className="text-grey-8" />
+          </button>
+        )}
       </div>
     </div>
   );

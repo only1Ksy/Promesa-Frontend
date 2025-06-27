@@ -1,28 +1,17 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
 import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
 import { fetchExhibitions } from '@/services/api/exhibitions';
 
 export default function ExhibitionSwiper() {
-  const { data: items, isLoading } = useQuery({
+  const { data: items } = useSuspenseQuery({
     queryKey: ['exhibitions'],
     queryFn: fetchExhibitions,
     select: (res) => res.data,
   });
-
-  if (!items) return null;
-
-  if (isLoading) {
-    return (
-      <div className="ml-5 flex w-full gap-2">
-        <div className="bg-green h-77 w-68" />
-        <div className="bg-green h-77 w-25.5" />
-      </div>
-    );
-  }
 
   return (
     <HorizontalScroll className="ml-5 flex gap-2">

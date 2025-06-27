@@ -9,6 +9,8 @@
 @layer base {
   html {
     scrollbar-gutter: stable;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -48,6 +50,9 @@
   }
   .fixed-component.no-z-index {
     z-index: 0;
+  }
+  .fixed-component.max-z-index {
+    z-index: 999;
   }
 
   .hide-scrollbar {

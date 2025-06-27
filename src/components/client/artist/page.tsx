@@ -2,31 +2,30 @@
 
 import type { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import ItemList from '@/components/common/item/item-list';
 import ArtistInformationSection from '@/components/features/artist/artist-information-section';
 import ArtistQuestionSection from '@/components/features/artist/artist-question-section';
 import ExhibitionSwiper from '@/components/features/home/exhibition-swiper';
-import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 import LinkIcon from '@/public/icons/common/link.svg';
-import type { Artist } from '@/services/api/artist';
-import type { ArtistItemListParams } from '@/types/params.dto';
+import type { ItemControllerParams } from '@/types/item-controller';
 
 interface ClientArtistPageProps {
   dehydratedState: DehydratedState;
-  artistId: Artist['artistId'];
-  initialParams: ArtistItemListParams;
+  artistId: number;
+  initialParams: ItemControllerParams;
 }
 
 export default function ClientArtistPage({ dehydratedState, artistId, initialParams }: ClientArtistPageProps) {
+  const ArtistBackground = dynamic(() => import('@/components/features/artist/artist-background'), { ssr: false });
+
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="relative flex flex-col">
-        <div className="fixed-component no-z-index bg-green top-11.5 h-50" />
-        <div className="text-grey-0 absolute top-4 right-3.5 z-5 flex">
-          <BookmarkFilledIcon />
-        </div>
+      <div className="flex flex-col">
+        {/* 배경 */}
+        <ArtistBackground artistId={artistId} />
 
         <div className="bg-pale-green z-5 mt-50 flex flex-col gap-20 pt-5 pb-20">
           {/* 작가 정보 */}
