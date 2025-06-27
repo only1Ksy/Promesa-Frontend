@@ -18,13 +18,13 @@ export default function BottomFixedModal({ isOpen, onClose }: BottomFixedModalPr
   if (!isOpen || !mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-100 flex items-end justify-center">
+    <div className="fixed inset-0 z-9999 flex items-end justify-center">
       {/* 배경 */}
       <div className="fixed inset-0 h-screen w-screen" onClick={onClose} />
 
       {/* 모달 본체 */}
       <div
-        className="border-green bg-pale-green relative z-105 w-full max-w-101 border-t px-5 shadow-md"
+        className="border-green bg-pale-green relative z-10000 w-full max-w-101 border-t px-5 shadow-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col items-start gap-5 self-stretch py-5">
