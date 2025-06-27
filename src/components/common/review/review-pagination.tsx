@@ -1,5 +1,10 @@
-// components/review/review-pagination.tsx
 import clsx from 'clsx';
+
+import getPaginationRange from '@/lib/utils/get-pagination-range';
+import PageLeftDoubleIcon from '@/public/icons/item/page-left-double.svg';
+import PageLeftSingleIcon from '@/public/icons/item/page-left-single.svg';
+import PageRightDoubleIcon from '@/public/icons/item/page-right-double.svg';
+import PageRightSingleIcon from '@/public/icons/item/page-right-single.svg';
 
 interface Props {
   currentPage: number;
@@ -9,33 +14,54 @@ interface Props {
 
 export default function ReviewPagination({ currentPage, totalPage, onPageChange }: Props) {
   return (
-    <div className="z-50 flex gap-3">
-      <button
-        onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-        className="text-caption-01 text-grey-6 cursor-pointer font-medium"
-      >
-        &lt;
-      </button>
-      <div>
-        {Array.from({ length: totalPage }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            onClick={() => onPageChange(page)}
-            className={clsx(
-              'text-caption-01 cursor-pointer px-2.5 font-medium',
-              currentPage === page ? 'text-black' : 'text-grey-5',
-            )}
-          >
-            {page}
-          </button>
-        ))}
+    <div className="item-center mx-auto flex gap-3">
+      {/* 왼쪽 이동 버튼들 */}
+      <div className="text-grey-9 flex">
+        <button onClick={() => currentPage > 1 && onPageChange(1)} className={currentPage > 1 ? 'cursor-pointer' : ''}>
+          <PageLeftDoubleIcon />
+        </button>
+        <button
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+          className={currentPage > 1 ? 'cursor-pointer' : ''}
+        >
+          <PageLeftSingleIcon />
+        </button>
       </div>
-      <button
-        onClick={() => currentPage < totalPage && onPageChange(currentPage + 1)}
-        className="text-caption-01 text-grey-6 cursor-pointer font-medium"
-      >
-        &gt;
-      </button>
+
+      {/* 페이지 번호 버튼 */}
+      <div className="text-caption-01 flex gap-0.5 font-medium">
+        {getPaginationRange(currentPage, totalPage, 5).map((page) => {
+          const isActive = page === currentPage;
+          return (
+            <button
+              key={page}
+              onClick={() => !isActive && onPageChange(page)}
+              className={clsx(
+                'flex h-5 w-5 items-center justify-center',
+                isActive ? 'text-grey-8' : 'text-grey-5 cursor-pointer',
+              )}
+            >
+              {page}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 오른쪽 이동 버튼들 */}
+      <div className="text-grey-9 flex">
+        <button
+          onClick={() => currentPage < totalPage && onPageChange(currentPage + 1)}
+          className={currentPage < totalPage ? 'cursor-pointer' : ''}
+        >
+          <PageRightSingleIcon />
+        </button>
+        <button
+          onClick={() => currentPage < totalPage && onPageChange(totalPage)}
+          className={currentPage < totalPage ? 'cursor-pointer' : ''}
+        >
+          <PageRightDoubleIcon />
+        </button>
+      </div>
     </div>
   );
 }
