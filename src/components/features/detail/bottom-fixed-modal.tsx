@@ -6,12 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { fetchItemDetail } from '@/services/api/item';
-import { Item } from '@/types/item.dto';
 
 interface BottomFixedModalProps {
   isOpen: boolean;
   onClose: () => void;
-  itemId: Item['itemId'];
+  itemId: number;
 }
 
 export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixedModalProps) {
