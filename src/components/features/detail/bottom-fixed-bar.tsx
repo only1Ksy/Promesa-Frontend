@@ -38,7 +38,7 @@ export default function BottomFixedBar({ itemId }: BottomFixedBarProps) {
         </div>
       </div>
 
-      <BottomFixedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <BottomFixedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} itemId={itemId} />
     </>
   );
 }
