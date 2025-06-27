@@ -14,8 +14,10 @@ export default function ReviewCard({ nickname, rating, date, description, images
     if (!el) return;
 
     const updateOverflow = () => {
-      const isClamped = el.scrollHeight > el.clientHeight + 2;
-      setIsOverflowing(isClamped);
+      if (!isExpanded) {
+        const isClamped = el.scrollHeight > el.clientHeight + 2;
+        setIsOverflowing(isClamped);
+      }
     };
 
     const observer = new ResizeObserver(updateOverflow);
@@ -23,7 +25,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
     updateOverflow();
 
     return () => observer.disconnect();
-  }, [description]);
+  }, [description, isExpanded]);
 
   return (
     <div className="flex w-full flex-col items-start gap-4 px-6">
@@ -78,7 +80,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
         {/* 더보기 버튼 */}
         {isOverflowing && (
           <button
-            className="text-caption-01 text-grey-8 z-10 mt-1 cursor-pointer self-end font-bold"
+            className="text-caption-01 text-grey-8 z-10 cursor-pointer self-end font-bold"
             onClick={() => setIsExpanded((prev) => !prev)}
           >
             {isExpanded ? '접기' : '더보기'}

@@ -9,7 +9,7 @@ interface Props {
 
 export default function ReviewPagination({ currentPage, totalPage, onPageChange }: Props) {
   return (
-    <div className="z-905 flex gap-3">
+    <div className="z-50 flex gap-3">
       <button
         onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
         className="text-caption-01 text-grey-6 cursor-pointer font-medium"
