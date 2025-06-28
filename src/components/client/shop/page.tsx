@@ -2,6 +2,7 @@
 
 import type { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
+import Image from 'next/image';
 
 import ItemList from '@/components/common/item/item-list';
 import { SHOP_INTRODUCTION_LINE_LIST } from '@/lib/constants/business-information';
@@ -17,7 +18,8 @@ export default function ClientShopPage({ dehydratedState, initialParams }: Clien
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex flex-col">
-        <div className="fixed-component no-z-index bg-green top-11.5 flex h-105.5 items-end justify-center overflow-hidden">
+        <div className="bg-green relative flex h-105.5 items-end justify-center overflow-hidden">
+          <Image src="/images/shop-background.png" alt="프로메사 쇼핑 페이지의 배경 이미지." fill priority />
           <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-130/211 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]" />
           <div className="z-10 mb-12.5 flex flex-col gap-1.5">
             <p className="text-headline-03 text-center text-white">{SHOP_INTRODUCTION_LINE_LIST[0]}</p>
@@ -26,9 +28,8 @@ export default function ClientShopPage({ dehydratedState, initialParams }: Clien
             </p>
           </div>
         </div>
-        <div className="bg-pale-green z-5 mt-105.5 pt-7 pb-20">
-          <ItemList initialParams={initialParams} />
-        </div>
+        {/* 아이템 */}
+        <ItemList initialParams={initialParams} />
       </div>
     </HydrationBoundary>
   );
