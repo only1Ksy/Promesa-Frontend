@@ -150,7 +150,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 (4) </span>
                 <div className="flex items-center gap-1">
-                  <ReviewStarIcon className="h-4 w-4" />
+                  <ReviewStarIcon className="text-orange h-4 w-4" />
                   <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
                 </div>
               </div>

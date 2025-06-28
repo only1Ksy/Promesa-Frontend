@@ -35,7 +35,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
           <span className="text-grey-9 text-body-02 font-medium">{nickname}</span>
           <div className="flex items-center self-center">
             {Array.from({ length: 5 }).map((_, i) => (
-              <ReviewStar key={i} className={`h-3 w-3.25 ${i < rating ? '' : 'opacity-30'}`} />
+              <ReviewStar key={i} className={`h-3 w-3.25 ${i < rating ? 'text-orange' : 'text-deep-green'}`} />
             ))}
             <span className="text-grey-6 text-caption-01 self-center pl-1 font-medium">{rating}</span>
           </div>
