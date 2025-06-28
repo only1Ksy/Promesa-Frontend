@@ -6,7 +6,7 @@ export default function ProductNotice() {
   const { DELIVERY_INFO, PURCHASE_PRECAUTIONS, USAGE_PRECAUTIONS, EXCHANGE_REFUND_INFO } = PRODUCT_NOTICE_INFORMATION;
 
   return (
-    <div className="text-grey-6 text-caption-01 mb-10 flex min-h-100 scroll-mt-24 flex-col items-start gap-3 self-stretch px-5 py-10 font-medium">
+    <div className="text-grey-6 text-caption-01 mb-10 flex flex-col items-start gap-3 self-stretch px-5 py-10 font-medium">
       {/* 배송안내 */}
       <div className="flex items-start gap-4">
         <span className="w-20 shrink-0">{DELIVERY_INFO.title}</span>
