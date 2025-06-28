@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import ReviewImageOnly from '@/components/common/review/review-image-only';
 import { Review } from '@/types/review.dto';
 
 import ReviewCard from '../../common/review/review-card';
@@ -20,6 +21,20 @@ export default function ReviewList({ reviews }: ReviewListProps) {
 
   return (
     <div className="relative flex flex-col items-center">
+      {currentPage === 0 && (
+        <div className="flex flex-col items-center gap-5">
+          <ReviewImageOnly
+            imageUrls={[
+              '/images/review1.jpg',
+              '/images/review2.jpg',
+              '/images/review3.jpg',
+              '/images/review4.jpg',
+              '/images/review5.jpg',
+            ]}
+          />
+        </div>
+      )}
+
       <div className="mb-10 flex w-full flex-col gap-5">
         {visibleReviews.map((review, i) => (
           <div key={i} className="flex w-full flex-col items-center gap-5">

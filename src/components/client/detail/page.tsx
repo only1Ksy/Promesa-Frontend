@@ -5,6 +5,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
+import ReviewImageOnly from '@/components/common/review/review-image-only';
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
 import BottomFixedBarPortal from '@/components/features/detail/bottom-fixed-bar-portal';
 import DetailNavBar from '@/components/features/detail/detail-nav-bar';
@@ -146,6 +147,17 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             </div>
             <div className="pt-2 pb-3">
               <DividerIcon />
+            </div>
+            <div className="flex w-full flex-col items-center gap-5">
+              <ReviewImageOnly
+                imageUrls={[
+                  '/images/review1.jpg',
+                  '/images/review2.jpg',
+                  '/images/review3.jpg',
+                  '/images/review4.jpg',
+                  '/images/review5.jpg',
+                ]}
+              />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
               <ReviewPreview reviews={REVIEW_LIST} itemId={itemId} />
