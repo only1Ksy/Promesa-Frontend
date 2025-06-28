@@ -24,8 +24,8 @@ export default function ShopSwiper() {
               itemName={item.itemName}
               artistName={item.artistName}
               price={item.price}
-              height={81}
-              maxWidth={44}
+              maxWidthClass={'max-w-44'}
+              heightClass={'h-81'}
             />
           </div>
         );

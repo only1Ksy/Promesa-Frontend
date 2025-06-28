@@ -27,9 +27,8 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   const params = useMemo(
     () =>
       ({
-        categoryId: Number(searchParams.get('categoryId')) ?? initialParams.categoryId,
-        page: Number(searchParams.get('page')) ?? initialParams.page,
-        size: Number(searchParams.get('size')) ?? initialParams.size,
+        categoryId: searchParams.get('categoryId') ? Number(searchParams.get('categoryId')) : initialParams.categoryId,
+        page: searchParams.get('page') ? Number(searchParams.get('page')) : initialParams.page,
         sort: searchParams.get('sort') ?? initialParams.sort,
         artistId: initialParams.artistId,
         frame: searchParams.get('frame') ?? initialParams.frame,
@@ -37,8 +36,38 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
     [initialParams, searchParams],
   );
 
+  const { rowLength, heightClass, maxWidthClass, gapClass, collapsedMaxHeight } = useMemo(() => {
+    switch (params.frame) {
+      case 'grid':
+        return {
+          rowLength: 2,
+          heightClass: 'h-81',
+          maxWidthClass: 'max-w-44',
+          gapClass: 'gap-2.5',
+          collapsedMaxHeight: 421,
+        };
+      case 'masonry':
+        return {
+          rowLength: 3,
+          heightClass: 'h-62',
+          maxWidthClass: 'max-w-29',
+          gapClass: 'gap-1.75',
+          collapsedMaxHeight: 260,
+        };
+      default:
+        return {
+          rowLength: 0,
+          heightClass: '',
+          maxWidthClass: '',
+          gapClass: '',
+          collapsedMaxHeight: 0,
+        };
+    }
+  }, [params.frame]);
+
   const serverParams: ItemControllerServerParams = {
     ...(initialParams as Omit<ItemControllerParams, 'frame'>),
+    size: params.frame === 'grid' ? 20 : params.frame === 'masonry' ? 21 : 0,
   };
 
   const { data } = useSuspenseQuery({
@@ -65,24 +94,14 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
 
   const { items, totalPage } = data;
 
-  // frame
-  const rowLength = params.frame === 'grid' ? 2 : params.frame === 'masonry' ? 3 : 0;
-  const heightClass = params.frame === 'grid' ? 81 : params.frame === 'masonry' ? 62 : 0;
-  const maxWidthClass = params.frame === 'grid' ? 44 : params.frame === 'masonry' ? 29 : 0;
-  const gapClass = params.frame === 'grid' ? 'gap-2.5' : params.frame === 'masonry' ? 'gap-2' : '';
-
-  // collapsed max height
-  const collapsedMaxHeight = params.frame === 'grid' ? 421 : params.frame === 'masonry' ? 261 : 0;
-
   return (
-    <div ref={listTopRef} className="mx-5 flex flex-col gap-20">
+    <div ref={listTopRef} className="bg-pale-green mx-5 flex flex-col">
+      {/* 필터링 헤더 */}
+      <ItemListFilteringHeader categoryId={params.categoryId} sort={params.sort} frame={params.frame} push={push} />
       <div className="flex flex-col gap-4">
-        {/* 필터링 헤더 */}
-        <ItemListFilteringHeader categoryId={params.categoryId} sort={params.sort} frame={params.frame} push={push} />
-
         {/* 아이템 리스트 */}
         <Expandable
-          flag={open}
+          flag={!params.artistId || open}
           collapsedMaxHeight={collapsedMaxHeight}
           durationTime={1000}
           className="relative flex flex-col gap-4"
@@ -100,8 +119,8 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
                       itemName={item.itemName}
                       price={item.price}
                       artistName={item.artistName}
-                      height={heightClass}
-                      maxWidth={maxWidthClass}
+                      maxWidthClass={maxWidthClass}
+                      heightClass={heightClass}
                     />
                   ))}
                 {ItemPreview &&
@@ -112,8 +131,8 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
                       itemName=""
                       price={0}
                       artistName=""
-                      height={heightClass}
-                      maxWidth={maxWidthClass}
+                      maxWidthClass={maxWidthClass}
+                      heightClass={heightClass}
                     />
                   ))}
               </div>

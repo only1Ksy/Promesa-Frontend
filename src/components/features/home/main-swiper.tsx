@@ -5,10 +5,10 @@ import 'swiper/css';
 import { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import { fetchBrandInfo } from '@/services/api/home-controller';
 
 export default function MainSwiper() {
@@ -48,7 +48,7 @@ export default function MainSwiper() {
                   isActive ? 'scale-100 opacity-100' : 'scale-y-65 opacity-50',
                 )}
               >
-                <Image src={url} alt={`프로메사 홈 페이지의 ${idx}번째 메인 이미지.`} fill priority />
+                <ImageWithLoading src={url} alt={`프로메사 홈 페이지의 ${idx}번째 메인 이미지.`} fill priority />
               </div>
             </SwiperSlide>
           );

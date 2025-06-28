@@ -1,14 +1,14 @@
 import clsx from 'clsx';
-import Image from 'next/image';
 import Link from 'next/link';
 
+import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import PromesaMainSymbolIcon from '@/public/icons/logo/main-symbol.svg';
 import PromesaTextLargeIcon from '@/public/icons/logo/text-lg.svg';
 
 export default function HomeBackground() {
   return (
-    <div className="fixed-component no-z-index top-11.5 flex h-112.5 flex-col items-center justify-center gap-15">
-      <Image src="/images/home-background.png" alt="프로메사 홈 페이지의 배경 이미지." fill priority />
+    <div className="fixed-component no-z-index bg-green top-11.5 flex h-112.5 flex-col items-center justify-center gap-15">
+      <ImageWithLoading src="/images/home-background.png" alt="프로메사 홈 페이지의 배경 이미지." fill priority />
       <div className="z-3 flex flex-col gap-3">
         <PromesaMainSymbolIcon className="text-grey-1" />
         <PromesaTextLargeIcon className="text-grey-1" />

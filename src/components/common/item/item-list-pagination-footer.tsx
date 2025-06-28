@@ -15,7 +15,8 @@ interface ItemListPaginationFooterProps {
 
 export default function ItemListPaginationFooter({ currentPage, totalPage, push }: ItemListPaginationFooterProps) {
   return (
-    <div className="item-center mx-auto flex gap-3">
+    <div className="item-center mx-auto mt-20 flex gap-3 pb-20">
+      {/* start from index 0 */}
       <div className="text-grey-9 flex">
         <button
           onClick={() => currentPage > 0 && push({ page: 0 })}
@@ -47,16 +48,17 @@ export default function ItemListPaginationFooter({ currentPage, totalPage, push 
           );
         })}
       </div>
+      {/* end to index totalPage - 1 */}
       <div className="text-grey-9 flex">
         <button
-          onClick={() => currentPage < totalPage && push({ page: currentPage + 1 })}
-          className={currentPage < totalPage ? 'cursor-pointer' : ''}
+          onClick={() => currentPage < totalPage - 1 && push({ page: currentPage + 1 })}
+          className={currentPage < totalPage - 1 ? 'cursor-pointer' : ''}
         >
           <PageRightSingleIcon />
         </button>
         <button
-          onClick={() => currentPage < totalPage && push({ page: totalPage })}
-          className={currentPage < totalPage ? 'cursor-pointer' : ''}
+          onClick={() => currentPage < totalPage - 1 && push({ page: totalPage - 1 })}
+          className={currentPage < totalPage - 1 ? 'cursor-pointer' : ''}
         >
           <PageRightDoubleIcon />
         </button>

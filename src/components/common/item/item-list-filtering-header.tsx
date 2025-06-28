@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -22,6 +22,7 @@ interface ItemListFilteringHeaderProps {
 export default function ItemListFilteringHeader({ categoryId, sort, frame, push }: ItemListFilteringHeaderProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const searchParamKeys = useSearchParams().toString();
 
@@ -34,6 +35,23 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
   useEffect(() => {
     setOpen(false);
   }, [pathname, searchParamKeys]);
+
+  // drop down
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
 
   const parentCategoryList = data;
 
@@ -49,7 +67,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
   ];
 
   return (
-    <div className="bg-pale-green sticky top-11.5 z-20 flex flex-col gap-3">
+    <div className="bg-pale-green sticky top-11.5 z-20 flex flex-col gap-3 pt-7 pb-4">
       <div className="relative">
         {/* 카테고리 */}
         <div className="to-pale-green from-pale-green/0 pointer-events-none absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
@@ -75,21 +93,21 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
 
       <div className="flex items-center justify-end gap-1">
         {/* 정렬 */}
-        <div className="text-caption-01 text-grey-9 relative flex w-21.5 flex-col items-center font-medium">
+        <div ref={dropdownRef} className="text-caption-01 relative flex flex-col items-center font-medium">
           <button
             onClick={() => setOpen((prev) => !prev)}
             className={clsx(
-              'flex w-full cursor-pointer items-center justify-between px-2 py-1',
+              'text-grey-9 flex cursor-pointer items-center justify-center gap-2 px-2 py-1',
               open ? 'bg-green' : 'bg-pale-green',
             )}
           >
-            <span className="h-4 flex-1 text-start">{SORT_KEYS.find((opt) => opt.value === sort)?.label ?? null}</span>
+            <span className="w-14.5 text-end">{SORT_KEYS.find((opt) => opt.value === sort)?.label ?? null}</span>
             <DropDownIcon className={clsx('transition-transform', open ? 'rotate-180' : '')} />
           </button>
           <div
             className={clsx(
-              'bg-pale-green absolute top-6 left-0 z-10 flex w-full flex-col overflow-hidden transition-all',
-              open ? 'max-h-12 opacity-100' : 'max-h-0 opacity-0',
+              'absolute top-6.5 left-0 z-10 flex w-full flex-col overflow-hidden transition-all',
+              open ? 'max-h-13 opacity-100' : 'max-h-0 opacity-0',
             )}
           >
             {SORT_KEYS.map(
@@ -101,9 +119,9 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
                       push({ sort: value, page: 0 });
                       setOpen(false);
                     }}
-                    className="mx-2 my-1 h-4 cursor-pointer text-start"
+                    className="bg-pale-green text-grey-5 hover:bg-green hover:text-grey-9 flex cursor-pointer items-center px-2 py-1"
                   >
-                    {label}
+                    <span className="w-14.5 text-end">{label}</span>
                   </button>
                 ),
             )}
