@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 interface DetailNavBarProps {
@@ -6,14 +7,21 @@ interface DetailNavBarProps {
 }
 
 export default function DetailNavBar({ onSelect, active }: DetailNavBarProps) {
+  const [isReady, setIsReady] = useState(false);
+
   const sections: { id: 'product' | 'notice' | 'review'; label: string }[] = [
     { id: 'product', label: '상품정보' },
     { id: 'notice', label: '안내사항' },
     { id: 'review', label: '리뷰' },
   ];
 
-  // 현재 활성 탭 인덱스 계산
   const activeIndex = sections.findIndex((section) => section.id === active);
+
+  // 컴포넌트 마운트 후 transition 활성화
+  useEffect(() => {
+    const timer = setTimeout(() => setIsReady(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="bg-pale-green text-subhead border-grey-2 relative flex h-12 w-full items-start border-t font-medium">
@@ -27,12 +35,11 @@ export default function DetailNavBar({ onSelect, active }: DetailNavBarProps) {
         </div>
       ))}
 
-      {/* 애니메이션 인디케이터 */}
       <div
-        className="absolute bottom-0 h-0.5 bg-black transition-transform duration-300 ease-in-out"
+        className={clsx('absolute bottom-0 h-0.5 bg-black', isReady && 'transition-transform duration-300 ease-in-out')}
         style={{
-          width: `${100 / sections.length}%`, // 각 탭의 너비만큼
-          transform: `translateX(${activeIndex * 100}%)`, // 활성 탭 위치로 이동
+          width: `${100 / sections.length}%`,
+          transform: `translateX(${activeIndex * 100}%)`,
         }}
       />
     </div>
