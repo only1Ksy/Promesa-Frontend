@@ -3,8 +3,6 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 
-import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
-
 interface DetailSwiperProps {
   images: string[];
   alt?: string;
@@ -46,29 +44,27 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
 
   return (
     <div className="bg-green relative mb-5 aspect-square h-96 w-full">
-      <HorizontalScroll className="h-full w-full rounded-lg">
-        <div
-          ref={containerRef}
-          className="flex h-full w-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
-          onScroll={handleScroll}
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-        >
-          {images.map((image, index) => (
-            <div key={index} className="relative h-full w-full flex-shrink-0 snap-center">
-              <Image
-                src={image}
-                alt={`${alt} ${index + 1}`}
-                fill
-                className="object-cover"
-                priority={index === 0} // 첫 번째 이미지 우선 로딩
-              />
-            </div>
-          ))}
-        </div>
-      </HorizontalScroll>
+      <div
+        ref={containerRef}
+        className="flex h-full w-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
+        onScroll={handleScroll}
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
+        {images.map((image, index) => (
+          <div key={index} className="relative h-full w-full flex-shrink-0 snap-center">
+            <Image
+              src={image}
+              alt={`${alt} ${index + 1}`}
+              fill
+              className="object-cover"
+              priority={index === 0} // 첫 번째 이미지 우선 로딩
+            />
+          </div>
+        ))}
+      </div>
 
       {/* 실시간 커스텀 인디케이터 */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 transform">
