@@ -72,7 +72,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
           {/* 텍스트 가림막 레이어 */}
           {!isExpanded && isOverflowing && (
             <div
-              className="pointer-events-none absolute bottom-0 left-0 h-[42px] w-full"
+              className="pointer-events-none absolute bottom-0 left-0 h-10.5 w-full"
               style={{
                 background: 'linear-gradient(180deg, rgba(238, 239, 233, 0.00) -29.76%, #EEEFE9 100%)',
               }}
