@@ -42,7 +42,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={pretendard.className}>
         <QueryProvider>
-          <div id="root" className="h-screen w-full overflow-y-auto">
+          <div className="h-screen w-full">
             <div className="bg-pale-green mx-auto max-w-[var(--frame-width)]">{children}</div>
           </div>
         </QueryProvider>

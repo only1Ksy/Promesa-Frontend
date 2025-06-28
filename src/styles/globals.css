@@ -16,6 +16,7 @@
   body {
     background-color: var(--color-white);
     color: var(--color-black);
+    overflow-y: auto;
   }
 }
 
@@ -66,6 +67,7 @@
   .scroll-x-area {
     overflow-x: auto;
     overscroll-behavior-x: contain;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
   }
 }
