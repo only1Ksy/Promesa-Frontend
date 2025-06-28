@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import BackIcon from '@/public/icons/layout/back.svg';
 import CartIcon from '@/public/icons/layout/cart.svg';
@@ -14,7 +15,10 @@ import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isSearch = pathname.startsWith('/shop');
+  const isReview = pathname.startsWith('/review');
+  const reviewMode = searchParams.get('mode') ?? 'all';
   const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail');
 
   return (
@@ -39,9 +43,16 @@ export default function Header() {
           </button>
         )}
       </div>
-      <Link href="/">
-        <PromesaTextSmallIcon className="text-black" />
-      </Link>
+      {!isReview ? (
+        <Link href="/">
+          <PromesaTextSmallIcon className="text-black" />
+        </Link>
+      ) : (
+        <span className="text-subhead text-grey-9 font-medium">
+          {reviewMode === 'imageOnly' ? '모아보기' : '리뷰 전체보기'}
+        </span>
+      )}
+
       <div className="flex gap-1">
         {isSearch ? <SearchIcon className="text-grey-9" /> : <div className="h-7.5 w-7.5" />}
         <Link href="/my-page">
