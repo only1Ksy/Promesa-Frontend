@@ -5,12 +5,12 @@ import ReviewCard from '@/components/common/review/review-card';
 import { fetchItemDetail } from '@/services/api/item';
 import { Review } from '@/types/review.dto';
 
-interface ReviewListProps {
+interface ReviewPreviewProps {
   reviews: Review[];
   itemId: number;
 }
 
-export default function ReviewList({ reviews, itemId }: ReviewListProps) {
+export default function ReviewPreview({ reviews, itemId }: ReviewPreviewProps) {
   const router = useRouter();
 
   const { data: item } = useQuery({
