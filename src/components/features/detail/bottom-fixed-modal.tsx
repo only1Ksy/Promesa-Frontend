@@ -51,7 +51,7 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
   if (!mounted) return null;
 
   // 단품 / 여러 개 조건 (API 응답에 따라 수정)
-  const itemCount = 1;
+  const itemCount = 10;
   const isMultiple = itemCount > 1;
 
   // 수량 조절 함수

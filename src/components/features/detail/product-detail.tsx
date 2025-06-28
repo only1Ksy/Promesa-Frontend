@@ -17,7 +17,7 @@ export default function ProductDetail({ itemId }: ProductDetailProps) {
   if (!item) return null;
 
   return (
-    <div className="flex min-h-100 w-full scroll-mt-24 flex-col items-start">
+    <div className="flex w-full flex-col items-start">
       {/* 상세 정보 */}
       <div className="text-grey-8 text-caption-01 flex flex-col items-start gap-2 self-stretch px-5 py-8 font-medium">
         <div className="flex items-center gap-4">
@@ -33,7 +33,7 @@ export default function ProductDetail({ itemId }: ProductDetailProps) {
           <span>20x40x40cm</span>
         </div>
         {/* 상세 이미지 */}
-        <div className="w-full">
+        <div className="h-100 w-full">
           <Image alt="product detail page detail image" src={''} />
         </div>
       </div>
