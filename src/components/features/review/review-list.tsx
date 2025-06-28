@@ -13,10 +13,10 @@ interface ReviewListProps {
 
 export default function ReviewList({ reviews }: ReviewListProps) {
   const REVIEWS_PER_PAGE = 5;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const totalPage = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
-  const visibleReviews = reviews.slice((currentPage - 1) * REVIEWS_PER_PAGE, currentPage * REVIEWS_PER_PAGE);
+  const visibleReviews = reviews.slice(currentPage * REVIEWS_PER_PAGE, (currentPage + 1) * REVIEWS_PER_PAGE);
 
   return (
     <div className="relative flex flex-col items-center">

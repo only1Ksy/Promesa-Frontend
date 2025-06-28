@@ -41,7 +41,7 @@ export default function ReviewPagination({ currentPage, totalPage, onPageChange 
                 isActive ? 'text-grey-8' : 'text-grey-5 cursor-pointer',
               )}
             >
-              {page}
+              {page + 1}
             </button>
           );
         })}
