@@ -22,6 +22,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const didMountRef = useRef(false);
   const listTopRef = useRef<HTMLDivElement>(null);
 
   const params = useMemo(
@@ -84,6 +85,11 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   };
 
   useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+
     const target = listTopRef.current;
     if (!target) return;
 
