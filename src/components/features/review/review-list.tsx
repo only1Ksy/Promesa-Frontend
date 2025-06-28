@@ -10,9 +10,10 @@ import ReviewPagination from './review-pagination';
 
 interface ReviewListProps {
   reviews: Review[];
+  itemId: number;
 }
 
-export default function ReviewList({ reviews }: ReviewListProps) {
+export default function ReviewList({ reviews, itemId }: ReviewListProps) {
   const REVIEWS_PER_PAGE = 5;
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -31,6 +32,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
               '/images/review4.jpg',
               '/images/review5.jpg',
             ]}
+            itemId={itemId}
           />
         </div>
       )}

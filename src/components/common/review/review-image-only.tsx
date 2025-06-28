@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface ReviewImageOnlyProps {
   imageUrls: string[]; // 전체 이미지 배열
+  itemId: number;
 }
 
-export default function ReviewImageOnly({ imageUrls }: ReviewImageOnlyProps) {
-  const router = useRouter();
+export default function ReviewImageOnly({ imageUrls, itemId }: ReviewImageOnlyProps) {
   const previewImages = imageUrls.slice(0, 2);
   const extraCount = imageUrls.length - previewImages.length;
 
@@ -29,13 +29,12 @@ export default function ReviewImageOnly({ imageUrls }: ReviewImageOnlyProps) {
         ))}
 
         {extraCount > 0 && (
-          <button
-            onClick={() => router.push('/review?mode=imageOnly')}
-            className="bg-grey-4 flex aspect-square w-29 cursor-pointer flex-col items-center justify-center font-medium text-white"
-          >
-            <span className="text-body-02 font-medium">더보기</span>
-            <span className="text-body-01 font-bold">+{extraCount}</span>
-          </button>
+          <Link href={`/review/${itemId}?mode=imageOnly`}>
+            <button className="bg-grey-4 flex aspect-square w-29 cursor-pointer flex-col items-center justify-center font-medium text-white">
+              <span className="text-body-02 font-medium">더보기</span>
+              <span className="text-body-01 font-bold">+{extraCount}</span>
+            </button>
+          </Link>
         )}
       </div>
       <div className="border-deep-green/50 mb-3 h-0 w-90.5 self-center border-b" />

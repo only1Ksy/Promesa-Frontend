@@ -157,6 +157,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
                   '/images/review4.jpg',
                   '/images/review5.jpg',
                 ]}
+                itemId={itemId}
               />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
