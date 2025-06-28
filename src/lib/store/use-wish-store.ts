@@ -3,12 +3,12 @@ import { persist } from 'zustand/middleware';
 
 type ItemId = number;
 
-interface WishStore {
+interface WishState {
   wishedIds: ItemId[];
   toggleWish: (itemId: ItemId) => void;
 }
 
-export const useWishStore = create<WishStore>()(
+export const useWishStore = create<WishState>()(
   persist(
     (set) => ({
       wishedIds: [],
