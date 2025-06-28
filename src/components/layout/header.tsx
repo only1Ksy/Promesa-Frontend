@@ -19,7 +19,7 @@ export default function Header() {
   const isSearch = pathname.startsWith('/shop');
   const isReview = pathname.startsWith('/review');
   const reviewMode = searchParams.get('mode') ?? 'all';
-  const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail');
+  const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail') || isReview;
 
   return (
     <header className="bg-pale-green fixed-component top-0 flex items-center justify-between px-5 py-2">
