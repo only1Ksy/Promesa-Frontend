@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-import ReviewImageOnly from '@/components/common/review/review-image-only';
+import ReviewImageGrid from '@/components/features/review/review-image-grid';
 import ReviewList from '@/components/features/review/review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
@@ -32,12 +32,13 @@ export default function ClientReviewPage({ itemId, itemReviewState }: ClientRevi
     <HydrationBoundary state={itemReviewState}>
       <div className="flex min-h-100 flex-col items-center">
         {mode === 'imageOnly' ? (
-          <div className="w-full px-5 py-6">
-            <ReviewImageOnly
-              imageUrls={reviews
-                .map((r) => r.images || []) // imageUrls가 배열이라면
-                .flat()}
-            />
+          <div
+            className="w-full px-5 py-4"
+            style={{
+              background: 'linear-gradient(to bottom, #E1E1D7 0%, rgba(18, 71, 52, 0.05) 2px, transparent 10px)',
+            }}
+          >
+            <ReviewImageGrid imageUrls={reviews.map((r) => r.images || []).flat()} />
           </div>
         ) : (
           <>
