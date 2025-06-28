@@ -18,6 +18,7 @@ export default function ClientRoutesLayout({
 }>) {
   const pathName = usePathname();
   const isDetailPage = pathName.startsWith('/detail/');
+  const isReviewPage = pathName.startsWith('/review/');
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
   const isFetching = useIsFetching();
@@ -33,14 +34,13 @@ export default function ClientRoutesLayout({
   return (
     <>
       {isFetching > 0 && <FetchingSpinner />}
-      {!isDetailPage ? (
+
+      {isReviewPage ? (
         <>
           <Header />
           <div className="mt-11.5">{children}</div>
-          <Footer />
-          <FloatingButton />
         </>
-      ) : (
+      ) : isDetailPage ? (
         <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
           <Header />
           <div className="mt-11.5">{children}</div>
@@ -50,6 +50,13 @@ export default function ClientRoutesLayout({
           <FloatingButton />
           <div ref={bottomBarRef} className="fixed-component bottom-0"></div>
         </BottomFixedBarTargetContext.Provider>
+      ) : (
+        <>
+          <Header />
+          <div className="mt-11.5">{children}</div>
+          <Footer />
+          <FloatingButton />
+        </>
       )}
     </>
   );
