@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { useImageLoadingStore } from '@/lib/store/use-image-loading-store';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 
 import FetchingSpinner from '../../layout/fetching-spinner';
@@ -22,6 +23,7 @@ export default function ClientRoutesLayout({
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
   const isFetching = useIsFetching();
+  const isImageLoading = useImageLoadingStore((s) => s.loadingCount > 0);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -33,7 +35,7 @@ export default function ClientRoutesLayout({
 
   return (
     <>
-      {isFetching > 0 && <FetchingSpinner />}
+      {(isFetching > 0 || isImageLoading) && <FetchingSpinner />}
 
       {isReviewPage ? (
         <>
