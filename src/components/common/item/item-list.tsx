@@ -78,15 +78,17 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   const push = (next: Partial<ItemControllerParams>) => {
     const merged = { ...params, ...next };
     delete merged.artistId; // artistId is not search params
+
     const mergedParams = Object.fromEntries(Object.entries(merged).map(([key, value]) => [key, String(value)]));
     router.push(`?${new URLSearchParams(mergedParams).toString()}`, { scroll: false });
-    requestAnimationFrame(() => {
-      const root = document.getElementById('root');
-      const target = listTopRef.current;
-      if (!root || !target) return;
 
-      root.scrollTo({
-        top: target.offsetTop - 46, // header
+    requestAnimationFrame(() => {
+      const target = listTopRef.current;
+      if (!target) return;
+
+      const offset = target.getBoundingClientRect().top + window.scrollY - 46; // header
+      window.scrollTo({
+        top: offset,
         behavior: 'smooth',
       });
     });
