@@ -1,3 +1,6 @@
+// src/components/common/review/review-card.tsx
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
