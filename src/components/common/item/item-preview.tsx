@@ -10,19 +10,26 @@ import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
 import type { ItemPreviewSchema } from '@/types/item-controller';
 
 interface ItemPreviewProps extends Pick<ItemPreviewSchema, 'itemId' | 'itemName' | 'price' | 'artistName'> {
-  maxWidth: number;
-  height: number;
+  maxWidthClass: string;
+  heightClass: string;
 }
 
-export default function ItemPreview({ itemId, itemName, price, artistName, maxWidth, height }: ItemPreviewProps) {
+export default function ItemPreview({
+  itemId,
+  itemName,
+  price,
+  artistName,
+  maxWidthClass,
+  heightClass,
+}: ItemPreviewProps) {
   const { mutate } = useToggleWish();
 
   const wished = useWishStore((state) => state.wishedIds.includes(itemId));
 
-  if (itemId < 0) return <div className={clsx('flex-1', `h-${height} max-w-${maxWidth}`)} />;
+  if (itemId < 0) return <div className={clsx('flex-1', maxWidthClass, heightClass)} />;
 
   return (
-    <div className={clsx('relative flex-1', `h-${height} max-w-${maxWidth}`)}>
+    <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
       <button onClick={() => mutate(itemId)} className="absolute top-2 right-2 z-10 cursor-pointer">
         {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-pale-green" />}
       </button>

@@ -12,10 +12,11 @@ export interface ItemPreviewSchema {
 export interface ItemControllerParams {
   categoryId: number;
   page?: number;
-  size?: number;
   sort: string;
   artistId?: number;
   frame: string;
 }
 
-export type ItemControllerServerParams = Omit<ItemControllerParams, 'frame'>;
+export interface ItemControllerServerParams extends Omit<ItemControllerParams, 'frame'> {
+  size?: number;
+}

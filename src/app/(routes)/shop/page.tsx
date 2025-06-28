@@ -16,13 +16,13 @@ export default async function ShopPage({
   const initialParams: ItemControllerParams = {
     categoryId: Number(raw.categoryId) || 0,
     page: Number(raw.page) || 0,
-    size: Number(raw.size) || 20,
     sort: raw.sort ? String(raw.sort) : 'price,desc',
     frame: raw.frame ? String(raw.frame) : 'grid',
   };
 
   const serverParams: ItemControllerServerParams = {
     ...(initialParams as Omit<ItemControllerParams, 'frame'>),
+    size: initialParams.frame === 'grid' ? 20 : initialParams.frame === 'masonry' ? 21 : 0,
   };
 
   const queryClient = createQueryClient();
