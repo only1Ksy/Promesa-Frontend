@@ -31,7 +31,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
   }, [description, isExpanded]);
 
   return (
-    <div className="flex w-full flex-col items-start gap-4 px-6">
+    <div className="flex w-full flex-col items-start gap-4 px-5">
       {/* 닉네임, 별점, 날짜 */}
       <div className="flex items-start justify-between self-stretch">
         <div className="flex w-53 items-start gap-2">
@@ -51,7 +51,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
         {images.length > 0 && (
           <div className="flex gap-2">
             {images.map((src, i) => (
-              <div key={i} className="bg-green h-29 w-[115px] overflow-hidden rounded">
+              <div key={i} className="bg-green h-29 w-28.75 overflow-hidden">
                 <Image alt={`review image ${i + 1}`} src={src} width={115} height={116} className="object-cover" />
               </div>
             ))}
@@ -72,7 +72,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
           {/* 텍스트 가림막 레이어 */}
           {!isExpanded && isOverflowing && (
             <div
-              className="pointer-events-none absolute bottom-0 left-0 h-[42px] w-full"
+              className="pointer-events-none absolute bottom-0 left-0 h-10.5 w-full"
               style={{
                 background: 'linear-gradient(180deg, rgba(238, 239, 233, 0.00) -29.76%, #EEEFE9 100%)',
               }}
