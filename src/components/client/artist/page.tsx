@@ -19,7 +19,10 @@ interface ClientArtistPageProps {
 }
 
 export default function ClientArtistPage({ dehydratedState, artistId, initialParams }: ClientArtistPageProps) {
-  const ArtistBackground = dynamic(() => import('@/components/features/artist/artist-background'), { ssr: false });
+  const ArtistBackground = dynamic(() => import('@/components/features/artist/artist-background'), {
+    ssr: false,
+    loading: () => <div className="bg-grey-2 fixed-component no-z-index top-11.5 h-50 w-full"></div>,
+  });
 
   return (
     <HydrationBoundary state={dehydratedState}>
