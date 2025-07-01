@@ -24,7 +24,7 @@
   .shimmer {
     position: relative;
     overflow: hidden;
-    background-color: #e0e0e0;
+    background-color: var(--color-grey-2);
   }
   .shimmer::after {
     content: '';
