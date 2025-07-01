@@ -8,6 +8,7 @@ import Link from 'next/link';
 import BrandStory from '@/components/features/home/brand-story';
 import ExhibitionSwiper from '@/components/features/home/exhibition-swiper';
 import HomeBackground from '@/components/features/home/home-background';
+import MainSwiperSkeleton from '@/components/features/home/main-swiper-skeleton';
 import ShopSwiper from '@/components/features/home/shop-swiper';
 import LinkIcon from '@/public/icons/common/link.svg';
 
@@ -16,7 +17,10 @@ interface ClientHomePageProps {
 }
 
 export default function ClientHomePage({ dehydratedState }: ClientHomePageProps) {
-  const MainSwiper = dynamic(() => import('@/components/features/home/main-swiper'), { ssr: false });
+  const MainSwiper = dynamic(() => import('@/components/features/home/main-swiper'), {
+    ssr: false,
+    loading: () => <MainSwiperSkeleton />,
+  });
 
   return (
     <HydrationBoundary state={dehydratedState}>

@@ -22,7 +22,6 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const didMountRef = useRef(false);
   const listTopRef = useRef<HTMLDivElement>(null);
 
   const params = useMemo(
@@ -36,6 +35,8 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
       }) as ItemControllerParams,
     [initialParams, searchParams],
   );
+
+  const initialParamsRef = useRef(params);
 
   const { rowLength, heightClass, maxWidthClass, gapClass, collapsedMaxHeight } = useMemo(() => {
     switch (params.frame) {
@@ -85,10 +86,8 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   };
 
   useEffect(() => {
-    if (!didMountRef.current) {
-      didMountRef.current = true;
-      return;
-    }
+    const isFirstVisit = JSON.stringify(initialParamsRef.current) === JSON.stringify(params);
+    if (isFirstVisit) return;
 
     const target = listTopRef.current;
     if (!target) return;

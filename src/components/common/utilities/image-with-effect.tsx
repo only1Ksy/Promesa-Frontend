@@ -4,12 +4,12 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import Image, { ImageProps } from 'next/image';
 
-export default function ImageWithEffect({ src, alt, className, onLoad, ...rest }: ImageProps) {
+export default function ImageWithEffect({ src, alt, onLoad, ...rest }: ImageProps) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className={clsx('relative h-full w-full overflow-hidden', className)}>
-      {!loaded && <div className="bg-grey-2 absolute inset-0 z-0 animate-pulse" />}
+    <div className="relative h-full w-full overflow-hidden">
+      {!loaded && <div className="shimmer absolute inset-0 z-0" />}
       <Image
         src={src}
         alt={alt}
@@ -17,7 +17,7 @@ export default function ImageWithEffect({ src, alt, className, onLoad, ...rest }
           setLoaded(true);
           onLoad?.(e);
         }}
-        className={clsx('z-10 transition-opacity duration-500', loaded ? 'opacity-100' : 'opacity-0')}
+        className={clsx('z-1 transition-opacity duration-500', loaded ? 'opacity-100' : 'opacity-0')}
         {...rest}
       />
     </div>
