@@ -4,26 +4,31 @@ import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
-import { QA_LIST } from '@/lib/constants/qa-list';
 import Expandable from '@/lib/utils/expandable';
 import DropUpIcon from '@/public/icons/artist/drop-up.svg';
 import PlusIcon from '@/public/icons/artist/plus.svg';
 import { fetchArtist } from '@/services/api/artist-controller';
+import { fetchInquiries } from '@/services/api/inquiry-controller';
 
 interface ArtistQuestionSectionProps {
   artistId: number;
 }
 
 export default function ArtistQuestionSection({ artistId }: ArtistQuestionSectionProps) {
-  const [opens, setOpens] = useState<boolean[]>(Array(QA_LIST.length).fill(false));
-  const [clampQs, setClampQs] = useState<boolean[]>(Array(QA_LIST.length).fill(false));
-
   const { data } = useSuspenseQuery({
     queryKey: ['artist', artistId],
     queryFn: () => fetchArtist(artistId),
   });
 
+  const { data: inquiries } = useSuspenseQuery({
+    queryKey: ['inquiries', artistId],
+    queryFn: () => fetchInquiries(artistId),
+  });
+
   const { name } = data;
+
+  const [opens, setOpens] = useState<boolean[]>(Array(inquiries.length).fill(false));
+  const [clampQs, setClampQs] = useState<boolean[]>(Array(inquiries.length).fill(false));
 
   const toggleOpen = (idx: number) => {
     setOpens((prev) => prev.map((val, i) => (i === idx ? !val : val)));
@@ -41,7 +46,7 @@ export default function ArtistQuestionSection({ artistId }: ArtistQuestionSectio
     <section className="mx-5 flex flex-col">
       <span className="text-subhead font-medium text-black">{`${name} 작가에게 묻습니다`}</span>
       <div className="mx-1 mt-6 mb-4 flex flex-col gap-3">
-        {QA_LIST.map(({ question, answer }, idx) => (
+        {inquiries.map(({ question, answer }, idx) => (
           <div key={idx} className="flex flex-col gap-3">
             <Expandable flag={opens[idx]} collapsedMaxHeight={6} className="flex flex-col gap-3">
               <div className="flex items-start justify-between">

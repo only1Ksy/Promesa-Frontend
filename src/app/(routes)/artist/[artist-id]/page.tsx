@@ -2,7 +2,8 @@ import { dehydrate } from '@tanstack/react-query';
 
 import ClientArtistPage from '@/components/client/artist/page';
 import { fetchArtist } from '@/services/api/artist-controller';
-import { fetchExhibitions } from '@/services/api/exhibitions';
+import { fetchExhibitions } from '@/services/api/exhibition-controller';
+import { fetchInquiries } from '@/services/api/inquiry-controller';
 import { fetchItems } from '@/services/api/item-controller';
 import { createQueryClient } from '@/services/query/server';
 import type { ItemControllerParams, ItemControllerServerParams } from '@/types/item-controller';
@@ -37,11 +38,15 @@ export default async function ArtistPage({
       queryKey: ['artist', artistId],
       queryFn: () => fetchArtist(artistId),
     }),
+    queryClient.prefetchQuery({ queryKey: ['exhibitions'], queryFn: fetchExhibitions }),
     queryClient.prefetchQuery({
       queryKey: ['items', serverParams],
       queryFn: () => fetchItems(serverParams),
     }),
-    queryClient.prefetchQuery({ queryKey: ['exhibitions'], queryFn: fetchExhibitions }),
+    queryClient.prefetchQuery({
+      queryKey: ['inquiries', artistId],
+      queryFn: () => fetchInquiries(artistId),
+    }),
   ]);
 
   const dehydratedState = dehydrate(queryClient);
