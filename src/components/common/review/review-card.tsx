@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
+import DropdownIcon from '@/public/icons/item/drop-down.svg';
 import ReviewStar from '@/public/icons/item/review-star.svg';
 import { Review } from '@/types/review.dto';
 
@@ -83,10 +84,15 @@ export default function ReviewCard({ nickname, rating, date, description, images
         {/* 더보기 버튼 */}
         {isOverflowing && (
           <button
-            className="text-caption-01 text-grey-8 z-10 cursor-pointer self-end font-bold"
+            className="text-caption-01 text-grey-8 z-10 flex cursor-pointer items-center self-end font-bold"
             onClick={() => setIsExpanded((prev) => !prev)}
           >
-            {isExpanded ? '접기' : '더보기'}
+            {!isExpanded && (
+              <span className="inline-flex items-center gap-1">
+                더보기
+                <DropdownIcon className="stroke-grey-8 stroke-[1.4px]" />
+              </span>
+            )}
           </button>
         )}
       </div>

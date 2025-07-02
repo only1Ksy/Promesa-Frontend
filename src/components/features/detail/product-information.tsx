@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import RightSingle from '@/public/icons/item/page-right-single.svg';
 import { fetchItemDetail } from '@/services/api/item';
 
 import ArtistPageButton from './artist-page-button';
