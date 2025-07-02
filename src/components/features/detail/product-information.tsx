@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import RightSingle from '@/public/icons/item/page-right-single.svg';
 import { fetchItemDetail } from '@/services/api/item';
 
 import ArtistPageButton from './artist-page-button';
@@ -28,11 +27,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         <div className="flex flex-col items-start gap-1 self-stretch">
           <div className="flex flex-col items-start gap-2 self-stretch">
             <Link href="/shop?categoryId=1&sort=wishCount,DESC">
-              <span className="text-grey-5 text-body-02 flex items-center">
-                잔
-                <RightSingle className="text-grey-5" />
-                높은 잔
-              </span>
+              <span className="text-grey-5 text-body-02 flex items-center">잔</span>
             </Link>
             <span className="text-grey-9 text-subhead font-medium">{item.itemName}</span>
           </div>
