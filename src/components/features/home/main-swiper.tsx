@@ -38,17 +38,22 @@ export default function MainSwiper() {
       >
         {imageUrls.map((url, idx) => {
           const isActive = idx === active;
+          const isLeft = idx === (active - 1 + imageUrls.length) % imageUrls.length;
+          const isRight = idx === (active + 1) % imageUrls.length;
 
           return (
             <SwiperSlide key={idx} className="!w-60">
-              <div
-                className={clsx(
-                  'bg-green text-headline-01 relative flex h-60 w-full items-center justify-center',
-                  'transform transition-all duration-500 will-change-transform',
-                  isActive ? 'scale-100 opacity-100' : 'scale-y-65 opacity-50',
-                )}
-              >
-                <ImageWithLoading src={url} alt={`프로메사 홈 페이지의 ${idx}번째 메인 이미지.`} fill priority />
+              <div className="flex h-60 w-full items-center justify-center">
+                <div
+                  className={clsx(
+                    'bg-green relative h-60 w-60 transition-transform duration-300 ease-out will-change-transform',
+                    isActive && 'scale-100 opacity-100',
+                    isLeft && !isActive && 'origin-right scale-65 opacity-50',
+                    isRight && !isActive && 'origin-left scale-65 opacity-50',
+                  )}
+                >
+                  <ImageWithLoading src={url} alt={`프로메사 홈 페이지의 ${idx}번째 메인 이미지.`} fill priority />
+                </div>
               </div>
             </SwiperSlide>
           );

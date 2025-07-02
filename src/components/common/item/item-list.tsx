@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -35,6 +35,8 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
       }) as ItemControllerParams,
     [initialParams, searchParams],
   );
+
+  const initialParamsRef = useRef(params);
 
   const { rowLength, heightClass, maxWidthClass, gapClass, collapsedMaxHeight } = useMemo(() => {
     switch (params.frame) {
@@ -78,24 +80,28 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
   const push = (next: Partial<ItemControllerParams>) => {
     const merged = { ...params, ...next };
     delete merged.artistId; // artistId is not search params
+
     const mergedParams = Object.fromEntries(Object.entries(merged).map(([key, value]) => [key, String(value)]));
     router.push(`?${new URLSearchParams(mergedParams).toString()}`, { scroll: false });
-    requestAnimationFrame(() => {
-      const root = document.getElementById('root');
-      const target = listTopRef.current;
-      if (!root || !target) return;
-
-      root.scrollTo({
-        top: target.offsetTop - 46, // header
-        behavior: 'smooth',
-      });
-    });
   };
+
+  useEffect(() => {
+    const isFirstVisit = JSON.stringify(initialParamsRef.current) === JSON.stringify(params);
+    if (isFirstVisit) return;
+
+    const target = listTopRef.current;
+    if (!target) return;
+
+    target.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth',
+    });
+  }, [params]);
 
   const { items, totalPage } = data;
 
   return (
-    <div ref={listTopRef} className="bg-pale-green mx-5 flex flex-col">
+    <div key={params.page} ref={listTopRef} className="bg-pale-green mx-5 flex scroll-mt-11.5 flex-col">
       {/* 필터링 헤더 */}
       <ItemListFilteringHeader categoryId={params.categoryId} sort={params.sort} frame={params.frame} push={push} />
       <div className="flex flex-col gap-4">

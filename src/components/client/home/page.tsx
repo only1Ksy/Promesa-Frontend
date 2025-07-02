@@ -3,20 +3,22 @@
 import type { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 
 import BrandStory from '@/components/features/home/brand-story';
 import ExhibitionSwiper from '@/components/features/home/exhibition-swiper';
 import HomeBackground from '@/components/features/home/home-background';
+import MainSwiperSkeleton from '@/components/features/home/main-swiper-skeleton';
 import ShopSwiper from '@/components/features/home/shop-swiper';
-import LinkIcon from '@/public/icons/common/link.svg';
 
 interface ClientHomePageProps {
   dehydratedState: DehydratedState;
 }
 
 export default function ClientHomePage({ dehydratedState }: ClientHomePageProps) {
-  const MainSwiper = dynamic(() => import('@/components/features/home/main-swiper'), { ssr: false });
+  const MainSwiper = dynamic(() => import('@/components/features/home/main-swiper'), {
+    ssr: false,
+    loading: () => <MainSwiperSkeleton />,
+  });
 
   return (
     <HydrationBoundary state={dehydratedState}>
@@ -32,32 +34,10 @@ export default function ClientHomePage({ dehydratedState }: ClientHomePageProps)
           <BrandStory />
 
           {/* 기획전 */}
-          <div className="mb-20 flex flex-col gap-3">
-            <div className="mx-5 flex items-center justify-between">
-              <p className="text-subhead font-medium text-black">PROMESA 기획전</p>
-              <Link href="/exhibitions">
-                <div className="flex items-center gap-2">
-                  <p className="text-caption-01 text-grey-6 font-medium">목록 보기</p>
-                  <LinkIcon className="text-grey-6" />
-                </div>
-              </Link>
-            </div>
-            <ExhibitionSwiper />
-          </div>
+          <ExhibitionSwiper title="PROMESA 기획전" />
 
           {/* 인기순 정렬 */}
-          <div className="mb-14 flex flex-col gap-3">
-            <div className="mx-5 flex items-center justify-between">
-              <p className="text-subhead font-medium text-black">Now Popular</p>
-              <Link href="/shop?sort=wishCount,desc">
-                <div className="flex items-center gap-2">
-                  <p className="text-caption-01 text-grey-6 font-medium">목록 보기</p>
-                  <LinkIcon className="text-grey-6" />
-                </div>
-              </Link>
-            </div>
-            <ShopSwiper />
-          </div>
+          <ShopSwiper />
         </div>
       </div>
     </HydrationBoundary>

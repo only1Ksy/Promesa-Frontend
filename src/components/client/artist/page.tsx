@@ -3,13 +3,11 @@
 import type { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 
 import ItemList from '@/components/common/item/item-list';
 import ArtistInformationSection from '@/components/features/artist/artist-information-section';
 import ArtistQuestionSection from '@/components/features/artist/artist-question-section';
 import ExhibitionSwiper from '@/components/features/home/exhibition-swiper';
-import LinkIcon from '@/public/icons/common/link.svg';
 import type { ItemControllerParams } from '@/types/item-controller';
 
 interface ClientArtistPageProps {
@@ -19,7 +17,10 @@ interface ClientArtistPageProps {
 }
 
 export default function ClientArtistPage({ dehydratedState, artistId, initialParams }: ClientArtistPageProps) {
-  const ArtistBackground = dynamic(() => import('@/components/features/artist/artist-background'), { ssr: false });
+  const ArtistBackground = dynamic(() => import('@/components/features/artist/artist-background'), {
+    ssr: false,
+    loading: () => <div className="bg-grey-2 fixed-component no-z-index top-11.5 h-50 w-full"></div>,
+  });
 
   return (
     <HydrationBoundary state={dehydratedState}>
@@ -32,18 +33,7 @@ export default function ClientArtistPage({ dehydratedState, artistId, initialPar
           <ArtistInformationSection artistId={artistId} />
 
           {/* 기획전 */}
-          <div className="flex flex-col gap-3">
-            <div className="mx-5 flex items-center justify-between">
-              <p className="text-subhead font-medium text-black">참여한 기획전</p>
-              <Link href="/exhibitions">
-                <div className="flex items-center gap-2">
-                  <p className="text-caption-01 text-grey-6 font-medium">목록 보기</p>
-                  <LinkIcon className="text-grey-6" />
-                </div>
-              </Link>
-            </div>
-            <ExhibitionSwiper />
-          </div>
+          <ExhibitionSwiper title="참여한 기획전" />
 
           {/* 아이템 리스트 */}
           <div className="-mt-13">
