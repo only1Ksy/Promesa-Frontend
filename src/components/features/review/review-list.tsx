@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import ReviewImageOnly from '@/components/common/review/review-image-only';
 import { Review } from '@/types/review.dto';
@@ -15,13 +16,38 @@ interface ReviewListProps {
 
 export default function ReviewList({ reviews, itemId }: ReviewListProps) {
   const REVIEWS_PER_PAGE = 5;
-  const [currentPage, setCurrentPage] = useState(0);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const pageParam = Number(searchParams.get('page')) || 1;
+  const [currentPage, setCurrentPage] = useState(pageParam - 1); // 인덱스 0부터 시작
 
   const totalPage = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
   const visibleReviews = reviews.slice(currentPage * REVIEWS_PER_PAGE, (currentPage + 1) * REVIEWS_PER_PAGE);
 
+  const listTopRef = useRef<HTMLDivElement>(null);
+
+  // 뒤로가기/앞으로가기 page 동기화
+  useEffect(() => {
+    const pageFromParams = Number(searchParams.get('page')) || 1;
+    setCurrentPage(pageFromParams - 1);
+  }, [searchParams]);
+
+  // 페이지 이동 시 상단으로 스크롤
+  const onPageChangeFunction = (page: number) => {
+    setCurrentPage(page);
+    router.push(`?page=${page + 1}`);
+
+    requestAnimationFrame(() => {
+      const target = listTopRef.current;
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  };
+
   return (
-    <div className="relative flex flex-col items-center">
+    <div ref={listTopRef} className="relative flex flex-col items-center">
       {currentPage === 0 && (
         <div className="flex flex-col items-center gap-5">
           <ReviewImageOnly
@@ -47,7 +73,7 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
       </div>
 
       {totalPage > 1 && (
-        <ReviewPagination currentPage={currentPage} totalPage={totalPage} onPageChange={setCurrentPage} />
+        <ReviewPagination currentPage={currentPage} totalPage={totalPage} onPageChange={onPageChangeFunction} />
       )}
     </div>
   );

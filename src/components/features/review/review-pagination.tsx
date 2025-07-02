@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 
 import getPaginationRange from '@/lib/utils/get-pagination-range';
