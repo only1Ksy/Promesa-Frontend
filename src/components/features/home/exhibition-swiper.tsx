@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
+import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import LinkIcon from '@/public/icons/common/link.svg';
 import { fetchExhibitions } from '@/services/api/exhibition-controller';
 
@@ -40,6 +41,7 @@ export default function ExhibitionSwiper({ title }: ExhibitionSwiperProps) {
               key={idx}
               className={clsx(`bg-green relative flex h-77 w-68 flex-shrink-0 items-end p-7`, isLast ? 'mr-5' : '')}
             >
+              <ImageWithLoading src={item.imageUrl} alt={`프로메사 ${idx + 1}번째 전시회 대표 이미지.`} fill />
               <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-3/10 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]" />
               <div className="z-10 flex flex-col gap-1">
                 <p className="text-subhead text-grey-1 font-bold">{item.title}</p>

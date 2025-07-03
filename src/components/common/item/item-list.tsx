@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import chunkList from '@/lib/utils/chunk-list';
 import Expandable from '@/lib/utils/expandable';
-import { fetchItems } from '@/services/api/item-controller';
+import { fetchShopItems } from '@/services/api/item-controller';
 import type { ItemControllerParams, ItemControllerServerParams } from '@/types/item-controller';
 
 import ItemListFilteringHeader from './item-list-filtering-header';
@@ -74,7 +74,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
 
   const { data } = useSuspenseQuery({
     queryKey: ['items', serverParams],
-    queryFn: () => fetchItems(serverParams),
+    queryFn: () => fetchShopItems(serverParams),
   });
 
   const push = (next: Partial<ItemControllerParams>) => {
@@ -98,7 +98,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
     });
   }, [params]);
 
-  const { items, totalPage } = data;
+  const { content, totalPages } = data;
 
   return (
     <div key={params.page} ref={listTopRef} className="bg-pale-green mx-5 flex scroll-mt-11.5 flex-col">
@@ -112,40 +112,22 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
           durationTime={1000}
           className="relative flex flex-col gap-4"
         >
-          {chunkList(items, rowLength).map((group, idx) => {
+          {chunkList(content, rowLength).map((group, idx) => {
             const placeholders = Array(rowLength - group.length).fill(null);
 
             return (
               <div key={idx} className={clsx('flex w-full', gapClass)}>
-                {ItemPreview &&
-                  group.map((item) => (
-                    <ItemPreview
-                      key={item.itemId}
-                      itemId={item.itemId}
-                      itemName={item.itemName}
-                      price={item.price}
-                      artistName={item.artistName}
-                      maxWidthClass={maxWidthClass}
-                      heightClass={heightClass}
-                    />
-                  ))}
-                {ItemPreview &&
-                  placeholders.map((_, idx) => (
-                    <ItemPreview
-                      key={idx}
-                      itemId={-1}
-                      itemName=""
-                      price={0}
-                      artistName=""
-                      maxWidthClass={maxWidthClass}
-                      heightClass={heightClass}
-                    />
-                  ))}
+                {group.map((item, idx) => (
+                  <ItemPreview key={idx} item={item} maxWidthClass={maxWidthClass} heightClass={heightClass} />
+                ))}
+                {placeholders.map((_, idx) => (
+                  <div key={idx} className={clsx('flex-1', maxWidthClass, heightClass)} />
+                ))}
               </div>
             );
           })}
           {/* 목록 열기 */}
-          {params.artistId && !open && items.length >= 10 && (
+          {params.artistId && !open && content.length >= 10 && (
             <>
               <div className="from-pale-green/0 to-pale-green/80 absolute bottom-0 z-5 h-70 w-full bg-gradient-to-b from-10% to-100%" />
               <div className="absolute bottom-2 z-10 flex w-full justify-center">
@@ -163,7 +145,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
 
       {/* 페이지네이션 */}
       {!params.artistId && (
-        <ItemListPaginationFooter currentPage={params.page ?? 0} totalPage={totalPage} push={push} />
+        <ItemListPaginationFooter currentPage={params.page ?? 0} totalPages={totalPages} push={push} />
       )}
     </div>
   );

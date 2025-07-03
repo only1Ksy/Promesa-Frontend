@@ -9,11 +9,11 @@ import type { ItemControllerParams } from '@/types/item-controller';
 
 interface ItemListPaginationFooterProps {
   currentPage: number;
-  totalPage: number;
+  totalPages: number;
   push: (next: Partial<ItemControllerParams>) => void;
 }
 
-export default function ItemListPaginationFooter({ currentPage, totalPage, push }: ItemListPaginationFooterProps) {
+export default function ItemListPaginationFooter({ currentPage, totalPages, push }: ItemListPaginationFooterProps) {
   return (
     <div className="item-center mx-auto mt-20 flex gap-3 pb-20">
       {/* start from index 0 */}
@@ -32,7 +32,7 @@ export default function ItemListPaginationFooter({ currentPage, totalPage, push 
         </button>
       </div>
       <div className="text-caption-01 flex gap-0.5 font-medium">
-        {getPaginationRange(currentPage, totalPage).map((num) => {
+        {getPaginationRange(currentPage, totalPages).map((num) => {
           const isActive = num === currentPage;
           return (
             <button
@@ -51,14 +51,14 @@ export default function ItemListPaginationFooter({ currentPage, totalPage, push 
       {/* end to index totalPage - 1 */}
       <div className="text-grey-9 flex">
         <button
-          onClick={() => currentPage < totalPage - 1 && push({ page: currentPage + 1 })}
-          className={currentPage < totalPage - 1 ? 'cursor-pointer' : ''}
+          onClick={() => currentPage < totalPages - 1 && push({ page: currentPage + 1 })}
+          className={currentPage < totalPages - 1 ? 'cursor-pointer' : ''}
         >
           <PageRightSingleIcon />
         </button>
         <button
-          onClick={() => currentPage < totalPage - 1 && push({ page: totalPage - 1 })}
-          className={currentPage < totalPage - 1 ? 'cursor-pointer' : ''}
+          onClick={() => currentPage < totalPages - 1 && push({ page: totalPages - 1 })}
+          className={currentPage < totalPages - 1 ? 'cursor-pointer' : ''}
         >
           <PageRightDoubleIcon />
         </button>

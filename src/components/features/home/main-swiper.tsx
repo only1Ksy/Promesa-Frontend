@@ -52,7 +52,12 @@ export default function MainSwiper() {
                     isRight && !isActive && 'origin-left scale-65 opacity-50',
                   )}
                 >
-                  <ImageWithLoading src={url} alt={`프로메사 홈 페이지의 ${idx}번째 메인 이미지.`} fill priority />
+                  <ImageWithLoading
+                    src={url}
+                    alt={`프로메사 홈 페이지의 ${Math.floor(idx / 3) + 1}번째 메인 이미지.`}
+                    fill
+                    priority
+                  />
                 </div>
               </div>
             </SwiperSlide>
