@@ -1,41 +1,39 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 
-import { useToggleWish } from '@/hooks/mutation/use-toggle-wish';
-import { useWishStore } from '@/lib/store/use-wish-store';
+import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
 import type { ItemPreviewSchema } from '@/types/item-controller';
 
-interface ItemPreviewProps extends Pick<ItemPreviewSchema, 'itemId' | 'itemName' | 'price' | 'artistName'> {
+interface ItemPreviewProps {
+  item: ItemPreviewSchema;
   maxWidthClass: string;
   heightClass: string;
 }
 
-export default function ItemPreview({
-  itemId,
-  itemName,
-  price,
-  artistName,
-  maxWidthClass,
-  heightClass,
-}: ItemPreviewProps) {
-  const { mutate } = useToggleWish();
+export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPreviewProps) {
+  const { itemId, itemName, price, imageUrl, artistName, wished } = item;
 
-  const wished = useWishStore((state) => state.wishedIds.includes(itemId));
+  const [toggleWish, setToggleWish] = useState(false);
 
-  if (itemId < 0) return <div className={clsx('flex-1', maxWidthClass, heightClass)} />;
+  useEffect(() => {
+    setToggleWish(wished);
+  }, [wished]); // need to refactor
 
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
-      <button onClick={() => mutate(itemId)} className="absolute top-2 right-2 z-10 cursor-pointer">
-        {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-pale-green" />}
+      <button onClick={() => setToggleWish((prev) => !prev)} className="absolute top-2 right-2 z-10 cursor-pointer">
+        {toggleWish ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-pale-green" />}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">
-          <div className="bg-green aspect-[4/5] w-full" />
+          <div className="bg-green relative aspect-[4/5] w-full">
+            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리보 이미지.`} fill unoptimized />
+          </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-col">
               <p className="text-caption-01 text-grey-600 font-medium">{artistName}</p>

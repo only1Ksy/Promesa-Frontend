@@ -9,7 +9,7 @@ import HorizontalScrollwithActive from '@/components/common/utilities/horizontal
 import DropDownIcon from '@/public/icons/item/drop-down.svg';
 import FrameGridIcon from '@/public/icons/item/frame-grid.svg';
 import FrameMasonryIcon from '@/public/icons/item/frame-masonry.svg';
-import { fetchCategoryParent } from '@/services/api/category-controller';
+import { fetchParentCategories } from '@/services/api/category-controller';
 import type { ItemControllerParams } from '@/types/item-controller';
 
 interface ItemListFilteringHeaderProps {
@@ -28,7 +28,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
 
   const { data } = useSuspenseQuery({
     queryKey: ['categoryParent'],
-    queryFn: fetchCategoryParent,
+    queryFn: fetchParentCategories,
   });
 
   // initialize when using router.push(...)
@@ -53,7 +53,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
     };
   }, [open]);
 
-  const parentCategoryList = data;
+  const parentCategoryList = [{ id: 0, name: 'ALL' }, ...data];
 
   // sort, frame keys
   const SORT_KEYS = [

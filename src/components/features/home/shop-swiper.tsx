@@ -31,14 +31,7 @@ export default function ShopSwiper() {
 
           return (
             <div key={idx} className={`w-44 flex-none ${isLast ? 'mr-5' : ''}`}>
-              <ItemPreview
-                itemId={item.itemId}
-                itemName={item.itemName}
-                artistName={item.artistName}
-                price={item.price}
-                maxWidthClass={'max-w-44'}
-                heightClass={'h-81'}
-              />
+              <ItemPreview item={item} maxWidthClass="max-w-44" heightClass="h-81" />
             </div>
           );
         })}

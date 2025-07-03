@@ -3,10 +3,10 @@ export interface ItemPreviewSchema {
   itemName: string;
   itemDescription: string;
   price: number;
-  thumbnailUrl: string;
-  artistId: number; // not in swagger
+  imageKey: string;
+  imageUrl: string;
   artistName: string;
-  isWished: boolean;
+  wished: boolean;
 }
 
 export interface ItemControllerParams {
