@@ -42,86 +42,46 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   // 스크롤 핸들러
   const scrollTo = (section: 'product' | 'notice' | 'review') => {
-    setIsScrolling(true); // 감지 차단
+    setIsScrolling(true);
 
     const target =
       section === 'product' ? productRef.current : section === 'notice' ? noticeRef.current : reviewRef.current;
 
     if (target) {
+      // scrollIntoView 완료 후 → 정확히 observer를 다시 켬
+      const handleScrollEnd = () => {
+        setActiveTab(section); // 수동 설정
+        setIsScrolling(false); // 이제 감지 허용
+        window.removeEventListener('scrollend', handleScrollEnd); // 클린업
+      };
+
+      // fallback: 일정 시간 뒤 스크롤 종료로 간주
+      setTimeout(() => handleScrollEnd(), 700);
+
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      setTimeout(() => {
-        setActiveTab(section); // 직접 탭 선택 상태 반영
-      }, 500); // 실제 이동 완료보다 약간 먼저 반영
-
-      setTimeout(() => {
-        setIsScrolling(false); // 감지 다시 허용
-      }, 1200);
     }
   };
 
   // IntersectionObserver 설정
   useEffect(() => {
-    // 지연 후 observer 시작
-    const timer = setTimeout(() => {
-      const options = {
-        root: null,
-        rootMargin: '0px 0px -60% 0px', // 하단 여유 공간 줄임
-        threshold: 0.4, // 40% 이상 보여야 적용
-      };
+    const handleScroll = () => {
+      if (isScrolling) return;
 
-      const observer = new IntersectionObserver((entries) => {
-        if (isScrolling) return;
+      const scrollY = window.scrollY + 200;
+      const noticeTop = noticeRef.current?.offsetTop ?? 0;
+      const reviewTop = reviewRef.current?.offsetTop ?? 0;
 
-        const viewportHeight = window.innerHeight;
-        const centerY = viewportHeight / 2;
-
-        let bestEntry: IntersectionObserverEntry | null = null;
-        let minDistance = Infinity;
-
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-
-          const rect = entry.boundingClientRect;
-          const entryCenter = rect.top + rect.height / 2;
-          const distanceToCenter = Math.abs(centerY - entryCenter);
-
-          if (distanceToCenter < minDistance) {
-            minDistance = distanceToCenter;
-            bestEntry = entry;
-          }
-        }
-
-        if (bestEntry) {
-          const newActiveTab = bestEntry.target.id as 'product' | 'notice' | 'review';
-          setActiveTab(newActiveTab);
-        }
-      }, options);
-
-      // ref에 id 설정 및 observer 등록
-      const product = productRef.current;
-      const notice = noticeRef.current;
-      const review = reviewRef.current;
-
-      if (product) {
-        product.setAttribute('id', 'product');
-        observer.observe(product);
+      if (scrollY >= reviewTop) {
+        setActiveTab('review');
+      } else if (scrollY >= noticeTop) {
+        setActiveTab('notice');
+      } else {
+        setActiveTab('product');
       }
-      if (notice) {
-        notice.setAttribute('id', 'notice');
-        observer.observe(notice);
-      }
-      if (review) {
-        review.setAttribute('id', 'review');
-        observer.observe(review);
-      }
+    };
 
-      return () => {
-        observer.disconnect();
-      };
-    }, 200); // 200ms 지연
-
-    return () => clearTimeout(timer);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolling]);
 
   if (!item || isLoading) return null;
@@ -151,7 +111,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             <ProductNotice />
           </div>
 
-          <div ref={reviewRef} className="flex min-h-100 w-full scroll-mt-26 flex-col items-center">
+          <div ref={reviewRef} className="mt-10 flex min-h-100 w-full scroll-mt-26 flex-col items-center">
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 (4) </span>
