@@ -19,7 +19,7 @@ export default function ReviewPagination({ currentPage, totalPage, onPageChange 
     <div className="item-center mx-auto flex gap-3">
       {/* 왼쪽 이동 버튼들 */}
       <div className="text-grey-9 flex">
-        <button onClick={() => currentPage > 1 && onPageChange(1)} className={currentPage > 1 ? 'cursor-pointer' : ''}>
+        <button onClick={() => currentPage > 1 && onPageChange(0)} className={currentPage > 1 ? 'cursor-pointer' : ''}>
           <PageLeftDoubleIcon />
         </button>
         <button
@@ -58,7 +58,7 @@ export default function ReviewPagination({ currentPage, totalPage, onPageChange 
           <PageRightSingleIcon />
         </button>
         <button
-          onClick={() => currentPage < totalPage && onPageChange(totalPage)}
+          onClick={() => currentPage < totalPage && onPageChange(totalPage - 1)}
           className={currentPage < totalPage ? 'cursor-pointer' : ''}
         >
           <PageRightDoubleIcon />

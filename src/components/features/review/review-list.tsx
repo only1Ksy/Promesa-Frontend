@@ -47,9 +47,9 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
   };
 
   return (
-    <div ref={listTopRef} className="relative flex flex-col items-center">
+    <div ref={listTopRef} className="relative flex w-full flex-col items-center">
       {currentPage === 0 && (
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex w-full flex-col items-center gap-5">
           <ReviewImageOnly
             imageUrls={[
               '/images/review1.jpg',
@@ -63,7 +63,7 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
         </div>
       )}
 
-      <div className="mb-10 flex min-h-179 w-full flex-col gap-5">
+      <div className="mb-10 flex min-h-100 w-full flex-col gap-5">
         {visibleReviews.map((review, i) => (
           <div key={i} className="flex flex-col items-center gap-5">
             <ReviewCard {...review} />
