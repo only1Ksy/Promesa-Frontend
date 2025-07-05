@@ -44,7 +44,7 @@ export default function ClientRoutesLayout({
         <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
           <Header />
           <div className="mt-11.5">{children}</div>
-          <div className="mb-21">
+          <div className="pb-21">
             <Footer />
           </div>
           <FloatingButton />
