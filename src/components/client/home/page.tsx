@@ -34,7 +34,7 @@ export default function ClientHomePage({ dehydratedState }: ClientHomePageProps)
           <BrandStory />
 
           {/* 기획전 */}
-          <ExhibitionSwiper title="PROMESA 기획전" />
+          <ExhibitionSwiper title="PROMESA 기획전" page="HOME" />
 
           {/* 인기순 정렬 */}
           <ShopSwiper />
