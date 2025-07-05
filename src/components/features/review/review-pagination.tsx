@@ -23,8 +23,8 @@ export default function ReviewPagination({ currentPage, totalPage, onPageChange 
           <PageLeftDoubleIcon />
         </button>
         <button
-          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-          className={currentPage > 1 ? 'cursor-pointer' : ''}
+          onClick={() => currentPage > 0 && onPageChange(currentPage - 1)}
+          className={currentPage > 0 ? 'cursor-pointer' : ''}
         >
           <PageLeftSingleIcon />
         </button>
@@ -52,14 +52,14 @@ export default function ReviewPagination({ currentPage, totalPage, onPageChange 
       {/* 오른쪽 이동 버튼들 */}
       <div className="text-grey-9 flex">
         <button
-          onClick={() => currentPage < totalPage && onPageChange(currentPage + 1)}
-          className={currentPage < totalPage ? 'cursor-pointer' : ''}
+          onClick={() => currentPage + 1 < totalPage && onPageChange(currentPage + 1)}
+          className={currentPage + 1 < totalPage ? 'cursor-pointer' : ''}
         >
           <PageRightSingleIcon />
         </button>
         <button
-          onClick={() => currentPage < totalPage && onPageChange(totalPage - 1)}
-          className={currentPage < totalPage ? 'cursor-pointer' : ''}
+          onClick={() => currentPage + 1 < totalPage && onPageChange(totalPage - 1)}
+          className={currentPage + 1 < totalPage ? 'cursor-pointer' : ''}
         >
           <PageRightDoubleIcon />
         </button>
