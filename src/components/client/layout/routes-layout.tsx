@@ -2,14 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 
 import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
-
-import FetchingSpinner from '../../layout/fetching-spinner';
 
 export default function ClientRoutesLayout({
   children,
@@ -22,6 +21,7 @@ export default function ClientRoutesLayout({
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
   const isFetching = useIsFetching();
+  const FetchingSpinner = dynamic(() => import('@/components/layout/fetching-spinner'), { ssr: false });
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
