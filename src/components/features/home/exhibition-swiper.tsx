@@ -7,16 +7,19 @@ import Link from 'next/link';
 import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
 import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import LinkIcon from '@/public/icons/common/link.svg';
+import { fetchArtistExhibitions } from '@/services/api/artist-controller';
 import { fetchExhibitions } from '@/services/api/exhibition-controller';
 
 interface ExhibitionSwiperProps {
   title: string;
+  page: 'HOME' | 'ARTIST';
+  artistId?: number;
 }
 
-export default function ExhibitionSwiper({ title }: ExhibitionSwiperProps) {
+export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSwiperProps) {
   const { data } = useSuspenseQuery({
-    queryKey: ['exhibitions'],
-    queryFn: fetchExhibitions,
+    queryKey: page === 'HOME' ? ['exhibitions'] : ['exhibitions', artistId],
+    queryFn: page === 'HOME' ? fetchExhibitions : () => fetchArtistExhibitions(artistId!),
   });
 
   if (data.length === 0) return null;

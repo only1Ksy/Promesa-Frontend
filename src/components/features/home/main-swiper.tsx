@@ -46,7 +46,7 @@ export default function MainSwiper() {
               <div className="flex h-60 w-full items-center justify-center">
                 <div
                   className={clsx(
-                    'bg-green relative h-60 w-60 transition-transform duration-300 ease-out will-change-transform',
+                    'bg-green relative h-60 w-60 transition-transform duration-600 ease-out will-change-transform',
                     isActive && 'scale-100 opacity-100',
                     isLeft && !isActive && 'origin-right scale-65 opacity-50',
                     isRight && !isActive && 'origin-left scale-65 opacity-50',
