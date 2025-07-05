@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Image from 'next/image';
+
+import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 
 interface DetailSwiperProps {
   images: string[];
@@ -21,7 +22,7 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
   if (images.length === 1) {
     return (
       <div className="bg-green relative mb-5 aspect-square h-96 w-full">
-        <Image src={images[0]} alt={alt} fill className="rounded-lg object-cover" />
+        <ImageWithEffect src={images[0]} alt={alt} fill className="rounded-lg object-cover" />
       </div>
     );
   }
@@ -55,12 +56,12 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
       >
         {images.map((image, index) => (
           <div key={index} className="relative h-full w-full flex-shrink-0 snap-center">
-            <Image
+            <ImageWithEffect
               src={image}
               alt={`${alt} ${index + 1}`}
               fill
               className="object-cover"
-              priority={index === 0} // 첫 번째 이미지 우선 로딩
+              priority={index === 0}
             />
           </div>
         ))}
@@ -75,7 +76,7 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
           <div
             className={`bg-grey-1 absolute top-0 h-0.5 rounded-full transition-transform duration-100 ease-out`}
             style={{
-              width: `${120 / images.length}px`, // 인디케이터 길이
+              width: `${120 / images.length}px`,
               transform: `translateX(${barPosition}px)`,
             }}
           />

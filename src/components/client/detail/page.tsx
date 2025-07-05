@@ -42,8 +42,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   // 스크롤 핸들러
   const scrollTo = (section: 'product' | 'notice' | 'review') => {
-    setIsScrolling(true);
-    setActiveTab(section);
+    setIsScrolling(true); // 감지 차단
 
     const target =
       section === 'product' ? productRef.current : section === 'notice' ? noticeRef.current : reviewRef.current;
@@ -52,8 +51,12 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       setTimeout(() => {
-        setIsScrolling(false);
-      }, 800);
+        setActiveTab(section); // 직접 탭 선택 상태 반영
+      }, 500); // 실제 이동 완료보다 약간 먼저 반영
+
+      setTimeout(() => {
+        setIsScrolling(false); // 감지 다시 허용
+      }, 1200);
     }
   };
 

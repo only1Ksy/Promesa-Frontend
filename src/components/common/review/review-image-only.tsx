@@ -1,7 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
+
+import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 
 interface ReviewImageOnlyProps {
   imageUrls: string[]; // 전체 이미지 배열
@@ -18,7 +19,7 @@ export default function ReviewImageOnly({ imageUrls, itemId }: ReviewImageOnlyPr
       <div className="flex gap-2 px-5 pb-8">
         {previewImages.map((src, index) => (
           <div key={index} className="bg-green aspect-square w-28.75 overflow-hidden">
-            <Image
+            <ImageWithEffect
               src={src}
               alt={`리뷰 이미지 ${index + 1}`}
               width={96}
