@@ -24,9 +24,19 @@ export default function ReviewPreview({ reviews, itemId }: ReviewPreviewProps) {
   const visibleReviews = reviews.slice(0, 2);
 
   const showAll = () => {
-    // 현재 경로를 리뷰 페이지 진입 전에 저장
+    sessionStorage.setItem('scrollToReview', 'true');
     sessionStorage.setItem('prevPath', window.location.pathname);
-    router.push(`/review/${itemId}`);
+
+    const target = document.body;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      setTimeout(() => {
+        router.push(`/review/${itemId}`);
+      }, 400);
+    } else {
+      router.push(`/review/${itemId}`);
+    }
   };
 
   return (

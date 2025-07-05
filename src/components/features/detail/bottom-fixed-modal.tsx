@@ -15,18 +15,17 @@ interface BottomFixedModalProps {
 
 export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixedModalProps) {
   const [mounted, setMounted] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // 슬라이드 다운 관리용 상태
   useEffect(() => {
     if (isOpen) {
-      setIsAnimating(true);
-      setQuantity(1); // 모달 열릴 때마다 수량 초기화
+      setInternalOpen(true);
+      setQuantity(1);
     }
   }, [isOpen]);
 
@@ -34,77 +33,63 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res.data,
+    enabled: internalOpen,
   });
 
-  if (!item) return null;
+  if (!mounted || !internalOpen || !item) return null;
 
   const handleClose = () => {
-    setIsAnimating(false);
-  };
-
-  const handleAnimationComplete = () => {
-    if (!isAnimating) {
+    setInternalOpen(false);
+    setTimeout(() => {
       onClose();
-    }
+    }, 300);
   };
 
-  if (!mounted) return null;
-
-  // 단품 / 여러 개 조건 (API 응답에 따라 수정)
+  // 수량 조절
   const itemCount = 10;
   const isMultiple = itemCount > 1;
 
-  // 수량 조절 함수
   const handleQuantityDecrease = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
+    if (quantity > 1) setQuantity((prev) => prev - 1);
   };
 
   const handleQuantityIncrease = () => {
-    if (quantity < itemCount) {
-      setQuantity((prev) => prev + 1);
-    }
+    if (quantity < itemCount) setQuantity((prev) => prev + 1);
   };
 
-  // 총 가격 계산
   const totalPrice = (item.price * quantity).toLocaleString();
 
   return createPortal(
     <AnimatePresence>
-      {isOpen && (
+      {internalOpen && (
         <div className="fixed inset-0 z-[9999] flex items-end justify-center">
           {/* 배경 */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: isAnimating ? 1 : 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed inset-0 h-screen w-screen bg-black/50"
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/50"
             onClick={handleClose}
           />
 
           {/* 모달 본체 */}
           <motion.div
             initial={{ y: '100%' }}
-            animate={{ y: isAnimating ? 0 : '100%' }}
-            transition={{
-              type: 'tween',
-              ease: 'easeOut',
-              duration: 0.2,
-            }}
-            onAnimationComplete={handleAnimationComplete}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'tween', duration: 0.3 }}
             className="border-green bg-pale-green relative z-[10000] w-full max-w-101 border-t px-5 pb-3 shadow-md"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col items-start gap-5 self-stretch py-5">
               <div className="flex w-full items-center justify-between gap-3">
-                {/* 단품 / 수량 조절 버튼 */}
                 {isMultiple ? (
                   <div className="flex h-7 w-28 items-center justify-between rounded-[99px] border px-2">
                     <button
                       onClick={handleQuantityDecrease}
                       disabled={quantity <= 1}
-                      className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-30"
+                      className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center disabled:opacity-30"
                     >
                       -
                     </button>
@@ -112,7 +97,7 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
                     <button
                       onClick={handleQuantityIncrease}
                       disabled={quantity >= itemCount}
-                      className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
+                      className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center disabled:opacity-50"
                     >
                       +
                     </button>
@@ -121,7 +106,6 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
                   <div className="text-grey-6 text-subhead ml-5 flex items-center font-medium">단품</div>
                 )}
 
-                {/* 총 가격 */}
                 <div className="text-grey-9 flex items-center gap-2">
                   <span className="text-subhead font-medium">총</span>
                   <span className="text-headline-04 font-medium">{totalPrice}원</span>
@@ -129,12 +113,11 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
               </div>
             </div>
 
-            {/* 하단 버튼들 */}
             <div className="flex items-center gap-2 self-stretch">
-              <button className="text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-2.5 border font-bold">
+              <button className="text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center border font-bold">
                 장바구니
               </button>
-              <button className="text-body-01 bg-grey-9 flex h-12 w-full cursor-pointer items-center justify-center gap-2.5 font-bold text-white">
+              <button className="text-body-01 bg-grey-9 flex h-12 w-full cursor-pointer items-center justify-center font-bold text-white">
                 구매하기
               </button>
             </div>

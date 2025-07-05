@@ -35,15 +35,20 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
 
   // 페이지 이동 시 상단으로 스크롤
   const onPageChangeFunction = (page: number) => {
-    setCurrentPage(page);
-    router.push(`?page=${page + 1}`);
+    const target = listTopRef.current;
 
-    requestAnimationFrame(() => {
-      const target = listTopRef.current;
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // 스크롤 애니메이션이 완료된 후 페이지 변경
+      setTimeout(() => {
+        setCurrentPage(page);
+        router.push(`?page=${page + 1}`);
+      }, 400);
+    } else {
+      setCurrentPage(page);
+      router.push(`?page=${page + 1}`);
+    }
   };
 
   return (
@@ -63,7 +68,7 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
         </div>
       )}
 
-      <div className="mb-10 flex min-h-100 w-full flex-col gap-5">
+      <div className="mb-10 flex min-h-191.5 w-full flex-col gap-5">
         {visibleReviews.map((review, i) => (
           <div key={i} className="flex flex-col items-center gap-5">
             <ReviewCard {...review} />
