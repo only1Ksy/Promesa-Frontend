@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import chunkList from '@/lib/utils/chunk-list';
-import Expandable from '@/lib/utils/expandable';
+import Expandable from '@/components/common/utilities/expandable';
 import { fetchShopItems } from '@/services/api/item-controller';
 import type { ItemControllerParams, ItemControllerServerParams } from '@/types/item-controller';
 

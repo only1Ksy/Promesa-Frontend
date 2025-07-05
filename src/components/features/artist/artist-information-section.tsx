@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import Expandable from '@/lib/utils/expandable';
+import Expandable from '@/components/common/utilities/expandable';
 import stringToMultilineTSX from '@/lib/utils/string-to-multiline-tsx';
 import LinkToInstagramProfileIcon from '@/public/icons/artist/link-to-instagram-profile.svg';
 import LinkIcon from '@/public/icons/common/link.svg';
