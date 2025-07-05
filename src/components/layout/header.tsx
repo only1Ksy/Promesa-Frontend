@@ -31,10 +31,19 @@ export default function Header() {
         ) : (
           <button
             onClick={() => {
-              if (window.history.length > 1) {
-                router.back();
+              if (isReview) {
+                const prevPath = sessionStorage.getItem('prevPath');
+                if (prevPath) {
+                  router.push(prevPath);
+                } else {
+                  router.push(`/detail/${pathname.split('/')[2]}`); // fallback
+                }
               } else {
-                router.push('/');
+                if (window.history.length > 1) {
+                  router.back();
+                } else {
+                  router.push('/');
+                }
               }
             }}
             className="flex cursor-pointer items-center justify-center"

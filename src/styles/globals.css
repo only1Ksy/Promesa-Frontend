@@ -51,11 +51,14 @@
 
   .fixed-component {
     position: fixed;
-    margin: 0 auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
-    z-index: 900;
     max-width: var(--frame-width);
+    z-index: 900;
   }
+
   .fixed-component.no-z-index {
     z-index: 0;
   }
