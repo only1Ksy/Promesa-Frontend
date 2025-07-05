@@ -40,41 +40,43 @@ export default function ReviewCard({ nickname, rating, date, description, images
 
       {/* 사진, 코멘트 */}
       <div className="flex flex-col items-start gap-2 self-stretch">
-        {images.length > 0 && (
-          <div className="flex gap-2">
-            {images.map((src, i) => (
-              <div key={i} className="bg-green h-29 w-28.75 overflow-hidden">
-                <ImageWithEffect
-                  alt={`review image ${i + 1}`}
-                  src={src}
-                  width={115}
-                  height={116}
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* 텍스트 + gradient */}
-        <div className="relative w-full">
-          <Expandable
-            flag={isExpanded}
-            collapsedMaxHeight={10.5} // spacing 단위 rem (42px)
-            durationTime={300}
-            className="text-grey-9 text-body-02 font-medium"
-          >
-            <div ref={textRef}>{description}</div>
-          </Expandable>
-
-          {!isExpanded && showToggle && (
-            <div
-              className="pointer-events-none absolute bottom-0 left-0 h-10.5 w-full"
-              style={{
-                background: 'linear-gradient(180deg, rgba(238, 239, 233, 0.00) -29.76%, #EEEFE9 100%)',
-              }}
-            />
+        <div className="flex flex-col gap-5">
+          {images.length > 0 && (
+            <div className="flex gap-2">
+              {images.map((src, i) => (
+                <div key={i} className="bg-green h-29 w-28.75 overflow-hidden">
+                  <ImageWithEffect
+                    alt={`review image ${i + 1}`}
+                    src={src}
+                    width={115}
+                    height={116}
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
           )}
+
+          {/* 텍스트 + gradient */}
+          <div className="relative w-full">
+            <Expandable
+              flag={isExpanded}
+              collapsedMaxHeight={10.5} // spacing 단위 rem (42px)
+              durationTime={300}
+              className="text-grey-9 text-body-02 font-medium"
+            >
+              <div ref={textRef}>{description}</div>
+            </Expandable>
+
+            {!isExpanded && showToggle && (
+              <div
+                className="pointer-events-none absolute bottom-0 left-0 h-10.5 w-full"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(238, 239, 233, 0.00) -29.76%, #EEEFE9 100%)',
+                }}
+              />
+            )}
+          </div>
         </div>
 
         {/* 더보기 버튼 */}
