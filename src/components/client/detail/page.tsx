@@ -63,17 +63,31 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     const timer = setTimeout(() => {
       const options = {
         root: null,
-        rootMargin: '-100px 0px -50% 0px',
-        threshold: 0.1,
+        rootMargin: '0px 0px -60% 0px', // 하단 여유 공간 줄임
+        threshold: 0.4, // 40% 이상 보여야 적용
       };
 
       const observer = new IntersectionObserver((entries) => {
         if (isScrolling) return;
 
-        // 현재 뷰포트에서 가장 많이 보이는 섹션만 선택
-        const bestEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        const viewportHeight = window.innerHeight;
+        const centerY = viewportHeight / 2;
+
+        let bestEntry: IntersectionObserverEntry | null = null;
+        let minDistance = Infinity;
+
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+
+          const rect = entry.boundingClientRect;
+          const entryCenter = rect.top + rect.height / 2;
+          const distanceToCenter = Math.abs(centerY - entryCenter);
+
+          if (distanceToCenter < minDistance) {
+            minDistance = distanceToCenter;
+            bestEntry = entry;
+          }
+        }
 
         if (bestEntry) {
           const newActiveTab = bestEntry.target.id as 'product' | 'notice' | 'review';
