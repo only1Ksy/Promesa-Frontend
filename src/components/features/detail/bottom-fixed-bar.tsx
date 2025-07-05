@@ -21,6 +21,10 @@ export default function BottomFixedBar({ itemId, wished }: BottomFixedBarProps) 
     setToggleWish(wished);
   }, [wished]); // need to refactor
 
+  const onClicked = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <div className="bg-pale-green border-green flex w-full flex-col gap-2 border px-5 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
@@ -31,12 +35,14 @@ export default function BottomFixedBar({ itemId, wished }: BottomFixedBarProps) 
             </button>
             <span className="text-caption-01 font-bold">0</span>
           </div>
-          <div
-            onClick={() => setIsModalOpen(true)}
-            className="bg-grey-9 text-grey-1 flex h-15 flex-1 cursor-pointer items-center justify-center"
+          <button
+            onClick={() => {
+              onClicked();
+            }}
+            className="bg-grey-9 text-grey-1 text-body-01 flex h-15 flex-1 cursor-pointer items-center justify-center font-bold"
           >
-            <span className="text-body-01 font-bold">구매하기</span>
-          </div>
+            구매하기
+          </button>
         </div>
       </div>
 
