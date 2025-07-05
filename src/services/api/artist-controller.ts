@@ -1,7 +1,7 @@
 import type { ArtistSchema } from '@/types/artist-controller';
 import type { ExhibitionSchema } from '@/types/exhibition-controller';
 
-import { axiosInstance, withErrorBoundary } from './axios';
+import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchArtist = (artistId: number) =>
   withErrorBoundary<[number], ArtistSchema>(async (artistId) => {

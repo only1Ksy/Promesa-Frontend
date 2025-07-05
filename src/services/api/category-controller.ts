@@ -1,6 +1,6 @@
 import type { CategorySchema } from '@/types/category-controller';
 
-import { axiosInstance, withErrorBoundary } from './axios';
+import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchParentCategories = () =>
   withErrorBoundary<[], CategorySchema[]>(async () => {

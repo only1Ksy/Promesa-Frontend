@@ -1,6 +1,6 @@
 import type { ExhibitionSchema } from '@/types/exhibition-controller';
 
-import { axiosInstance, withErrorBoundary } from './axios';
+import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchExhibitions = () =>
   withErrorBoundary<[], ExhibitionSchema[]>(async () => {

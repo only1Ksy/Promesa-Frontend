@@ -1,6 +1,6 @@
 import type { ItemControllerServerParams, ItemPreviewSchema } from '@/types/item-controller';
 
-import { axiosInstance, withErrorBoundary } from './axios';
+import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchNowPopularItems = () =>
   withErrorBoundary<[], ItemPreviewSchema[]>(async () => {

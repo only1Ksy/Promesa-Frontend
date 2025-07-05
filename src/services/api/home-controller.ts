@@ -1,6 +1,6 @@
 import type { BrandInfoSchema } from '@/types/home-controller';
 
-import { axiosInstance, withErrorBoundary } from './axios';
+import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchBrandInfo = () =>
   withErrorBoundary<[], BrandInfoSchema>(async () => {
