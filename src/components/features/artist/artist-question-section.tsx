@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
-import Expandable from '@/lib/utils/expandable';
+import Expandable from '@/components/common/utilities/expandable';
 import DropUpIcon from '@/public/icons/artist/drop-up.svg';
 import PlusIcon from '@/public/icons/artist/plus.svg';
 import { fetchArtist } from '@/services/api/artist-controller';
