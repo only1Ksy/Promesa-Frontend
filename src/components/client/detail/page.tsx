@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import ReviewImageOnly from '@/components/common/review/review-image-only';
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
@@ -30,6 +31,9 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res.data,
   });
+
+  // 라우터
+  const router = useRouter();
 
   // 스크롤 이동을 위한 ref들
   const productRef = useRef<HTMLDivElement>(null);
@@ -62,9 +66,9 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   };
 
   // review page로 스크롤
-  useEffect(() => {
+  /* useEffect(() => {
     const shouldScrollToReview = sessionStorage.getItem('scrollToReview');
-
+    console.log(shouldScrollToReview);
     if (shouldScrollToReview === 'true' && reviewRef.current) {
       setTimeout(() => {
         reviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -72,7 +76,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       }, 200);
       sessionStorage.removeItem('scrollToReview');
     }
-  }, []);
+  }, []); */
 
   // IntersectionObserver 설정
   useEffect(() => {
@@ -104,6 +108,10 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     '/src/item/image.url',
     '/src/item/image1.url',
   ].filter(Boolean);
+
+  const openReviewModal = () => {
+    router.push(`/detail/${itemId}/review`);
+  };
 
   return (
     <HydrationBoundary state={itemDetailState}>
@@ -150,7 +158,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
-              <ReviewPreview reviews={REVIEW_LIST} itemId={itemId} />
+              <ReviewPreview reviews={REVIEW_LIST} itemId={itemId} openReviewModal={openReviewModal} />
             </div>
           </div>
         </div>

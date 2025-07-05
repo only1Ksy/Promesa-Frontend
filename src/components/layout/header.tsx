@@ -1,9 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import BackIcon from '@/public/icons/layout/back.svg';
 import CartIcon from '@/public/icons/layout/cart.svg';
@@ -16,10 +14,12 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const isSearch = pathname.startsWith('/shop');
-  const isReview = pathname.startsWith('/review');
-  const reviewMode = searchParams.get('mode') ?? 'all';
+  const isReview = pathname.includes('/review');
   const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail') || isReview;
+
+  const reviewMode = searchParams.get('mode'); // ← 여기서 mode 값을 읽어요
 
   return (
     <header className="bg-pale-green fixed-component top-0 flex items-center justify-between px-5 py-2">
@@ -31,19 +31,10 @@ export default function Header() {
         ) : (
           <button
             onClick={() => {
-              if (isReview) {
-                const prevPath = sessionStorage.getItem('prevPath');
-                if (prevPath) {
-                  router.push(prevPath);
-                } else {
-                  router.push(`/detail/${pathname.split('/')[2]}`); // fallback
-                }
+              if (window.history.length > 1) {
+                router.back();
               } else {
-                if (window.history.length > 1) {
-                  router.back();
-                } else {
-                  router.push('/');
-                }
+                router.push('/');
               }
             }}
             className="flex cursor-pointer items-center justify-center"
@@ -52,6 +43,7 @@ export default function Header() {
           </button>
         )}
       </div>
+
       {!isReview ? (
         <Link href="/">
           <PromesaTextSmallIcon className="text-black" />
