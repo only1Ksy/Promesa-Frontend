@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 
 import ReviewCard from '@/components/common/review/review-card';
 import { fetchItemDetail } from '@/services/api/item';
@@ -8,11 +7,10 @@ import { Review } from '@/types/review.dto';
 interface ReviewPreviewProps {
   reviews: Review[];
   itemId: number;
+  openReviewModal: () => void;
 }
 
-export default function ReviewPreview({ reviews, itemId }: ReviewPreviewProps) {
-  const router = useRouter();
-
+export default function ReviewPreview({ reviews, itemId, openReviewModal }: ReviewPreviewProps) {
   const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
@@ -24,19 +22,8 @@ export default function ReviewPreview({ reviews, itemId }: ReviewPreviewProps) {
   const visibleReviews = reviews.slice(0, 2);
 
   const showAll = () => {
-    sessionStorage.setItem('scrollToReview', 'true');
-    sessionStorage.setItem('prevPath', window.location.pathname);
-
-    const target = document.body;
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      setTimeout(() => {
-        router.push(`/review/${itemId}`);
-      }, 400);
-    } else {
-      router.push(`/review/${itemId}`);
-    }
+    // sessionStorage.setItem('scrollToReview', 'true');
+    openReviewModal();
   };
 
   return (
