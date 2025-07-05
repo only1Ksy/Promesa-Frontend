@@ -64,7 +64,7 @@ export default function Header() {
 
       <div className="flex gap-1">
         {isSearch ? <SearchIcon className="text-grey-9" /> : <div className="h-7.5 w-7.5" />}
-        <Link href="/my-page">
+        <Link href="/me">
           <MyIcon className="text-grey-9" />
         </Link>
         <Link href="/cart">
