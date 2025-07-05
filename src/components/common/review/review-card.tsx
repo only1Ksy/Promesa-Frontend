@@ -4,10 +4,11 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
-import Expandable from '@/lib/utils/expandable';
 import DropdownIcon from '@/public/icons/item/drop-down.svg';
 import ReviewStar from '@/public/icons/item/review-star.svg';
 import { Review } from '@/types/review.dto';
+
+import Expandable from '../utilities/expandable';
 
 export default function ReviewCard({ nickname, rating, date, description, images }: Review) {
   const [isExpanded, setIsExpanded] = useState(false);
