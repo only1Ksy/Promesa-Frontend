@@ -31,18 +31,17 @@ export default function ClientReviewPage({ itemId, itemReviewState }: ClientRevi
   return (
     <HydrationBoundary state={itemReviewState}>
       <div className="flex min-h-100 flex-col items-center">
+        <div
+          className="w-full px-5 py-2"
+          style={{
+            background: 'linear-gradient(to bottom, #E1E1D7 0%, rgba(18, 71, 52, 0.05) 2px, transparent 10px)',
+          }}
+        />
         {mode === 'imageOnly' ? (
-          <div
-            className="w-full px-5 py-4"
-            style={{
-              background: 'linear-gradient(to bottom, #E1E1D7 0%, rgba(18, 71, 52, 0.05) 2px, transparent 10px)',
-            }}
-          >
-            <ReviewImageGrid imageUrls={reviews.map((r) => r.images || []).flat()} />
-          </div>
+          <ReviewImageGrid imageUrls={reviews.map((r) => r.images || []).flat()} />
         ) : (
-          <>
-            <div className="mt-4.5 flex w-full items-end justify-between px-5">
+          <div className="flex min-h-100 flex-col items-center">
+            <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 ({reviews.length})</span>
                 <div className="flex items-center gap-1">
@@ -58,7 +57,7 @@ export default function ClientReviewPage({ itemId, itemReviewState }: ClientRevi
             <div className="mb-4.5 flex w-full flex-col items-center gap-5">
               <ReviewList reviews={reviews} itemId={itemId} />
             </div>
-          </>
+          </div>
         )}
       </div>
     </HydrationBoundary>
