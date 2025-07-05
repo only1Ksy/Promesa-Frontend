@@ -48,11 +48,10 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       section === 'product' ? productRef.current : section === 'notice' ? noticeRef.current : reviewRef.current;
 
     if (target) {
-      // scrollIntoView 완료 후 → 정확히 observer를 다시 켬
       const handleScrollEnd = () => {
-        setActiveTab(section); // 수동 설정
-        setIsScrolling(false); // 이제 감지 허용
-        window.removeEventListener('scrollend', handleScrollEnd); // 클린업
+        setActiveTab(section);
+        setIsScrolling(false);
+        window.removeEventListener('scrollend', handleScrollEnd);
       };
 
       // fallback: 일정 시간 뒤 스크롤 종료로 간주
@@ -61,6 +60,19 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  // review page로 스크롤
+  useEffect(() => {
+    const shouldScrollToReview = sessionStorage.getItem('scrollToReview');
+
+    if (shouldScrollToReview === 'true' && reviewRef.current) {
+      setTimeout(() => {
+        reviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setActiveTab('review');
+      }, 200);
+      sessionStorage.removeItem('scrollToReview');
+    }
+  }, []);
 
   // IntersectionObserver 설정
   useEffect(() => {
