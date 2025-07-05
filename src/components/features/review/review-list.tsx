@@ -68,7 +68,7 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
         </div>
       )}
 
-      <div className="mb-10 flex min-h-100 w-full flex-col gap-5">
+      <div className="mb-10 flex min-h-191.5 w-full flex-col gap-5">
         {visibleReviews.map((review, i) => (
           <div key={i} className="flex flex-col items-center gap-5">
             <ReviewCard {...review} />
