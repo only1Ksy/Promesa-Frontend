@@ -134,7 +134,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             <ProductNotice />
           </div>
 
-          <div ref={reviewRef} className="flex min-h-100 scroll-mt-26 flex-col items-center">
+          <div ref={reviewRef} className="flex min-h-100 w-full scroll-mt-26 flex-col items-center">
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 (4) </span>
