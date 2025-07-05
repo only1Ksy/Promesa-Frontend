@@ -88,13 +88,12 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
             initial={{ y: '100%' }}
             animate={{ y: isAnimating ? 0 : '100%' }}
             transition={{
-              type: 'spring',
-              damping: 25,
-              stiffness: 300,
-              duration: 0.3,
+              type: 'tween',
+              ease: 'easeOut',
+              duration: 0.2,
             }}
             onAnimationComplete={handleAnimationComplete}
-            className="border-green bg-pale-green relative z-[10000] w-full max-w-101 border-t px-5 shadow-md"
+            className="border-green bg-pale-green relative z-[10000] w-full max-w-101 border-t px-5 pb-3 shadow-md"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col items-start gap-5 self-stretch py-5">
