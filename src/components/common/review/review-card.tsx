@@ -11,6 +11,7 @@ import { Review } from '@/types/review.dto';
 export default function ReviewCard({ nickname, rating, date, description, images }: Review) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const [maxHeight, setMaxHeight] = useState<number | null>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,6 +22,9 @@ export default function ReviewCard({ nickname, rating, date, description, images
       if (!isExpanded) {
         const isClamped = el.scrollHeight > el.clientHeight + 2;
         setIsOverflowing(isClamped);
+        setMaxHeight(42);
+      } else {
+        setMaxHeight(el.scrollHeight);
       }
     };
 
@@ -63,9 +67,8 @@ export default function ReviewCard({ nickname, rating, date, description, images
         <div className="relative w-full">
           <div
             ref={textRef}
-            className={`text-grey-9 text-body-02 font-medium ${
-              isExpanded ? '' : 'line-clamp-2 max-h-10.5 overflow-hidden text-ellipsis'
-            }`}
+            className="text-grey-9 text-body-02 overflow-hidden font-medium transition-[max-height] duration-300 ease-in-out"
+            style={{ maxHeight: maxHeight !== null ? `${maxHeight}px` : undefined }}
           >
             {description}
           </div>
