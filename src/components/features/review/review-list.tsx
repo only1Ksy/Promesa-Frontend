@@ -47,9 +47,9 @@ export default function ReviewList({ reviews, itemId }: ReviewListProps) {
   };
 
   return (
-    <div ref={listTopRef} className="relative flex flex-col items-center">
+    <div ref={listTopRef} className="relative flex w-full flex-col items-center">
       {currentPage === 0 && (
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex w-full flex-col items-center gap-5">
           <ReviewImageOnly
             imageUrls={[
               '/images/review1.jpg',
