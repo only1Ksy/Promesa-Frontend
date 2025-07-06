@@ -27,7 +27,7 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
       <button onClick={() => setToggleWish((prev) => !prev)} className="absolute top-2 right-2 z-10 cursor-pointer">
-        {toggleWish ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-grey-5" />}
+        {toggleWish ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">

@@ -29,15 +29,20 @@ export default function BottomFixedBar({ itemId, wished }: BottomFixedBarProps) 
     <>
       <div className="bg-pale-green border-green flex w-full flex-col gap-2 border px-5 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
         <div className="my-3 flex gap-3">
-          <div className="text-orange flex h-12 w-12 flex-col items-center">
+          <div className="flex h-12 w-12 flex-col items-center">
             <button onClick={() => setToggleWish((prev) => !prev)} className="cursor-pointer">
               {toggleWish ? (
-                <HeartFilledIcon className="h-8 w-8" />
+                <>
+                  <HeartFilledIcon className="text-orange h-8 w-8" />
+                  <span className="text-orange text-caption-01 font-bold">0</span>
+                </>
               ) : (
-                <HeartEmptyIcon className="text-grey-5 h-8 w-8" />
+                <>
+                  <HeartEmptyIcon className="text-grey-5 h-8 w-8" />
+                  <span className="text-grey-5 text-caption-01 font-bold">0</span>
+                </>
               )}
             </button>
-            <span className="text-caption-01 font-bold">0</span>
           </div>
           <button
             onClick={() => {
