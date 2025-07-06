@@ -1,11 +1,10 @@
-// import type { AxiosRequestHeaders } from 'axios';
+import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
-// import { refreshFailed, reissueOnce, setHeader, shouldBypass, store, toErrorMessage } from './utils';
-import { store, toErrorMessage } from './utils';
+import { logoutOnce, reissueOnce } from './auth';
+import { setHeader, shouldBypass, store, toErrorMessage } from './utils';
 
-const isServer = typeof window === 'undefined';
-const baseURL = isServer ? process.env.API_BASE_URL : '/api';
+const baseURL = typeof window === 'undefined' ? process.env.API_BASE_URL : '/api';
 
 export const axiosInstance = axios.create({
   baseURL,
@@ -13,50 +12,53 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = store().accessToken;
+// request interceptor
+axiosInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (shouldBypass(config.url)) return config;
 
-  if (token) {
-    config.headers.set('Authorization', `Bearer ${token}`);
-  }
+    const token = store().accessToken;
+    if (token) setHeader(config.headers, 'Authorization', `Bearer ${token}`);
 
-  return config;
-});
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
-// // request interceptor
-// axiosInstance.interceptors.request.use(
-//   async (config) => {
-//     if (shouldBypass(config.url)) return config;
+// response interceptor
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const { config, response } = error;
+    const originalRequest = config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
-//     const token = store().accessToken ?? (await reissueOnce());
+    if (!response) {
+      throw new Error(toErrorMessage(error));
+    }
 
-//     if (!token) throw new Error('UNAUTHENTICATED');
+    if (response.status === 401 && !originalRequest._retry && !shouldBypass(originalRequest.url)) {
+      originalRequest._retry = true;
 
-//     setHeader(config.headers as AxiosRequestHeaders, 'Authorization', `Bearer ${token}`);
-//     return config;
-//   },
-//   (error) => Promise.reject(new Error(toErrorMessage(error))),
-// );
+      const newToken = await reissueOnce();
 
-// // response interceptor
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const { config, response } = error;
+      if (newToken) {
+        setHeader(originalRequest.headers, 'Authorization', `Bearer ${newToken}`);
+        return axiosInstance(originalRequest);
+      }
 
-//     if (response.status === 401 && !shouldBypass(config.url) && !config._retry && !refreshFailed) {
-//       config._retry = true;
+      await logoutOnce();
+      return Promise.reject(error);
+    }
 
-//       const token = await reissueOnce();
-//       if (token) {
-//         setHeader(config.headers as AxiosRequestHeaders, 'Authorization', `Bearer ${token}`);
-//         return axiosInstance(config);
-//       }
-//     }
+    if (response.status === 403) {
+      await logoutOnce();
+    }
 
-//     throw new Error(toErrorMessage(error));
-//   },
-// );
+    return Promise.reject(error);
+  },
+);
 
 // template
 export async function withErrorBoundary<Args extends unknown[], Return>(

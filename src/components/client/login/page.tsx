@@ -1,6 +1,13 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
+
 export default function ClientLoginPage() {
+  const searchParams = useSearchParams();
+
+  const afterLogin = searchParams.get('afterLogin');
+  console.log(afterLogin); // need to refactor
+
   return (
     <div className="bg-pale-green flex flex-col gap-9">
       <div className="mx-4 mt-9">
@@ -14,8 +21,8 @@ export default function ClientLoginPage() {
         <button
           onClick={() => {
             const clientId = process.env.NEXT_PUBLIC_REST_API_KEY!;
-            const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
-            const state = process.env.NEXT_PUBLIC_FRONTEND_URI;
+            const redirectUri = encodeURIComponent(process.env.NEXT_PUBLIC_REDIRECT_URI!);
+            const state = encodeURIComponent(process.env.NEXT_PUBLIC_FRONTEND_URI!);
 
             window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&response_type=code`;
           }}
