@@ -27,12 +27,12 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
       <button onClick={() => setToggleWish((prev) => !prev)} className="absolute top-2 right-2 z-10 cursor-pointer">
-        {toggleWish ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-pale-green" />}
+        {toggleWish ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-grey-5" />}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">
           <div className="bg-green relative aspect-[4/5] w-full">
-            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리보 이미지.`} fill />
+            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리뷰 이미지.`} fill />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-col">

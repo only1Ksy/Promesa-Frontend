@@ -21,7 +21,7 @@ export default function ClientLoginSuccessPage() {
 
       if (refreshToken) {
         const isProd = process.env.NODE_ENV === 'production';
-        document.cookie = `refresh=${refreshToken}; path=/; ${isProd ? 'secure; samesite=lax' : ''}`;
+        document.cookie = `refresh=${refreshToken}; path=/; ${isProd ? 'secure; samesite=none' : ''}`;
       }
 
       router.replace(afterLogin);
