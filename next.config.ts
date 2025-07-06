@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   async rewrites() {
     return {
-      beforeFiles: [{ source: '/api/:path*', destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*` }],
+      beforeFiles: [{ source: '/api/:path*', destination: `${process.env.API_BASE_URL}/:path*` }],
     };
   },
   webpack(config) {

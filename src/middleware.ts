@@ -2,8 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PUBLIC_ONLY_PATH = '/login';
-// const PROTECTED_PATHS = ['/me', '/cart'];
-const PROTECTED_PATHS = ['/cart'];
+const PROTECTED_PATHS = ['/me', '/cart'];
 
 function isLoggedIn(req: NextRequest): boolean {
   return Boolean(req.cookies.get('refresh')?.value);
@@ -14,7 +13,9 @@ export function middleware(req: NextRequest) {
   const loggedIn = isLoggedIn(req);
 
   if (PROTECTED_PATHS.includes(pathname) && !loggedIn) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    const loginUrl = new URL('/login', req.url);
+    loginUrl.searchParams.set('afterLogin', pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   if (pathname.startsWith(PUBLIC_ONLY_PATH) && loggedIn) {
