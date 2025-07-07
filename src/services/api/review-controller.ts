@@ -1,15 +1,11 @@
-import { REVIEW_LIST } from '@/lib/constants/temp-review-list';
-/* export const fetchItemReviews = async (itemId: number) => {
-  const reviews = REVIEW_LIST.filter((review) => review.itemId === itemId);
-  return reviews;
-};
-*/
-export const fetchItemReviews = async () => {
-  const reviews = REVIEW_LIST;
+import type { Review } from '@/types/review.dto';
 
-  if (!reviews) {
-    return { data: null, error: '해당 상품의 리뷰를 찾을 수 없습니다.' };
-  }
+import { withErrorBoundary } from './axios/instance';
+import { axiosInstance } from './axios/instance';
 
-  return { data: reviews };
-};
+/** itemId(number)를 넣으면 해당 아이템의 리뷰 리스트를 반환하는 함수*/
+export const fetchItemReviews = (itemId: number) =>
+  withErrorBoundary<[number], Review[]>(async (itemId: number) => {
+    const res = await axiosInstance.get(`/items/${itemId}/reviews`);
+    return res.data.data;
+  }, itemId);
