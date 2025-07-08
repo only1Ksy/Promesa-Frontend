@@ -14,7 +14,7 @@ interface ReviewContentProps {
 
 export default function ReviewContent({ itemId, reviews, mode }: ReviewContentProps) {
   return (
-    <div className="flex min-h-100 flex-col items-center">
+    <div className="flex min-h-100 w-full flex-col items-center">
       <div
         className="w-full px-5 py-2"
         style={{
@@ -24,7 +24,7 @@ export default function ReviewContent({ itemId, reviews, mode }: ReviewContentPr
       {mode === 'imageOnly' ? (
         <ReviewImageGrid imageUrls={reviews.map((r) => r.images || []).flat()} />
       ) : (
-        <div className="flex min-h-100 flex-col items-center">
+        <div className="flex min-h-100 w-full flex-col items-center">
           <div className="flex w-full items-end justify-between px-5">
             <div className="flex items-center gap-2">
               <span className="text-subhead font-medium text-black">리뷰 ({reviews.length})</span>
