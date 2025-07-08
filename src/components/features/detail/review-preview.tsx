@@ -39,7 +39,7 @@ export default function ReviewPreview({ reviews, itemId, openReviewModal }: Revi
 
       <button
         onClick={showAll}
-        className="border-grey-9 text-body-02 text-grey-9 flex h-11 w-80.5 cursor-pointer items-center justify-center border font-bold"
+        className="border-grey-9 text-body-02 text-grey-9 flex h-11 w-80.5 cursor-pointer items-center justify-center rounded-xs border font-bold"
       >
         전체 리뷰 보기
       </button>
