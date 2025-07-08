@@ -2,7 +2,7 @@ import { dehydrate } from '@tanstack/react-query';
 
 import ClientDetailPage from '@/components/client/detail/page';
 import { fetchItemDetail } from '@/services/api/item';
-import { fetchItemReviews } from '@/services/api/review-controller';
+// import { fetchItemReviews } from '@/services/api/review-controller';
 import { createQueryClient } from '@/services/query/server';
 
 export default async function DetailPage({ params: paramsPromise }: { params: Promise<{ 'item-id': string }> }) {
@@ -17,10 +17,10 @@ export default async function DetailPage({ params: paramsPromise }: { params: Pr
   });
 
   // 2. 리뷰 정보 prefetch
-  await queryClient.prefetchQuery({
+  /* await queryClient.prefetchQuery({
     queryKey: ['itemReviews', itemId],
     queryFn: () => fetchItemReviews(itemId),
-  });
+  });*/
 
   const dehydratedState = dehydrate(queryClient);
 
