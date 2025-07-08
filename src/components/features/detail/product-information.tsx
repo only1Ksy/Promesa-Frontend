@@ -55,10 +55,10 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
       <ArtistPageButton artistId={item.artistId} />
       {/* 장바구니, 구매하기 버튼 */}
       <div className="flex w-full items-center justify-center gap-2 px-5 py-2">
-        <button className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] border-[1.4px] font-bold">
+        <button className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] rounded-xs border-[1.4px] font-bold">
           장바구니
         </button>
-        <button className="bg-grey-9 text-body-01 text-grey-1 flex h-12 w-full cursor-pointer items-center justify-center gap-[10px] font-bold">
+        <button className="bg-grey-9 text-body-01 text-grey-1 flex h-12 w-full cursor-pointer items-center justify-center gap-[10px] rounded-xs font-bold">
           구매하기
         </button>
       </div>

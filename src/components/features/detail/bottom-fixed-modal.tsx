@@ -114,10 +114,10 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
             </div>
 
             <div className="flex items-center gap-2 self-stretch">
-              <button className="text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center border font-bold">
+              <button className="text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center rounded-xs border font-bold">
                 장바구니
               </button>
-              <button className="text-body-01 bg-grey-9 flex h-12 w-full cursor-pointer items-center justify-center font-bold text-white">
+              <button className="text-body-01 bg-grey-9 flex h-12 w-full cursor-pointer items-center justify-center rounded-xs font-bold text-white">
                 구매하기
               </button>
             </div>

@@ -48,7 +48,7 @@ export default function BottomFixedBar({ itemId, wished }: BottomFixedBarProps) 
             onClick={() => {
               onClicked();
             }}
-            className="bg-grey-9 text-grey-1 text-body-01 flex h-15 flex-1 cursor-pointer items-center justify-center font-bold"
+            className="bg-grey-9 text-grey-1 text-body-01 flex h-15 flex-1 cursor-pointer items-center justify-center rounded-xs font-bold"
           >
             구매하기
           </button>
