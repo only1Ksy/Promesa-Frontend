@@ -24,7 +24,17 @@ export default function DeliveryForm() {
   };
 
   const openAddressSearch = () => {
-    // 카카오 주소 API 팝업 열기
+    if (typeof window === 'undefined' || !window.daum?.Postcode) return;
+
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        setForm((prev) => ({
+          ...prev,
+          postcode: data.zonecode,
+          address: data.address,
+        }));
+      },
+    }).open();
   };
 
   return (
