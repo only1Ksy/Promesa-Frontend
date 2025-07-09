@@ -37,7 +37,7 @@ export default function ClientRoutesLayout({
 
       {isReviewPage ? (
         <>
-          <Header />
+          <Header shadow />
           <div className="mt-11.5">{children}</div>
         </>
       ) : isDetailPage ? (
@@ -52,7 +52,7 @@ export default function ClientRoutesLayout({
         </BottomFixedBarTargetContext.Provider>
       ) : (
         <>
-          <Header />
+          <Header shadow />
           <div className="mt-11.5">{children}</div>
           <Footer />
           <FloatingButton />

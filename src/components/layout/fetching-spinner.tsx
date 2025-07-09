@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import VideoLoader from '@/components/layout/video-loader';
+import LoadingAnimation from './loading-animation';
 
 export default function FetchingSpinner() {
   // block scroll
@@ -16,8 +16,8 @@ export default function FetchingSpinner() {
   }, []);
 
   return (
-    <div className="fixed-component max-z-index top-0 flex min-h-screen items-center justify-center bg-black/20">
-      <VideoLoader />
+    <div className="fixed-component max-z-index top-0 flex min-h-screen items-center justify-center bg-[#000000]/70">
+      <LoadingAnimation />
     </div>
   );
 }

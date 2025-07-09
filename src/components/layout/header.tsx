@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
@@ -10,7 +11,11 @@ import MyIcon from '@/public/icons/layout/my.svg';
 import SearchIcon from '@/public/icons/layout/search.svg';
 import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 
-export default function Header() {
+interface HeaderProps {
+  shadow?: boolean;
+}
+
+export default function Header({ shadow }: HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -22,7 +27,12 @@ export default function Header() {
   const reviewMode = searchParams.get('mode'); // ← 여기서 mode 값을 읽어요
 
   return (
-    <header className="bg-pale-green fixed-component top-0 flex items-center justify-between px-5 py-2">
+    <header
+      className={clsx(
+        'bg-pale-green fixed-component top-0 flex items-center justify-between px-5 py-2',
+        shadow && 'home-shadow',
+      )}
+    >
       <div className="mr-17">
         {!isBack ? (
           <Link href="/menu">

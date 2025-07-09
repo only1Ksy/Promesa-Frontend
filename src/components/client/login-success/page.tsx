@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import VideoLoader from '@/components/layout/video-loader';
+import LoadingAnimation from '@/components/layout/loading-animation';
 import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 
 export default function ClientLoginSuccessPage() {
@@ -32,7 +32,7 @@ export default function ClientLoginSuccessPage() {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <VideoLoader />
+      <LoadingAnimation />
     </div>
   );
 }
