@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 
+import DeliveryForm from '@/components/features/order/delivery-form';
 import { fetchItemDetail } from '@/services/api/item';
 
 interface ClientOrderPageProps {
@@ -22,6 +23,8 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
   return (
     <HydrationBoundary state={itemDetailState}>
+      {/* 배송지 작성 */}
+      <DeliveryForm />
       {/* 주문 페이지 UI 구성 */}
 
       <h1>{item.itemName}</h1>
