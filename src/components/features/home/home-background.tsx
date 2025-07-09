@@ -20,7 +20,7 @@ export default function HomeBackground() {
             'flex h-8 w-35 items-center justify-center rounded-[40px] border-[1.2px] backdrop-blur-[2.35px]',
           )}
         >
-          <span>둘러보기</span>
+          <span>제품 둘러보기</span>
         </div>
       </Link>
     </div>
