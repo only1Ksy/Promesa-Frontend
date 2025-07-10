@@ -17,15 +17,17 @@ export default function ReviewModal({ itemId }: ReviewModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');
+  const pageParam = Number(searchParams.get('page')) || 1;
+  const page = pageParam - 1; // 서버는 0부터 시작
 
   const close = () => router.back();
 
-  const { data: reviews, isLoading } = useQuery({
-    queryKey: ['itemReview'],
-    queryFn: () => fetchItemReviews(),
-    select: (res) => res.data,
+  const { data: reviewResponse, isLoading } = useQuery({
+    queryKey: ['itemReview', itemId, page],
+    queryFn: () => fetchItemReviews(itemId, page, 10),
   });
 
+  // ESC로 닫기
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
@@ -34,7 +36,7 @@ export default function ReviewModal({ itemId }: ReviewModalProps) {
     return () => window.removeEventListener('keydown', onEsc);
   }, []);
 
-  if (isLoading || !reviews) return null;
+  if (isLoading || !reviewResponse) return null;
 
   return (
     <motion.div
@@ -46,7 +48,16 @@ export default function ReviewModal({ itemId }: ReviewModalProps) {
     >
       <Header />
       <div className="pt-11.5">
-        <ReviewContent reviews={reviews} itemId={itemId} mode={mode} />
+        <ReviewContent
+          reviews={reviewResponse}
+          itemId={itemId}
+          mode={mode}
+          onPageChange={(p) => {
+            const params = new URLSearchParams(searchParams.toString());
+            params.set('page', (p + 1).toString());
+            router.push(`?${params.toString()}`);
+          }}
+        />
       </div>
     </motion.div>
   );
