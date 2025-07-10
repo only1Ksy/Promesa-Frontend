@@ -10,7 +10,7 @@ import { Review } from '@/types/review.dto';
 
 import Expandable from '../utilities/expandable';
 
-export default function ReviewCard({ nickname, rating, date, description, images }: Review) {
+export default function ReviewCard({ reviewerId, rating, content, reviewImages }: Review) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
@@ -21,14 +21,14 @@ export default function ReviewCard({ nickname, rating, date, description, images
 
     const collapsedHeightPx = 42; // 10.5 * 4 (spacing rem -> px 기준으로)
     setShowToggle(el.scrollHeight > collapsedHeightPx);
-  }, [description]);
+  }, [content]);
 
   return (
     <div className="flex w-full flex-col items-start gap-4 px-5">
       {/* 닉네임, 별점, 날짜 */}
       <div className="flex items-start justify-between self-stretch">
         <div className="flex w-53 items-start gap-2">
-          <span className="text-grey-9 text-body-02 font-medium">{nickname}</span>
+          <span className="text-grey-9 text-body-02 font-medium">{reviewerId}</span>
           <div className="flex items-center self-center">
             {Array.from({ length: 5 }).map((_, i) => (
               <ReviewStar key={i} className={`h-3 w-3.25 ${i < rating ? 'text-orange' : 'text-deep-green'}`} />
@@ -36,15 +36,15 @@ export default function ReviewCard({ nickname, rating, date, description, images
             <span className="text-grey-6 text-caption-01 self-center pl-1 font-medium">{rating}</span>
           </div>
         </div>
-        <span className="text-caption-01 text-grey-5 font-medium">{date.replace(/-/g, '.')}</span>
+        {/* <span className="text-caption-01 text-grey-5 font-medium">{date.replace(/-/g, '.')}</span> */}
       </div>
 
       {/* 사진, 코멘트 */}
       <div className="flex flex-col items-start gap-2 self-stretch">
         <div className="flex flex-col gap-5">
-          {images.length > 0 && (
+          {reviewImages.length > 0 && (
             <div className="flex gap-2">
-              {images.map((src, i) => (
+              {reviewImages.map((src, i) => (
                 <div key={i} className="bg-green h-29 w-28.75 overflow-hidden">
                   <ImageWithEffect
                     alt={`review image ${i + 1}`}
@@ -66,7 +66,7 @@ export default function ReviewCard({ nickname, rating, date, description, images
               durationTime={300}
               className="text-grey-9 text-body-02 font-medium"
             >
-              <div ref={textRef}>{description}</div>
+              <div ref={textRef}>{content}</div>
             </Expandable>
 
             {!isExpanded && showToggle && (
