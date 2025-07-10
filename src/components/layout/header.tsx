@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import CartIcon from '@/public/icons/layout/cart.svg';
-import HamburgerIcon from '@/public/icons/layout/hamburger.svg';
 import MyIcon from '@/public/icons/layout/my.svg';
 import SearchIcon from '@/public/icons/layout/search.svg';
 import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 
 import BackButton from './header/back-button';
+import HamburgerButton from './header/hamburger-button';
 
 interface HeaderProps {
   shadow?: boolean;
@@ -33,15 +33,7 @@ export default function Header({ shadow }: HeaderProps) {
         shadow && 'home-shadow',
       )}
     >
-      <div className="mr-17">
-        {!isBack ? (
-          <Link href="/menu">
-            <HamburgerIcon className="text-grey-9" />
-          </Link>
-        ) : (
-          <BackButton />
-        )}
-      </div>
+      <div className="mr-17">{!isBack ? <HamburgerButton /> : <BackButton />}</div>
 
       {!isReview ? ( // need to refactor
         <Link href="/">
