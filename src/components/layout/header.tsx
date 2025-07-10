@@ -2,21 +2,21 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
-import BackIcon from '@/public/icons/layout/back.svg';
 import CartIcon from '@/public/icons/layout/cart.svg';
 import HamburgerIcon from '@/public/icons/layout/hamburger.svg';
 import MyIcon from '@/public/icons/layout/my.svg';
 import SearchIcon from '@/public/icons/layout/search.svg';
 import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 
+import BackButton from './header/back-button';
+
 interface HeaderProps {
   shadow?: boolean;
 }
 
 export default function Header({ shadow }: HeaderProps) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -39,22 +39,11 @@ export default function Header({ shadow }: HeaderProps) {
             <HamburgerIcon className="text-grey-9" />
           </Link>
         ) : (
-          <button
-            onClick={() => {
-              if (window.history.length > 1) {
-                router.back();
-              } else {
-                router.push('/');
-              }
-            }}
-            className="flex cursor-pointer items-center justify-center"
-          >
-            <BackIcon className="text-grey-9" />
-          </button>
+          <BackButton />
         )}
       </div>
 
-      {!isReview ? (
+      {!isReview ? ( // need to refactor
         <Link href="/">
           <PromesaTextSmallIcon className="text-black" />
         </Link>
