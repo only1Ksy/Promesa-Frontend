@@ -4,15 +4,21 @@ import ReviewImageGrid from '@/components/features/review/review-image-grid';
 import ReviewList from '@/components/features/review/review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
-import type { Review } from '@/types/review.dto';
+import type { ReviewListResponse } from '@/types/review.dto';
 
 interface ReviewContentProps {
+  reviews: ReviewListResponse;
   itemId: number;
-  reviews: Review[];
   mode?: string | null;
+  onPageChange: (page: number) => void;
 }
 
-export default function ReviewContent({ itemId, reviews, mode }: ReviewContentProps) {
+export default function ReviewContent({ reviews, itemId, mode, onPageChange }: ReviewContentProps) {
+  const { content } = reviews;
+
+  const averageRating =
+    content.length > 0 ? (content.reduce((acc, cur) => acc + cur.rating, 0) / content.length).toFixed(1) : '0.0';
+
   return (
     <div className="flex min-h-100 w-full flex-col items-center">
       <div
@@ -22,15 +28,17 @@ export default function ReviewContent({ itemId, reviews, mode }: ReviewContentPr
         }}
       />
       {mode === 'imageOnly' ? (
-        <ReviewImageGrid imageUrls={reviews.map((r) => r.images || []).flat()} />
+        <ReviewImageGrid imageUrls={content.flatMap((r) => r.reviewImages ?? [])} />
       ) : (
         <div className="flex min-h-100 w-full flex-col items-center">
           <div className="flex w-full items-end justify-between px-5">
             <div className="flex items-center gap-2">
-              <span className="text-subhead font-medium text-black">리뷰 ({reviews.length})</span>
+              <span className="text-subhead font-medium text-black">리뷰 ({reviews.totalElements})</span>
               <div className="flex items-center gap-1">
                 <ReviewStarIcon className="text-orange h-4 w-4" />
-                <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
+                <div className="text-grey-6 text-body-02 font-medium">
+                  {averageRating} ({reviews.totalElements})
+                </div>
               </div>
             </div>
             <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
@@ -39,7 +47,7 @@ export default function ReviewContent({ itemId, reviews, mode }: ReviewContentPr
             <DividerIcon />
           </div>
           <div className="mb-4.5 flex w-full flex-col items-center gap-5">
-            <ReviewList reviews={reviews} itemId={itemId} />
+            <ReviewList reviews={reviews} itemId={itemId} onPageChange={onPageChange} />
           </div>
         </div>
       )}
