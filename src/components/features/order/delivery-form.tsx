@@ -44,7 +44,7 @@ export default function DeliveryForm() {
         {/* 최근 배송지 / 새로운 배송지 선택 */}
         <div className="flex items-center gap-3.5">
           {[
-            { key: 'recent', label: '최근 배송지' },
+            { key: 'recent', label: '기본 배송지' },
             { key: 'new', label: '새로운 배송지' },
           ].map(({ key, label }) => (
             <button
@@ -146,18 +146,20 @@ export default function DeliveryForm() {
           </div>
         </div>
         {/* 기본배송지 저장 - 왼쪽 박스 */}
-        <div>
-          <button
-            type="button"
-            onClick={() => handleChange('isDefault', !form.isDefault)}
-            className="flex items-center gap-2"
-          >
-            <span className={clsx('h-3.5 w-3.5', form.isDefault ? 'bg-orange' : 'bg-grey-4')} />
-            <span className={clsx('text-caption-01 font-medium', form.isDefault ? 'text-black' : 'text-grey-5')}>
-              기본 배송지로 저장
-            </span>
-          </button>
-        </div>
+        {form.deliveryType === 'new' && (
+          <div>
+            <button
+              type="button"
+              onClick={() => handleChange('isDefault', !form.isDefault)}
+              className="flex items-center gap-2"
+            >
+              <span className={clsx('h-3.5 w-3.5', form.isDefault ? 'bg-orange' : 'bg-grey-4')} />
+              <span className={clsx('text-caption-01 font-medium', form.isDefault ? 'text-black' : 'text-grey-5')}>
+                기본 배송지로 저장
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
