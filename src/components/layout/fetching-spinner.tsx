@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import LoadingAnimation from './loading-animation';
+import LoadingAnimation from '../common/utilities/loading-animation';
 
 export default function FetchingSpinner() {
   // block scroll

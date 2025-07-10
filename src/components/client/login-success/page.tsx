@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import LoadingAnimation from '@/components/layout/loading-animation';
+import LoadingAnimation from '@/components/common/utilities/loading-animation';
 import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 
 export default function ClientLoginSuccessPage() {
