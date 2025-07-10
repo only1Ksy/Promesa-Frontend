@@ -27,9 +27,9 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
   const searchParamKeys = useSearchParams().toString();
 
   const { data } = useSuspenseQuery({
-    queryKey: ['categoryParent'],
+    queryKey: ['itemCategories'],
     queryFn: fetchParentCategories,
-  });
+  }); // prefetch at layout
 
   // initialize when using router.push(...)
   useEffect(() => {
@@ -53,8 +53,6 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
     };
   }, [open]);
 
-  const parentCategoryList = [{ id: 0, name: 'ALL' }, ...data];
-
   // sort, frame keys
   const SORT_KEYS = [
     { label: '높은 가격순', value: 'price,desc' },
@@ -72,7 +70,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
         {/* 카테고리 */}
         <div className="to-pale-green from-pale-green/0 pointer-events-none absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
         <HorizontalScrollwithActive activeId={`category-id-${categoryId}`} className="flex gap-5.5 pr-8">
-          {parentCategoryList.map(({ id, name }) => {
+          {data.map(({ id, name }) => {
             const isActive = categoryId === id;
             return (
               <button

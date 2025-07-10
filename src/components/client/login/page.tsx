@@ -6,7 +6,6 @@ export default function ClientLoginPage() {
   const searchParams = useSearchParams();
 
   const afterLogin = searchParams.get('afterLogin');
-  console.log(afterLogin); // need to refactor
 
   return (
     <div className="bg-pale-green flex flex-col gap-9">
@@ -24,7 +23,9 @@ export default function ClientLoginPage() {
             const redirectUri = encodeURIComponent(process.env.NEXT_PUBLIC_REDIRECT_URI!);
             const state = encodeURIComponent(process.env.NEXT_PUBLIC_FRONTEND_URI!);
 
-            window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&response_type=code`;
+            window.location.href =
+              `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code` +
+              `&state=${state}&afterLogin=${afterLogin}`;
           }}
           className="flex h-12.5 w-full cursor-pointer items-center justify-center rounded-md bg-[#fee502]"
         >

@@ -5,7 +5,7 @@ import { axiosInstance, withErrorBoundary } from './axios/instance';
 export const fetchParentCategories = () =>
   withErrorBoundary<[], CategorySchema[]>(async () => {
     const res = await axiosInstance.get('/categories/parent');
-    return res.data.data;
+    return [{ id: 0, name: 'ALL' }, ...res.data.data];
   });
 
 export const fetchChildCategories = (parentId: number) =>

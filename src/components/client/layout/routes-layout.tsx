@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
+import { DehydratedState } from '@tanstack/react-query';
+import { HydrationBoundary } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 
@@ -10,11 +12,12 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 
-export default function ClientRoutesLayout({
-  children,
-}: Readonly<{
+interface ClientRoutesLayoutProps {
+  dehydratedState: DehydratedState;
   children: React.ReactNode;
-}>) {
+}
+
+export default function ClientRoutesLayout({ dehydratedState, children }: ClientRoutesLayoutProps) {
   const pathName = usePathname();
   const isDetailPage = pathName.startsWith('/detail/');
   const isReviewPage = pathName.startsWith('/review/');
@@ -32,7 +35,7 @@ export default function ClientRoutesLayout({
   }, []);
 
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       {isFetching > 0 && <FetchingSpinner />}
 
       {isReviewPage ? (
@@ -58,6 +61,6 @@ export default function ClientRoutesLayout({
           <FloatingButton />
         </>
       )}
-    </>
+    </HydrationBoundary>
   );
 }
