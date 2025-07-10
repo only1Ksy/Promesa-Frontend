@@ -14,24 +14,55 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: '프로메사 - 도예 전공자들의 작품을 전시하고 판매하는 플랫폼',
-  description: '프로메사는 도예 전공자들의 작품을 전시하고 판매하는 플랫폼입니다.',
+  description:
+    '프로메사는 도예 전공자들의 작품을 전시하고 판매하는 플랫폼입니다. 이 플랫폼은 도예과 학생들이 온라인에서 작품을 판매해 볼 수 있는 소중한 경험을 제공하며, 소비자에게는 오직 하나뿐인 핸드메이드 제품으로 일상을 더 사랑스럽고 특별하게 만들어 줄 수 있습니다. 이곳에서 우리는 예술과 일상이 만나는 교차로를 만들고, 핸드메이드 제품의 가치를 더욱 감각적으로 느낄 수 있도록 지원합니다.',
   manifest: '/manifest.json',
-  keywords: ['프로메사'],
-  authors: [],
-  robots: 'index, follow',
+  metadataBase: new URL('https://ceos-promesa.vercel.app'),
+  keywords: [],
+  openGraph: {
+    title: '프로메사 - 도예 전공자들의 작품을 전시하고 판매하는 플랫폼',
+    description:
+      '프로메사는 도예 전공자들의 작품을 전시하고 판매하는 플랫폼입니다. 이 플랫폼은 도예과 학생들이 온라인에서 작품을 판매해 볼 수 있는 소중한 경험을 제공하며, 소비자에게는 오직 하나뿐인 핸드메이드 제품으로 일상을 더 사랑스럽고 특별하게 만들어 줄 수 있습니다. 이곳에서 우리는 예술과 일상이 만나는 교차로를 만들고, 핸드메이드 제품의 가치를 더욱 감각적으로 느낄 수 있도록 지원합니다.',
+    type: 'website',
+    siteName: '프로메사',
+    url: 'https://promesa.co.kr',
+    locale: 'ko_KR',
+    countryName: '대한민국',
+    images: [
+      {
+        url: 'https://promesa.co.kr/icons/icon-512x512.png',
+        width: 512,
+        height: 512,
+        alt: '프로메사 - 도예 전공자들의 작품을 전시하고 판매하는 플랫폼',
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '프로메사 - 도예 전공자들의 작품을 전시하고 판매하는 플랫폼',
+    description:
+      '프로메사는 도예 전공자들의 작품을 전시하고 판매하는 플랫폼입니다. 이 플랫폼은 도예과 학생들이 온라인에서 작품을 판매해 볼 수 있는 소중한 경험을 제공하며, 소비자에게는 오직 하나뿐인 핸드메이드 제품으로 일상을 더 사랑스럽고 특별하게 만들어 줄 수 있습니다. 이곳에서 우리는 예술과 일상이 만나는 교차로를 만들고, 핸드메이드 제품의 가치를 더욱 감각적으로 느낄 수 있도록 지원합니다.',
+    images: ['https://promesa.co.kr/icons/icon-512x512.png'],
+    creator: undefined,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  authors: [{ name: 'Promesa', url: 'https://promesa.co.kr' }],
+  creator: 'Promesa',
+  publisher: 'Promesa',
+  category: null,
+  applicationName: '프로메사',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: '/icons/favicon.svg',
   },
-  openGraph: {
-    title: '도예 전공자들의 작품을 전시하고 판매하는 플랫폼, 프로메사(Promesa)',
-    description:
-      '프로메사는 도예 전공자들의 작품을 전시하고 판매하는 플랫폼입니다. 이 플랫폼은 도예과 학생들이 온라인에서 작품을 판매해 볼 수 있는 소중한 경험을 제공하며, 소비자에게는 오직 하나뿐인 핸드메이드 제품으로 일상을 더 사랑스럽고 특별하게 만들어 줄 수 있습니다. 이곳에서 우리는 예술과 일상이 만나는 교차로를 만들고, 핸드메이드 제품의 가치를 더욱 감각적으로 느낄 수 있도록 지원합니다.',
-    url: 'https://ceos-promesa.vercel.app',
-    siteName: '프로메사',
-    type: 'website',
-    locale: 'ko_KR',
-  },
-  metadataBase: new URL('https://ceos-promesa.vercel.app'),
 };
 
 export default function RootLayout({
