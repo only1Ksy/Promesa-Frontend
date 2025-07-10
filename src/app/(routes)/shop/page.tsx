@@ -1,7 +1,6 @@
 import { dehydrate } from '@tanstack/react-query';
 
 import ClientShopPage from '@/components/client/shop/page';
-import { fetchParentCategories } from '@/services/api/category-controller';
 import { fetchShopItems } from '@/services/api/item-controller';
 import { createQueryClient } from '@/services/query/server';
 import type { ItemControllerParams, ItemControllerServerParams } from '@/types/item-controller';
@@ -27,16 +26,10 @@ export default async function ShopPage({
 
   const queryClient = createQueryClient();
 
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ['items', serverParams],
-      queryFn: () => fetchShopItems(serverParams),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: ['parentCategories'],
-      queryFn: fetchParentCategories,
-    }),
-  ]);
+  queryClient.prefetchQuery({
+    queryKey: ['items', serverParams],
+    queryFn: () => fetchShopItems(serverParams),
+  });
 
   const dehydratedState = dehydrate(queryClient);
 
