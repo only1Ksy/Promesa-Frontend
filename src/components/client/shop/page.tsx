@@ -29,7 +29,7 @@ export default function ClientShopPage({ dehydratedState, initialParams }: Clien
           </div>
         </div>
         {/* 아이템 */}
-        <ItemList initialParams={initialParams} />
+        <ItemList initialParams={initialParams} page="SHOP" />
       </div>
     </HydrationBoundary>
   );

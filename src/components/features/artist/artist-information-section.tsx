@@ -63,10 +63,7 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
           className="custom-break-words text-body-02 text-grey-7 font-regular"
           style={{ lineHeight: 'var(--tw-leading, 160%)' }} // design change
         >
-          {stringToMultilineTSX(
-            bio +
-              '######################################################################################################################',
-          )}
+          {stringToMultilineTSX(bio)}
         </p>
       </Expandable>
       {/* 작가 설명 더보기 / 간략하게 */}
