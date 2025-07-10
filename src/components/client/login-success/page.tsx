@@ -14,15 +14,9 @@ export default function ClientLoginSuccessPage() {
   useEffect(() => {
     const accessToken = searchParams.get('accessToken');
     const afterLogin = searchParams.get('afterLogin') || '/';
-    const refreshToken = searchParams.get('refresh'); // need to refactor
 
     if (accessToken) {
       setAccessToken(accessToken);
-
-      if (refreshToken) {
-        const isProd = process.env.NODE_ENV === 'production';
-        document.cookie = `refresh=${refreshToken}; path=/; ${isProd ? 'secure; samesite=none' : ''}`;
-      }
 
       router.replace(afterLogin);
     } else {
