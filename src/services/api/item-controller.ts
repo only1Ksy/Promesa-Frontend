@@ -20,14 +20,3 @@ export const fetchShopItems = (params: ItemControllerServerParams) =>
     },
     params,
   );
-
-// need to refactor
-export const fetchArtistItems = (params: ItemControllerServerParams) =>
-  withErrorBoundary<[ItemControllerServerParams], ItemPreviewSchema[]>(async (params) => {
-    const { categoryId, sort } = params;
-    const res =
-      categoryId > 0
-        ? await axiosInstance.get(`/categories/${categoryId}/items?memberId=1&page=0&size=1000&sort=${sort}`)
-        : await axiosInstance.get(`/categories/1/items?memberId=1&page=0&size=1000&sort=${sort}`);
-    return res.data.data.content;
-  }, params);
