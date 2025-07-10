@@ -1,37 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useOrderStore } from '@/lib/store/order-information-store';
 
 import OrderDropdown from './order-dropdown';
 
 export default function PayForm() {
-  const [form, setForm] = useState({
-    depositor: '',
-    selectedBank: '',
-  });
-
-  const handleChange = (field: string, value: string) => {
-    setForm((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  const payment = useOrderStore((state) => state.payment);
+  const updatePayment = useOrderStore((state) => state.updatePayment);
 
   const handleSelectBank = (value: string) => {
-    handleChange('selectedBank', value);
+    updatePayment('selectedBank', value);
   };
-
-  /*const handleSubmit = () => {
-    if (!form.selectedBank) {
-      alert('⚠️ 은행을 선택해주세요.');
-      return;
-    }
-    if (!form.depositor.trim()) {
-      alert('⚠️ 입금자명을 입력해주세요.');
-      return;
-    }
-    // 실제 제출 처리...
-  };*/
 
   const bankList = [
     { label: '은행 선택', value: '' },
@@ -63,8 +42,8 @@ export default function PayForm() {
             <div className="flex w-84.5 flex-col">
               <input
                 type="text"
-                value={form.depositor}
-                onChange={(e) => handleChange('depositor', e.target.value)}
+                value={payment.depositor}
+                onChange={(e) => updatePayment('depositor', e.target.value)}
                 className="border-deep-green rounded-md border p-2.5"
                 placeholder="입금자명"
               />

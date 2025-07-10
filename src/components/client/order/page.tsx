@@ -25,14 +25,16 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
   return (
     <HydrationBoundary state={itemDetailState}>
-      {/* 주문 아이템 리스트 */}
-      <OrderedProductList items={item} />
-      <h1>{item.itemName}</h1>
-      <p>{item.price.toLocaleString()}원</p>
-      {/* 배송지 작성 */}
-      <DeliveryForm />
-      {/* 결제 수단 */}
-      <PayForm />
+      <div className="flex flex-col gap-6.5">
+        {/* 주문 아이템 리스트 */}
+        <OrderedProductList items={item} />
+        <h1>{item.itemName}</h1>
+        <p>{item.price.toLocaleString()}원</p>
+        {/* 배송지 작성 */}
+        <DeliveryForm />
+        {/* 결제 수단 */}
+        <PayForm />
+      </div>
     </HydrationBoundary>
   );
 }

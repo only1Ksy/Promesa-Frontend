@@ -1,46 +1,28 @@
 'use client';
 
-import { useState } from 'react';
 import clsx from 'clsx';
+
+import { useOrderStore } from '@/lib/store/order-information-store';
 
 import OrderDropdown from './order-dropdown';
 
 export default function DeliveryForm() {
-  const [form, setForm] = useState({
-    name: '',
-    phone1: '010',
-    phone2: '',
-    phone3: '',
-    postcode: '',
-    address: '',
-    addressDetail: '',
-    isDefault: false,
-    deliveryType: 'new' as 'recent' | 'new',
-  });
-
-  const handleChange = (field: string, value: string | boolean) => {
-    setForm((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  const delivery = useOrderStore((state) => state.delivery);
+  const updateDelivery = useOrderStore((state) => state.updateDelivery);
 
   const openAddressSearch = () => {
     if (typeof window === 'undefined' || !window.daum?.Postcode) return;
 
     new window.daum.Postcode({
       oncomplete: (data) => {
-        setForm((prev) => ({
-          ...prev,
-          postcode: data.zonecode,
-          address: data.address,
-        }));
+        updateDelivery('postcode', data.zonecode);
+        updateDelivery('address', data.address);
       },
     }).open();
   };
 
   const handleSelect = (value: string) => {
-    handleChange('phone1', value);
+    updateDelivery('phone1', value);
   };
 
   const phoneList = [
@@ -48,27 +30,6 @@ export default function DeliveryForm() {
     { label: '02', value: '02' },
     { label: '031', value: '031' },
   ];
-
-  const handleSubmit = () => {
-    if (!form.name.trim()) {
-      alert('이름을 입력해주세요.');
-      return;
-    }
-    if (!form.phone2.trim() || !form.phone3.trim()) {
-      alert('연락처를 완성해주세요.');
-      return;
-    }
-    if (!form.postcode || !form.address) {
-      alert('우편번호 검색을 통해 주소를 입력해주세요.');
-      return;
-    }
-    if (!form.addressDetail.trim()) {
-      alert('상세주소를 입력해주세요.');
-      return;
-    }
-
-    // 실제 제출 처리
-  };
 
   return (
     <section className="flex flex-col gap-3.5 px-5 pb-6.5">
@@ -83,14 +44,14 @@ export default function DeliveryForm() {
             <button
               key={key}
               type="button"
-              onClick={() => handleChange('deliveryType', key)}
+              onClick={() => updateDelivery('deliveryType', key)}
               className="flex items-center gap-1.5"
             >
-              <span className={clsx('h-3.5 w-3.5', form.deliveryType === key ? 'bg-orange' : 'bg-grey-4')} />
+              <span className={clsx('h-3.5 w-3.5', delivery.deliveryType === key ? 'bg-orange' : 'bg-grey-4')} />
               <span
                 className={clsx(
                   'text-caption-01 font-medium',
-                  form.deliveryType === key ? 'text-black' : 'text-grey-5',
+                  delivery.deliveryType === key ? 'text-black' : 'text-grey-5',
                 )}
               >
                 {label}
@@ -104,8 +65,8 @@ export default function DeliveryForm() {
           <div className="flex flex-col">
             <input
               type="text"
-              value={form.name}
-              onChange={(e) => handleChange('name', e.target.value)}
+              value={delivery.name}
+              onChange={(e) => updateDelivery('name', e.target.value)}
               className="border-deep-green rounded-md border p-2.5"
               placeholder="이름"
             />
@@ -116,7 +77,7 @@ export default function DeliveryForm() {
             <div className="flex justify-between">
               <input
                 type="text"
-                value={form.postcode}
+                value={delivery.postcode}
                 placeholder="우편번호"
                 readOnly
                 className="bg-green w-58.75 rounded-md p-2.5"
@@ -131,15 +92,15 @@ export default function DeliveryForm() {
             </div>
             <input
               type="text"
-              value={form.address}
+              value={delivery.address}
               readOnly
               placeholder="기본주소"
               className="border-deep-green rounded-md border p-2.5"
             />
             <input
               type="text"
-              value={form.addressDetail}
-              onChange={(e) => handleChange('addressDetail', e.target.value)}
+              value={delivery.addressDetail}
+              onChange={(e) => updateDelivery('addressDetail', e.target.value)}
               placeholder="상세주소 (건물명, 호수 등)"
               className="border-deep-green rounded-md border p-2.5"
             />
@@ -153,8 +114,8 @@ export default function DeliveryForm() {
               <input
                 type="text"
                 maxLength={4}
-                value={form.phone2}
-                onChange={(e) => handleChange('phone2', e.target.value)}
+                value={delivery.phone2}
+                onChange={(e) => updateDelivery('phone2', e.target.value)}
                 className="border-deep-green w-27 rounded-md border p-2.5"
                 placeholder="1234"
               />
@@ -162,27 +123,27 @@ export default function DeliveryForm() {
               <input
                 type="text"
                 maxLength={4}
-                value={form.phone3}
-                onChange={(e) => handleChange('phone3', e.target.value)}
+                value={delivery.phone3}
+                onChange={(e) => updateDelivery('phone3', e.target.value)}
                 className="border-deep-green w-27 rounded-md border p-2.5"
                 placeholder="5678"
               />
             </div>
           </div>
         </div>
+
         {/* 기본배송지 저장 - 왼쪽 박스 */}
-        {form.deliveryType === 'new' && (
+        {delivery.deliveryType === 'new' && (
           <div>
             <button
               type="button"
               onClick={() => {
-                handleChange('isDefault', !form.isDefault);
-                handleSubmit();
+                updateDelivery('isDefault', !delivery.isDefault);
               }}
               className="flex items-center gap-2"
             >
-              <span className={clsx('h-3.5 w-3.5', form.isDefault ? 'bg-orange' : 'bg-grey-4')} />
-              <span className={clsx('text-caption-01 font-medium', form.isDefault ? 'text-black' : 'text-grey-5')}>
+              <span className={clsx('h-3.5 w-3.5', delivery.isDefault ? 'bg-orange' : 'bg-grey-4')} />
+              <span className={clsx('text-caption-01 font-medium', delivery.isDefault ? 'text-black' : 'text-grey-5')}>
                 기본 배송지로 저장
               </span>
             </button>
