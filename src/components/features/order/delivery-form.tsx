@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 
+import OrderDropdown from './order-dropdown';
+
 export default function DeliveryForm() {
   const [form, setForm] = useState({
     name: '',
@@ -35,6 +37,37 @@ export default function DeliveryForm() {
         }));
       },
     }).open();
+  };
+
+  const handleSelect = (value: string) => {
+    handleChange('phone1', value);
+  };
+
+  const phoneList = [
+    { label: '010', value: '010' },
+    { label: '02', value: '02' },
+    { label: '031', value: '031' },
+  ];
+
+  const handleSubmit = () => {
+    if (!form.name.trim()) {
+      alert('이름을 입력해주세요.');
+      return;
+    }
+    if (!form.phone2.trim() || !form.phone3.trim()) {
+      alert('연락처를 완성해주세요.');
+      return;
+    }
+    if (!form.postcode || !form.address) {
+      alert('우편번호 검색을 통해 주소를 입력해주세요.');
+      return;
+    }
+    if (!form.addressDetail.trim()) {
+      alert('상세주소를 입력해주세요.');
+      return;
+    }
+
+    // 실제 제출 처리
   };
 
   return (
@@ -115,15 +148,7 @@ export default function DeliveryForm() {
           {/* 연락처 */}
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1.75">
-              <select
-                value={form.phone1}
-                onChange={(e) => handleChange('phone1', e.target.value)}
-                className="bg-green w-27 rounded-md p-3"
-              >
-                <option value="010">010</option>
-                <option value="011">011</option>
-                <option value="016">016</option>
-              </select>
+              <OrderDropdown items={phoneList} onSelect={handleSelect} width="w-64" />
               -
               <input
                 type="text"
@@ -150,7 +175,10 @@ export default function DeliveryForm() {
           <div>
             <button
               type="button"
-              onClick={() => handleChange('isDefault', !form.isDefault)}
+              onClick={() => {
+                handleChange('isDefault', !form.isDefault);
+                handleSubmit();
+              }}
               className="flex items-center gap-2"
             >
               <span className={clsx('h-3.5 w-3.5', form.isDefault ? 'bg-orange' : 'bg-grey-4')} />
