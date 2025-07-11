@@ -18,6 +18,7 @@ export default function ClientRoutesLayout({
   const pathName = usePathname();
   const isDetailPage = pathName.startsWith('/detail/');
   const isReviewPage = pathName.startsWith('/review/');
+  const isOrderPage = pathName.startsWith('/order/');
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
   const isFetching = useIsFetching();
@@ -35,7 +36,7 @@ export default function ClientRoutesLayout({
     <>
       {isFetching > 0 && <FetchingSpinner />}
 
-      {isReviewPage ? (
+      {isReviewPage || isOrderPage ? (
         <>
           <Header />
           <div className="mt-11.5">{children}</div>
