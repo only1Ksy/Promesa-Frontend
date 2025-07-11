@@ -42,7 +42,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
       {isReviewPage || isOrderPage ? (
         <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
           <div ref={bottomBarRef} className="fixed-component bottom-0" />
-          <Header shadow/>
+          <Header shadow />
           <div className="mt-11.5">{children}</div>
         </BottomFixedBarTargetContext.Provider>
       ) : isDetailPage ? (
