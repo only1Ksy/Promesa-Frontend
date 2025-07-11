@@ -9,7 +9,7 @@ interface BottomFixedBarProps {
 
 export default function BottomFixedBar({ total, agree, handlePayCheck }: BottomFixedBarProps) {
   return (
-    <div className="bg-pale-green flex h-21 w-full px-5 py-3">
+    <div className="bg-pale-green home-shadow flex h-21 w-full px-5 py-3">
       <button
         className={clsx(
           'text-body-01 w-full rounded-xs py-2 font-bold',

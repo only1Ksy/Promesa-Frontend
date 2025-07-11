@@ -80,7 +80,7 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
   return (
     <HydrationBoundary state={itemDetailState}>
-      <div className="flex w-full flex-col gap-6.5 pb-21">
+      <div className="flex w-full flex-col gap-6.5 pt-3 pb-21">
         {/* 주문 아이템 리스트 */}
         <OrderedProductList items={items} />
         {/* 배송지 작성 */}
