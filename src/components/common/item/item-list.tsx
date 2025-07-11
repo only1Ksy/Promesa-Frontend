@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import Expandable from '@/components/common/utilities/expandable';
 import chunkList from '@/lib/utils/chunk-list';
+import { fetchArtistItems } from '@/services/api/artist-controller';
 import { fetchShopItems } from '@/services/api/item-controller';
 import type { ItemControllerParams, ItemControllerServerParams } from '@/types/item-controller';
 
@@ -16,9 +17,10 @@ import ItemPreview from './item-preview';
 
 interface ItemListGridProps {
   initialParams: ItemControllerParams;
+  page: 'SHOP' | 'ARTIST';
 }
 
-export default function ItemList({ initialParams }: ItemListGridProps) {
+export default function ItemList({ initialParams, page }: ItemListGridProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -74,7 +76,7 @@ export default function ItemList({ initialParams }: ItemListGridProps) {
 
   const { data } = useSuspenseQuery({
     queryKey: ['items', serverParams],
-    queryFn: () => fetchShopItems(serverParams),
+    queryFn: page === 'SHOP' ? () => fetchShopItems(serverParams) : () => fetchArtistItems(serverParams),
   });
 
   const push = (next: Partial<ItemControllerParams>) => {

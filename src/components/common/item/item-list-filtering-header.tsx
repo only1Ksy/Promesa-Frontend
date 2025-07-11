@@ -27,9 +27,9 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
   const searchParamKeys = useSearchParams().toString();
 
   const { data } = useSuspenseQuery({
-    queryKey: ['categoryParent'],
+    queryKey: ['itemCategories'],
     queryFn: fetchParentCategories,
-  });
+  }); // prefetch at layout
 
   // initialize when using router.push(...)
   useEffect(() => {
@@ -53,8 +53,6 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
     };
   }, [open]);
 
-  const parentCategoryList = [{ id: 0, name: 'ALL' }, ...data];
-
   // sort, frame keys
   const SORT_KEYS = [
     { label: '높은 가격순', value: 'price,desc' },
@@ -72,7 +70,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
         {/* 카테고리 */}
         <div className="to-pale-green from-pale-green/0 pointer-events-none absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
         <HorizontalScrollwithActive activeId={`category-id-${categoryId}`} className="flex gap-5.5 pr-8">
-          {parentCategoryList.map(({ id, name }) => {
+          {data.map(({ id, name }) => {
             const isActive = categoryId === id;
             return (
               <button
@@ -91,23 +89,26 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
         </HorizontalScrollwithActive>
       </div>
 
-      <div className="flex items-center justify-end gap-1">
+      <div className="flex items-center justify-end gap-3">
         {/* 정렬 */}
-        <div ref={dropdownRef} className="text-caption-01 relative flex flex-col items-center font-medium">
+        <div ref={dropdownRef} className="relative flex flex-col items-center">
           <button
             onClick={() => setOpen((prev) => !prev)}
             className={clsx(
-              'text-grey-9 flex cursor-pointer items-center justify-center gap-2 px-2 py-1',
+              'text-grey-9 flex h-7 cursor-pointer items-center justify-center gap-2 px-2 py-1',
               open ? 'bg-green' : 'bg-pale-green',
             )}
           >
-            <span className="w-14.5 text-end">{SORT_KEYS.find((opt) => opt.value === sort)?.label ?? null}</span>
+            <span className="text-body-02 w-16 text-end font-medium">
+              {SORT_KEYS.find((opt) => opt.value === sort)?.label ?? null}
+            </span>
             <DropDownIcon className={clsx('transition-transform', open ? 'rotate-180' : '')} />
           </button>
+          {/* 드롭다운 */}
           <div
             className={clsx(
-              'absolute top-6.5 left-0 z-10 flex w-full flex-col overflow-hidden transition-all',
-              open ? 'max-h-13 opacity-100' : 'max-h-0 opacity-0',
+              'absolute top-7 left-0 z-10 flex w-full flex-col overflow-hidden transition-all',
+              open ? 'max-h-14 opacity-100' : 'max-h-0 opacity-0',
             )}
           >
             {SORT_KEYS.map(
@@ -119,9 +120,9 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
                       push({ sort: value, page: 0 });
                       setOpen(false);
                     }}
-                    className="bg-pale-green text-grey-5 hover:bg-green hover:text-grey-9 flex cursor-pointer items-center px-2 py-1"
+                    className="bg-pale-green text-grey-5 hover:bg-green hover:text-grey-9 flex h-7 cursor-pointer items-center px-2 py-1"
                   >
-                    <span className="w-14.5 text-end">{label}</span>
+                    <span className="text-body-02 w-16 text-end font-medium">{label}</span>
                   </button>
                 ),
             )}

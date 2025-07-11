@@ -37,7 +37,7 @@ export default function ClientArtistPage({ dehydratedState, artistId, initialPar
 
           {/* 아이템 리스트 */}
           <div className="-mt-27">
-            <ItemList initialParams={initialParams} />
+            <ItemList initialParams={initialParams} page="ARTIST" />
           </div>
 
           {/* 작가에게 질문 */}

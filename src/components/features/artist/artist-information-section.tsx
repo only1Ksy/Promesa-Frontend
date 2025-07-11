@@ -58,7 +58,11 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
         </div>
       </div>
       <Expandable flag={open} collapsedMaxHeight={22.5}>
-        <p ref={textRef} className="custom-break-words text-caption-01 text-grey-7 font-medium">
+        <p
+          ref={textRef}
+          className="custom-break-words text-body-02 text-grey-7 font-regular"
+          style={{ lineHeight: 'var(--tw-leading, 160%)' }} // design change
+        >
           {stringToMultilineTSX(bio)}
         </p>
       </Expandable>
