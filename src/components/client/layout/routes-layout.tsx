@@ -37,10 +37,11 @@ export default function ClientRoutesLayout({
       {isFetching > 0 && <FetchingSpinner />}
 
       {isReviewPage || isOrderPage ? (
-        <>
+        <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
+          <div ref={bottomBarRef} className="fixed-component bottom-0" />
           <Header />
           <div className="mt-11.5">{children}</div>
-        </>
+        </BottomFixedBarTargetContext.Provider>
       ) : isDetailPage ? (
         <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
           <div ref={bottomBarRef} className="fixed-component bottom-0" />

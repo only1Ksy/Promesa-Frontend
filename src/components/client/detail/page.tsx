@@ -7,8 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import ReviewImageOnly from '@/components/common/review/review-image-only';
+import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import BottomFixedBar from '@/components/features/detail/bottom-fixed-bar';
-import BottomFixedBarPortal from '@/components/features/detail/bottom-fixed-bar-portal';
 import DetailNavBar from '@/components/features/detail/detail-nav-bar';
 import DetailSwiper from '@/components/features/detail/detail-swiper';
 import ProductDetail from '@/components/features/detail/product-detail';

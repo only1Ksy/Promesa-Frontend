@@ -6,10 +6,13 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 import clsx from 'clsx';
 
+import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
+import BottomFixedBar from '@/components/features/order/bottom-fixed-bar';
 import DeliveryForm from '@/components/features/order/delivery-form';
 import OrderedProductList from '@/components/features/order/ordered-product-list';
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
+import { useOrderStore } from '@/lib/store/order-information-store';
 // import { fetchItemDetail } from '@/services/api/item';
 
 interface ClientOrderPageProps {
@@ -28,6 +31,40 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
   if (!item) return null; */
 
+  const { delivery, payment } = useOrderStore();
+
+  const handlePayClick = () => {
+    if (!agree) return;
+
+    if (!delivery.name) {
+      alert('이름을 입력해주세요.');
+      return;
+    }
+
+    if (!delivery.postcode || !delivery.address || !delivery.addressDetail) {
+      alert('주소를 모두 입력해주세요.');
+      return;
+    }
+
+    if (!delivery.phone2 || !delivery.phone3) {
+      alert('전화번호를 정확히 입력해주세요.');
+      return;
+    }
+
+    if (!payment.selectedBank) {
+      alert('은행을 선택해주세요.');
+      return;
+    }
+
+    if (!payment.depositor) {
+      alert('입금자명을 입력해주세요.');
+      return;
+    }
+
+    // 모든 검사를 통과하면 결제 진행
+    console.log('✅ 제출 가능, 결제 진행!');
+  };
+
   const item = {
     imageSrc: '/img/src',
     artistName: '김영은',
@@ -43,7 +80,7 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
   return (
     <HydrationBoundary state={itemDetailState}>
-      <div className="flex flex-col gap-6.5 pb-21">
+      <div className="flex w-full flex-col gap-6.5 pb-21">
         {/* 주문 아이템 리스트 */}
         <OrderedProductList items={items} />
         {/* 배송지 작성 */}
@@ -62,6 +99,10 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
           </button>
         </div>
       </div>
+      {/* 하단 고정 결제하기 버튼 */}
+      <BottomFixedBarPortal>
+        <BottomFixedBar total={total > 70000 ? total : total + 3000} agree={agree} handlePayCheck={handlePayClick} />
+      </BottomFixedBarPortal>
     </HydrationBoundary>
   );
 }
