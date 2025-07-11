@@ -32,7 +32,7 @@ export default function DeliveryForm() {
   ];
 
   return (
-    <section className="flex flex-col gap-3.5 px-5 pb-6.5">
+    <section className="border-green flex flex-col gap-3.5 border-b px-5 pb-6.5">
       <div className="text-headline-05 font-bold">배송지</div>
       <div className="flex flex-col gap-6">
         {/* 최근 배송지 / 새로운 배송지 선택 */}
@@ -67,7 +67,7 @@ export default function DeliveryForm() {
               type="text"
               value={delivery.name}
               onChange={(e) => updateDelivery('name', e.target.value)}
-              className="border-deep-green rounded-md border p-2.5"
+              className="border-deep-green rounded-md border p-2.5 outline-none"
               placeholder="이름"
             />
           </div>
@@ -80,7 +80,7 @@ export default function DeliveryForm() {
                 value={delivery.postcode}
                 placeholder="우편번호"
                 readOnly
-                className="bg-green w-58.75 rounded-md p-2.5"
+                className="bg-green w-58.75 rounded-md p-2.5 outline-none"
               />
               <button
                 onClick={openAddressSearch}
@@ -95,14 +95,14 @@ export default function DeliveryForm() {
               value={delivery.address}
               readOnly
               placeholder="기본주소"
-              className="border-deep-green rounded-md border p-2.5"
+              className="border-deep-green rounded-md border p-2.5 outline-none"
             />
             <input
               type="text"
               value={delivery.addressDetail}
               onChange={(e) => updateDelivery('addressDetail', e.target.value)}
               placeholder="상세주소 (건물명, 호수 등)"
-              className="border-deep-green rounded-md border p-2.5"
+              className="border-deep-green rounded-md border p-2.5 outline-none"
             />
           </div>
 
@@ -116,7 +116,7 @@ export default function DeliveryForm() {
                 maxLength={4}
                 value={delivery.phone2}
                 onChange={(e) => updateDelivery('phone2', e.target.value)}
-                className="border-deep-green w-27 rounded-md border p-2.5"
+                className="border-deep-green w-27 rounded-md border p-2.5 outline-none"
                 placeholder="1234"
               />
               -
@@ -125,7 +125,7 @@ export default function DeliveryForm() {
                 maxLength={4}
                 value={delivery.phone3}
                 onChange={(e) => updateDelivery('phone3', e.target.value)}
-                className="border-deep-green w-27 rounded-md border p-2.5"
+                className="border-deep-green w-27 rounded-md border p-2.5 outline-none"
                 placeholder="5678"
               />
             </div>

@@ -19,7 +19,7 @@ export default function PayForm() {
   ];
 
   return (
-    <section className="flex flex-col gap-3.5 px-5 pb-6.5">
+    <section className="border-green flex flex-col gap-3.5 border-b px-5 pb-6.5">
       <div className="text-headline-05 font-bold">결제 수단</div>
 
       <div className="flex flex-col gap-3">
@@ -44,7 +44,7 @@ export default function PayForm() {
                 type="text"
                 value={payment.depositor}
                 onChange={(e) => updatePayment('depositor', e.target.value)}
-                className="border-deep-green rounded-md border p-2.5"
+                className="border-deep-green rounded-md border p-2.5 outline-none"
                 placeholder="입금자명"
               />
             </div>
