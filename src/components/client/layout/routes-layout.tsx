@@ -21,6 +21,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const pathName = usePathname();
   const isDetailPage = pathName.startsWith('/detail/');
   const isReviewPage = pathName.startsWith('/review/');
+  const isOrderPage = pathName.startsWith('/order/');
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
   const isFetching = useIsFetching();
@@ -38,11 +39,12 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     <HydrationBoundary state={dehydratedState}>
       {isFetching > 0 && <FetchingSpinner />}
 
-      {isReviewPage ? (
-        <>
-          <Header shadow />
+      {isReviewPage || isOrderPage ? (
+        <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
+          <div ref={bottomBarRef} className="fixed-component bottom-0" />
+          <Header shadow/>
           <div className="mt-11.5">{children}</div>
-        </>
+        </BottomFixedBarTargetContext.Provider>
       ) : isDetailPage ? (
         <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
           <div ref={bottomBarRef} className="fixed-component bottom-0" />
