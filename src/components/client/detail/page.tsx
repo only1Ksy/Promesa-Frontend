@@ -15,10 +15,11 @@ import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
 import ProductNotice from '@/components/features/detail/product-notice';
 import ReviewPreview from '@/components/features/detail/review-preview';
-import { REVIEW_LIST } from '@/lib/constants/temp-review-list';
+// import { REVIEW_LIST } from '@/lib/constants/temp-review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemReviews } from '@/services/api/review-controller';
 
 interface ClientDetailPageProps {
   itemId: number;
@@ -31,6 +32,14 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res.data,
   });
+
+  const { data: reviewResponse, isLoading: isReviewLoading } = useQuery({
+    queryKey: ['reviewList', itemId],
+    queryFn: () => fetchItemReviews(itemId),
+    select: (res) => res.content,
+  });
+
+  console.log(reviewResponse);
 
   // 라우터
   const router = useRouter();
@@ -100,7 +109,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolling]);
 
-  if (!item || isLoading) return null;
+  if (!item || isLoading || isReviewLoading) return null;
 
   // 이미지 배열 생성 (API 응답에 따라 추후 수정)
   const images = [
@@ -134,10 +143,15 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
           <div ref={reviewRef} className="mt-10 flex min-h-100 w-full scroll-mt-26 flex-col items-center">
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
-                <span className="text-subhead font-medium text-black">리뷰 (4) </span>
+                <span className="text-subhead font-medium text-black">리뷰 ({reviewResponse?.length ?? 0}) </span>
                 <div className="flex items-center gap-1">
                   <ReviewStarIcon className="text-orange h-4 w-4" />
-                  <div className="text-grey-6 text-body-02 font-medium">4 (1)</div>
+                  <div className="text-grey-6 text-body-02 font-medium">
+                    {reviewResponse && reviewResponse.length > 0
+                      ? (reviewResponse.reduce((acc, cur) => acc + cur.rating, 0) / reviewResponse.length).toFixed(1)
+                      : '0.0'}{' '}
+                    ({reviewResponse?.length ?? 0})
+                  </div>{' '}
                 </div>
               </div>
               <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
@@ -158,7 +172,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
-              <ReviewPreview reviews={REVIEW_LIST} itemId={itemId} openReviewModal={openReviewModal} />
+              <ReviewPreview reviews={reviewResponse ?? []} itemId={itemId} openReviewModal={openReviewModal} />
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 
 import QueryProvider from '@/services/query/client';
 
@@ -72,6 +73,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" strategy="beforeInteractive" />
+      </head>
       <body className={pretendard.className}>
         <QueryProvider>
           <div className="h-screen w-full">

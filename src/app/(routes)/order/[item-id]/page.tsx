@@ -1,11 +1,10 @@
 import { dehydrate } from '@tanstack/react-query';
 
-import ClientDetailPage from '@/components/client/detail/page';
+import ClientOrderPage from '@/components/client/order/page';
 import { fetchItemDetail } from '@/services/api/item';
-import { fetchItemReviews } from '@/services/api/review-controller';
 import { createQueryClient } from '@/services/query/server';
 
-export default async function DetailPage({ params: paramsPromise }: { params: Promise<{ 'item-id': string }> }) {
+export default async function OrderItemPage({ params: paramsPromise }: { params: Promise<{ 'item-id': string }> }) {
   const params = await paramsPromise;
   const itemId = Number(params['item-id']);
   const queryClient = createQueryClient();
@@ -16,13 +15,7 @@ export default async function DetailPage({ params: paramsPromise }: { params: Pr
     queryFn: () => fetchItemDetail(itemId),
   });
 
-  // 2. 리뷰 정보 prefetch
-  await queryClient.prefetchQuery({
-    queryKey: ['itemReviews', itemId],
-    queryFn: () => fetchItemReviews(itemId),
-  });
-
   const dehydratedState = dehydrate(queryClient);
 
-  return <ClientDetailPage itemId={itemId} itemDetailState={dehydratedState} />;
+  return <ClientOrderPage itemId={itemId} itemDetailState={dehydratedState} />;
 }
