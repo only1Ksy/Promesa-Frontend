@@ -7,14 +7,18 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import Expandable from '@/components/common/utilities/expandable';
+import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 import CloseIcon from '@/public/icons/layout/close.svg';
 import HamburgerIcon from '@/public/icons/layout/hamburger.svg';
 import HideCategoriesIcon from '@/public/icons/layout/hide-categories.svg';
+import { logoutOnce } from '@/services/api/axios/auth';
 import { fetchParentCategories } from '@/services/api/category-controller';
 
 export default function HamburgerButton() {
   const [open, setOpen] = useState(false);
   const [itemCategoriesOpen, setItemCategoriesOpen] = useState(false);
+
+  const accessToken = useAccessTokenStore((s) => s.accessToken);
 
   // handle navigation
   const pathname = usePathname();
@@ -58,15 +62,29 @@ export default function HamburgerButton() {
           !open && '!w-0',
         )}
       >
-        <button onClick={() => setOpen(false)} className="mx-5 my-2 flex cursor-pointer items-center justify-end">
-          <CloseIcon className="text-grey-9" />
-        </button>
+        <div className="mx-5 my-2 flex items-center justify-end">
+          <button
+            onClick={() => {
+              setOpen(false);
+              setItemCategoriesOpen(false);
+            }}
+            className="flex cursor-pointer items-center justify-center"
+          >
+            <CloseIcon className="text-grey-9" />
+          </button>
+        </div>
         <div className="mx-5 flex flex-col gap-5">
           {/* 빠른 페이지 이동 */}
           <div className="text-body-01 text-grey-5 flex gap-8 font-medium">
-            <Link href="/login">
-              <p>Login</p>
-            </Link>
+            {!accessToken ? (
+              <Link href="/login">
+                <p>Login</p>
+              </Link>
+            ) : (
+              <button onClick={logoutOnce} className="flex cursor-pointer items-center justify-center">
+                <p>Logout</p>
+              </button>
+            )}
             <Link href="/">
               <p>Wishlist</p>
             </Link>
