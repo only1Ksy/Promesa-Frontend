@@ -62,15 +62,17 @@ export default function HamburgerButton() {
           !open && '!w-0',
         )}
       >
-        <button
-          onClick={() => {
-            setOpen(false);
-            setItemCategoriesOpen(false);
-          }}
-          className="mx-5 my-2 flex cursor-pointer items-center justify-end"
-        >
-          <CloseIcon className="text-grey-9" />
-        </button>
+        <div className="mx-5 my-2 flex items-center justify-end">
+          <button
+            onClick={() => {
+              setOpen(false);
+              setItemCategoriesOpen(false);
+            }}
+            className="flex cursor-pointer items-center justify-center"
+          >
+            <CloseIcon className="text-grey-9" />
+          </button>
+        </div>
         <div className="mx-5 flex flex-col gap-5">
           {/* 빠른 페이지 이동 */}
           <div className="text-body-01 text-grey-5 flex gap-8 font-medium">
