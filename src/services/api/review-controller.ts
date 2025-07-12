@@ -35,6 +35,7 @@ export const PostReviewImages = (imageType: string = 'REVIEW', referenceId: numb
   );
 
 /** itemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
+// imageKey는 파일명
 export const PostReview = (itemId: number, memberId: number, content: string, rating: number, imageKeys: string[]) =>
   withErrorBoundary<[number, number, string, number, string[]], PresignedUrlResponse>(
     async (itemId, memberId, content, rating, imageKeys) => {

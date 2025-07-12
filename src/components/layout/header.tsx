@@ -21,6 +21,7 @@ export default function Header({ shadow }: HeaderProps) {
   const searchParams = useSearchParams();
 
   const isOrder = pathname.startsWith('/order');
+  const isOrderComplete = pathname.startsWith('/order/complete');
   const isSearch = pathname.startsWith('/shop');
   const isReview = pathname.includes('/review');
   const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail') || isReview || isOrder;
@@ -34,9 +35,11 @@ export default function Header({ shadow }: HeaderProps) {
         shadow && 'home-shadow',
       )}
     >
-      <div className="mr-17">{!isBack ? <HamburgerButton /> : <BackButton />}</div>
+      <div className="mr-17">
+        {!isOrderComplete ? !isBack ? <HamburgerButton /> : <BackButton /> : <div className="h-7.5 w-7.5" />}
+      </div>
 
-      {isOrder ? (
+      {isOrderComplete ? null : isOrder ? (
         <span className="text-subhead pr-24 font-medium text-black">주문/결제</span>
       ) : isReview ? (
         <span className="text-subhead text-grey-9 font-medium">
