@@ -29,16 +29,19 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
   return (
     <div className="fixed-component no-z-index top-11.5 h-50 w-full">
       <ImageWithEffect src={profileImageUrl} alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`} fill priority />
-      <button
-        onClick={
-          wishCount >= 0
-            ? () => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })
-            : undefined
-        }
-        className={clsx('text-grey-0 absolute top-4 right-3.5 z-10', wishCount >= 0 && 'cursor-pointer')}
-      >
-        {isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
-      </button>
+      <div className="text-grey-0 absolute top-4 right-3.5 z-10 flex flex-col gap-0.5">
+        <button
+          onClick={
+            wishCount >= 0
+              ? () => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })
+              : undefined
+          }
+          className={wishCount >= 0 ? 'cursor-pointer' : ''}
+        >
+          {isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+        </button>
+        <p className="text-body-02 font-regular text-center">{wishCount}</p>
+      </div>
     </div>
   );
 }
