@@ -25,7 +25,9 @@ export default function ArtistQuestionSection({ artistId }: ArtistQuestionSectio
     queryFn: () => fetchInquiries(artistId),
   });
 
-  const { name } = data;
+  const { profile } = data;
+
+  const { name } = profile;
 
   const [opens, setOpens] = useState<boolean[]>(Array(inquiries.length).fill(false));
   const [clampQs, setClampQs] = useState<boolean[]>(Array(inquiries.length).fill(false));

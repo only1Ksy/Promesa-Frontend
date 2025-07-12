@@ -1,5 +1,5 @@
 interface TargetSchema {
-  targetType: 'ARTIST' | 'iTEM';
+  targetType: 'ARTIST' | 'ITEM';
   targetId: number;
   wishCount: number;
 }

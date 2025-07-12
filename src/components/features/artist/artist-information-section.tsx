@@ -24,7 +24,9 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
     queryFn: () => fetchArtist(artistId),
   });
 
-  const { name, bio, instagramUrl } = data; // bio dependent
+  const { profile } = data;
+
+  const { name, bio, instagramUrl } = profile;
 
   useLayoutEffect(() => {
     const el = textRef.current;
