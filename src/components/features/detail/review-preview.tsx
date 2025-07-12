@@ -27,7 +27,7 @@ export default function ReviewPreview({ reviews, itemId, openReviewModal }: Revi
   };
 
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="relative flex w-full flex-col items-center">
       <div className="mb-10 flex w-full flex-col gap-5">
         {visibleReviews.map((review, i) => (
           <div key={i} className="flex w-full flex-col items-center gap-5">

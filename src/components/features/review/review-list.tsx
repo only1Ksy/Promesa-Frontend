@@ -61,9 +61,7 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <ReviewPagination currentPage={currentPage} totalPage={totalPages} onPageChange={onPageChangeFunction} />
-      )}
+      <ReviewPagination currentPage={currentPage} totalPage={totalPages} onPageChange={onPageChangeFunction} />
     </div>
   );
 }
