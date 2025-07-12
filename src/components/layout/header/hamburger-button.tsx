@@ -74,7 +74,7 @@ export default function HamburgerButton() {
         <div className="mx-5 flex flex-col gap-5">
           {/* 빠른 페이지 이동 */}
           <div className="text-body-01 text-grey-5 flex gap-8 font-medium">
-            {accessToken ? (
+            {!accessToken ? (
               <Link href="/login">
                 <p>Login</p>
               </Link>
