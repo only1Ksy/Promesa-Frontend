@@ -1,4 +1,4 @@
-export interface CategorySchema {
+export interface CategoryResponseSchema {
   id: number;
   name: string;
 }

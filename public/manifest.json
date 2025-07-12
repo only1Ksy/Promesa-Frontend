@@ -2,9 +2,11 @@
   "name": "프로메사 - 도예 전공자들의 작품을 전시하고 판매하는 플랫폼",
   "short_name": "프로메사",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#eeefe9",
+  "lang": "ko",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
