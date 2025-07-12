@@ -8,12 +8,9 @@ export const fetchItemReviews = (itemId: number, page: number = 0, size: number 
   withErrorBoundary<[number, number, number], ReviewListResponse>(
     async (itemId, page, size) => {
       const res = await axiosInstance.get(`/items/${itemId}/reviews`, {
-        params: {
-          page,
-          size,
-        },
+        params: { page, size },
       });
-      return res.data;
+      return res.data.data;
     },
     itemId,
     page,
