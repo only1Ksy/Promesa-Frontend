@@ -35,3 +35,9 @@ export interface ReviewListResponse {
   last: boolean;
   empty: boolean;
 }
+
+// 리뷰 이미지 URL
+export interface PresignedUrlResponse {
+  presignedUrls: string[];
+  fileUrls: string[];
+}
