@@ -33,7 +33,8 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">
           <div className="bg-green relative aspect-[4/5] w-full">
-            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리뷰 이미지.`} fill />
+            {/* image optimization limit */}
+            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리뷰 이미지.`} fill unoptimized />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-col">
