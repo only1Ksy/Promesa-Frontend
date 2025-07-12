@@ -4,9 +4,17 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Image, { ImageProps } from 'next/image';
 
+function normalizeSrc(src: string | undefined): string {
+  if (!src) return '';
+  if (src.startsWith('/') || src.startsWith('http')) return src;
+  return `/${src}`;
+}
+
 export default function ImageWithEffect({ src, alt, onLoad, ...rest }: ImageProps) {
   const [loaded, setLoaded] = useState(false);
   const [isClient, setIsClient] = useState(false);
+
+  const safeSrc = normalizeSrc(src.toString());
 
   useEffect(() => {
     setIsClient(true);
@@ -20,7 +28,7 @@ export default function ImageWithEffect({ src, alt, onLoad, ...rest }: ImageProp
     <div className="relative h-full w-full overflow-hidden">
       {!loaded && <div className="shimmer absolute inset-0 z-0" />}
       <Image
-        src={src}
+        src={safeSrc}
         alt={alt}
         onLoad={(e) => {
           setLoaded(true);

@@ -5,10 +5,18 @@ import Image, { ImageProps } from 'next/image';
 
 import { useImageLoadingStore } from '@/lib/store/use-image-loading-store';
 
+function normalizeSrc(src: string | undefined): string {
+  if (!src) return '';
+  if (src.startsWith('/') || src.startsWith('http')) return src;
+  return `/${src}`;
+}
+
 export default function ImageWithLoading({ src, alt, onLoad, ...rest }: ImageProps) {
   const startLoading = useImageLoadingStore((s) => s.startLoading);
   const endLoading = useImageLoadingStore((s) => s.endLoading);
   const [isClient, setIsClient] = useState(false);
+
+  const safeSrc = normalizeSrc(src.toString());
 
   useEffect(() => {
     setIsClient(true);
@@ -22,7 +30,7 @@ export default function ImageWithLoading({ src, alt, onLoad, ...rest }: ImagePro
 
   return (
     <Image
-      src={src}
+      src={safeSrc}
       alt={alt}
       onLoad={(e) => {
         endLoading();

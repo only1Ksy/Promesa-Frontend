@@ -17,7 +17,8 @@ export interface ItemPreviewResponseSchema {
   price: number;
   imageUrl: string;
   artistName: string;
-  wish: ItemWishSchema;
+  wishCount: ItemWishSchema['wishCount'];
+  wished: ItemWishSchema['isWishlisted'];
 }
 
 export interface ItemControllerParams {
