@@ -1,4 +1,4 @@
-export interface ExhibitionSchema {
+export interface ExhibitionResponseSchema {
   id: number;
   status: 'ONGOING' | 'ENDED';
   createdAt: string;

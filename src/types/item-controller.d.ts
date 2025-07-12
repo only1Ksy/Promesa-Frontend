@@ -1,9 +1,20 @@
-export interface ItemPreviewSchema {
+import { ArtistProfileSchema, ArtistWishSchema, ItemSalesSchema } from './artist.dto';
+import { ItemDetailSchema, ItemSummarySchema, ItemWishSchema } from './item.dto';
+
+export interface ItemResponseSchema {
+  itemSummary: ItemSummarySchema;
+  itemDetail: ItemDetailSchema;
+  itemWish: ItemWishSchema;
+  artistProfile: ArtistProfileSchema;
+  artistWish: ArtistWishSchema;
+  itemSales: ItemSalesSchema;
+}
+
+export interface ItemPreviewResonseSchema {
   itemId: number;
   itemName: string;
   itemDescription: string;
   price: number;
-  imageKey: string;
   imageUrl: string;
   artistName: string;
   wished: boolean;

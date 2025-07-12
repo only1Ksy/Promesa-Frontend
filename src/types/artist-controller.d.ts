@@ -1,8 +1,6 @@
-export interface ArtistSchema {
-  name: string;
-  profileImageUrl: string;
-  bio: string;
-  instagramUrl: string;
-  wishCount: number;
-  isWishlisted: boolean;
+import type { ArtistProfileSchema, ArtistWishSchema } from './artist.dto';
+
+export interface ArtistResponseSchema {
+  profile: ArtistProfileSchema;
+  wish: ArtistWishSchema;
 }
