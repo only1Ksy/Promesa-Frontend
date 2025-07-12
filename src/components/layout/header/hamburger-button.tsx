@@ -118,7 +118,6 @@ export default function HamburgerButton() {
                 </div>
               </div>
               {/* 아이템 카테고리 리스트 */}
-              {/* max-height = 16 + 24 * len + 20 * (len - 1) */}
               <Expandable
                 flag={itemCategoriesOpen}
                 collapsedMaxHeight={0}
