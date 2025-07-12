@@ -133,7 +133,7 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
                     execSections.includes(s as (typeof execSections)[number]) && 'cursor-pointer',
                   )}
                 >
-                  <p className={clsx('text-caption-01 font-bold text-black')}>
+                  <span className={clsx('text-caption-01 font-bold text-black')}>
                     {s !== 'A...Z' ? (
                       s
                     ) : (
@@ -143,7 +143,7 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
                         <p>Z</p>
                       </div>
                     )}
-                  </p>
+                  </span>
                 </button>
               ) : (
                 <hr key={idx} className="border-grey-4 w-2.5 border" />
