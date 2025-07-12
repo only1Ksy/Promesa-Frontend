@@ -6,7 +6,7 @@ import loadingData from '@/public/videos/lottie-loading.json';
 
 export default function LoadingAnimation() {
   return (
-    <div className="h-50 w-50">
+    <div className="h-60 w-60">
       <Lottie loop play animationData={loadingData} className="h-full w-full" />
     </div>
   );
