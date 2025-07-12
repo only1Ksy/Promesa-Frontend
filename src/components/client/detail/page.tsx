@@ -15,7 +15,6 @@ import ProductDetail from '@/components/features/detail/product-detail';
 import ProductInformation from '@/components/features/detail/product-information';
 import ProductNotice from '@/components/features/detail/product-notice';
 import ReviewPreview from '@/components/features/detail/review-preview';
-// import { REVIEW_LIST } from '@/lib/constants/temp-review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
@@ -38,8 +37,6 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     queryFn: () => fetchItemReviews(itemId),
     select: (res) => res.content,
   });
-
-  console.log(reviewResponse);
 
   // 라우터
   const router = useRouter();
@@ -109,7 +106,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolling]);
 
-  if (!item || isLoading || isReviewLoading) return null;
+  if (!item || isLoading || isReviewLoading || !reviewResponse) return null;
 
   // 이미지 배열 생성 (API 응답에 따라 추후 수정)
   const images = [
@@ -119,7 +116,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   ].filter(Boolean);
 
   const openReviewModal = () => {
-    router.push(`/detail/${itemId}/review`);
+    router.push(`/detail/${itemId}/review?page=1`);
   };
 
   return (
@@ -160,16 +157,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               <DividerIcon />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
-              <ReviewImageOnly
-                imageUrls={[
-                  '/images/review1.jpg',
-                  '/images/review2.jpg',
-                  '/images/review3.jpg',
-                  '/images/review4.jpg',
-                  '/images/review5.jpg',
-                ]}
-                itemId={itemId}
-              />
+              <ReviewImageOnly imageUrls={reviewResponse.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
               <ReviewPreview reviews={reviewResponse ?? []} itemId={itemId} openReviewModal={openReviewModal} />
