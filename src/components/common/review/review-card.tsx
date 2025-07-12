@@ -62,7 +62,7 @@ export default function ReviewCard({ reviewerId, rating, content, reviewImages }
           <div className="relative w-full">
             <Expandable
               flag={isExpanded}
-              collapsedMaxHeight={10.5} // spacing 단위 rem (42px)
+              collapsedMaxHeight={10.5}
               durationTime={300}
               className="text-grey-9 text-body-02 font-medium"
             >
