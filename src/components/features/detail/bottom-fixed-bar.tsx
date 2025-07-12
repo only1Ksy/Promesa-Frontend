@@ -27,7 +27,7 @@ export default function BottomFixedBar({ itemId, wished }: BottomFixedBarProps) 
 
   return (
     <>
-      <div className="bg-pale-green border-green flex w-full flex-col gap-2 border px-5 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
+      <div className="bg-pale-green border-green flex w-full flex-col gap-2 border px-5 pb-1 shadow-[0_0_60px_0_rgba(0,0,0,0.10)]">
         <div className="my-3 flex gap-3">
           <div className="flex h-12 w-12 flex-col items-center">
             <button onClick={() => setToggleWish((prev) => !prev)} className="cursor-pointer">
