@@ -6,7 +6,9 @@ import Link from 'next/link';
 
 import { EN_SECTION, EXTRA_SECTION, KO_SECTION } from '@/lib/constants/artist-home-section';
 import CloseIcon from '@/public/icons/layout/close.svg';
+
 const sections = [...KO_SECTION, '', ...EN_SECTION, '', ...EXTRA_SECTION] as const;
+const execSections = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'A...Z'] as const;
 
 interface ListWithoutImageProps {
   open: boolean;
@@ -126,7 +128,10 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
                 <button
                   key={idx}
                   onClick={() => handleScroll(s)}
-                  className="flex cursor-pointer items-center justify-center"
+                  className={clsx(
+                    'flex items-center justify-center',
+                    execSections.includes(s as (typeof execSections)[number]) && 'cursor-pointer',
+                  )}
                 >
                   <p className={clsx('text-caption-01 font-bold text-black')}>
                     {s !== 'A...Z' ? (
