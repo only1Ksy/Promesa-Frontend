@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import DropdownIcon from '@/public/icons/item/drop-down.svg';
-import ReviewStar from '@/public/icons/item/review-star.svg';
+import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { Review } from '@/types/review.dto';
 
 import Expandable from '../utilities/expandable';
@@ -31,7 +31,7 @@ export default function ReviewCard({ reviewerId, rating, content, reviewImages }
           <span className="text-grey-9 text-body-02 font-medium">{reviewerId}</span>
           <div className="flex items-center self-center">
             {Array.from({ length: 5 }).map((_, i) => (
-              <ReviewStar key={i} className={`h-3 w-3.25 ${i < rating ? 'text-orange' : 'text-deep-green'}`} />
+              <ReviewStarIcon key={i} className={`h-3 w-3.25 ${i < rating ? 'text-orange' : 'text-deep-green'}`} />
             ))}
             <span className="text-grey-6 text-caption-01 self-center pl-1 font-medium">{rating}</span>
           </div>

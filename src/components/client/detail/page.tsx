@@ -123,7 +123,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     <HydrationBoundary state={itemDetailState}>
       <DetailSwiper images={images} alt="product detail image" />
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
-        <ProductInformation onSelect={scrollTo} itemId={itemId} />
+        <ProductInformation reviews={reviewResponse} onSelect={scrollTo} itemId={itemId} />
         <div className="w-full">
           <div className="sticky top-11.5 z-40">
             <DetailNavBar onSelect={scrollTo} active={activeTab} />

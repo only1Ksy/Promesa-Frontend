@@ -1,16 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
+import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
+import { Review } from '@/types/review.dto';
 
 import ArtistPageButton from './artist-page-button';
 
 interface ProductInformationProps {
+  reviews: Review[];
   onSelect: (section: 'product' | 'notice' | 'review') => void;
   itemId: number;
 }
 
-export default function ProductInformation({ onSelect, itemId }: ProductInformationProps) {
+export default function ProductInformation({ reviews, onSelect, itemId }: ProductInformationProps) {
   const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
@@ -18,6 +21,9 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
   });
 
   if (!item) return null;
+
+  const rating =
+    reviews.length > 0 ? Math.round(reviews.reduce((acc, cur) => acc + cur.rating, 0) / reviews.length) : 0;
 
   return (
     <div className="flex w-full flex-col items-start gap-5">
@@ -32,8 +38,13 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
             <span className="text-grey-9 text-subhead font-medium">{item.itemName}</span>
           </div>
           <div className="flex items-center gap-2">
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <ReviewStarIcon key={i} className={`h-3 w-3.25 ${i < rating ? 'text-orange' : 'text-deep-green'}`} />
+              ))}
+            </div>
             <span onClick={() => onSelect('review')} className="text-grey-6 text-caption-01 cursor-pointer underline">
-              리뷰보기
+              {reviews.length}건 리뷰보기
             </span>
           </div>
         </div>
