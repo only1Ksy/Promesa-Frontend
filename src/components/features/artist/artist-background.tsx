@@ -1,7 +1,6 @@
 'use client';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
-import clsx from 'clsx';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
