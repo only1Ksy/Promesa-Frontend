@@ -19,6 +19,7 @@ interface ClientRoutesLayoutProps {
 
 export default function ClientRoutesLayout({ dehydratedState, children }: ClientRoutesLayoutProps) {
   const pathName = usePathname();
+  const isHamburgerPage = pathName.startsWith('/home/');
   const isDetailPage = pathName.startsWith('/detail/');
   const isReviewPage = pathName.startsWith('/review/');
   const isOrderPage = pathName.startsWith('/order/');
@@ -60,8 +61,12 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
         <>
           <Header shadow />
           <div className="mt-11.5">{children}</div>
-          <Footer />
-          <FloatingButton />
+          {!isHamburgerPage && (
+            <>
+              <Footer />
+              <FloatingButton />
+            </>
+          )}
         </>
       )}
     </HydrationBoundary>
