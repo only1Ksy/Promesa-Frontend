@@ -1,9 +1,13 @@
-import type { ItemControllerServerParams, ItemPreviewResonseSchema, ItemResponseSchema } from '@/types/item-controller';
+import type {
+  ItemControllerServerParams,
+  ItemPreviewResponseSchema,
+  ItemResponseSchema,
+} from '@/types/item-controller';
 
 import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchNowPopularItems = () =>
-  withErrorBoundary<[], ItemPreviewResonseSchema[]>(async () => {
+  withErrorBoundary<[], ItemPreviewResponseSchema[]>(async () => {
     const res = await axiosInstance.get('/categories/0/items?page=0&size=5');
     return res.data.data.content;
   });
@@ -15,7 +19,7 @@ export const fetchItem = (itemId: number) =>
   }, itemId);
 
 export const fetchShopItems = (params: ItemControllerServerParams) =>
-  withErrorBoundary<[ItemControllerServerParams], { content: ItemPreviewResonseSchema[]; totalPages: number }>(
+  withErrorBoundary<[ItemControllerServerParams], { content: ItemPreviewResponseSchema[]; totalPages: number }>(
     async (params) => {
       const { categoryId, page, sort, size } = params;
       const res = await axiosInstance.get(`/categories/${categoryId}/items?page=${page}&size=${size}&sort=${sort}`);

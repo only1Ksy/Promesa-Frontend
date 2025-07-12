@@ -1,6 +1,6 @@
 import type { ArtistResponseSchema } from '@/types/artist-controller';
 import type { ExhibitionResponseSchema } from '@/types/exhibition-controller';
-import type { ItemControllerServerParams, ItemPreviewResonseSchema } from '@/types/item-controller';
+import type { ItemControllerServerParams, ItemPreviewResponseSchema } from '@/types/item-controller';
 
 import { axiosInstance, withErrorBoundary } from './axios/instance';
 
@@ -17,7 +17,7 @@ export const fetchArtistExhibitions = (artistId: number) =>
   }, artistId);
 
 export const fetchArtistItems = (params: ItemControllerServerParams) =>
-  withErrorBoundary<[ItemControllerServerParams], { content: ItemPreviewResonseSchema[]; totalPages: number }>(
+  withErrorBoundary<[ItemControllerServerParams], { content: ItemPreviewResponseSchema[]; totalPages: number }>(
     async (params) => {
       const { artistId, categoryId, sort } = params;
       const res = await axiosInstance.get(`/artists/${artistId}/categories/${categoryId}/items?sort=${sort}`);

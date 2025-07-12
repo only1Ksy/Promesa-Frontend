@@ -10,7 +10,7 @@ export interface ItemResponseSchema {
   itemSales: ItemSalesSchema;
 }
 
-export interface ItemPreviewResonseSchema {
+export interface ItemPreviewResponseSchema {
   itemId: number;
   itemName: string;
   itemDescription: string;
