@@ -16,23 +16,19 @@ interface ItemPreviewProps {
 }
 
 export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPreviewProps) {
-  const { itemId, itemName, price, imageUrl, artistName, wish } = item;
+  const { itemId, itemName, price, imageUrl, artistName, wishCount, wished } = item;
 
   const { mutate: toggleWish } = useToggleWish();
-
-  const { isWishlisted, wishCount } = wish;
 
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
       <button
         onClick={
-          wishCount >= 0
-            ? () => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: isWishlisted })
-            : undefined
+          wishCount >= 0 ? () => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: wished }) : undefined
         }
         className={clsx('absolute top-2 right-2 z-10', wishCount >= 0 && 'cursor-pointer')}
       >
-        {isWishlisted ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
+        {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">
