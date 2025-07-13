@@ -33,7 +33,7 @@ export default function MainSwiper() {
         loop
         spaceBetween={60}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
-        onSlideChange={(s) => setActive(s.realIndex)}
+        onSlideChange={(s) => requestAnimationFrame(() => setActive(s.realIndex))}
         onSwiper={(s) => setActive(s.realIndex)}
       >
         {imageUrls.map((url, idx) => {

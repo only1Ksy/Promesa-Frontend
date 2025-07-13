@@ -1,6 +1,7 @@
 'use client';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import Link from 'next/link';
 
 import ItemPreview from '@/components/common/item/item-preview';
@@ -30,7 +31,7 @@ export default function ShopSwiper() {
           const isLast = idx === items.length - 1;
 
           return (
-            <div key={idx} className={`w-44 flex-none ${isLast ? 'mr-5' : ''}`}>
+            <div key={idx} className={clsx('w-44 flex-none', isLast && 'mr-5')}>
               <ItemPreview item={item} maxWidthClass="max-w-44" heightClass="h-81" />
             </div>
           );

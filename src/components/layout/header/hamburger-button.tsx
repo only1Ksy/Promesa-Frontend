@@ -126,7 +126,7 @@ export default function HamburgerButton() {
               >
                 {data.map(({ id, name }, idx) => (
                   <Link key={id} href={`/shop?categoryId=${idx}`}>
-                    <p className="text-body-01 text-grey-5 cursor-pointer font-medium transition duration-300 hover:text-black">
+                    <p className="text-body-01 text-grey-5 cursor-pointer font-medium transition duration-300 hover:text-black active:text-black">
                       {name}
                     </p>
                   </Link>
