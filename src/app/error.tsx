@@ -1,17 +1,13 @@
-'use client';
-
-import { useEffect } from 'react';
-
 import ClientError from '@/components/client/layout/error';
+import { HttpError } from '@/types/axios.dto';
 
 interface ErrorProps {
-  error: Error & { status?: number; digest?: string };
+  error: Error & { digest?: string };
 }
 
 export default function Error({ error }: ErrorProps) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
+  const status = (error as HttpError).status ?? 500;
+  const message = error.message;
 
-  return <ClientError status={(error.status ?? 500).toString()} message={error.message} />;
+  return <ClientError rawError={error} status={status} message={message} />;
 }
