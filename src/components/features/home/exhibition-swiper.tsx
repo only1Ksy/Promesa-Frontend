@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -42,7 +43,7 @@ export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSw
           return (
             <div
               key={idx}
-              className={clsx(`bg-green relative flex h-77 w-68 flex-shrink-0 items-end p-7`, isLast ? 'mr-5' : '')}
+              className={clsx('bg-green relative flex h-77 w-68 flex-shrink-0 items-end p-7', isLast && 'mr-5')}
             >
               <ImageWithLoading src={item.imageUrl} alt={`프로메사 ${idx + 1}번째 전시회 대표 이미지.`} fill />
               <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-3/10 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]" />
