@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import ReviewImageOnly from '@/components/common/review/review-image-only';
-import type { ReviewListResponse } from '@/types/review.dto';
+import type { ReviewListResponse } from '@/types/review-controller';
 
 import ReviewCard from '../../common/review/review-card';
 import ReviewPagination from './review-pagination';
