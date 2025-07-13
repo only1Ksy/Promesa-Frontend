@@ -4,7 +4,7 @@ import ReviewImageGrid from '@/components/features/review/review-image-grid';
 import ReviewList from '@/components/features/review/review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
-import type { ReviewListResponse } from '@/types/review.dto';
+import type { ReviewListResponse } from '@/types/review-controller';
 
 interface ReviewContentProps {
   reviews: ReviewListResponse;
