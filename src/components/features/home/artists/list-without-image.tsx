@@ -60,7 +60,7 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
           'fixed-component max-z-index bg-pale-green top-41 flex-col',
           'transition-all duration-500',
           open
-            ? 'outline-green "shadow-[0px_-4px_60px_0px_rgba(0,0,0,0.2)] translate-y-0 rounded-t-[20px] px-5 pt-5 outline'
+            ? 'outline-green translate-y-0 rounded-t-[20px] px-5 pt-5 shadow-[0px_-4px_60px_0px_rgba(0,0,0,0.2)] outline'
             : 'translate-y-full',
         )}
       >
@@ -70,7 +70,8 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
           </button>
         </div>
         <div className="relative flex">
-          <div className="hide-scrollbar flex max-h-[calc(100vh_-_var(--spacing)_*_41)] flex-1 flex-col gap-7 overflow-y-auto pb-5">
+          {/* pb-21 = pb-5 (design) + pb-8.5 (indicator bar) + pb-7.5 (header height) */}
+          <div className="hide-scrollbar flex max-h-[calc(100vh_-_var(--spacing)_*_41)] flex-1 flex-col gap-7 overflow-y-auto pb-21">
             <div ref={sectionRefs['ㄱ']} className="flex flex-col gap-3">
               <p className="text-caption-01 font-bold text-black">ㄱ</p>
               <div className="flex flex-col gap-4">
