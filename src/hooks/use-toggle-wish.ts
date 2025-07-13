@@ -1,9 +1,10 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { toggleWish } from '@/services/api/wish-controller';
+import { HttpError } from '@/types/axios.dto';
 import type { WishToggleSchema } from '@/types/wish-controller';
 
 interface ToggleWishParams {
@@ -20,6 +21,7 @@ interface ToggleWishResult {
 export const useToggleWish = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const pathname = usePathname();
 
   return useMutation<ToggleWishResult, Error, ToggleWishParams>({
     mutationFn: async ({ targetType, targetId, currentWished }) => {
@@ -35,9 +37,8 @@ export const useToggleWish = () => {
       });
     },
     onError: (error) => {
-      const err = error as Error & { status?: number };
-      if (err.status === 401) {
-        router.push('/login');
+      if (error instanceof HttpError && error.status === 401) {
+        router.push(`/login?afterLogin=${encodeURIComponent(pathname)}`);
       }
     },
   });

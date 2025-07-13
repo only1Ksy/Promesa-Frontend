@@ -1,10 +1,8 @@
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
-import { HttpError } from '@/types/axios.dto';
-
 import { logoutOnce, reissueOnce } from './auth';
-import { setHeader, shouldBypass, store, toErrorObject } from './utils';
+import { setHeader, shouldBypass, store, toHttpError } from './utils';
 
 const baseURL = typeof window === 'undefined' ? process.env.API_BASE_URL : '/api';
 
@@ -37,8 +35,7 @@ axiosInstance.interceptors.response.use(
     };
 
     if (!response) {
-      const { message, status } = toErrorObject(error);
-      throw new HttpError(message, status);
+      throw toHttpError(error);
     }
 
     if (response.status === 401 && !originalRequest._retry && !shouldBypass(originalRequest.url)) {
@@ -71,7 +68,6 @@ export async function withErrorBoundary<Args extends unknown[], Return>(
   try {
     return await fn(...args);
   } catch (error) {
-    const { message, status } = toErrorObject(error);
-    throw new HttpError(message, status);
+    throw toHttpError(error);
   }
 }

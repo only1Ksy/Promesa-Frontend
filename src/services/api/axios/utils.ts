@@ -2,6 +2,7 @@ import type { AxiosError, AxiosHeaders, AxiosRequestHeaders } from 'axios';
 
 import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 import type { APIErrorResponse } from '@/types/axios.dto';
+import { HttpError } from '@/types/axios.dto';
 
 // bypass
 export const BYPASS_PATHS = ['/auth/logout', '/auth/reissue'];
@@ -21,18 +22,15 @@ export function setHeader(headers: AxiosHeaders | AxiosRequestHeaders, key: stri
 export const store = useAccessTokenStore.getState;
 
 // error format
-export const toErrorObject = (e: unknown): { message: string; status?: number } => {
+export const toHttpError = (e: unknown): HttpError => {
   const err = e as AxiosError<APIErrorResponse>;
 
   const status = err.response?.status;
   const reason = err.response?.data?.reason;
   const fallbackMessage = err.message ?? 'Unknown error has occurred.';
 
-  if (status && reason) {
-    return { status, message: `${status}: ${reason}` };
-  } else if (status) {
-    return { status, message: `${status}: ${fallbackMessage}` };
-  } else {
-    return { message: fallbackMessage };
-  }
+  const message =
+    status && reason ? `${status}: ${reason}` : status ? `${status}: ${fallbackMessage}` : fallbackMessage;
+
+  return new HttpError(message, status);
 };
