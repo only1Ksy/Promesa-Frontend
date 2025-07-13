@@ -6,11 +6,11 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import DropdownIcon from '@/public/icons/item/drop-down.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
-import { Review } from '@/types/review.dto';
+import { Review } from '@/types/review-controller';
 
 import Expandable from '../utilities/expandable';
 
-export default function ReviewCard({ reviewerId, rating, content, reviewImages }: Review) {
+export default function ReviewCard({ reviewerId, rating, content, reviewImages, updatedAt }: Review) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
@@ -22,6 +22,9 @@ export default function ReviewCard({ reviewerId, rating, content, reviewImages }
     const collapsedHeightPx = 42; // 10.5 * 4 (spacing rem -> px 기준으로)
     setShowToggle(el.scrollHeight > collapsedHeightPx);
   }, [content]);
+
+  const date = new Date(updatedAt);
+  const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
   return (
     <div className="flex w-full flex-col items-start gap-4 px-5">
@@ -36,7 +39,7 @@ export default function ReviewCard({ reviewerId, rating, content, reviewImages }
             <span className="text-grey-6 text-caption-01 self-center pl-1 font-medium">{rating}</span>
           </div>
         </div>
-        {/* <span className="text-caption-01 text-grey-5 font-medium">{date.replace(/-/g, '.')}</span> */}
+        <span className="text-caption-01 text-grey-5 font-medium">{formattedDate}</span>
       </div>
 
       {/* 사진, 코멘트 */}

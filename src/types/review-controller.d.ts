@@ -5,6 +5,8 @@ export interface Review {
   reviewerId: number;
   rating: number;
   reviewImages: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ReviewListResponse {
