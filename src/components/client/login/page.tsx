@@ -13,7 +13,16 @@ export default function ClientLoginPage() {
   return (
     <div className="bg-pale-green flex h-screen flex-col gap-9">
       <div className="mx-5 my-2 flex justify-end">
-        <button onClick={() => window.history.back()} className="flex cursor-pointer items-center justify-center">
+        <button
+          onClick={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.location.href = '/';
+            }
+          }}
+          className="flex cursor-pointer items-center justify-center"
+        >
           <CloseIcon className="text-grey-9" />
         </button>
       </div>
