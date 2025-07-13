@@ -25,6 +25,7 @@ export default function ItemList({ initialParams, page }: ItemListGridProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const listTopRef = useRef<HTMLDivElement>(null);
+  const hasMountedRef = useRef(false);
 
   const params = useMemo(
     () =>
@@ -89,7 +90,11 @@ export default function ItemList({ initialParams, page }: ItemListGridProps) {
 
   useEffect(() => {
     const isFirstVisit = JSON.stringify(initialParamsRef.current) === JSON.stringify(params);
-    if (isFirstVisit) return;
+    if (!hasMountedRef.current && isFirstVisit) {
+      return;
+    }
+
+    hasMountedRef.current = true;
 
     const target = listTopRef.current;
     if (!target) return;
