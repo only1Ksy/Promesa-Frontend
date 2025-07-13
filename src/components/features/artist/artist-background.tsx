@@ -30,16 +30,12 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
       <ImageWithEffect src={profileImageUrl} alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`} fill priority />
       <div className="text-grey-0 absolute top-4 right-3.5 z-10 flex flex-col gap-0.5">
         <button
-          onClick={
-            wishCount >= 0
-              ? () => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })
-              : undefined
-          }
-          className={wishCount >= 0 ? 'cursor-pointer' : ''}
+          onClick={() => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })}
+          className="cursor-pointer"
         >
           {isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
         </button>
-        <p className="text-body-02 font-regular text-center">{wishCount}</p>
+        {wishCount >= 0 && <p className="text-body-02 font-regular text-center">{wishCount}</p>}
       </div>
     </div>
   );
