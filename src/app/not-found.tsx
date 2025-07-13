@@ -1,5 +1,5 @@
-import ClientError from '@/components/client/layout/error';
+import ClientErrorTemplate from '@/components/client/layout/error-template';
 
 export default function NotFound() {
-  return <ClientError status="404" message="현재 페이지를 찾을 수 없습니다." />;
+  return <ClientErrorTemplate status={404} message="현재 페이지를 찾을 수 없습니다." />;
 }

@@ -1,21 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 
 import ErrorImage from '@/public/images/error-image.svg';
 
-interface ClientErrorProps {
-  rawError: Error & { digest?: string };
+interface ClientErrorTemplateProps {
   status: number;
   message: string;
 }
 
-export default function ClientError({ rawError, status, message }: ClientErrorProps) {
-  useEffect(() => {
-    console.log(rawError);
-  }, [rawError]);
-
+export default function ClientErrorTemplate({ status, message }: ClientErrorTemplateProps) {
   return (
     <div className="flex h-screen w-full flex-col items-center">
       <div className="mr-12 ml-12.5 flex h-full flex-col items-center justify-center gap-10">
