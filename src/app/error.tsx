@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import ClientError from '@/components/client/layout/error';
 
 interface ErrorProps {
-  error: Error & { digest?: string };
+  error: Error & { status?: number; digest?: string };
 }
 
 export default function Error({ error }: ErrorProps) {
@@ -13,5 +13,5 @@ export default function Error({ error }: ErrorProps) {
     console.error(error);
   }, [error]);
 
-  return <ClientError status={error.name} message={error.message} />;
+  return <ClientError status={(error.status ?? 500).toString()} message={error.message} />;
 }

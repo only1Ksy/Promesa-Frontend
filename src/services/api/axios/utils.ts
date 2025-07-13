@@ -21,7 +21,18 @@ export function setHeader(headers: AxiosHeaders | AxiosRequestHeaders, key: stri
 export const store = useAccessTokenStore.getState;
 
 // error format
-export const toErrorMessage = (e: unknown): string => {
+export const toErrorObject = (e: unknown): { message: string; status?: number } => {
   const err = e as AxiosError<APIErrorResponse>;
-  return err.response?.data?.reason ?? err.message ?? 'Unknown error has occurred.';
+
+  const status = err.response?.status;
+  const reason = err.response?.data?.reason;
+  const fallbackMessage = err.message ?? 'Unknown error has occurred.';
+
+  if (status && reason) {
+    return { status, message: `${status}: ${reason}` };
+  } else if (status) {
+    return { status, message: `${status}: ${fallbackMessage}` };
+  } else {
+    return { message: fallbackMessage };
+  }
 };
