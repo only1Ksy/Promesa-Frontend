@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import ReviewCard from '@/components/common/review/review-card';
 import { fetchItemDetail } from '@/services/api/item';
-import { Review } from '@/types/review.dto';
+import { Review } from '@/types/review-controller';
 
 interface ReviewPreviewProps {
   reviews: Review[];

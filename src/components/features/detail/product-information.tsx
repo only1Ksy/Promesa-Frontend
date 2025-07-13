@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { fetchItemDetail } from '@/services/api/item';
-import { Review } from '@/types/review.dto';
+import { Review } from '@/types/review-controller';
 
 import ArtistPageButton from './artist-page-button';
 
