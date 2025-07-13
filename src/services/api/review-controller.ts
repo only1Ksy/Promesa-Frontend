@@ -1,4 +1,4 @@
-import type { PresignedUrlResponse, ReviewListResponse } from '@/types/review.dto';
+import type { PresignedUrlResponse, ReviewListResponse } from '@/types/review-controller';
 
 import { withErrorBoundary } from './axios/instance';
 import { axiosInstance } from './axios/instance';
