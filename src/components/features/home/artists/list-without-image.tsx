@@ -57,9 +57,9 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
       {open && <div onClick={close} className="fixed-component max-z-index top-0 h-25.5" />}
       <div
         className={clsx(
-          'fixed-component max-z-index bg-pale-green outline-green top-25.5 flex-col rounded-t-[20px] px-5 pt-5 shadow-[0px_-4px_60px_0px_rgba(0,0,0,0.2)] outline',
+          'fixed-component max-z-index bg-pale-green top-25.5 flex-col rounded-t-[20px] px-5 pt-5',
           'transition-transform duration-500',
-          open ? 'translate-y-0' : 'translate-y-full',
+          open ? 'outline-green translate-y-0 shadow-[0px_-4px_60px_0px_rgba(0,0,0,0.2)] outline' : 'translate-y-full',
         )}
       >
         <div className="flex items-center justify-end">
