@@ -7,7 +7,12 @@ import { HttpError } from '@/types/axios.dto';
 // bypass
 export const BYPASS_PATHS = ['/auth/logout', '/auth/reissue'];
 
-export const shouldBypass = (url?: string | null): boolean => !!url && BYPASS_PATHS.some((p) => url.startsWith(p));
+export const shouldBypass = (url?: string | null): boolean => {
+  if (!url) return false;
+
+  const pathname = url.split('?')[0];
+  return BYPASS_PATHS.some((p) => pathname.startsWith(p));
+};
 
 // header
 export function setHeader(headers: AxiosHeaders | AxiosRequestHeaders, key: string, value: string): void {
