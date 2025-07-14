@@ -9,9 +9,15 @@ export default function ReissueInitializer() {
   const setAccessToken = useAccessTokenStore((s) => s.setAccessToken);
 
   useEffect(() => {
-    reissueOnce().then((token) => {
-      if (token) setAccessToken(token);
-    });
+    const { accessToken } = useAccessTokenStore.getState();
+
+    if (!accessToken) {
+      reissueOnce().then((token) => {
+        if (token) {
+          setAccessToken(token);
+        }
+      });
+    }
   });
 
   return null;

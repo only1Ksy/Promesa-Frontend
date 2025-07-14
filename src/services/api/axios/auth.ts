@@ -48,10 +48,7 @@ export const logoutOnce = async (): Promise<void> => {
   } finally {
     store().clear();
     document.cookie = 'refresh=; max-age=0; path=/;';
-    if (typeof window !== 'undefined') {
-      const after = encodeURIComponent(window.location.pathname);
-      window.location.replace(`/login?afterLogin=${after}`);
-    }
+    window.location.replace('/');
     logoutInProgress = false;
   }
 };
