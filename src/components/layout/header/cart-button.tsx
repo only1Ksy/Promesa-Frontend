@@ -1,19 +1,24 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 import CartIcon from '@/public/icons/layout/cart.svg';
+import { fetchIsLoggedIn } from '@/services/api/axios/instance';
 
 export default function CartButton() {
-  const { accessToken } = useAccessTokenStore.getState(); // need to refactor (prefetch API)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    fetchIsLoggedIn().then(setIsLoggedIn);
+  }, []);
 
   return (
     <div className="relative">
       <Link href="/cart">
         <CartIcon className="text-grey-9" />
       </Link>
-      {accessToken && (
+      {isLoggedIn && (
         <div className="bg-orange absolute right-0 bottom-0 flex h-4 w-4 items-center justify-center rounded-full">
           <p className="text-caption-02 text-center font-medium text-white">3</p>
         </div>

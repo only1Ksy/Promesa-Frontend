@@ -47,8 +47,6 @@ export const logoutOnce = async (): Promise<void> => {
     await rawAxios.post('/auth/logout').catch(() => undefined);
   } finally {
     store().clear();
-    document.cookie = 'refresh=; max-age=0; path=/;';
-    window.location.replace('/');
     logoutInProgress = false;
   }
 };
