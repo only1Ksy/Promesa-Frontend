@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 
-import ReissueInitializer from '@/components/layout/reissue-initializer';
 import QueryProvider from '@/services/query/client';
 
 import '@/styles/globals.css';
@@ -84,7 +83,6 @@ export default function RootLayout({
           </div>
         </QueryProvider>
       </body>
-      <ReissueInitializer />
     </html>
   );
 }
