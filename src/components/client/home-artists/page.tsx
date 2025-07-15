@@ -66,7 +66,7 @@ export default function ClientHomeArtistsPage() {
 
   return (
     <div className="-mt-11.5 min-h-screen">
-      <div className="mx-5 flex flex-col gap-5 pt-16.5 pb-8.5">
+      <div className="mx-5 flex flex-col gap-5 pt-16.5 pb-20">
         <div className="flex items-center justify-between">
           <p className="text-headline-06 text-black">ARTIST</p>
           <div className="mr-1 flex items-center gap-2">

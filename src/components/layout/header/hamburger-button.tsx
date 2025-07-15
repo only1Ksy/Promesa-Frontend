@@ -5,20 +5,22 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import Expandable from '@/components/common/utilities/expandable';
-import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 import CloseIcon from '@/public/icons/layout/close.svg';
 import HamburgerIcon from '@/public/icons/layout/hamburger.svg';
 import HideCategoriesIcon from '@/public/icons/layout/hide-categories.svg';
 import { logoutOnce } from '@/services/api/axios/auth';
+import { fetchIsLoggedIn } from '@/services/api/axios/instance';
 import { fetchParentCategories } from '@/services/api/category-controller';
 
 export default function HamburgerButton() {
   const [open, setOpen] = useState(false);
   const [itemCategoriesOpen, setItemCategoriesOpen] = useState(false);
+  const router = useRouter();
 
-  const accessToken = useAccessTokenStore((s) => s.accessToken);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // handle navigation
   const pathname = usePathname();
@@ -29,6 +31,10 @@ export default function HamburgerButton() {
     queryKey: ['itemCategories'],
     queryFn: fetchParentCategories,
   });
+
+  useEffect(() => {
+    fetchIsLoggedIn().then(setIsLoggedIn);
+  }, []);
 
   // block scroll
   useEffect(() => {
@@ -76,12 +82,19 @@ export default function HamburgerButton() {
         <div className="mx-5 flex flex-col gap-5">
           {/* 빠른 페이지 이동 */}
           <div className="text-body-01 text-grey-5 flex gap-8 font-medium">
-            {!accessToken ? (
+            {!isLoggedIn ? (
               <Link href="/login">
                 <p>Login</p>
               </Link>
             ) : (
-              <button onClick={logoutOnce} className="flex cursor-pointer items-center justify-center">
+              <button
+                onClick={() =>
+                  logoutOnce().then(() => {
+                    router.replace('/');
+                  })
+                }
+                className="flex cursor-pointer items-center justify-center"
+              >
                 <p>Logout</p>
               </button>
             )}

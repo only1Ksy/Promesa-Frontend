@@ -4,7 +4,7 @@ import ClientRoutesLayout from '@/components/client/layout/routes-layout';
 import { fetchParentCategories } from '@/services/api/category-controller';
 import { createQueryClient } from '@/services/query/server';
 
-export default function RoutesLayout({
+export default async function RoutesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -54,14 +54,12 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
 
   return (
     <>
-      {open && <div onClick={close} className="fixed-component max-z-index top-0 h-41" />}
+      {open && <div onClick={close} className="fixed-component max-z-index top-0 h-25.5" />}
       <div
         className={clsx(
-          'fixed-component max-z-index bg-pale-green top-41 flex-col',
-          'transition-all duration-500',
-          open
-            ? 'outline-green translate-y-0 rounded-t-[20px] px-5 pt-5 shadow-[0px_-4px_60px_0px_rgba(0,0,0,0.2)] outline'
-            : 'translate-y-full',
+          'fixed-component max-z-index bg-pale-green top-25.5 flex-col rounded-t-[20px] px-5 pt-5',
+          'transition-transform duration-500',
+          open ? 'outline-green translate-y-0 shadow-[0px_-4px_60px_0px_rgba(0,0,0,0.2)] outline' : 'translate-y-full',
         )}
       >
         <div className="flex items-center justify-end">
@@ -69,9 +67,9 @@ export default function ListWithoutImage({ open, close }: ListWithoutImageProps)
             <CloseIcon className="text-grey-9" />
           </button>
         </div>
-        <div className="relative flex">
-          {/* pb-21 = pb-5 (design) + pb-8.5 (indicator bar) + pb-7.5 (header height) */}
-          <div className="hide-scrollbar flex max-h-[calc(100vh_-_var(--spacing)_*_41)] flex-1 flex-col gap-7 overflow-y-auto pb-21">
+        <div className="relative flex justify-between">
+          {/* 38 = 25.5 + 7.5 (header height) + 5 (top padding) */}
+          <div className="hide-scrollbar flex max-h-[calc(100vh-var(--spacing)_*_38))] flex-1 flex-col gap-7 overflow-y-auto pb-13.5">
             <div ref={sectionRefs['ㄱ']} className="flex flex-col gap-3">
               <p className="text-caption-01 font-bold text-black">ㄱ</p>
               <div className="flex flex-col gap-4">

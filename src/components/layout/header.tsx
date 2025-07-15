@@ -4,12 +4,12 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-import CartIcon from '@/public/icons/layout/cart.svg';
 import MyIcon from '@/public/icons/layout/my.svg';
 import SearchIcon from '@/public/icons/layout/search.svg';
 import PromesaTextSmallIcon from '@/public/icons/logo/text-sm.svg';
 
 import BackButton from './header/back-button';
+import CartButton from './header/cart-button';
 import HamburgerButton from './header/hamburger-button';
 
 interface HeaderProps {
@@ -59,9 +59,7 @@ export default function Header({ shadow }: HeaderProps) {
             <Link href="/me">
               <MyIcon className="text-grey-9" />
             </Link>
-            <Link href="/cart">
-              <CartIcon className="text-grey-9" />
-            </Link>
+            <CartButton />
           </>
         )}
       </div>

@@ -40,10 +40,21 @@ export default function ListWithImage({
             <p className="text-body-02 text-grey-4 font-medium">{enName}</p>
           </div>
           <div className="z-10 flex flex-col items-center text-white">
-            <button onClick={() => toggleWish(artistId)} className="flex cursor-pointer items-center justify-center">
-              {isWishListed ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
-            </button>
-            <p className="text-caption-02 font-medium">{wishCount}</p>
+            {wishCount >= 0 ? (
+              <>
+                <button
+                  onClick={() => toggleWish(artistId)}
+                  className="flex cursor-pointer items-center justify-center"
+                >
+                  {isWishListed ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+                </button>
+                <p className="text-caption-02 font-medium">{wishCount}</p>
+              </>
+            ) : (
+              <button onClick={() => toggleWish(artistId)} className="flex cursor-pointer items-center justify-center">
+                {isWishListed ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+              </button>
+            )}
           </div>
         </div>
       </div>

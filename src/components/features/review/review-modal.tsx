@@ -46,7 +46,7 @@ export default function ReviewModal({ itemId }: ReviewModalProps) {
       transition={{ duration: 0.3 }}
       className="bg-pale-green fixed inset-0 z-999 mx-auto w-full max-w-[var(--frame-width)] overflow-y-auto shadow-lg"
     >
-      <Header />
+      <Header shadow />
       <div className="pt-11.5">
         <ReviewContent
           reviews={reviewResponse}
