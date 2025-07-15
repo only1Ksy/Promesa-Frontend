@@ -1,5 +1,5 @@
-import { ArtistProfileSchema, ArtistWishSchema, ItemSalesSchema } from './artist.dto';
-import { ItemDetailSchema, ItemSummarySchema, ItemWishSchema } from './item.dto';
+import { ArtistProfileSchema, ArtistWishSchema } from './artist.dto';
+import { ItemDetailSchema, ItemSalesSchema, ItemSummarySchema, ItemWishSchema } from './item.dto';
 
 export interface ItemResponseSchema {
   itemSummary: ItemSummarySchema;
@@ -31,4 +31,42 @@ export interface ItemControllerParams {
 
 export interface ItemControllerServerParams extends Omit<ItemControllerParams, 'frame'> {
   size?: number;
+}
+
+// detail page
+export interface ParsedItemData {
+  itemId: number;
+  title: string;
+  imageUrls: string[];
+  category: {
+    id: number;
+    name: string;
+  };
+  averageRating: number;
+  reviewCount: number;
+
+  productCode: string;
+  type: string;
+  width: number;
+  height: number;
+  depth: number;
+
+  isWishlisted: boolean;
+  wishCount: number;
+
+  artist: {
+    id: number;
+    name: string;
+    profileImageUrl: string;
+    bio: string;
+    instagramUrl: string;
+    isWishlisted: boolean;
+    wishCount: number;
+  };
+
+  price: number;
+  stock: number;
+  soldOut: boolean;
+  freeShipping: boolean;
+  shippingPolicy: string;
 }

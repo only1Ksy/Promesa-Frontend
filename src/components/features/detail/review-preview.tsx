@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import ReviewCard from '@/components/common/review/review-card';
-import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemDetail } from '@/services/api/item-controller';
 import { Review } from '@/types/review-controller';
 
 interface ReviewPreviewProps {
@@ -14,7 +14,7 @@ export default function ReviewPreview({ reviews, itemId, openReviewModal }: Revi
   const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res.data,
+    select: (res) => res,
   });
 
   if (!item) return null;

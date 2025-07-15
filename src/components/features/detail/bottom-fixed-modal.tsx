@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemDetail } from '@/services/api/item-controller';
 
 interface BottomFixedModalProps {
   isOpen: boolean;
@@ -33,7 +33,7 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
   const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res.data,
+    select: (res) => res,
     enabled: internalOpen,
   });
 
@@ -47,8 +47,8 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
   };
 
   // 수량 조절
-  const itemCount = 0;
-  const isSoldOut = itemCount < 1;
+  const itemCount = item.stock;
+  const isSoldOut = item.soldOut;
   const isMultiple = itemCount > 1;
 
   const handleQuantityDecrease = () => {

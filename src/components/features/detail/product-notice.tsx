@@ -1,8 +1,23 @@
 // src/components/features/detail/product-notice.tsx
+import { useQuery } from '@tanstack/react-query';
+
 import { PRODUCT_NOTICE_INFORMATION } from '@/lib/constants/product-notice-information';
 import stringToMultilineTSX from '@/lib/utils/string-to-multiline-tsx';
+import { fetchItemDetail } from '@/services/api/item-controller';
 
-export default function ProductNotice() {
+interface ProductNoticeProps {
+  itemId: number;
+}
+
+export default function ProductNotice({ itemId }: ProductNoticeProps) {
+  const { data: item } = useQuery({
+    queryKey: ['itemDetail', itemId],
+    queryFn: () => fetchItemDetail(itemId),
+    select: (res) => res,
+  });
+
+  if (!item) return null;
+
   const { DELIVERY_INFO, PURCHASE_PRECAUTIONS, USAGE_PRECAUTIONS, EXCHANGE_REFUND_INFO } = PRODUCT_NOTICE_INFORMATION;
 
   return (
@@ -10,7 +25,7 @@ export default function ProductNotice() {
       {/* 배송안내 */}
       <div className="flex items-start gap-4">
         <span className="w-20 shrink-0">{DELIVERY_INFO.title}</span>
-        <span>{DELIVERY_INFO.content}</span>
+        <span>{item.shippingPolicy}</span>
       </div>
 
       {/* 구매시 주의사항 */}

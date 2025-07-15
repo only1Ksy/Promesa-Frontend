@@ -17,7 +17,7 @@ import ProductNotice from '@/components/features/detail/product-notice';
 import ReviewPreview from '@/components/features/detail/review-preview';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
-import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemDetail } from '@/services/api/item-controller';
 import { fetchItemReviews } from '@/services/api/review-controller';
 
 interface ClientDetailPageProps {
@@ -29,7 +29,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   const { data: item, isLoading } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res.data,
+    select: (res) => res,
   });
 
   const { data: reviewResponse, isLoading: isReviewLoading } = useQuery({
@@ -108,12 +108,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   if (!item || isLoading || isReviewLoading || !reviewResponse) return null;
 
-  // 이미지 배열 생성 (API 응답에 따라 추후 수정)
-  const images = [
-    // item.thumbnailUrl,
-    '/src/item/image.url',
-    '/src/item/image1.url',
-  ].filter(Boolean);
+  const images = item.imageUrls;
 
   const openReviewModal = () => {
     router.push(`/detail/${itemId}/review?page=1`);
@@ -123,7 +118,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     <HydrationBoundary state={itemDetailState}>
       <DetailSwiper images={images} alt="product detail image" />
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
-        <ProductInformation reviews={reviewResponse} onSelect={scrollTo} itemId={itemId} />
+        <ProductInformation onSelect={scrollTo} itemId={itemId} />
         <div className="w-full">
           <div className="sticky top-11.5 z-40">
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
@@ -134,21 +129,18 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
           </div>
 
           <div ref={noticeRef} className="scroll-mt-20">
-            <ProductNotice />
+            <ProductNotice itemId={itemId} />
           </div>
 
           <div ref={reviewRef} className="mt-10 flex min-h-100 w-full scroll-mt-26 flex-col items-center">
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
-                <span className="text-subhead font-medium text-black">리뷰 ({reviewResponse?.length ?? 0}) </span>
+                <span className="text-subhead font-medium text-black">리뷰 ({item.reviewCount}) </span>
                 <div className="flex items-center gap-1">
                   <ReviewStarIcon className="text-orange h-4 w-4" />
                   <div className="text-grey-6 text-body-02 font-medium">
-                    {reviewResponse && reviewResponse.length > 0
-                      ? (reviewResponse.reduce((acc, cur) => acc + cur.rating, 0) / reviewResponse.length).toFixed(1)
-                      : '0.0'}{' '}
-                    ({reviewResponse?.length ?? 0})
-                  </div>{' '}
+                    {item.averageRating}({item.reviewCount})
+                  </div>
                 </div>
               </div>
               <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
@@ -167,7 +159,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       </div>
 
       <BottomFixedBarPortal>
-        <BottomFixedBar itemId={itemId} wished={item.wished} />
+        <BottomFixedBar itemId={itemId} wished={item.isWishlisted} />
       </BottomFixedBarPortal>
     </HydrationBoundary>
   );
