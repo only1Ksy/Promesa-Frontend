@@ -2,6 +2,7 @@ import type {
   ItemControllerServerParams,
   ItemPreviewResponseSchema,
   ItemResponseSchema,
+  ParsedItemData,
 } from '@/types/item-controller';
 
 import { axiosInstance, withErrorBoundary } from './axios/instance';
@@ -30,3 +31,47 @@ export const fetchShopItems = (params: ItemControllerServerParams) =>
     },
     params,
   );
+
+export const parseItemResponse = (data: ItemResponseSchema): ParsedItemData => ({
+  itemId: data.itemSummary.itemId,
+  title: data.itemSummary.title,
+  imageUrls: data.itemSummary.imageUrls,
+  category: {
+    id: data.itemSummary.categoryId,
+    name: data.itemSummary.categoryName,
+  },
+  averageRating: data.itemSummary.averageRating,
+  reviewCount: data.itemSummary.reviewCount,
+
+  productCode: data.itemDetail.productCode,
+  type: data.itemDetail.type,
+  width: data.itemDetail.width,
+  height: data.itemDetail.height,
+  depth: data.itemDetail.depth,
+
+  isWishlisted: data.itemWish.isWishlisted,
+  wishCount: data.itemWish.wishCount,
+
+  artist: {
+    id: data.artistProfile.artistId,
+    name: data.artistProfile.name,
+    profileImageUrl: data.artistProfile.profileImageUrl,
+    bio: data.artistProfile.bio,
+    instagramUrl: data.artistProfile.instagramUrl,
+    isWishlisted: data.artistWish.isWishlisted,
+    wishCount: data.artistWish.wishCount,
+  },
+
+  price: data.itemSales.price,
+  stock: data.itemSales.stock,
+  soldOut: data.itemSales.soldOut,
+  freeShipping: data.itemSales.freeShipping,
+  shippingPolicy: data.itemSales.shippingPolicy,
+});
+
+/** itemId를 넘기면 아이템의 상세 페이지 정보를 불러오는 함수 */
+export const fetchItemDetail = (itemId: number) =>
+  withErrorBoundary<[number], ParsedItemData>(async () => {
+    const res = await axiosInstance.get(`/items/${itemId}`);
+    return parseItemResponse(res.data.data);
+  }, itemId);

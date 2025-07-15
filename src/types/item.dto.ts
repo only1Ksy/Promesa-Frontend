@@ -10,7 +10,7 @@ export interface ItemSummarySchema {
 }
 
 export interface ItemDetailSchema {
-  productCode: number;
+  productCode: string;
   type: string;
   width: number;
   height: number;
@@ -20,4 +20,12 @@ export interface ItemDetailSchema {
 export interface ItemWishSchema {
   isWishlisted: boolean;
   wishCount: number;
+}
+
+export interface ItemSalesSchema {
+  stock: number;
+  soldOut: boolean;
+  price: number;
+  freeShipping: boolean;
+  shippingPolicy: string;
 }
