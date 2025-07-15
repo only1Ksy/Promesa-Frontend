@@ -13,12 +13,6 @@ export const fetchNowPopularItems = () =>
     return res.data.data.content;
   });
 
-export const fetchItem = (itemId: number) =>
-  withErrorBoundary<[number], ItemResponseSchema>(async () => {
-    const res = await axiosInstance.get(`/items/${itemId}`);
-    return res.data.data;
-  }, itemId);
-
 export const fetchShopItems = (params: ItemControllerServerParams) =>
   withErrorBoundary<[ItemControllerServerParams], { content: ItemPreviewResponseSchema[]; totalPages: number }>(
     async (params) => {
