@@ -21,7 +21,8 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const pathName = usePathname();
 
   const isHamburgerPage = pathName.startsWith('/home/');
-  const isDetailPage = pathName.startsWith('/detail/');
+  const isDetailReviewPage = pathName.startsWith('/detail/') && pathName.includes('/review');
+  const isDetailPage = pathName.startsWith('/detail/') && isDetailReviewPage;
   const isReviewPage = pathName.startsWith('/review/');
   const isOrderPage = pathName.startsWith('/order/');
   const isOrderComplete = pathName.startsWith('/order/complete');
@@ -42,10 +43,10 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     <HydrationBoundary state={dehydratedState}>
       {isFetching > 0 && <FetchingSpinner />}
 
-      {isReviewPage || isOrderPage ? (
+      {isReviewPage || isOrderPage || isDetailReviewPage ? (
         <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
           <div ref={bottomBarRef} className="fixed-component bottom-0" />
-          {isOrderComplete ? <Header /> : <Header shadow />}
+          {isOrderComplete || !isDetailReviewPage ? <Header /> : <Header shadow />}
           <div className="mt-11.5">{children}</div>
         </BottomFixedBarTargetContext.Provider>
       ) : isDetailPage ? (

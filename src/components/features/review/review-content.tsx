@@ -20,13 +20,7 @@ export default function ReviewContent({ reviews, itemId, mode, onPageChange }: R
     content.length > 0 ? (content.reduce((acc, cur) => acc + cur.rating, 0) / content.length).toFixed(1) : '0.0';
 
   return (
-    <div className="flex min-h-100 w-full flex-col items-center">
-      <div
-        className="w-full px-5 py-2"
-        style={{
-          background: 'linear-gradient(to bottom, #E1E1D7 0%, rgba(18, 71, 52, 0.05) 2px, transparent 10px)',
-        }}
-      />
+    <div className="flex min-h-100 w-full flex-col items-center pt-3">
       {mode === 'imageOnly' ? (
         <ReviewImageGrid imageUrls={content.flatMap((r) => r.reviewImages ?? [])} />
       ) : (
