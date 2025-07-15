@@ -1,7 +1,7 @@
 import { dehydrate } from '@tanstack/react-query';
 
 import ClientOrderPage from '@/components/client/order/page';
-import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemDetail } from '@/services/api/item-controller';
 import { createQueryClient } from '@/services/query/server';
 
 export default async function OrderItemPage({ params: paramsPromise }: { params: Promise<{ 'item-id': string }> }) {
