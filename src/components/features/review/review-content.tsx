@@ -1,9 +1,12 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
+
 import ReviewImageGrid from '@/components/features/review/review-image-grid';
 import ReviewList from '@/components/features/review/review-list';
 import DividerIcon from '@/public/icons/item/divider.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
+import { fetchItemDetail } from '@/services/api/item-controller';
 import type { ReviewListResponse } from '@/types/review-controller';
 
 interface ReviewContentProps {
@@ -14,10 +17,17 @@ interface ReviewContentProps {
 }
 
 export default function ReviewContent({ reviews, itemId, mode, onPageChange }: ReviewContentProps) {
+  const { data: item } = useQuery({
+    queryKey: ['itemDetail', itemId],
+    queryFn: () => fetchItemDetail(itemId),
+    select: (res) => res,
+  });
+
+  if (!item) return null;
+
   const { content } = reviews;
 
-  const averageRating =
-    content.length > 0 ? (content.reduce((acc, cur) => acc + cur.rating, 0) / content.length).toFixed(1) : '0.0';
+  const averageRating = item.averageRating;
 
   return (
     <div className="flex min-h-100 w-full flex-col items-center pt-3">
@@ -27,11 +37,11 @@ export default function ReviewContent({ reviews, itemId, mode, onPageChange }: R
         <div className="flex min-h-100 w-full flex-col items-center">
           <div className="flex w-full items-end justify-between px-5">
             <div className="flex items-center gap-2">
-              <span className="text-subhead font-medium text-black">리뷰 ({reviews.totalElements})</span>
+              <span className="text-subhead font-medium text-black">리뷰 ({item.reviewCount})</span>
               <div className="flex items-center gap-1">
                 <ReviewStarIcon className="text-orange h-4 w-4" />
                 <div className="text-grey-6 text-body-02 font-medium">
-                  {averageRating} ({reviews.totalElements})
+                  {averageRating} ({item.reviewCount})
                 </div>
               </div>
             </div>
