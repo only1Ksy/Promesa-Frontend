@@ -1,7 +1,7 @@
 import { dehydrate } from '@tanstack/react-query';
 
 import ClientDetailPage from '@/components/client/detail/page';
-import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemDetail } from '@/services/api/item-controller';
 import { fetchItemReviews } from '@/services/api/review-controller';
 import { createQueryClient } from '@/services/query/server';
 

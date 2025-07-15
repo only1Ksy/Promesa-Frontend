@@ -29,7 +29,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         {/* 카테고리, 상품명, 리뷰 */}
         <div className="flex flex-col items-start gap-1 self-stretch">
           <div className="flex flex-col items-start gap-2 self-stretch">
-            <Link href="/shop?categoryId=1&sort=wishCount,DESC">
+            <Link href={`/shop?categoryId=${item.category.id}&sort=wishCount,DESC`}>
               <span className="text-grey-5 text-body-02 flex items-center">{item.category.name}</span>
             </Link>
             <span className="text-grey-9 text-subhead font-medium">{item.title}</span>
@@ -60,7 +60,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         </div>
       </div>
       {/* 아티스트 페이지 바로가기 */}
-      <ArtistPageButton artistId={item.artist.id} />
+      <ArtistPageButton itemId={itemId} />
       {/* 장바구니, 구매하기 버튼 */}
       <div className="flex w-full items-center justify-center gap-2 px-5 py-2">
         <button className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] rounded-xs border-[1.4px] font-bold">
