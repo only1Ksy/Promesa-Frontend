@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { fetchItemDetail } from '@/services/api/item';
@@ -46,7 +47,8 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
   };
 
   // 수량 조절
-  const itemCount = 10;
+  const itemCount = 0;
+  const isSoldOut = itemCount < 1;
   const isMultiple = itemCount > 1;
 
   const handleQuantityDecrease = () => {
@@ -103,21 +105,40 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
                     </button>
                   </div>
                 ) : (
-                  <div className="text-grey-6 text-subhead ml-5 flex items-center font-medium">단품</div>
+                  <div
+                    className={clsx(
+                      'text-subhead ml-5 flex items-center font-medium',
+                      isSoldOut ? 'text-grey-9 opacity-40' : 'text-grey-6',
+                    )}
+                  >
+                    {isSoldOut ? '품절' : '단품'}
+                  </div>
                 )}
 
-                <div className="text-grey-9 flex items-center gap-2">
-                  <span className="text-subhead font-medium">총</span>
+                <div className={clsx('text-grey-9 flex items-center gap-2', isSoldOut ? 'opacity-40' : '')}>
+                  {!isSoldOut && <span className="text-subhead font-medium">총</span>}
                   <span className="text-headline-04 font-medium">{totalPrice}원</span>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-2 self-stretch">
-              <button className="text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center rounded-xs border font-bold">
+              <button
+                disabled={isSoldOut}
+                className={clsx(
+                  'text-body-01 border-grey-9 flex h-12 w-59 items-center justify-center rounded-xs border font-bold',
+                  isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
+                )}
+              >
                 장바구니
               </button>
-              <button className="text-body-01 bg-grey-9 flex h-12 w-full cursor-pointer items-center justify-center rounded-xs font-bold text-white">
+              <button
+                disabled={isSoldOut}
+                className={clsx(
+                  'text-body-01 bg-grey-9 flex h-12 w-full items-center justify-center rounded-xs font-bold text-white',
+                  isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
+                )}
+              >
                 구매하기
               </button>
             </div>

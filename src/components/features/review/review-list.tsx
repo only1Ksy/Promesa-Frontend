@@ -52,7 +52,7 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
         </div>
       )}
 
-      <div className="mb-10 flex min-h-191.5 w-full flex-col gap-5">
+      <div className="mb-10 flex w-full flex-col gap-5">
         {content.map((review, i) => (
           <div key={review.reviewId ?? i} className="flex flex-col items-center gap-5">
             <ReviewCard {...review} />
