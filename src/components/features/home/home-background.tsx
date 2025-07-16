@@ -13,17 +13,17 @@ export default function HomeBackground() {
         <PromesaMainSymbolIcon className="text-grey-1" />
         <PromesaTextLargeIcon className="text-grey-1" />
       </div>
-      <div
-        className={clsx(
-          'text-body-02 font-regular text-grey-1 border-grey-1 z-3 transition-colors duration-200',
-          'only-hover:bg-grey-1 only-hover:text-grey-6 active:bg-grey-1 active:text-grey-6',
-          'h-8 w-35 rounded-[40px] border-[1.2px] backdrop-blur-[2.35px]',
-        )}
-      >
-        <Link href="/shop" className={clsx('flex h-full w-full items-center justify-center')}>
+      <Link href="/shop">
+        <div
+          className={clsx(
+            'text-body-02 font-regular text-grey-1 border-grey-1 transition-colors duration-200',
+            'only-hover:bg-grey-1 only-hover:text-grey-6 active:bg-grey-1 active:text-grey-6',
+            'flex h-8 w-35 items-center justify-center rounded-[40px] border-[1.2px] backdrop-blur-[2.35px]',
+          )}
+        >
           <span>제품 둘러보기</span>
-        </Link>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }
