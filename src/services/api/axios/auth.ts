@@ -19,7 +19,7 @@ export const reissueOnce = async (): Promise<string | null> => {
   reissuePromise = (async () => {
     try {
       const { data } = await rawAxios.post('/auth/reissue');
-      const newToken = data?.data?.accessToken as string | undefined;
+      const newToken = data.data.data.accessToken as string | undefined;
       if (newToken) {
         store().setAccessToken(newToken);
         return newToken;
