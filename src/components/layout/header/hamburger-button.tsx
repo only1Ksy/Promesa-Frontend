@@ -78,7 +78,7 @@ export default function HamburgerButton() {
             <CloseIcon className="text-grey-9" />
           </button>
         </div>
-        <div className="mx-5 flex flex-col gap-5">
+        <div className="mx-5 flex flex-col gap-6">
           {/* 빠른 페이지 이동 */}
           <div className="text-body-01 text-grey-5 flex gap-8 font-medium">
             {!isLoggedIn ? (
@@ -106,20 +106,20 @@ export default function HamburgerButton() {
             </Link>
           </div>
           {/* 카테고리 (HOME/SHOP/ARTIST/EXHIBITION) */}
-          <div className="flex flex-col gap-1.25">
+          <div className="flex flex-col gap-1">
             <div className="my-3">
               <Link href="/">
-                <p className="text-headline-06">HOME</p>
+                <p className="text-subhead font-medium">HOME</p>
               </Link>
             </div>
             {/* SHOP 카테고리 */}
-            <div className="flex gap-9.25">
+            <div className="flex gap-9">
               <div className="my-3 flex items-start">
                 <button
                   onClick={() => setItemCategoriesOpen((prev) => !prev)}
                   className="flex cursor-pointer items-center gap-1"
                 >
-                  <p className="text-headline-06">SHOP</p>
+                  <p className="text-subhead font-medium">SHOP</p>
                   <div
                     className={clsx(
                       'flex items-center justify-center transition-transform duration-500',
@@ -148,12 +148,12 @@ export default function HamburgerButton() {
             </div>
             <div className="my-3">
               <Link href="/home/artists">
-                <p className="text-headline-06">ARTIST</p>
+                <p className="text-subhead font-medium">ARTIST</p>
               </Link>
             </div>
             <div className="my-3">
               <Link href="/home/exhibitions">
-                <p className="text-headline-06">EXHIBITION</p>
+                <p className="text-subhead font-medium">EXHIBITION</p>
               </Link>
             </div>
           </div>
