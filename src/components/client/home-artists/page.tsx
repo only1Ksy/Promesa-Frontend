@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import ListWithImage from '@/components/features/home/artists/list-with-image';
 import ListWithoutImage from '@/components/features/home/artists/list-without-image';
+import NoWishArtist from '@/components/features/home/artists/no-wish-artist';
 import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
 import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 
@@ -21,54 +22,62 @@ export default function ClientHomeArtistsPage() {
     });
   };
 
-  const mockArtistList = [
-    {
-      artistId: 1,
-      koName: '0=',
-      enName: 'Young Eun',
-      src: '/images/mock/artist-1.png',
-      isWishListed: mockToggleWIshList[0],
-      wishCount: 28,
-    },
-    {
-      artistId: 2,
-      koName: '홍길동',
-      enName: 'Hong Gildong',
-      src: '/images/mock/artist-2.png',
-      isWishListed: mockToggleWIshList[1],
-      wishCount: 144,
-    },
-    {
-      artistId: 3,
-      koName: '이호영',
-      enName: 'Lee Hoyoung',
-      src: '/images/mock/artist-3-5.png',
-      isWishListed: mockToggleWIshList[2],
-      wishCount: 28,
-    },
-    {
-      artistId: 4,
-      koName: '이호영',
-      enName: 'Lee Hoyoung',
-      src: '/images/mock/artist-3-5.png',
-      isWishListed: mockToggleWIshList[3],
-      wishCount: 28,
-    },
-    {
-      artistId: 5,
-      koName: '이호영',
-      enName: 'Lee Hoyoung',
-      src: '/images/mock/artist-3-5.png',
-      isWishListed: mockToggleWIshList[4],
-      wishCount: 28,
-    },
-  ];
+  const mockArtistList = useMemo(
+    () => [
+      {
+        artistId: 1,
+        koName: '0=',
+        enName: 'Young Eun',
+        src: '/images/mock/artist-1.png',
+        isWishListed: mockToggleWIshList[0],
+        wishCount: 28,
+      },
+      {
+        artistId: 2,
+        koName: '홍길동',
+        enName: 'Hong Gildong',
+        src: '/images/mock/artist-2.png',
+        isWishListed: mockToggleWIshList[1],
+        wishCount: 144,
+      },
+      {
+        artistId: 3,
+        koName: '이호영',
+        enName: 'Lee Hoyoung',
+        src: '/images/mock/artist-3-5.png',
+        isWishListed: mockToggleWIshList[2],
+        wishCount: 28,
+      },
+      {
+        artistId: 4,
+        koName: '이호영',
+        enName: 'Lee Hoyoung',
+        src: '/images/mock/artist-3-5.png',
+        isWishListed: mockToggleWIshList[3],
+        wishCount: 28,
+      },
+      {
+        artistId: 5,
+        koName: '이호영',
+        enName: 'Lee Hoyoung',
+        src: '/images/mock/artist-3-5.png',
+        isWishListed: mockToggleWIshList[4],
+        wishCount: 28,
+      },
+    ],
+    [mockToggleWIshList],
+  );
+
+  const filteredMockArtistList = useMemo(
+    () => mockArtistList.filter((data) => !filtered || data.isWishListed),
+    [mockArtistList, filtered],
+  );
 
   return (
     <div className="-mt-11.5 min-h-screen">
       <div className="mx-5 flex flex-col gap-5 pt-16.5 pb-20">
         <div className="flex items-center justify-between">
-          <p className="text-headline-06 text-black">ARTIST</p>
+          <p className="text-headline-06 text-black">Artist</p>
           <div className="mr-1 flex items-center gap-2">
             <button
               onClick={() => setShowNameList((prev) => !prev)}
@@ -89,10 +98,8 @@ export default function ClientHomeArtistsPage() {
           </div>
         </div>
         {/* mock artist list */}
-        {mockArtistList.map((data, idx) => {
-          if (filtered && !data.isWishListed) return;
-
-          return (
+        {filteredMockArtistList.length > 0 ? (
+          filteredMockArtistList.map((data, idx) => (
             <ListWithImage
               key={idx}
               artistId={data.artistId}
@@ -103,8 +110,10 @@ export default function ClientHomeArtistsPage() {
               wishCount={data.wishCount}
               toggleWish={toggleWish}
             />
-          );
-        })}
+          ))
+        ) : (
+          <NoWishArtist />
+        )}
       </div>
       <ListWithoutImage open={showNameList} close={() => setShowNameList(false)} />
     </div>

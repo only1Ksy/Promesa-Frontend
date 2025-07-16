@@ -50,3 +50,32 @@ export const logoutOnce = async (): Promise<void> => {
     logoutInProgress = false;
   }
 };
+
+// is logged in
+export const fetchIsLoggedIn = async (): Promise<boolean> => {
+  const call = async (accessToken?: string | null) => {
+    return rawAxios.get('/auth/me', {
+      headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
+    });
+  };
+
+  try {
+    const res = await call(store().accessToken);
+    return !!res.data?.data;
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err) && err.response?.status === 401) {
+      const newToken = await reissueOnce();
+      if (newToken) {
+        try {
+          const res = await call(newToken);
+          return !!res.data?.data;
+        } catch {}
+      }
+
+      await logoutOnce();
+      return false;
+    }
+
+    throw err;
+  }
+};
