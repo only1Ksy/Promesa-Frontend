@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import KakkoLogoIcon from '@/public/icons/auth/kakko-logo.svg';
 import CloseIcon from '@/public/icons/layout/close.svg';
 import PromesaLoginSymbolIcon from '@/public/icons/logo/login-symbol.svg';
-import PromesaTextMediumIcon from '@/public/icons/logo/text-md.svg';
 
 export default function ClientLoginPage() {
   const searchParams = useSearchParams();
@@ -26,16 +25,18 @@ export default function ClientLoginPage() {
           <CloseIcon className="text-grey-9" />
         </button>
       </div>
-      <div className="mx-5 mb-13.5 flex h-full flex-col items-center gap-4">
-        <div className="text-grey-9 flex flex-1 flex-col items-center justify-center gap-2">
-          <PromesaLoginSymbolIcon />
-          <PromesaTextMediumIcon />
+      <div className="mt-40 mb-20 flex h-full flex-col items-center gap-17">
+        <div className="text-grey-9 flex flex-col items-center gap-10 p-2.5">
+          <PromesaLoginSymbolIcon className="text-grey-9" />
+          <div className="text-subhead text-grey-7 flex text-center font-medium">
+            <p>
+              PROMESA에 오신걸 환영합니다.
+              <br />
+              새로운 도자기들과 아티스트들을 만나보세요.
+            </p>
+          </div>
         </div>
-        <div className="text-body-02 flex">
-          <p className="text-orange font-bold">회원가입</p>
-          <p className="text-grey-5 font-medium">하고 더 많은 도자기와 아티스트를 만나보세요</p>
-        </div>
-        <div className="w-full">
+        <div className="w-full px-5">
           <button
             onClick={() => {
               const clientId = process.env.NEXT_PUBLIC_REST_API_KEY!;
@@ -49,9 +50,8 @@ export default function ClientLoginPage() {
             }}
             className="flex h-13.5 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg bg-[#fee500]"
           >
-            {/* strict design match : mt-0.5, font-medium */}
-            <KakkoLogoIcon className="mt-0.5" />
-            <p className="font-apple text-lg leading-[150%] font-medium text-[#000000]/85">카카오로 계속하기</p>
+            <KakkoLogoIcon className="text-[#000000]" />
+            <p className="text-body-01 font-bold text-black">카카오로 계속하기</p>
           </button>
         </div>
       </div>
