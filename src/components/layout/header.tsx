@@ -24,7 +24,8 @@ export default function Header({ shadow }: HeaderProps) {
   const isOrderComplete = pathname.startsWith('/order/complete');
   const isSearch = pathname.startsWith('/shop');
   const isReview = pathname.includes('/review');
-  const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail') || isReview || isOrder;
+  const isMy = pathname.startsWith('/my');
+  const isBack = pathname.startsWith('/artist') || pathname.startsWith('/detail') || isMy || isReview || isOrder;
 
   const reviewMode = searchParams.get('mode');
 
@@ -56,9 +57,13 @@ export default function Header({ shadow }: HeaderProps) {
         {!isOrder && (
           <>
             {isSearch ? <SearchIcon className="text-grey-9" /> : <div className="h-7.5 w-7.5" />}
-            <Link href="/me">
-              <MyIcon className="text-grey-9" />
-            </Link>
+            {isMy ? (
+              <div className="h-7.5 w-7.5" />
+            ) : (
+              <Link href="/my">
+                <MyIcon className="text-grey-9" />
+              </Link>
+            )}
             <CartButton />
           </>
         )}
