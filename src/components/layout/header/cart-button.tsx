@@ -17,12 +17,12 @@ export default function CartButton() {
     <div className="relative">
       <Link href="/cart">
         <CartIcon className="text-grey-9" />
+        {isLoggedIn && (
+          <div className="bg-orange absolute right-0 bottom-0 flex h-4 w-4 items-center justify-center rounded-full">
+            <p className="text-caption-02 text-center font-medium text-white">3</p>
+          </div>
+        )}
       </Link>
-      {isLoggedIn && (
-        <div className="bg-orange absolute right-0 bottom-0 flex h-4 w-4 items-center justify-center rounded-full">
-          <p className="text-caption-02 text-center font-medium text-white">3</p>
-        </div>
-      )}
     </div>
   );
 }
