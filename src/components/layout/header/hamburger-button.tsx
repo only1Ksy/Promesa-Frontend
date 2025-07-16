@@ -63,8 +63,7 @@ export default function HamburgerButton() {
       </button>
       <div
         className={clsx(
-          'fixed-component max-z-index bg-pale-green top-0 flex min-h-screen -translate-x-5 flex-col gap-3',
-          'overflow-hidden transition-[width] duration-500',
+          'fixed-component max-z-index bg-pale-green top-0 flex min-h-screen -translate-x-5 flex-col gap-3 overflow-hidden',
           !open && '!w-0',
         )}
       >
