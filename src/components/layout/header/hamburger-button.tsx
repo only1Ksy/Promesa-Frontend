@@ -12,7 +12,7 @@ import CloseIcon from '@/public/icons/layout/close.svg';
 import HamburgerIcon from '@/public/icons/layout/hamburger.svg';
 import HideCategoriesIcon from '@/public/icons/layout/hide-categories.svg';
 import { logoutOnce } from '@/services/api/axios/auth';
-import { fetchIsLoggedIn } from '@/services/api/axios/instance';
+import { fetchIsLoggedIn } from '@/services/api/axios/auth';
 import { fetchParentCategories } from '@/services/api/category-controller';
 
 export default function HamburgerButton() {

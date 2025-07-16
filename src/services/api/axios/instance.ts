@@ -71,13 +71,3 @@ export async function withErrorBoundary<Args extends unknown[], Return>(
     throw toHttpError(error);
   }
 }
-
-// is logged in
-export const fetchIsLoggedIn = async (): Promise<boolean> => {
-  try {
-    const res = await axiosInstance.get('/auth/me');
-    return !!res.data.data;
-  } catch {
-    return false;
-  }
-};

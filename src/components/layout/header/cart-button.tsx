@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import CartIcon from '@/public/icons/layout/cart.svg';
-import { fetchIsLoggedIn } from '@/services/api/axios/instance';
+import { fetchIsLoggedIn } from '@/services/api/axios/auth';
 
 export default function CartButton() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
