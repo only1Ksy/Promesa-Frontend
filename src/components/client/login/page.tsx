@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 
 import KakkoLogoIcon from '@/public/icons/auth/kakko-logo.svg';
 import CloseIcon from '@/public/icons/layout/close.svg';
-import PromesaLoginSymbolIcon from '@/public/icons/logo/login-symbol.svg';
+import PromesaTextMediumIcon from '@/public/icons/logo/text-md.svg';
 
 export default function ClientLoginPage() {
   const searchParams = useSearchParams();
@@ -25,9 +25,9 @@ export default function ClientLoginPage() {
           <CloseIcon className="text-grey-9" />
         </button>
       </div>
-      <div className="mt-40 mb-20 flex h-full flex-col items-center gap-17">
+      <div className="mb-25 flex h-full flex-col items-center justify-center gap-8">
         <div className="text-grey-9 flex flex-col items-center gap-10 p-2.5">
-          <PromesaLoginSymbolIcon className="text-grey-9" />
+          <PromesaTextMediumIcon className="text-grey-9" />
           <div className="text-subhead text-grey-7 flex text-center font-medium">
             <p>
               PROMESA에 오신걸 환영합니다.
