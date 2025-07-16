@@ -116,20 +116,20 @@ export default function HamburgerButton() {
             {/* SHOP 카테고리 */}
             <div className="flex gap-9.25">
               <div className="my-3 flex items-start">
-                <div className="flex items-center gap-1">
-                  <Link href="/shop">
-                    <p className="text-headline-06">SHOP</p>
-                  </Link>
-                  <button
-                    onClick={() => setItemCategoriesOpen((prev) => !prev)}
+                <button
+                  onClick={() => setItemCategoriesOpen((prev) => !prev)}
+                  className="flex cursor-pointer items-center gap-1"
+                >
+                  <p className="text-headline-06">SHOP</p>
+                  <div
                     className={clsx(
-                      'flex cursor-pointer items-center justify-center transition-transform duration-500',
+                      'flex items-center justify-center transition-transform duration-500',
                       itemCategoriesOpen ? '-rotate-90' : '',
                     )}
                   >
                     <HideCategoriesIcon className="text-grey-9" />
-                  </button>
-                </div>
+                  </div>
+                </button>
               </div>
               {/* 아이템 카테고리 리스트 */}
               <Expandable
