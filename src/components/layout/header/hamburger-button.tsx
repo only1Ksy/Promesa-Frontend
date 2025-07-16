@@ -91,6 +91,7 @@ export default function HamburgerButton() {
                 onClick={() =>
                   logoutOnce().then(() => {
                     router.replace('/');
+                    window.location.reload();
                   })
                 }
                 className="flex cursor-pointer items-center justify-center"
