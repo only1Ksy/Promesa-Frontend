@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import PromesaMainSymbolIcon from '@/public/icons/logo/main-symbol.svg';
@@ -11,8 +12,10 @@ import PromesaTextLargeIcon from '@/public/icons/logo/text-lg.svg';
 export default function HomeBackground() {
   // strict hover handling
   const linkRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
+    if (pathname !== '/home') return;
     const el = linkRef.current;
     if (!el) return;
 
@@ -29,7 +32,7 @@ export default function HomeBackground() {
       if (prevColor) el.style.setProperty('color', prevColor);
       else el.style.removeProperty('color');
     });
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="fixed-component no-z-index bg-green top-11.5 flex h-112.5 flex-col items-center justify-center gap-15">
