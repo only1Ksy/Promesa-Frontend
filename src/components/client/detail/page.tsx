@@ -108,7 +108,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   if (!item || isLoading || isReviewLoading || !reviewResponse) return null;
 
-  const images = item.imageUrls;
+  const images = item.mainImageUrls;
 
   const openReviewModal = () => {
     router.push(`/detail/${itemId}/review?page=1`);

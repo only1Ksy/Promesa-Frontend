@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
 
+import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { fetchItemDetail } from '@/services/api/item-controller';
 
 interface ProductDetailProps {
@@ -15,6 +15,8 @@ export default function ProductDetail({ itemId }: ProductDetailProps) {
   });
 
   if (!item) return null;
+
+  console.log(item.detailImageUrls);
 
   return (
     <div className="flex w-full flex-col items-start">
@@ -32,9 +34,22 @@ export default function ProductDetail({ itemId }: ProductDetailProps) {
           <span className="w-8">사이즈</span>
           <span>{`${item.width}x${item.height}x${item.depth}`}</span>
         </div>
-        {/* 상세 이미지 */}
-        <div className="h-100 w-full">
-          <Image alt="product detail page detail image" src={''} />
+      </div>
+      {/* 상세 이미지 */}
+      <div className="w-full pt-6">
+        <div className="flex w-full flex-col">
+          {item.detailImageUrls.map((url, index) => (
+            <div key={index} className="relative w-full">
+              <ImageWithEffect
+                src={url}
+                alt={`product detail image ${index + 1}`}
+                width={800}
+                height={0}
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

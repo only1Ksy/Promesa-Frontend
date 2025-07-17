@@ -29,7 +29,8 @@ export const fetchShopItems = (params: ItemControllerServerParams) =>
 export const parseItemResponse = (data: ItemResponseSchema): ParsedItemData => ({
   itemId: data.itemSummary.itemId,
   title: data.itemSummary.title,
-  imageUrls: data.itemSummary.imageUrls,
+  mainImageUrls: data.itemSummary.mainImageUrls,
+  detailImageUrls: data.itemSummary.detailImageUrls,
   category: {
     id: data.itemSummary.categoryId,
     name: data.itemSummary.categoryName,
