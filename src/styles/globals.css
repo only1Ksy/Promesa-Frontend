@@ -19,12 +19,6 @@
     overflow-y: auto;
     overscroll-behavior: none;
   }
-
-  @media (max-width: var(--frame-width)) {
-    body {
-      background-color: var(--color-pale-green);
-    }
-  }
 }
 
 @layer components {
