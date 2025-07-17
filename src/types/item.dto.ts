@@ -3,7 +3,8 @@ export interface ItemSummarySchema {
   categoryId: number;
   categoryName: string;
   title: string;
-  imageUrls: string[];
+  mainImageUrls: string[];
+  detailImageUrls: string[];
   averageRating: number;
   reviewCount: number;
   artistId: number;

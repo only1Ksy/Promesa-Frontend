@@ -37,7 +37,8 @@ export interface ItemControllerServerParams extends Omit<ItemControllerParams, '
 export interface ParsedItemData {
   itemId: number;
   title: string;
-  imageUrls: string[];
+  mainImageUrls: string[];
+  detailImageUrls: string[];
   category: {
     id: number;
     name: string;
