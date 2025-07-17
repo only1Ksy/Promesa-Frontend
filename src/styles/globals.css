@@ -19,6 +19,12 @@
     overflow-y: auto;
     overscroll-behavior: none;
   }
+
+  @media (max-width: var(--frame-width)) {
+    html {
+      background-color: var(--color-pale-green);
+    }
+  }
 }
 
 @layer utilities {
