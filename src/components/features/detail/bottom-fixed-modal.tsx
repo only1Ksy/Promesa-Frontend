@@ -40,10 +40,11 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
   if (!mounted || !internalOpen || !item) return null;
 
   const handleClose = () => {
+    onClose();
+  };
+
+  const handleExitComplete = () => {
     setInternalOpen(false);
-    setTimeout(() => {
-      onClose();
-    }, 300);
   };
 
   // 수량 조절
@@ -62,8 +63,8 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
   const totalPrice = (item.price * quantity).toLocaleString();
 
   return createPortal(
-    <AnimatePresence>
-      {internalOpen && (
+    <AnimatePresence onExitComplete={handleExitComplete}>
+      {isOpen && (
         <div className="fixed inset-0 z-[9999] flex items-end justify-center">
           {/* 배경 */}
           <motion.div

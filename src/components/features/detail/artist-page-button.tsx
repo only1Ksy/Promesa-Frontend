@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useToggleWish } from '@/hooks/use-toggle-wish';
 import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
 import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 import RightSingleIcon from '@/public/icons/item/page-right-single.svg';
@@ -13,19 +13,13 @@ interface ArtistPageButtonProps {
 }
 
 export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
-  const [isBookmark, setBookmark] = useState(false);
-
   const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res,
   });
 
-  useEffect(() => {
-    if (item) {
-      setBookmark(item.artist.isWishlisted);
-    }
-  }, [item]);
+  const { mutate: toggleWish } = useToggleWish();
 
   if (!item) return null;
 
@@ -45,16 +39,15 @@ export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
       </Link>
 
       <div className="absolute top-1/2 right-10 z-20 flex -translate-y-1/2 flex-col items-center">
-        {isBookmark ? (
-          <button onClick={() => setBookmark((prev) => !prev)}>
-            <BookmarkFilledIcon className="text-grey-0 cursor-pointer" />
-          </button>
-        ) : (
-          <button onClick={() => setBookmark((prev) => !prev)}>
-            <BookmarkEmptyIcon className="text-grey-0 cursor-pointer" />
-          </button>
-        )}
-        <span className="text-grey-0 text-caption-02 font-medium">28</span>
+        <button
+          onClick={() =>
+            toggleWish({ targetType: 'ARTIST', targetId: item.artist.id, currentWished: item.isWishlisted })
+          }
+          className="text-grey-0 cursor-pointer"
+        >
+          {item.isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+        </button>
+        <span className="text-grey-0 text-caption-02 font-medium">{item.artist.wishCount}</span>
       </div>
     </div>
   );

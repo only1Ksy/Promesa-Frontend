@@ -16,8 +16,6 @@ export default function ProductDetail({ itemId }: ProductDetailProps) {
 
   if (!item) return null;
 
-  console.log(item.detailImageUrls);
-
   return (
     <div className="flex w-full flex-col items-start">
       {/* 상세 정보 */}

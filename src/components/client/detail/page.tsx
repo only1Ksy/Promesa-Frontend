@@ -159,7 +159,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
       </div>
 
       <BottomFixedBarPortal>
-        <BottomFixedBar itemId={itemId} wished={item.isWishlisted} />
+        <BottomFixedBar itemId={itemId} wished={item.isWishlisted} wishCount={item.wishCount} />
       </BottomFixedBarPortal>
     </HydrationBoundary>
   );
