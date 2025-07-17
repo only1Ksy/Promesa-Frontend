@@ -48,7 +48,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
       <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
         {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
         <Header shadow={isHeaderShadow} />
-        <div className="mt-11.5">{children}</div>
+        <div className="bg-pale-green pt-11.5">{children}</div>
         {isFooter && isBottomBarRef ? (
           // need to refactor
           <div className="pb-21">
