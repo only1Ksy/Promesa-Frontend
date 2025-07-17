@@ -26,7 +26,11 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
         onClick={() => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: wished })}
         className="absolute top-2 right-2 z-10 cursor-pointer"
       >
-        {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
+        {wished ? (
+          <HeartFilledIcon width="30" height="30" className="text-orange" />
+        ) : (
+          <HeartEmptyIcon width="30" height="30" className="text-white" />
+        )}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">

@@ -33,12 +33,12 @@ export default function BottomFixedBar({ itemId, wished }: BottomFixedBarProps) 
             <button onClick={() => setToggleWish((prev) => !prev)} className="cursor-pointer">
               {toggleWish ? (
                 <>
-                  <HeartFilledIcon className="text-orange h-8 w-8" />
+                  <HeartFilledIcon width="32" height="32" className="text-orange" />
                   <span className="text-orange text-caption-01 font-bold">0</span>
                 </>
               ) : (
                 <>
-                  <HeartEmptyIcon className="text-grey-5 h-8 w-8" />
+                  <HeartEmptyIcon width="32" height="32" className="text-grey-5" />
                   <span className="text-grey-5 text-caption-01 font-bold">0</span>
                 </>
               )}
