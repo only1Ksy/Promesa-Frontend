@@ -18,7 +18,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
     queryFn: () => fetchArtist(artistId),
   });
 
-  const { mutate: toggleWish } = useToggleWish();
+  const { mutate: toggleWish } = useToggleWish({ queryKeyList: [['artist', artistId]] });
 
   const { profile, wish } = data;
 
