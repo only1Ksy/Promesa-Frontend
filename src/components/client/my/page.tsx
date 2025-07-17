@@ -13,7 +13,7 @@ interface ClientMePageProps {
 export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="mx-5 mb-20 flex flex-col gap-7.5">
+      <div className="mx-5 flex flex-col gap-7.5 pb-20">
         <MyProfile />
         <MyPageSection
           sectionTitle="나의 쇼핑 정보"
