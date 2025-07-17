@@ -19,13 +19,17 @@ interface ClientRoutesLayoutProps {
 
 export default function ClientRoutesLayout({ dehydratedState, children }: ClientRoutesLayoutProps) {
   const pathName = usePathname();
-
-  const isHamburgerPage = pathName.startsWith('/home/');
-  const isDetailPage = pathName.startsWith('/detail/');
-  const isReviewPage = pathName.startsWith('/review/');
-  const isOrderPage = pathName.startsWith('/order/');
-  const isOrderComplete = pathName.startsWith('/order/complete');
   const bottomBarRef = useRef<HTMLDivElement>(null);
+
+  const isDetailPage = pathName.startsWith('/detail');
+  const isOrderPage = pathName.startsWith('/order');
+  const isOrderCompletePage = pathName.startsWith('/order/complete');
+  const isReviewPage = pathName.startsWith('/review');
+
+  const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage;
+  const isHeaderShadow = !isDetailPage && !isOrderCompletePage;
+  const isFooter = !isOrderPage && !isReviewPage;
+  const isFloatingButton = !isOrderPage && !isReviewPage;
 
   const isFetching = useIsFetching();
   const FetchingSpinner = dynamic(() => import('@/components/layout/fetching-spinner'), { ssr: false });
@@ -41,31 +45,20 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   return (
     <HydrationBoundary state={dehydratedState}>
       {isFetching > 0 && <FetchingSpinner />}
-
-      {isReviewPage || isOrderPage ? (
-        <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
-          <div ref={bottomBarRef} className="fixed-component bottom-0" />
-          {isOrderComplete ? <Header /> : <Header shadow />}
-          <div className="mt-11.5">{children}</div>
-        </BottomFixedBarTargetContext.Provider>
-      ) : isDetailPage ? (
-        <BottomFixedBarTargetContext.Provider value={bottomBarRef}>
-          <div ref={bottomBarRef} className="fixed-component bottom-0" />
-          <Header />
-          <div className="mt-11.5">{children}</div>
+      <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
+        {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
+        <Header shadow={isHeaderShadow} />
+        <div className="mt-11.5">{children}</div>
+        {isFooter && isBottomBarRef ? (
+          // need to refactor
           <div className="pb-21">
             <Footer />
           </div>
-          <FloatingButton />
-        </BottomFixedBarTargetContext.Provider>
-      ) : (
-        <>
-          <Header shadow />
-          <div className="mt-11.5">{children}</div>
+        ) : (
           <Footer />
-          {!isHamburgerPage && <FloatingButton />}
-        </>
-      )}
+        )}
+        {isFloatingButton && <FloatingButton />}
+      </BottomFixedBarTargetContext.Provider>
     </HydrationBoundary>
   );
 }
