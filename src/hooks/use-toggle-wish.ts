@@ -18,7 +18,11 @@ interface ToggleWishResult {
   wishCount: number;
 }
 
-export const useToggleWish = () => {
+interface UseToggleWishOptions {
+  queryKeyList?: unknown[][];
+}
+
+export const useToggleWish = ({ queryKeyList = [] }: UseToggleWishOptions = {}) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
@@ -35,6 +39,10 @@ export const useToggleWish = () => {
       queryClient.invalidateQueries({
         queryKey: ['toggleWish', targetType, targetId],
       });
+
+      for (const queryKey of queryKeyList) {
+        queryClient.invalidateQueries({ queryKey });
+      }
     },
     onError: (error) => {
       if (error instanceof HttpError && error.status === 401) {

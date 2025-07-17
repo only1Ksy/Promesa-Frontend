@@ -1,8 +1,14 @@
-import type { ArtistResponseSchema } from '@/types/artist-controller';
+import type { ArtistNameResponseSchema, ArtistResponseSchema } from '@/types/artist-controller';
 import type { ExhibitionResponseSchema } from '@/types/exhibition-controller';
 import type { ItemControllerServerParams, ItemPreviewResponseSchema } from '@/types/item-controller';
 
 import { axiosInstance, withErrorBoundary } from './axios/instance';
+
+export const fetchArtistList = () =>
+  withErrorBoundary<[], ArtistResponseSchema[]>(async () => {
+    const res = await axiosInstance.get('/artists');
+    return res.data.data;
+  });
 
 export const fetchArtist = (artistId: number) =>
   withErrorBoundary<[number], ArtistResponseSchema>(async (artistId) => {
@@ -25,3 +31,9 @@ export const fetchArtistItems = (params: ItemControllerServerParams) =>
     },
     params,
   );
+
+export const fetchArtistNameList = () =>
+  withErrorBoundary<[], ArtistNameResponseSchema[]>(async () => {
+    const res = await axiosInstance.get('/artists/names');
+    return res.data.data;
+  });

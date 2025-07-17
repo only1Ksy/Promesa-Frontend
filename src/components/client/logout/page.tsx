@@ -11,5 +11,5 @@ export default function ClientLogoutPage() {
     });
   }, []);
 
-  return null;
+  return <div className="h-screen w-full" />;
 }
