@@ -18,30 +18,34 @@ export const fetchItemReviews = (itemId: number, page: number = 0, size: number 
   );
 
 /** itemId와 fileNames를 전달하면 presigned URL들을 반환하는 함수 */
-export const PostReviewImages = (imageType: string = 'REVIEW', referenceId: number, fileNames: string[]) =>
-  withErrorBoundary<[string, number, string[]], PresignedUrlResponse>(
-    async (imageType, referenceId, fileNames) => {
+export const PostReviewImages = (
+  imageType: string = 'MEMBER',
+  subType: string = 'REVIEW',
+  subReferenceId: number,
+  fileNames: string[],
+) =>
+  withErrorBoundary<[string, string, number, string[]], PresignedUrlResponse>(
+    async (imageType, subType, subReferenceId, fileNames) => {
       const res = await axiosInstance.post('/review-images/presigned-url', {
         imageType,
-        referenceId,
+        subType,
+        subReferenceId,
         fileNames,
       });
 
       return res.data.data;
     },
     imageType,
-    referenceId,
+    subType,
+    subReferenceId,
     fileNames,
   );
 
 /** itemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
-// imageKey는 파일명
-export const PostReview = (itemId: number, memberId: number, content: string, rating: number, imageKeys: string[]) =>
-  withErrorBoundary<[number, number, string, number, string[]], PresignedUrlResponse>(
-    async (itemId, memberId, content, rating, imageKeys) => {
+export const PostReview = (itemId: number, content: string, rating: number, imageKeys: string[]) =>
+  withErrorBoundary<[number, string, number, string[]], PresignedUrlResponse>(
+    async (itemId, content, rating, imageKeys) => {
       const res = await axiosInstance.post(`/items/${itemId}/reviews`, {
-        itemId,
-        memberId,
         content,
         rating,
         imageKeys,
@@ -50,7 +54,6 @@ export const PostReview = (itemId: number, memberId: number, content: string, ra
       return res.data.data;
     },
     itemId,
-    memberId,
     content,
     rating,
     imageKeys,
