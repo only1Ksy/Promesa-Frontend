@@ -4,11 +4,14 @@ import clsx from 'clsx';
 
 import { useOrderStore } from '@/lib/store/order-information-store';
 
+// import { fetchDefaultAddress } from '@/services/api/address-controller';
 import OrderDropdown from './order-dropdown';
 
 export default function DeliveryForm() {
   const delivery = useOrderStore((state) => state.delivery);
   const updateDelivery = useOrderStore((state) => state.updateDelivery);
+
+  // const defaultAddress = fetchDefaultAddress();
 
   const openAddressSearch = () => {
     if (typeof window === 'undefined' || !window.daum?.Postcode) return;
