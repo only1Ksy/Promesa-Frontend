@@ -13,11 +13,7 @@ export default function ClientLoginPage() {
       <div className="text-grey-9 flex flex-col items-center gap-10 p-2.5">
         <PromesaTextMediumIcon className="text-grey-9" />
         <div className="text-subhead text-grey-7 flex text-center font-medium">
-          <p>
-            PROMESA에 오신걸 환영합니다.
-            <br />
-            새로운 도자기들과 아티스트들을 만나보세요.
-          </p>
+          <p>지금, 당신의 공간에 새로운 취향을 더해보세요.</p>
         </div>
       </div>
       <div className="w-full px-5">
