@@ -19,7 +19,9 @@ export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
     select: (res) => res,
   });
 
-  const { mutate: toggleWish } = useToggleWish();
+  const { mutate: toggleWish } = useToggleWish({
+    queryKeyList: [['itemDetail', itemId]],
+  });
 
   if (!item) return null;
 

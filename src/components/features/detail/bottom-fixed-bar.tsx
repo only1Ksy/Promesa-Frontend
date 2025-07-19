@@ -21,7 +21,9 @@ export default function BottomFixedBar({ itemId, wished, wishCount }: BottomFixe
     setIsModalOpen(true);
   };
 
-  const { mutate: toggleWish } = useToggleWish();
+  const { mutate: toggleWish } = useToggleWish({
+    queryKeyList: [['itemDetail', itemId]],
+  });
 
   return (
     <>
