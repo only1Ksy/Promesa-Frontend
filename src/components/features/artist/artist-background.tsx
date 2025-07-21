@@ -33,7 +33,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
           onClick={() => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })}
           className="cursor-pointer"
         >
-          {isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+          {isWishlisted ? <BookmarkFilledIcon key="filled" /> : <BookmarkEmptyIcon key="empty" />}
         </button>
         {wishCount >= 0 && <p className="text-body-02 font-regular text-center">{wishCount}</p>}
       </div>
