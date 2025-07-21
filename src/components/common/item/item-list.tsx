@@ -6,7 +6,6 @@ import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Expandable from '@/components/common/utilities/expandable';
-import { useToggleWish } from '@/hooks/use-toggle-wish';
 import chunkList from '@/lib/utils/chunk-list';
 import { fetchArtistItems } from '@/services/api/artist-controller';
 import { fetchShopItems } from '@/services/api/item-controller';
@@ -81,8 +80,6 @@ export default function ItemList({ initialParams, page }: ItemListGridProps) {
     queryFn: page === 'SHOP' ? () => fetchShopItems(serverParams) : () => fetchArtistItems(serverParams),
   });
 
-  const { mutate: toggleWish } = useToggleWish({ queryKeyList: [['items', serverParams]] });
-
   const push = (next: Partial<ItemControllerParams>) => {
     const merged = { ...params, ...next };
     delete merged.artistId; // artistId is not search params
@@ -128,19 +125,7 @@ export default function ItemList({ initialParams, page }: ItemListGridProps) {
             return (
               <div key={idx} className={clsx('flex w-full', gapClass)}>
                 {group.map((item, idx) => (
-                  <ItemPreview
-                    key={idx}
-                    item={item}
-                    maxWidthClass={maxWidthClass}
-                    heightClass={heightClass}
-                    onToggleWish={() =>
-                      toggleWish({
-                        targetType: 'ITEM',
-                        targetId: item.itemId,
-                        currentWished: item.wished,
-                      })
-                    }
-                  />
+                  <ItemPreview key={idx} item={item} maxWidthClass={maxWidthClass} heightClass={heightClass} />
                 ))}
                 {placeholders.map((_, idx) => (
                   <div key={idx} className={clsx('flex-1', maxWidthClass, heightClass)} />

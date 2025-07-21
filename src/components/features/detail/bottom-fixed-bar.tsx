@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { useToggleWish } from '@/hooks/use-toggle-wish';
 import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
+import { fetchItemWish } from '@/services/api/wish-controller';
 
 import BottomFixedModal from './bottom-fixed-modal';
 
@@ -14,16 +16,23 @@ interface BottomFixedBarProps {
   wishCount: number;
 }
 
-export default function BottomFixedBar({ itemId, wished, wishCount }: BottomFixedBarProps) {
+export default function BottomFixedBar({ itemId, wished, wishCount: initialWishCount }: BottomFixedBarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClicked = () => {
     setIsModalOpen(true);
   };
 
-  const { mutate: toggleWish } = useToggleWish({
-    queryKeyList: [['itemDetail', itemId]],
+  const { data: wishData, refetch } = useQuery({
+    queryKey: ['itemWish', itemId],
+    queryFn: () => fetchItemWish(itemId),
+    enabled: false,
   });
+
+  const { mutate: toggleWish } = useToggleWish({ onSuccess: () => refetch() });
+
+  const isWishlisted = wishData?.isWishlisted ?? wished;
+  const wishCount = wishData?.wishCount ?? initialWishCount;
 
   return (
     <>
@@ -31,10 +40,10 @@ export default function BottomFixedBar({ itemId, wished, wishCount }: BottomFixe
         <div className="my-3 flex gap-3">
           <div className="flex h-12 w-12 flex-col items-center">
             <button
-              onClick={() => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: wished })}
+              onClick={() => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: isWishlisted })}
               className="cursor-pointer"
             >
-              {wished ? (
+              {isWishlisted ? (
                 <>
                   <HeartFilledIcon width="32" height="32" className="text-orange" />
                   <span className="text-orange text-caption-01 font-bold">{wishCount}</span>

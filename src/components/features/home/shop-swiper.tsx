@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 import ItemPreview from '@/components/common/item/item-preview';
 import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
-import { useToggleWish } from '@/hooks/use-toggle-wish';
 import LinkIcon from '@/public/icons/common/link.svg';
 import { fetchNowPopularItems } from '@/services/api/item-controller';
 
@@ -14,8 +13,6 @@ export default function ShopSwiper() {
     queryKey: ['nowPopularItems'],
     queryFn: fetchNowPopularItems,
   });
-
-  const { mutate: toggleWish } = useToggleWish({ queryKeyList: [['nowPopularItems']] });
 
   return (
     <div className="mb-14 flex flex-col gap-3">
@@ -31,18 +28,7 @@ export default function ShopSwiper() {
       <HorizontalScroll className="ml-5 flex gap-2.5 pr-5">
         {items.map((item, idx) => (
           <div key={idx} className="w-44 flex-none">
-            <ItemPreview
-              item={item}
-              maxWidthClass="max-w-44"
-              heightClass="h-81"
-              onToggleWish={() =>
-                toggleWish({
-                  targetType: 'ITEM',
-                  targetId: item.itemId,
-                  currentWished: item.wished,
-                })
-              }
-            />
+            <ItemPreview item={item} maxWidthClass="max-w-44" heightClass="h-81" />
           </div>
         ))}
       </HorizontalScroll>
