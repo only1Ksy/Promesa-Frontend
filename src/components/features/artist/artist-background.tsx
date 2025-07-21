@@ -4,8 +4,8 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
-import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
-import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
+// import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
+// import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 import { fetchArtist } from '@/services/api/artist-controller';
 
 interface ArtistBackgroundDivProps {
@@ -34,7 +34,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
           onClick={() => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })}
           className="cursor-pointer"
         >
-          {isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+          {isWishlisted}
         </button>
         {wishCount >= 0 && <p className="text-body-02 font-regular text-center">{wishCount}</p>}
       </div>
