@@ -55,7 +55,7 @@ export default function SortedArtistList() {
         </div>
         {/* 작가 목록 */}
         {/* 49 = 11.5 (header height) + 5 (padding top) + 7.5 (title height) + 5 (gap) + 20 (padding bottom) */}
-        <div className="relative min-h-[calc(100vh-var(--spacing)*49)] flex-col gap-3">
+        <div className="relative flex min-h-[calc(100vh-var(--spacing)*49)] flex-col gap-3">
           {displayData.length > 0 ? (
             displayData.map((item, idx) => <ArtistProfileWithImage key={idx} artistProfileWithSection={item} />)
           ) : (
