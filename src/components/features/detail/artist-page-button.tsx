@@ -18,7 +18,6 @@ export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
   const { data: item } = useSuspenseQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
-    refetchOnMount: 'always',
   });
 
   const { mutate: toggleWish } = useToggleWish();

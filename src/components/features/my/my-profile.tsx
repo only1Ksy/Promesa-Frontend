@@ -12,8 +12,8 @@ export default function MyProfile() {
 
   return (
     <div className="mt-10">
-      <p className="text-headline-04 text-grey-7">
-        안녕하세요, <strong className="text-headline-03">{`${data.name}`}</strong>님.
+      <p className="text-headline-04">
+        안녕하세요, <strong className="font-semibold">{`${data.name}님`}</strong>.
       </p>
     </div>
   );
