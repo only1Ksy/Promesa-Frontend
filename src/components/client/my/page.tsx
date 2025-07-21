@@ -19,8 +19,7 @@ export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
         <MyPageSection
           sectionTitle="나의 쇼핑 정보"
           subSectionList={[
-            { subSectionTitle: '주문 · 배송 조회', subSectionLink: '/my' },
-            { subSectionTitle: '취소 / 교환 / 반품 내역', subSectionLink: '/my' },
+            { subSectionTitle: '주문 내역 조회', subSectionLink: '/my' },
             { subSectionTitle: '리뷰', subSectionLink: '/my' },
           ]}
         />
@@ -28,7 +27,6 @@ export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
           sectionTitle="나의 계정 정보"
           subSectionList={[
             { subSectionTitle: '회원 정보 수정', subSectionLink: '/my' },
-            { subSectionTitle: '배송지 관리', subSectionLink: '/my' },
             { subSectionTitle: '로그아웃', subSectionLink: '/logout' },
           ]}
         />
