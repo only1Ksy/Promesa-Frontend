@@ -17,13 +17,6 @@ export default function BackButton({ backPath }: BackButtonProps) {
         if (backPath) {
           router.push(backPath);
         } else if (window.history.length > 1) {
-          window.addEventListener(
-            'popstate',
-            () => {
-              location.reload();
-            },
-            { once: true },
-          );
           router.back();
         } else {
           router.push('/');
