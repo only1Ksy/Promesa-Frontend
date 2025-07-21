@@ -4,12 +4,14 @@ import { useEffect, useRef } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 
 import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 
 interface ClientRoutesLayoutProps {
@@ -41,6 +43,21 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
 
     window.scrollTo(0, 0);
   }, []);
+
+  // hydration error
+  const queryClient = useQueryClient();
+  const tokenReadyRef = useRef(false);
+  const accessToken = useAccessTokenStore((s) => s.accessToken);
+  useEffect(() => {
+    if (tokenReadyRef.current || !accessToken) return;
+    tokenReadyRef.current = true;
+
+    queryClient
+      .getQueryCache()
+      .findAll()
+      .filter((q) => q.isActive())
+      .forEach((q) => queryClient.invalidateQueries({ queryKey: q.queryKey }));
+  }, [accessToken, queryClient]);
 
   return (
     <HydrationBoundary state={dehydratedState}>
