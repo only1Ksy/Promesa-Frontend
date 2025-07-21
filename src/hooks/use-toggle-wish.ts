@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { toggleWish } from '@/services/api/wish-controller';
 import { HttpError } from '@/types/axios.dto';
-import type { ItemControllerServerParams } from '@/types/item-controller';
 import type { WishToggleSchema } from '@/types/wish-controller';
 
 interface ToggleWishParams {
@@ -14,49 +13,21 @@ interface ToggleWishParams {
   currentWished: boolean;
 }
 
-interface ToggleWishResult {
-  wished: boolean;
-  wishCount: number;
-}
-
-export const useToggleWish = ({ onSuccess }: { onSuccess: () => void }) => {
+export const useToggleWish = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
 
-  return useMutation<ToggleWishResult, Error, ToggleWishParams>({
+  return useMutation<WishToggleSchema, Error, ToggleWishParams>({
     mutationFn: async ({ targetType, targetId, currentWished }) => {
-      const data = await toggleWish(targetType, targetId, currentWished);
-      return {
-        wished: data.wished,
-        wishCount: data.target.wishCount,
-      };
+      return await toggleWish(targetType, targetId, currentWished);
     },
     onSuccess: () => {
-      // need to refetch if active
-      const queries = queryClient
+      queryClient
         .getQueryCache()
         .findAll()
-        .filter((query) => query.isActive());
-
-      for (const query of queries) {
-        const key = query.queryKey;
-        if (
-          // shop/artist items - sort w/ wishCount
-          (key[0] === 'items' &&
-            typeof key[1] === 'object' &&
-            (key[1] as ItemControllerServerParams).sort.split(',')[0] === 'wishCount') ||
-          // artist list
-          key[0] === 'artistList' ||
-          // wish list (artist, item)
-          key[0] === 'artistWishList' ||
-          key[0] === 'itemWishList'
-        ) {
-          queryClient.invalidateQueries({ queryKey: key });
-        }
-      }
-
-      if (onSuccess) onSuccess();
+        .filter((query) => query.isActive())
+        .forEach((query) => queryClient.invalidateQueries({ queryKey: query.queryKey }));
     },
     onError: (error) => {
       if (error instanceof HttpError && error.status === 401) {

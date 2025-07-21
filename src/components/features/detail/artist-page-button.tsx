@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,29 +9,21 @@ import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
 import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 import RightSingleIcon from '@/public/icons/item/page-right-single.svg';
 import { fetchItemDetail } from '@/services/api/item-controller';
-import { fetchArtistWish } from '@/services/api/wish-controller';
 
 interface ArtistPageButtonProps {
   itemId: number;
 }
 
 export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
-  const { data: item } = useSuspenseQuery({
+  const { data: item } = useQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res,
   });
 
-  const { data: wishData, refetch } = useQuery({
-    queryKey: ['artistWish', item.artist.id],
-    queryFn: () => fetchArtistWish(item.artist.id),
-    enabled: false,
-  });
+  const { mutate: toggleWish } = useToggleWish();
 
-  const { mutate: toggleWish } = useToggleWish({ onSuccess: () => refetch() });
-
-  const isWishlisted = wishData?.isWishlisted ?? item.isWishlisted;
-  const wishCount = wishData?.wishCount ?? item.wishCount;
+  if (!item) return null;
 
   return (
     <div className="relative z-10 flex h-19 w-full flex-col items-start gap-2.5 px-5">
@@ -50,12 +42,14 @@ export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
 
       <div className="absolute top-1/2 right-10 z-20 flex -translate-y-1/2 flex-col items-center">
         <button
-          onClick={() => toggleWish({ targetType: 'ARTIST', targetId: item.artist.id, currentWished: isWishlisted })}
+          onClick={() =>
+            toggleWish({ targetType: 'ARTIST', targetId: item.artist.id, currentWished: item.isWishlisted })
+          }
           className="text-grey-0 cursor-pointer"
         >
-          {isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+          {item.isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
         </button>
-        <span className="text-grey-0 text-caption-02 font-medium">{wishCount}</span>
+        <span className="text-grey-0 text-caption-02 font-medium">{item.artist.wishCount}</span>
       </div>
     </div>
   );
