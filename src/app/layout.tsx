@@ -79,7 +79,7 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <QueryProvider>
           <div className="h-screen w-full">
-            <div className="mx-auto max-w-[var(--frame-width)]">{children}</div>
+            <div className="bg-pale-green mx-auto max-w-[var(--frame-width)]">{children}</div>
           </div>
         </QueryProvider>
       </body>
