@@ -12,7 +12,6 @@ export default async function HomePage() {
   await Promise.all([
     queryClient.prefetchQuery({ queryKey: ['brandInfo'], queryFn: fetchBrandInfo }),
     queryClient.prefetchQuery({ queryKey: ['exhibitions'], queryFn: fetchExhibitions }),
-    // mock API
     queryClient.prefetchQuery({ queryKey: ['nowPopularItems'], queryFn: fetchNowPopularItems }),
   ]);
 
