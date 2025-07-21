@@ -26,6 +26,7 @@ export const useToggleWish = () => {
       queryClient
         .getQueryCache()
         .findAll()
+        // .filter((query) => query.isActive())
         .forEach((query) => queryClient.invalidateQueries({ queryKey: query.queryKey }));
     },
     onError: (error) => {

@@ -12,7 +12,7 @@ export default function MyPageSection({ sectionTitle, subSectionList }: MyPageSe
     <section className="flex flex-col gap-3.5">
       <div className="flex flex-col gap-2.5">
         <p className="text-subhead font-bold">{sectionTitle}</p>
-        <hr className="border-t border-black" />
+        <hr className="w-full stroke-black stroke-1" />
       </div>
       {subSectionList &&
         subSectionList.map(({ subSectionTitle, subSectionLink }, idx) => (
@@ -20,7 +20,7 @@ export default function MyPageSection({ sectionTitle, subSectionList }: MyPageSe
             <Link href={subSectionLink}>
               <p className="text-body-02 font-medium">{subSectionTitle}</p>
             </Link>
-            <hr className="border-deep-green border-t-[0.75px]" />
+            <hr className="stroke-deep-green w-full stroke-[0.75px]" />
           </div>
         ))}
     </section>

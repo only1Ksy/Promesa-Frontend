@@ -51,10 +51,12 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   useEffect(() => {
     if (tokenReadyRef.current || !accessToken) return;
     tokenReadyRef.current = true;
+
     queryClient
       .getQueryCache()
       .findAll()
-      .forEach((query) => queryClient.invalidateQueries({ queryKey: query.queryKey }));
+      .filter((q) => q.isActive())
+      .forEach((q) => queryClient.invalidateQueries({ queryKey: q.queryKey }));
   }, [accessToken, queryClient]);
 
   return (
