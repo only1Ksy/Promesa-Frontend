@@ -28,7 +28,7 @@ export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSw
     <div className="mb-20 flex flex-col gap-3">
       <div className="mx-5 flex items-center justify-between">
         <p className="text-subhead font-medium text-black">{title}</p>
-        <Link href="/exhibitions">
+        <Link href="/home/exhibitions">
           <div className="flex items-center gap-2">
             <p className="text-caption-01 text-grey-6 font-medium">목록 보기</p>
             <LinkIcon className="text-grey-6" />
