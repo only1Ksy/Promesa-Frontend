@@ -5,6 +5,7 @@ import { HydrationBoundary } from '@tanstack/react-query';
 
 import MyPageSection from '@/components/features/my/my-page-section';
 import MyProfile from '@/components/features/my/my-profile';
+import MyWishList from '@/components/features/my/my-wish-list';
 
 interface ClientMePageProps {
   dehydratedState: DehydratedState;
@@ -31,8 +32,14 @@ export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
             { subSectionTitle: '로그아웃', subSectionLink: '/logout' },
           ]}
         />
-        <MyPageSection sectionTitle="아티스트 북마크" />
-        <MyPageSection sectionTitle="위시리스트" />
+        <div className="flex flex-col gap-5">
+          <MyPageSection sectionTitle="아티스트 북마크" />
+          <MyWishList targetType="ARTIST" />
+        </div>
+        <div className="flex flex-col gap-5">
+          <MyPageSection sectionTitle="위시리스트" />
+          <MyWishList targetType="ITEM" />
+        </div>
       </div>
     </HydrationBoundary>
   );
