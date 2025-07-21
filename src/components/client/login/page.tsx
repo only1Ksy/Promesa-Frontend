@@ -12,7 +12,8 @@ export default function ClientLoginPage() {
     <div className="bg-pale-green flex h-screen flex-col items-center justify-center gap-8 pb-25">
       <div className="text-grey-9 flex flex-col items-center gap-10 p-2.5">
         <PromesaTextMediumIcon className="text-grey-9" />
-        <div className="text-subhead text-grey-7 flex text-center font-medium">
+        <div className="text-subhead text-grey-7 flex flex-col text-center font-medium">
+          <p>PROMESA에 오신 걸 환영합니다.</p>
           <p>지금, 당신의 공간에 새로운 취향을 더해보세요.</p>
         </div>
       </div>
