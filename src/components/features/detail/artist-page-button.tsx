@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -15,15 +15,12 @@ interface ArtistPageButtonProps {
 }
 
 export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
-  const { data: item } = useQuery({
+  const { data: item } = useSuspenseQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res,
   });
 
   const { mutate: toggleWish } = useToggleWish();
-
-  if (!item) return null;
 
   return (
     <div className="relative z-10 flex h-19 w-full flex-col items-start gap-2.5 px-5">
