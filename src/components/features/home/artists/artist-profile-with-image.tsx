@@ -1,10 +1,12 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
 import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
 import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
+import { fetchArtistWish } from '@/services/api/wish-controller';
 import type { ArtistResponseSchema } from '@/types/artist-controller';
 
 interface ArtistProfileWithImageProps {
@@ -12,11 +14,19 @@ interface ArtistProfileWithImageProps {
 }
 
 export default function ArtistProfileWithImage({ artistProfileWithSection }: ArtistProfileWithImageProps) {
-  const { profile, wish } = artistProfileWithSection;
+  const { profile } = artistProfileWithSection;
   const { artistId, name, profileImageUrl } = profile;
-  const { isWishlisted, wishCount } = wish;
 
-  const { mutate: toggleWish } = useToggleWish({ queryKeyList: [['artistList']] });
+  const { data: wishData, refetch } = useQuery({
+    queryKey: ['artistWish', artistId],
+    queryFn: () => fetchArtistWish(artistId),
+    enabled: false,
+  });
+
+  const { mutate: toggleWish } = useToggleWish({ onSuccess: () => refetch() });
+
+  const wish = wishData ?? artistProfileWithSection.wish;
+  const { isWishlisted, wishCount } = wish;
 
   return (
     <Link href={`/artist/${artistId}`}>

@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { toggleWish } from '@/services/api/wish-controller';
 import { HttpError } from '@/types/axios.dto';
+import type { ItemControllerServerParams } from '@/types/item-controller';
 import type { WishToggleSchema } from '@/types/wish-controller';
 
 interface ToggleWishParams {
@@ -18,11 +19,7 @@ interface ToggleWishResult {
   wishCount: number;
 }
 
-interface UseToggleWishOptions {
-  queryKeyList?: unknown[][];
-}
-
-export const useToggleWish = ({ queryKeyList = [] }: UseToggleWishOptions = {}) => {
+export const useToggleWish = ({ onSuccess }: { onSuccess: () => void }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
@@ -35,14 +32,31 @@ export const useToggleWish = ({ queryKeyList = [] }: UseToggleWishOptions = {}) 
         wishCount: data.target.wishCount,
       };
     },
-    onSuccess: (_data, { targetType, targetId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ['toggleWish', targetType, targetId],
-      });
+    onSuccess: () => {
+      // need to refetch if active
+      const queries = queryClient
+        .getQueryCache()
+        .findAll()
+        .filter((query) => query.isActive());
 
-      for (const queryKey of queryKeyList) {
-        queryClient.invalidateQueries({ queryKey });
+      for (const query of queries) {
+        const key = query.queryKey;
+        if (
+          // shop/artist items - sort w/ wishCount
+          (key[0] === 'items' &&
+            typeof key[1] === 'object' &&
+            (key[1] as ItemControllerServerParams).sort.split(',')[0] === 'wishCount') ||
+          // artist list
+          key[0] === 'artistList' ||
+          // wish list (artist, item)
+          key[0] === 'artistWishList' ||
+          key[0] === 'itemWishList'
+        ) {
+          queryClient.invalidateQueries({ queryKey: key });
+        }
       }
+
+      if (onSuccess) onSuccess();
     },
     onError: (error) => {
       if (error instanceof HttpError && error.status === 401) {
