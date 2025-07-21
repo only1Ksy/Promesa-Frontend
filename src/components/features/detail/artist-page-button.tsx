@@ -47,7 +47,7 @@ export default function ArtistPageButton({ itemId }: ArtistPageButtonProps) {
           }
           className="text-grey-0 cursor-pointer"
         >
-          {item.isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
+          {item.artist.isWishlisted ? <BookmarkFilledIcon /> : <BookmarkEmptyIcon />}
         </button>
         <span className="text-grey-0 text-caption-02 font-medium">{item.artist.wishCount}</span>
       </div>
