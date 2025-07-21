@@ -2,9 +2,9 @@
 
 import type { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
 
 import ItemList from '@/components/common/item/item-list';
+import ArtistBackground from '@/components/features/artist/artist-background';
 import ArtistInformationSection from '@/components/features/artist/artist-information-section';
 import ArtistQuestionSection from '@/components/features/artist/artist-question-section';
 import ExhibitionSwiper from '@/components/features/home/exhibition-swiper';
@@ -17,11 +17,6 @@ interface ClientArtistPageProps {
 }
 
 export default function ClientArtistPage({ dehydratedState, artistId, initialParams }: ClientArtistPageProps) {
-  const ArtistBackground = dynamic(() => import('@/components/features/artist/artist-background'), {
-    ssr: false,
-    loading: () => <div className="bg-grey-2 fixed-component no-z-index top-11.5 h-50 w-full"></div>,
-  });
-
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex flex-col">
