@@ -35,6 +35,7 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res,
     enabled: internalOpen,
+    refetchOnMount: 'always',
   });
 
   if (!mounted || !internalOpen || !item) return null;
