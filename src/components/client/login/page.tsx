@@ -1,12 +1,22 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
+import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
 import KakkoLogoIcon from '@/public/icons/auth/kakko-logo.svg';
 import PromesaTextMediumIcon from '@/public/icons/logo/text-md.svg';
 
 export default function ClientLoginPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const accessToken = useAccessTokenStore((s) => s.accessToken);
+
+  useEffect(() => {
+    if (accessToken) {
+      router.replace('/');
+    }
+  }, [accessToken, router]);
 
   return (
     <div className="bg-pale-green flex h-screen flex-col items-center justify-center gap-8 pb-25">
