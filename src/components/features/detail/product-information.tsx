@@ -1,25 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
-import { fetchItemDetail } from '@/services/api/item-controller';
+import { ParsedItemData } from '@/types/item-controller';
 
 import ArtistPageButton from './artist-page-button';
 
 interface ProductInformationProps {
   onSelect: (section: 'product' | 'notice' | 'review') => void;
-  itemId: number;
+  item: ParsedItemData;
 }
 
-export default function ProductInformation({ onSelect, itemId }: ProductInformationProps) {
-  const { data: item } = useQuery({
-    queryKey: ['itemDetail', itemId],
-    queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res,
-  });
-
-  if (!item) return null;
-
+export default function ProductInformation({ onSelect, item }: ProductInformationProps) {
   const rating = item.averageRating;
 
   return (
@@ -60,7 +51,7 @@ export default function ProductInformation({ onSelect, itemId }: ProductInformat
         </div>
       </div>
       {/* 아티스트 페이지 바로가기 */}
-      <ArtistPageButton itemId={itemId} />
+      <ArtistPageButton artist={item.artist} />
       {/* 장바구니, 구매하기 버튼 */}
       <div className="flex w-full items-center justify-center gap-2 px-5 py-2">
         <button className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] rounded-xs border-[1.4px] font-bold">

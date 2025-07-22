@@ -34,6 +34,16 @@ export interface ItemControllerServerParams extends Omit<ItemControllerParams, '
   size?: number;
 }
 
+export interface DetailArtistResponseSchema {
+  id: number;
+  name: string;
+  profileImageUrl: string;
+  bio: string;
+  instagramUrl: string;
+  isWishlisted: boolean;
+  wishCount: number;
+}
+
 // detail page
 export interface ParsedItemData {
   itemId: number;
