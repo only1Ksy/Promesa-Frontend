@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 
+import AuthHistorySkipper from '@/components/common/utilities/auth-history.skipper';
 import QueryProvider from '@/services/query/client';
 
 import '@/styles/globals.css';
@@ -82,6 +83,7 @@ export default function RootLayout({
             <div className="bg-pale-green mx-auto max-w-[var(--frame-width)]">{children}</div>
           </div>
         </QueryProvider>
+        <AuthHistorySkipper />
       </body>
     </html>
   );
