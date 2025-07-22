@@ -6,7 +6,7 @@ export interface ExhibitionSummarySchema {
   title: string;
   description: string;
   startDate: string;
-  endData: string;
+  endDate: string;
   imageKey: string;
   imageUrl: string;
   createdAt: string;
