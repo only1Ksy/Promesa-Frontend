@@ -26,7 +26,7 @@ export default function ClientLoginPage() {
 
             window.location.href =
               `${process.env.NEXT_PUBLIC_REDIRECT_URI}?client_id=${clientId}&response_type=code` +
-              `&state=${state}&afterLogin=${afterLogin}`;
+              `&state=${state}?afterLogin=${afterLogin}`;
           }}
           className="flex h-13.5 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg bg-[#fee500]"
         >
