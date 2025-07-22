@@ -1,12 +1,22 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import KakkoLogoIcon from '@/public/icons/auth/kakko-logo.svg';
 import PromesaTextMediumIcon from '@/public/icons/logo/text-md.svg';
+import { fetchIsLoggedIn } from '@/services/api/axios/auth';
 
 export default function ClientLoginPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    (async () => {
+      const ok = await fetchIsLoggedIn();
+      if (ok) router.replace('/');
+    })();
+  }, [router]);
 
   return (
     <div className="bg-pale-green flex h-screen flex-col items-center justify-center gap-8 pb-25">
