@@ -24,6 +24,8 @@ export default function ClientLoginPage() {
             const state = encodeURIComponent(process.env.NEXT_PUBLIC_FRONTEND_URI!);
             const afterLogin = searchParams.get('afterLogin');
 
+            sessionStorage.setItem('histBase', String(history.length));
+
             const kakkoUrl =
               `${process.env.NEXT_PUBLIC_REDIRECT_URI}?client_id=${clientId}&response_type=code` +
               `&state=${state}?afterLogin=${afterLogin}`;
