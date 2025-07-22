@@ -5,16 +5,17 @@ import { useState } from 'react';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
 import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
+import { ParsedItemData } from '@/types/item-controller';
 
 import BottomFixedModal from './bottom-fixed-modal';
 
 interface BottomFixedBarProps {
-  itemId: number;
+  item: ParsedItemData;
   wished: boolean;
   wishCount: number;
 }
 
-export default function BottomFixedBar({ itemId, wished, wishCount }: BottomFixedBarProps) {
+export default function BottomFixedBar({ item, wished, wishCount }: BottomFixedBarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClicked = () => {
@@ -29,7 +30,7 @@ export default function BottomFixedBar({ itemId, wished, wishCount }: BottomFixe
         <div className="my-3 flex gap-3">
           <div className="flex h-12 w-12 flex-col items-center">
             <button
-              onClick={() => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: wished })}
+              onClick={() => toggleWish({ targetType: 'ITEM', targetId: item.itemId, currentWished: wished })}
               className="cursor-pointer"
             >
               {wished ? (
@@ -56,7 +57,7 @@ export default function BottomFixedBar({ itemId, wished, wishCount }: BottomFixe
         </div>
       </div>
 
-      <BottomFixedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} itemId={itemId} />
+      <BottomFixedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} item={item} />
     </>
   );
 }

@@ -2,19 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { fetchItemDetail } from '@/services/api/item-controller';
+import { ParsedItemData } from '@/types/item-controller';
 
 interface BottomFixedModalProps {
   isOpen: boolean;
   onClose: () => void;
-  itemId: number;
+  item: ParsedItemData;
 }
 
-export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixedModalProps) {
+export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedModalProps) {
   const [mounted, setMounted] = useState(false);
   const [internalOpen, setInternalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -30,15 +29,7 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
     }
   }, [isOpen]);
 
-  const { data: item } = useQuery({
-    queryKey: ['itemDetail', itemId],
-    queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res,
-    enabled: internalOpen,
-    refetchOnMount: 'always',
-  });
-
-  if (!mounted || !internalOpen || !item) return null;
+  if (!mounted || !internalOpen) return null;
 
   const handleClose = () => {
     onClose();
@@ -46,6 +37,11 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
 
   const handleExitComplete = () => {
     setInternalOpen(false);
+  };
+
+  // 단일 상품 구매하기 (order) API 호출
+  const onGetItemClicked = () => {
+    console.log(item.itemId, quantity);
   };
 
   // 수량 조절
@@ -136,6 +132,7 @@ export default function BottomFixedModal({ isOpen, onClose, itemId }: BottomFixe
               </button>
               <button
                 disabled={isSoldOut}
+                onClick={onGetItemClicked}
                 className={clsx(
                   'text-body-01 bg-grey-9 flex h-12 w-full items-center justify-center rounded-xs font-bold text-white',
                   isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
