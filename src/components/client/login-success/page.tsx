@@ -14,29 +14,12 @@ export default function ClientLoginSuccessPage() {
     const accessToken = searchParams.get('accessToken');
     const afterLogin = searchParams.get('afterLogin') || '/';
 
-    if (!accessToken) {
-      router.replace('/login');
-      return;
-    }
+    if (accessToken) {
+      setAccessToken(accessToken);
 
-    setAccessToken(accessToken);
-
-    const base = Number(sessionStorage.getItem('histBase') ?? '0');
-    const steps = history.length - base;
-
-    const finalize = () => {
-      window.removeEventListener('popstate', finalize);
-      try {
-        history.replaceState(null, '', afterLogin);
-      } catch {}
-      window.location.replace(afterLogin);
-    };
-
-    if (steps > 0) {
-      window.addEventListener('popstate', finalize, { once: true });
-      history.go(-steps);
+      router.replace(afterLogin);
     } else {
-      finalize();
+      router.replace('/login');
     }
   }, [router, searchParams, setAccessToken]);
 
