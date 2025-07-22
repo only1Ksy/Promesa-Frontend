@@ -38,7 +38,6 @@ export default function ClientLoginSuccessPage() {
     } else {
       finalize();
     }
-
   }, [router, searchParams, setAccessToken]);
 
   return <div className="h-screen w-full" />;
