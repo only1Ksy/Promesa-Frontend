@@ -1,10 +1,19 @@
-export interface ExhibitionResponseSchema {
+import { ItemPreviewResponseSchema } from './item-controller';
+
+export interface ExhibitionSummarySchema {
   id: number;
-  status: 'ONGOING' | 'ENDED';
-  createdAt: string;
-  updatedAt: string;
+  status: 'ONGOING' | 'UPCOMING' | 'PERMANENT' | 'PAST';
   title: string;
   description: string;
+  startDate: string;
+  endDate: string;
   imageKey: string;
   imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ExhibitionResponseSchema {
+  summary: ExhibitionSummarySchema;
+  itemPreviews: ItemPreviewResponseSchema[];
 }
