@@ -8,7 +8,7 @@ interface HorizontalScrollProps extends PropsWithChildren {
   className?: string;
 }
 
-export default function HorizontalScrollwithActive({ children, activeId, className }: HorizontalScrollProps) {
+export default function HorizontalScrollWithActive({ children, activeId, className }: HorizontalScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollSpeed = 0.15;
 

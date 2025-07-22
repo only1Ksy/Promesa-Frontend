@@ -5,7 +5,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-import HorizontalScrollwithActive from '@/components/common/utilities/horizontal-scroll-with-active';
+import HorizontalScrollWithActive from '@/components/common/utilities/horizontal-scroll-with-active';
 import DropDownIcon from '@/public/icons/item/drop-down.svg';
 import FrameGridIcon from '@/public/icons/item/frame-grid.svg';
 import FrameMasonryIcon from '@/public/icons/item/frame-masonry.svg';
@@ -69,7 +69,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
       <div className="relative">
         {/* 카테고리 */}
         <div className="to-pale-green from-pale-green/0 pointer-events-none absolute top-0 right-0 z-5 h-full w-8 bg-gradient-to-r" />
-        <HorizontalScrollwithActive activeId={`category-id-${categoryId}`} className="flex gap-5.5 pr-8">
+        <HorizontalScrollWithActive activeId={`category-id-${categoryId}`} className="flex gap-5.5 pr-8">
           {data.map(({ id, name }) => {
             const isActive = categoryId === id;
             return (
@@ -86,7 +86,7 @@ export default function ItemListFilteringHeader({ categoryId, sort, frame, push 
               </button>
             );
           })}
-        </HorizontalScrollwithActive>
+        </HorizontalScrollWithActive>
       </div>
 
       <div className="flex items-center justify-end gap-3">
