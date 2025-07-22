@@ -1,14 +1,9 @@
-import Header from '@/components/layout/header';
+import ClientAuthLayout from '@/components/client/layout/auth-layout';
 
 export default async function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <>
-      <Header />
-      {children}
-    </>
-  );
+  return <ClientAuthLayout>{children}</ClientAuthLayout>;
 }
