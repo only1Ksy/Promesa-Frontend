@@ -39,6 +39,11 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
     setInternalOpen(false);
   };
 
+  // 단일 상품 구매하기 (order) API 호출
+  const onGetItemClicked = () => {
+    console.log(item.itemId, quantity);
+  };
+
   // 수량 조절
   const itemCount = item.stock;
   const isSoldOut = item.soldOut;
@@ -127,6 +132,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
               </button>
               <button
                 disabled={isSoldOut}
+                onClick={onGetItemClicked}
                 className={clsx(
                   'text-body-01 bg-grey-9 flex h-12 w-full items-center justify-center rounded-xs font-bold text-white',
                   isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
