@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -13,17 +12,19 @@ import type { ExhibitionSummarySchema } from '@/types/exhibition-controller';
 
 const STATUS_LIST = ['ALL', 'ONGOING', 'UPCOMING', 'PERMANENT', 'PAST'] as const; // strict declaration
 
-interface ExhibitionsListProps {
+interface ExhibitionListProps {
   status: ExhibitionSummarySchema['status'] | 'ALL';
 }
 
-export default function ExhibitionList({ status }: ExhibitionsListProps) {
+export default function ExhibitionList({ status: initialStatus }: ExhibitionListProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [activeIdx, setActiveIdx] = useState(() => STATUS_LIST.indexOf(status));
-
-  const selectedStatus = STATUS_LIST[activeIdx];
+  const value = searchParams.get('status');
+  const selectedStatus =
+    value && STATUS_LIST.includes(value as ExhibitionSummarySchema['status'] | 'ALL')
+      ? (value as ExhibitionSummarySchema['status'] | 'ALL')
+      : initialStatus;
 
   const { data } = useSuspenseQuery({
     queryKey: ['exhibitionList', selectedStatus],
@@ -35,7 +36,6 @@ export default function ExhibitionList({ status }: ExhibitionsListProps) {
     const params = new URLSearchParams(searchParams);
     params.set('status', newStatus);
     router.push(`?${params.toString()}`);
-    setActiveIdx(idx);
   };
 
   return (
@@ -44,15 +44,15 @@ export default function ExhibitionList({ status }: ExhibitionsListProps) {
         <p className="text-headline-06 text-black">Exhibition</p>
         {/* 헤더 */}
         <HorizontalScrollWithActive
-          activeId={`category-id-${activeIdx}`}
-          className="text-body-01 mb-2 flex gap-8 font-medium"
+          activeId={`category-id-${selectedStatus}`}
+          className="text-body-01 mb-2 flex gap-4 font-medium"
         >
           {STATUS_LIST.map((stat, idx) => {
-            const isActive = activeIdx === idx;
+            const isActive = selectedStatus === stat;
             return (
               <button
                 key={idx}
-                id={`category-id-${idx}`}
+                id={`category-id-${stat}`}
                 onClick={() => handleClick(idx)}
                 className={clsx('text-body-01 cursor-pointer font-medium', isActive ? 'text-grey-9' : 'text-grey-4')}
               >
