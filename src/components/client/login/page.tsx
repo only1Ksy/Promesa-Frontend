@@ -12,10 +12,24 @@ export default function ClientLoginPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    (async () => {
+    const guard = async () => {
       const ok = await fetchIsLoggedIn();
       if (ok) router.replace('/');
-    })();
+    };
+
+    guard();
+
+    const onPop = () => guard();
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) guard();
+    };
+
+    window.addEventListener('popstate', onPop);
+    window.addEventListener('pageshow', onPageShow);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      window.removeEventListener('pageshow', onPageShow);
+    };
   }, [router]);
 
   return (
