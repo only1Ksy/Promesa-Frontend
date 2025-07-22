@@ -48,9 +48,11 @@ export default function ClientLoginPage() {
             const state = encodeURIComponent(process.env.NEXT_PUBLIC_FRONTEND_URI!);
             const afterLogin = searchParams.get('afterLogin');
 
-            window.location.href =
+            const kakkoUrl =
               `${process.env.NEXT_PUBLIC_REDIRECT_URI}?client_id=${clientId}&response_type=code` +
               `&state=${state}?afterLogin=${afterLogin}`;
+
+            window.location.replace(kakkoUrl);
           }}
           className="flex h-13.5 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg bg-[#fee500]"
         >
