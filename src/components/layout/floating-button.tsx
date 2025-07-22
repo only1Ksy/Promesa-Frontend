@@ -73,7 +73,7 @@ export default function FloatingButton() {
   ) : (
     <div className="fixed-component pointer-events-none flex justify-end px-5" style={{ bottom: `${bottomHeight}rem` }}>
       <div className="relative w-fit">
-        <Link href="https://www.kakaocorp.com/" target="_blank" rel="noopener noreferrer">
+        <Link href="/order/1">
           <div
             className={clsx(
               'bg-pale-green border-grey-5 text-grey-8 pointer-events-auto flex flex-col items-center justify-center gap-0.5 rounded-[20px] border-[1.4px] p-3',
