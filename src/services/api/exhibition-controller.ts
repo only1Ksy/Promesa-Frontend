@@ -3,9 +3,9 @@ import type { ItemPreviewResponseSchema } from '@/types/item-controller';
 
 import { axiosInstance, withErrorBoundary } from './axios/instance';
 
-export const fetchExhibitions = () =>
+export const fetchOngoingExhibitions = () =>
   withErrorBoundary<[], ExhibitionResponseSchema[]>(async () => {
-    const res = await axiosInstance.get('/exhibitions');
+    const res = await axiosInstance.get('/exhibitions/ongoing');
     return res.data.data;
   });
 

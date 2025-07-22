@@ -8,7 +8,7 @@ import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
 import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import LinkIcon from '@/public/icons/common/link.svg';
 import { fetchArtistExhibitions } from '@/services/api/artist-controller';
-import { fetchExhibitions } from '@/services/api/exhibition-controller';
+import { fetchOngoingExhibitions } from '@/services/api/exhibition-controller';
 
 interface ExhibitionSwiperProps {
   title: string;
@@ -18,8 +18,8 @@ interface ExhibitionSwiperProps {
 
 export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSwiperProps) {
   const { data } = useSuspenseQuery({
-    queryKey: page === 'HOME' ? ['exhibitions'] : ['exhibitions', artistId],
-    queryFn: page === 'HOME' ? fetchExhibitions : () => fetchArtistExhibitions(artistId!),
+    queryKey: page === 'HOME' ? ['onGoingExhibitions'] : ['exhibitions', artistId],
+    queryFn: page === 'HOME' ? fetchOngoingExhibitions : () => fetchArtistExhibitions(artistId!),
   });
 
   if (data.length === 0) return null;
