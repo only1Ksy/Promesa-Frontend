@@ -22,21 +22,23 @@ export default function ClientLoginSuccessPage() {
     setAccessToken(accessToken);
 
     const base = Number(sessionStorage.getItem('histBase') ?? '0');
-    const steps = history.length - base - 1;
+    const steps = history.length - base;
+
+    const finalize = () => {
+      window.removeEventListener('popstate', finalize);
+      try {
+        history.replaceState(null, '', afterLogin);
+      } catch {}
+      window.location.replace(afterLogin);
+    };
 
     if (steps > 0) {
-      const finalize = () => {
-        window.removeEventListener('popstate', finalize);
-        sessionStorage.removeItem('histBase');
-        router.replace(afterLogin);
-      };
-
       window.addEventListener('popstate', finalize, { once: true });
       history.go(-steps);
     } else {
-      sessionStorage.removeItem('histBase');
-      router.replace(afterLogin);
+      finalize();
     }
+
   }, [router, searchParams, setAccessToken]);
 
   return <div className="h-screen w-full" />;
