@@ -6,7 +6,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import HorizontalScrollwithActive from '@/components/common/utilities/horizontal-scroll-with-active';
+import HorizontalScrollWithActive from '@/components/common/utilities/horizontal-scroll-with-active';
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { fetchExhibitions } from '@/services/api/exhibition-controller';
 import type { ExhibitionSummarySchema } from '@/types/exhibition-controller';
@@ -43,7 +43,7 @@ export default function ExhibitionList({ status }: ExhibitionsListProps) {
       <div className="flex flex-col gap-3">
         <p className="text-headline-06 text-black">Exhibition</p>
         {/* 헤더 */}
-        <HorizontalScrollwithActive
+        <HorizontalScrollWithActive
           activeId={`category-id-${activeIdx}`}
           className="text-body-01 mb-2 flex gap-8 font-medium"
         >
@@ -60,7 +60,7 @@ export default function ExhibitionList({ status }: ExhibitionsListProps) {
               </button>
             );
           })}
-        </HorizontalScrollwithActive>
+        </HorizontalScrollWithActive>
       </div>
       {/* 전시회 리스트 */}
       <div className="mt-4 flex flex-col gap-7">
