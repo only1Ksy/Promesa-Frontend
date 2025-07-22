@@ -21,12 +21,11 @@ export default function ClientLoginPage() {
         <button
           onClick={() => {
             const clientId = process.env.NEXT_PUBLIC_REST_API_KEY!;
-            const redirectUri = encodeURIComponent(process.env.NEXT_PUBLIC_REDIRECT_URI!);
             const state = encodeURIComponent(process.env.NEXT_PUBLIC_FRONTEND_URI!);
             const afterLogin = searchParams.get('afterLogin');
 
             window.location.href =
-              `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code` +
+              `${process.env.NEXT_PUBLIC_REDIRECT_URI}?client_id=${clientId}&response_type=code` +
               `&state=${state}&afterLogin=${afterLogin}`;
           }}
           className="flex h-13.5 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg bg-[#fee500]"
