@@ -30,11 +30,11 @@ export default function ReviewContent({ reviews, itemId, mode, onPageChange }: R
   const averageRating = item.averageRating;
 
   return (
-    <div className="flex min-h-100 w-full flex-col items-center pt-3">
+    <div className="relative flex w-full flex-col items-center pt-3" style={{ minHeight: 'calc(100vh - 46px)' }}>
       {mode === 'imageOnly' ? (
         <ReviewImageGrid imageUrls={content.flatMap((r) => r.reviewImages ?? [])} />
       ) : (
-        <div className="flex min-h-100 w-full flex-col items-center">
+        <div className="flex h-full w-full flex-col items-center">
           <div className="flex w-full items-end justify-between px-5">
             <div className="flex items-center gap-2">
               <span className="text-subhead font-medium text-black">리뷰 ({item.reviewCount})</span>

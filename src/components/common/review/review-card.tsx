@@ -4,11 +4,11 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { useImageZoomModal } from '@/hooks/use-image-zoom-modal';
 import DropdownIcon from '@/public/icons/item/drop-down.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { Review } from '@/types/review-controller';
 
-import { useImageZoomModal } from '../../../hooks/use-image-zoom-modal';
 import Expandable from '../utilities/expandable';
 import ImageZoomModal from './image-zoom-modal';
 
