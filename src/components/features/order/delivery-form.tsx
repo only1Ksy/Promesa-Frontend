@@ -48,7 +48,7 @@ export default function DeliveryForm() {
               key={key}
               type="button"
               onClick={() => updateDelivery('deliveryType', key)}
-              className="flex items-center gap-1.5"
+              className="flex cursor-pointer items-center gap-1.5"
             >
               <span className={clsx('h-3.5 w-3.5', delivery.deliveryType === key ? 'bg-orange' : 'bg-grey-4')} />
               <span
@@ -143,7 +143,7 @@ export default function DeliveryForm() {
               onClick={() => {
                 updateDelivery('isDefault', !delivery.isDefault);
               }}
-              className="flex items-center gap-2"
+              className="flex cursor-pointer items-center gap-2"
             >
               <span className={clsx('h-3.5 w-3.5', delivery.isDefault ? 'bg-orange' : 'bg-grey-4')} />
               <span className={clsx('text-caption-01 font-medium', delivery.isDefault ? 'text-black' : 'text-grey-5')}>
