@@ -1,4 +1,12 @@
+'use client';
+
+import CopyIcon from '@/public/icons/layout/copy.svg';
+
 export default function OrderInformation() {
+  const copyClipBoard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+  };
+
   return (
     <div className="flex w-full flex-col items-end gap-2">
       <div className="bg-green flex w-full flex-col gap-4.75 rounded-sm p-7">
@@ -40,7 +48,12 @@ export default function OrderInformation() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">계좌번호</span>
-            <span className="text-body-02 font-medium">110-123-456789</span>
+            <div className="flex items-center gap-2">
+              <button className="cursor-pointer" onClick={() => copyClipBoard('110-123-456789')}>
+                <CopyIcon width={16} height={16} />
+              </button>
+              <span className="text-body-02 font-medium">110-123-456789</span>
+            </div>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">입금 금액</span>

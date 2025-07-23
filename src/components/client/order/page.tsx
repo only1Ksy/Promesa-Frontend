@@ -63,6 +63,12 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
     // 모든 검사를 통과하면 결제 진행
     console.log('✅ 제출 가능, 결제 진행!');
+
+    // 기본 배송지 저장 호출
+    if (delivery.isDefault) {
+    }
+
+    // 주문 호출
   };
 
   const item = {
@@ -91,7 +97,11 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
         <TotalPrice total={total} />
         {/* 결제 동의 버튼 */}
         <div className="flex h-12.5 items-center gap-4.5 px-5">
-          <button type="button" onClick={() => setAgree((prev) => !prev)} className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setAgree((prev) => !prev)}
+            className="flex cursor-pointer items-center gap-1.5"
+          >
             <span className={clsx('h-3.5 w-3.5', agree ? 'bg-orange' : 'bg-grey-4')} />
             <span className={clsx('text-caption-01 font-medium', agree ? 'text-black' : 'text-grey-5')}>
               주문내용 확인 및 결제 동의
