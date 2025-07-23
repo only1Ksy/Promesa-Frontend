@@ -22,7 +22,7 @@ export default function ProductCard({ item }: ItemProps) {
         <div className="text-body-02 font-bold">{item.artistName}</div>
         <div className="text-body-01 font-medium">{item.itemName}</div>
         <div className="text-body-02 font-medium">{item.itemNumber}개</div>
-        <div className="text-body-01 font-bold">{item.price.toLocaleString()}원</div>
+        <div className="text-body-01 font-bold">{(item.price * item.itemNumber).toLocaleString()}원</div>
       </div>
     </div>
   );

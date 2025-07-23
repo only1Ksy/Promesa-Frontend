@@ -2,9 +2,10 @@
 
 // import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { HydrationBoundary } from '@tanstack/react-query';
-import { DehydratedState } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { useSearchParams } from 'next/navigation';
 
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import BottomFixedBar from '@/components/features/order/bottom-fixed-bar';
@@ -13,25 +14,31 @@ import OrderedProductList from '@/components/features/order/ordered-product-list
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
 import { useOrderStore } from '@/lib/store/order-information-store';
-// import { fetchItemDetail } from '@/services/api/item';
+import { fetchItemDetail } from '@/services/api/item-controller';
+import { PostDefaultAddress } from '@/services/api/order-controller';
 
-interface ClientOrderPageProps {
-  itemId: number;
-  itemDetailState: DehydratedState;
-}
+export default function ClientOrderItemPage() {
+  const searchParams = useSearchParams();
+  const { delivery, payment } = useOrderStore();
 
-export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientOrderPageProps) {
+  const params = useMemo(
+    () => ({
+      mode: searchParams.get('mode') ?? 'one',
+      itemId: searchParams.get('id') ? Number(searchParams.get('id')) : 0,
+      itemCount: searchParams.get('num') ? Number(searchParams.get('num')) : 1,
+    }),
+    [searchParams],
+  );
+
   const [agree, setAgree] = useState<boolean>(false);
 
-  /* const { data: item } = useQuery({
-    queryKey: ['itemDetail', itemId],
-    queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res.data,
+  const { data: item } = useQuery({
+    queryKey: ['itemDetail', params.itemId],
+    queryFn: () => fetchItemDetail(params.itemId),
+    select: (res) => res,
   });
 
-  if (!item) return null; */
-
-  const { delivery, payment } = useOrderStore();
+  if (!item) return null;
 
   const handlePayClick = () => {
     if (!agree) return;
@@ -66,26 +73,33 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
 
     // 기본 배송지 저장 호출
     if (delivery.isDefault) {
+      PostDefaultAddress(
+        delivery.name,
+        delivery.postcode,
+        delivery.address,
+        delivery.addressDetail,
+        `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
+      );
     }
 
     // 주문 호출
   };
 
-  const item = {
-    imageSrc: '/img/src',
-    artistName: '김영은',
-    itemName: '빈티지 블랙 높은잔 세트',
-    itemNumber: 5,
-    price: 135000,
-    itemId: itemId,
+  const aItem = {
+    imageSrc: item.mainImageUrls[0],
+    artistName: item.artist.name,
+    itemName: item.title,
+    itemNumber: params.itemCount,
+    price: item.price,
+    itemId: params.itemId,
   };
 
-  const items = [item];
+  const items = [aItem];
 
-  const total = items.reduce((sum, item) => sum + item.price, 0);
+  const total = items.reduce((sum, item) => sum + item.price * params.itemCount, 0);
 
   return (
-    <HydrationBoundary state={itemDetailState}>
+    <>
       <div className="flex w-full flex-col gap-6.5 pt-3 pb-21">
         {/* 주문 아이템 리스트 */}
         <OrderedProductList items={items} />
@@ -113,6 +127,6 @@ export default function ClientOrderItemPage({ itemId, itemDetailState }: ClientO
       <BottomFixedBarPortal>
         <BottomFixedBar total={total > 70000 ? total : total + 3000} agree={agree} handlePayCheck={handlePayClick} />
       </BottomFixedBarPortal>
-    </HydrationBoundary>
+    </>
   );
 }
