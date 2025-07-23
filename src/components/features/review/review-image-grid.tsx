@@ -1,8 +1,8 @@
 'use client';
 
 import ImageZoomModal from '@/components/common/review/image-zoom-modal';
-import { useImageZoomModal } from '@/components/common/review/use-image-zoom-modal';
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { useImageZoomModal } from '@/hooks/use-image-zoom-modal';
 
 interface ReviewImageGridProps {
   imageUrls: string[];
