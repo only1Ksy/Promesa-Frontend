@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 import { ParsedItemData } from '@/types/item-controller';
 
@@ -17,6 +18,8 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
   const [mounted, setMounted] = useState(false);
   const [internalOpen, setInternalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -41,7 +44,13 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
 
   // 단일 상품 구매하기 (order) API 호출
   const onGetItemClicked = () => {
-    console.log(item.itemId, quantity);
+    const query = new URLSearchParams({
+      mode: 'one',
+      id: item.itemId.toString(),
+      num: quantity.toString(),
+    });
+
+    router.push(`/order?${query.toString()}`);
   };
 
   // 수량 조절
