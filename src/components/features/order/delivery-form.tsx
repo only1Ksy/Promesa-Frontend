@@ -88,7 +88,7 @@ export default function DeliveryForm() {
               <button
                 onClick={openAddressSearch}
                 type="button"
-                className="text-body-02 font-regular w-29 rounded-md bg-black px-4 py-2 text-white"
+                className="text-body-02 font-regular w-29 cursor-pointer rounded-md bg-black px-4 py-2 text-white"
               >
                 우편번호 검색
               </button>
