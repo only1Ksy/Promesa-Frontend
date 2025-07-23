@@ -143,7 +143,6 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
                   </div>
                 </div>
               </div>
-              <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
             </div>
             <div className="pt-2 pb-3">
               <DividerIcon />
