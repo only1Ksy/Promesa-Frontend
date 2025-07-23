@@ -51,7 +51,7 @@ export default function Header({ shadow }: HeaderProps) {
     else if (isReviewPage)
       return (
         <span className="text-subhead text-grey-9 font-medium">
-          {reviewMode === 'imageOnly' ? '모아보기' : '리뷰 전체보기'}
+          {reviewMode == null ? '리뷰' : reviewMode === 'imageOnly' ? '모아보기' : '리뷰 전체보기'}
         </span>
       );
     else if (isMyPage) return <span className="text-subhead text-grey-9 font-medium">마이페이지</span>;
