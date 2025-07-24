@@ -23,6 +23,7 @@ export default function MyOrderModal() {
     itemCount: 1,
     orderId: { orderId },
     name: '김서연',
+    phone: '010-1234-5678',
   };
 
   return (
@@ -35,9 +36,9 @@ export default function MyOrderModal() {
     >
       <Header shadow />
       <div className="flex flex-col gap-3 pt-11.5">
-        <div className="flex">
-          <span>주문상품정보</span>
-          <span>{TEMP_ORDER.date}</span>
+        <div className="flex items-center gap-2.5 px-5 pt-5">
+          <span className="text-headline-05">주문상품정보</span>
+          <span className="text-body-01 text-grey-5 font-medium">{TEMP_ORDER.date}</span>
         </div>
         <div className="flex flex-col items-center gap-6">
           <MyOrderCard
@@ -48,8 +49,38 @@ export default function MyOrderModal() {
             price={TEMP_ORDER.price}
             itemCount={TEMP_ORDER.itemCount}
           />
-          <div></div>
-          <div></div>
+          <div className="flex w-full flex-col gap-3.5 px-5">
+            <span className="text-headline-05">구매자정보</span>
+            <div className="text-body-01 flex flex-col gap-3 font-medium">
+              <div className="flex items-center justify-between">
+                <span>구매자</span>
+                <span>{TEMP_ORDER.name}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>휴대전화</span>
+                <span>{TEMP_ORDER.phone}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-full flex-col gap-3.5 px-5">
+            <span className="text-headline-05">결제정보</span>
+            <div className="flex flex-col gap-3">
+              <div className="text-subhead flex items-center justify-between">
+                <span className="font-medium">총 결제 금액</span>
+                <span className="text-orange font-bold">{(TEMP_ORDER.price + 3000).toLocaleString()}원</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span>총 상품 금액</span>
+                  <span>{TEMP_ORDER.price.toLocaleString()}원</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>배송비</span>
+                  <span>+3,000원</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
