@@ -15,7 +15,7 @@ import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
 import { useOrderStore } from '@/lib/store/order-information-store';
 import { fetchItemDetail } from '@/services/api/item-controller';
-import { PostDefaultAddress } from '@/services/api/order-controller';
+import { postDefaultAddress } from '@/services/api/order-controller';
 
 export default function ClientOrderItemPage() {
   const searchParams = useSearchParams();
@@ -73,7 +73,7 @@ export default function ClientOrderItemPage() {
 
     // 기본 배송지 저장 호출
     if (delivery.isDefault) {
-      PostDefaultAddress(
+      postDefaultAddress(
         delivery.name,
         delivery.postcode,
         delivery.address,
