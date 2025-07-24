@@ -18,9 +18,9 @@ export default function HomeBackground() {
       <Link href="/shop">
         <div
           className={clsx(
-            'text-body-02 font-regular text-grey-1 border-grey-1 relative z-5 bg-transparent transition-colors duration-200 will-change-transform',
+            'text-body-02 font-regular text-grey-1 border-grey-1 bg-grey-1/5 relative z-5 transition-colors duration-200',
             'only-hover:bg-grey-1 only-hover:text-grey-6 active:bg-grey-1 active:text-grey-6',
-            'flex h-8 w-35 items-center justify-center rounded-[40px] border-[1.2px] backdrop-blur-[2.35px]',
+            'flex h-8 w-35 items-center justify-center rounded-[40px] border-[1.2px]',
           )}
         >
           <span>제품 둘러보기</span>

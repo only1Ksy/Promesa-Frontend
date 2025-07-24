@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 
+import { useAuthStore } from '@/lib/store/use-auth-store';
 import CartIcon from '@/public/icons/layout/cart.svg';
-import { fetchIsLoggedIn } from '@/services/api/axios/auth';
 
 export default function CartButton() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, hasChecked, checkLogin } = useAuthStore();
 
   useEffect(() => {
-    fetchIsLoggedIn().then(setIsLoggedIn);
-  }, []);
+    if (!hasChecked) checkLogin();
+  }, [hasChecked, checkLogin]);
 
   return (
     <div className="relative">

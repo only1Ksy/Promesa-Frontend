@@ -12,25 +12,23 @@ export default function ClientLoginPage() {
     <div className="bg-pale-green flex h-screen flex-col items-center justify-center gap-8 pb-25">
       <div className="text-grey-9 flex flex-col items-center gap-10 p-2.5">
         <PromesaTextMediumIcon className="text-grey-9" />
-        <div className="text-subhead text-grey-7 flex text-center font-medium">
-          <p>
-            PROMESA에 오신걸 환영합니다.
-            <br />
-            새로운 도자기들과 아티스트들을 만나보세요.
-          </p>
+        <div className="text-subhead text-grey-7 flex flex-col text-center font-medium">
+          <p>PROMESA에 오신 걸 환영합니다.</p>
+          <p>지금, 당신의 공간에 새로운 취향을 더해보세요.</p>
         </div>
       </div>
       <div className="w-full px-5">
         <button
           onClick={() => {
             const clientId = process.env.NEXT_PUBLIC_REST_API_KEY!;
-            const redirectUri = encodeURIComponent(process.env.NEXT_PUBLIC_REDIRECT_URI!);
             const state = encodeURIComponent(process.env.NEXT_PUBLIC_FRONTEND_URI!);
             const afterLogin = searchParams.get('afterLogin');
 
-            window.location.href =
-              `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code` +
-              `&state=${state}&afterLogin=${afterLogin}`;
+            const kakkoUrl =
+              `${process.env.NEXT_PUBLIC_REDIRECT_URI}?client_id=${clientId}&response_type=code` +
+              `&state=${state}?afterLogin=${afterLogin}`;
+
+            window.location.replace(kakkoUrl);
           }}
           className="flex h-13.5 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg bg-[#fee500]"
         >

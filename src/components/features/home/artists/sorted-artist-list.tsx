@@ -25,11 +25,12 @@ export default function SortedArtistList() {
     return sortItemsWithSection(data, 'profile.name');
   }, [data]);
 
-  const onlyWishedSortedDataWithSection = useMemo(() => {
-    return sortedDataWithSection.filter((item) => item.wish.isWishlisted === true);
-  }, [sortedDataWithSection]);
-
-  const displayData = isWishedList ? onlyWishedSortedDataWithSection : sortedDataWithSection;
+  // sort with name + wish-/not-wish-list
+  const sortedWishDataWithSection = sortedDataWithSection.filter((item) => item.wish.isWishlisted);
+  const sortedNotWishDataWithSection = sortedDataWithSection.filter((item) => !item.wish.isWishlisted);
+  const displayData = isWishedList
+    ? sortedWishDataWithSection
+    : [...sortedWishDataWithSection, ...sortedNotWishDataWithSection];
 
   return (
     <>
@@ -54,9 +55,12 @@ export default function SortedArtistList() {
           </div>
         </div>
         {/* 작가 목록 */}
-        <div className="flex flex-col gap-3">
+        {/* 49 = 11.5 (header height) + 5 (padding top) + 7.5 (title height) + 5 (gap) + 20 (padding bottom) */}
+        <div className="relative flex min-h-[calc(100vh-var(--spacing)*49)] flex-col gap-3">
           {displayData.length > 0 ? (
-            displayData.map((item, idx) => <ArtistProfileWithImage key={idx} artistProfileWithSection={item} />)
+            displayData.map((item) => (
+              <ArtistProfileWithImage key={item.profile.artistId} artistProfileWithSection={item} />
+            ))
           ) : (
             <NoWishArtist />
           )}

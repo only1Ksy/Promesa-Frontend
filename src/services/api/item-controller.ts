@@ -9,7 +9,7 @@ import { axiosInstance, withErrorBoundary } from './axios/instance';
 
 export const fetchNowPopularItems = () =>
   withErrorBoundary<[], ItemPreviewResponseSchema[]>(async () => {
-    const res = await axiosInstance.get('/categories/0/items?page=0&size=5');
+    const res = await axiosInstance.get('/categories/0/items?page=0&size=5&sort=wishCount,desc');
     return res.data.data.content;
   });
 

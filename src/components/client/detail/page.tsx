@@ -118,18 +118,18 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     <HydrationBoundary state={itemDetailState}>
       <DetailSwiper images={images} alt="product detail image" />
       <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
-        <ProductInformation onSelect={scrollTo} itemId={itemId} />
+        <ProductInformation onSelect={scrollTo} item={item} />
         <div className="w-full">
           <div className="sticky top-11.5 z-40">
             <DetailNavBar onSelect={scrollTo} active={activeTab} />
           </div>
 
           <div ref={productRef} className="scroll-mt-20">
-            <ProductDetail itemId={itemId} />
+            <ProductDetail item={item} />
           </div>
 
           <div ref={noticeRef} className="scroll-mt-20">
-            <ProductNotice itemId={itemId} />
+            <ProductNotice shippingPolicy={item.shippingPolicy} />
           </div>
 
           <div ref={reviewRef} className="mt-10 flex min-h-100 w-full scroll-mt-26 flex-col items-center">
@@ -143,7 +143,6 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
                   </div>
                 </div>
               </div>
-              <div className="text-grey-6 text-caption-01 cursor-pointer font-medium">리뷰쓰기</div>
             </div>
             <div className="pt-2 pb-3">
               <DividerIcon />
@@ -152,14 +151,14 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
               <ReviewImageOnly imageUrls={reviewResponse.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
             </div>
             <div className="flex w-full flex-col items-center gap-5">
-              <ReviewPreview reviews={reviewResponse ?? []} itemId={itemId} openReviewModal={openReviewModal} />
+              <ReviewPreview reviews={reviewResponse ?? []} openReviewModal={openReviewModal} />
             </div>
           </div>
         </div>
       </div>
 
       <BottomFixedBarPortal>
-        <BottomFixedBar itemId={itemId} wished={item.isWishlisted} wishCount={item.wishCount} />
+        <BottomFixedBar item={item} wished={item.isWishlisted} wishCount={item.wishCount} />
       </BottomFixedBarPortal>
     </HydrationBoundary>
   );

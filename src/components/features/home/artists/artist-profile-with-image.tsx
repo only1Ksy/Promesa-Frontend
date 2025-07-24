@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
@@ -16,7 +18,7 @@ export default function ArtistProfileWithImage({ artistProfileWithSection }: Art
   const { artistId, name, profileImageUrl } = profile;
   const { isWishlisted, wishCount } = wish;
 
-  const { mutate: toggleWish } = useToggleWish({ queryKeyList: [['artistList']] });
+  const { mutate: toggleWish } = useToggleWish();
 
   return (
     <Link href={`/artist/${artistId}`}>

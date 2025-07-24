@@ -1,21 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
-import { fetchItemDetail } from '@/services/api/item-controller';
+import { ParsedItemData } from '@/types/item-controller';
 
 interface ProductDetailProps {
-  itemId: number;
+  item: ParsedItemData;
 }
 
-export default function ProductDetail({ itemId }: ProductDetailProps) {
-  const { data: item } = useQuery({
-    queryKey: ['itemDetail', itemId],
-    queryFn: () => fetchItemDetail(itemId),
-    select: (res) => res,
-  });
-
-  if (!item) return null;
-
+export default function ProductDetail({ item }: ProductDetailProps) {
   return (
     <div className="flex w-full flex-col items-start">
       {/* 상세 정보 */}

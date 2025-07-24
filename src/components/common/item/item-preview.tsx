@@ -4,34 +4,40 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { useToggleWish } from '@/hooks/use-toggle-wish';
 import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
 import type { ItemPreviewResponseSchema } from '@/types/item-controller';
+
+import ItemSoldOutDiv from './item-sold-out-div';
 
 interface ItemPreviewProps {
   item: ItemPreviewResponseSchema;
   maxWidthClass: string;
   heightClass: string;
-  onToggleWish: () => void;
 }
 
-export default function ItemPreview({ item, maxWidthClass, heightClass, onToggleWish }: ItemPreviewProps) {
-  const { itemId, itemName, price, imageUrl, artistName, wished } = item;
+export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPreviewProps) {
+  const { itemId, saleStatus, itemName, price, imageUrl, artistName, wished } = item;
+
+  const { mutate: toggleWish } = useToggleWish();
+
+  if (saleStatus !== 'ON_SALE')
+    return <ItemSoldOutDiv item={item} maxWidthClass={maxWidthClass} heightClass={heightClass} />;
 
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
-      <button onClick={onToggleWish} className="absolute top-2 right-2 z-10 cursor-pointer">
-        {wished ? (
-          <HeartFilledIcon width="30" height="30" className="text-orange" />
-        ) : (
-          <HeartEmptyIcon width="30" height="30" className="text-white" />
-        )}
+      <button
+        onClick={() => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: wished })}
+        className="absolute top-2 right-2 z-10 w-7.5 cursor-pointer"
+      >
+        {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">
           <div className="bg-green relative aspect-[4/5] w-full">
             {/* image optimization limit */}
-            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리뷰 이미지.`} fill unoptimized />
+            <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리뷰 이미지.`} fill />
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-col">

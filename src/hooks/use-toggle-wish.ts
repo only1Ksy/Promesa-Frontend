@@ -13,36 +13,20 @@ interface ToggleWishParams {
   currentWished: boolean;
 }
 
-interface ToggleWishResult {
-  wished: boolean;
-  wishCount: number;
-}
-
-interface UseToggleWishOptions {
-  queryKeyList?: unknown[][];
-}
-
-export const useToggleWish = ({ queryKeyList = [] }: UseToggleWishOptions = {}) => {
+export const useToggleWish = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
 
-  return useMutation<ToggleWishResult, Error, ToggleWishParams>({
+  return useMutation<WishToggleSchema, Error, ToggleWishParams>({
     mutationFn: async ({ targetType, targetId, currentWished }) => {
-      const data = await toggleWish(targetType, targetId, currentWished);
-      return {
-        wished: data.wished,
-        wishCount: data.target.wishCount,
-      };
+      return await toggleWish(targetType, targetId, currentWished);
     },
-    onSuccess: (_data, { targetType, targetId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ['toggleWish', targetType, targetId],
-      });
-
-      for (const queryKey of queryKeyList) {
-        queryClient.invalidateQueries({ queryKey });
-      }
+    onSuccess: () => {
+      queryClient
+        .getQueryCache()
+        .findAll()
+        .forEach((query) => queryClient.invalidateQueries({ queryKey: query.queryKey }));
     },
     onError: (error) => {
       if (error instanceof HttpError && error.status === 401) {

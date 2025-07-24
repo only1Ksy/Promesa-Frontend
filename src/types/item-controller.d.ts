@@ -12,6 +12,7 @@ export interface ItemResponseSchema {
 
 export interface ItemPreviewResponseSchema {
   itemId: number;
+  saleStatus: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
   itemName: string;
   itemDescription: string;
   price: number;
@@ -31,6 +32,16 @@ export interface ItemControllerParams {
 
 export interface ItemControllerServerParams extends Omit<ItemControllerParams, 'frame'> {
   size?: number;
+}
+
+export interface DetailArtistResponseSchema {
+  id: number;
+  name: string;
+  profileImageUrl: string;
+  bio: string;
+  instagramUrl: string;
+  isWishlisted: boolean;
+  wishCount: number;
 }
 
 // detail page

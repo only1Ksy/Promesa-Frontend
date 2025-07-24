@@ -22,6 +22,7 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
 
   const { content, pageable, totalPages } = reviews;
   const currentPage = pageable.pageNumber;
+  const isNoReview = totalPages === 0;
 
   // 페이지 이동 시 스크롤 및 onPageChange 호출
   const onPageChangeFunction = (page: number) => {
@@ -45,23 +46,28 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
   }, [searchParams]);
 
   return (
-    <div ref={listTopRef} className="relative flex w-full flex-col items-center">
-      {currentPage === 0 && (
-        <div className="flex w-full flex-col items-center gap-5">
-          <ReviewImageOnly imageUrls={content.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
-        </div>
-      )}
-
-      <div className="mb-10 flex w-full flex-col gap-5">
-        {content.map((review, i) => (
-          <div key={review.reviewId ?? i} className="flex flex-col items-center gap-5">
-            <ReviewCard {...review} />
-            {i !== content.length - 1 && <div className="border-deep-green h-0 w-90.5 border-b" />}
+    <div ref={listTopRef} className="flex w-full flex-col items-center">
+      {!isNoReview ? (
+        <>
+          {currentPage === 0 && (
+            <div className="flex w-full flex-col items-center gap-5">
+              <ReviewImageOnly imageUrls={content.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
+            </div>
+          )}
+          <div className="mb-10 flex w-full flex-col gap-5">
+            {content.map((review, i) => (
+              <div key={review.reviewId ?? i} className="flex flex-col items-center gap-5">
+                <ReviewCard {...review} />
+                {i !== content.length - 1 && <div className="border-deep-green h-0 w-90.5 border-b" />}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <ReviewPagination currentPage={currentPage} totalPage={totalPages} onPageChange={onPageChangeFunction} />
+          <ReviewPagination currentPage={currentPage} totalPage={totalPages} onPageChange={onPageChangeFunction} />
+        </>
+      ) : (
+        /* 이 자리에 리뷰 없음 컴포넌트 추가 */
+        <div className="absolute top-1/2">작성된 리뷰가 없습니다</div>
+      )}
     </div>
   );
 }

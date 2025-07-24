@@ -48,7 +48,7 @@ export default function DeliveryForm() {
               key={key}
               type="button"
               onClick={() => updateDelivery('deliveryType', key)}
-              className="flex items-center gap-1.5"
+              className="flex cursor-pointer items-center gap-1.5"
             >
               <span className={clsx('h-3.5 w-3.5', delivery.deliveryType === key ? 'bg-orange' : 'bg-grey-4')} />
               <span
@@ -88,7 +88,7 @@ export default function DeliveryForm() {
               <button
                 onClick={openAddressSearch}
                 type="button"
-                className="text-body-02 font-regular w-29 rounded-md bg-black px-4 py-2 text-white"
+                className="text-body-02 font-regular w-29 cursor-pointer rounded-md bg-black px-4 py-2 text-white"
               >
                 우편번호 검색
               </button>
@@ -143,7 +143,7 @@ export default function DeliveryForm() {
               onClick={() => {
                 updateDelivery('isDefault', !delivery.isDefault);
               }}
-              className="flex items-center gap-2"
+              className="flex cursor-pointer items-center gap-2"
             >
               <span className={clsx('h-3.5 w-3.5', delivery.isDefault ? 'bg-orange' : 'bg-grey-4')} />
               <span className={clsx('text-caption-01 font-medium', delivery.isDefault ? 'text-black' : 'text-grey-5')}>

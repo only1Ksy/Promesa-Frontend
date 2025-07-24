@@ -21,7 +21,9 @@ export default function Header({ shadow }: HeaderProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const isAuthPage = pathname.startsWith('/log'); // login, logout
+  const isLoginPage = pathname.startsWith('/login');
+  const isLogoutPage = pathname.startsWith('/logout');
+  const isAuthPage = isLoginPage || isLogoutPage;
 
   const isArtistPage = pathname.startsWith('/artist');
   const isDetailPage = pathname.startsWith('/detail');
@@ -49,7 +51,7 @@ export default function Header({ shadow }: HeaderProps) {
     else if (isReviewPage)
       return (
         <span className="text-subhead text-grey-9 font-medium">
-          {reviewMode === 'imageOnly' ? '모아보기' : '리뷰 전체보기'}
+          {reviewMode == null ? '리뷰' : reviewMode === 'imageOnly' ? '모아보기' : '리뷰 전체보기'}
         </span>
       );
     else if (isMyPage) return <span className="text-subhead text-grey-9 font-medium">마이페이지</span>;
@@ -72,7 +74,7 @@ export default function Header({ shadow }: HeaderProps) {
         </Link>
       );
     const ThirdIcon = () => {
-      if (isAuthPage)
+      if (isLoginPage)
         return (
           <button
             onClick={() => {
@@ -87,7 +89,7 @@ export default function Header({ shadow }: HeaderProps) {
             <CloseIcon className="text-grey-9" />
           </button>
         );
-      else if (isOrderPage) return <EmptyDiv />;
+      else if (isLogoutPage || isOrderPage) return <EmptyDiv />;
       else return <CartButton />;
     };
 
