@@ -41,6 +41,15 @@ export const PostReviewImages = (
     fileNames,
   );
 
+/** imageKey를 전달하면 해당 이미지를 DB에서 삭제하는 함수 */
+export const DeleteReviewImage = (key: string) =>
+  withErrorBoundary<[string], string>(async (key) => {
+    const res = await axiosInstance.delete('/review-images', {
+      params: { key },
+    });
+    return res.data.data;
+  }, key);
+
 /** itemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
 export const PostReview = (itemId: number, content: string, rating: number, imageKeys: string[]) =>
   withErrorBoundary<[number, string, number, string[]], PresignedUrlResponse>(
@@ -76,4 +85,16 @@ export const PatchReview = (itemId: number, reviewId: number, content: string, r
     content,
     rating,
     imageKeys,
+  );
+
+/** itemId, reviewId를 전달하면 리뷰를 삭제하는 함수 */
+export const DeleteReview = (itemId: number, reviewId: number) =>
+  withErrorBoundary<[number, number], string>(
+    async (itemId, reviewId) => {
+      const res = await axiosInstance.delete(`/items/${itemId}/reviews/${reviewId}`);
+
+      return res.data.data;
+    },
+    itemId,
+    reviewId,
   );
