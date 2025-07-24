@@ -23,7 +23,7 @@ export default function MyOrderModal() {
     itemCount: 1,
     orderId: { orderId },
     name: '김서연',
-    phone: '010-1234-5678',
+    phone: '010 - 1234 - 5678',
   };
 
   return (
@@ -49,6 +49,9 @@ export default function MyOrderModal() {
             price={TEMP_ORDER.price}
             itemCount={TEMP_ORDER.itemCount}
           />
+
+          <div className="bg-green h-[1px] w-90.5" />
+
           <div className="flex w-full flex-col gap-3.5 px-5">
             <span className="text-headline-05">구매자정보</span>
             <div className="text-body-01 flex flex-col gap-3 font-medium">
@@ -62,6 +65,9 @@ export default function MyOrderModal() {
               </div>
             </div>
           </div>
+
+          <div className="bg-green h-[1px] w-90.5" />
+
           <div className="flex w-full flex-col gap-3.5 px-5">
             <span className="text-headline-05">결제정보</span>
             <div className="flex flex-col gap-3">
