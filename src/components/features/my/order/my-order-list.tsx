@@ -1,10 +1,14 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import GoIcon from '@/public/icons/layout/scroll-to-top.svg';
 
 import MyOrderCard from './my-order-card';
 
 export default function MyOrderList() {
+  const router = useRouter();
+
   const TEMP_ORDER = [
     {
       date: '2025.08.08',
@@ -46,7 +50,10 @@ export default function MyOrderList() {
             <div key={index} className="pt-5 pb-6">
               <div className="text-grey-9 text-body-02 flex items-center justify-between px-5 py-2 font-medium">
                 <span>{order.date}</span>
-                <button className="flex cursor-pointer items-center gap-1">
+                <button
+                  onClick={() => router.push(`/my/order?id=${order.orderId}`)}
+                  className="flex cursor-pointer items-center gap-1"
+                >
                   <span>주문 상세</span>
                   <GoIcon className="text-grey-5 rotate-90" />
                 </button>
