@@ -14,7 +14,7 @@ export default function ClientMyReviewPage() {
       <div className="sticky top-11.5 z-40">
         <MyReviewToggle onSelect={setActiveTab} active={activeTab} />
       </div>
-      <div>{activeTab === 'available' ? <MyReviewAvailable /> : <MyReviewWritten />}</div>
+      <div className="py-8.75">{activeTab === 'available' ? <MyReviewAvailable /> : <MyReviewWritten />}</div>
     </>
   );
 }

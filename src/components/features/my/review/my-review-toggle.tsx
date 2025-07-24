@@ -22,7 +22,7 @@ export default function MyReviewToggle({ onSelect, active }: MyReviewToggleProps
   }, []);
 
   return (
-    <div className="bg-pale-green text-subhead border-grey-2 relative flex h-12 w-full items-start border-t font-medium">
+    <div className="bg-pale-green text-subhead border-grey-2 relative flex h-12 w-full items-start border-b font-medium">
       {sections.map(({ id, label }) => (
         <div
           key={id}
