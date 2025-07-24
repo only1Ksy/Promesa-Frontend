@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import EmptySymbolIcon from '@/public/icons/logo/empty-symbol.svg';
 
 interface EmptyCardProps {
@@ -8,7 +10,7 @@ interface EmptyCardProps {
 
 export default function EmptyCard({ main, sub, buttonText }: EmptyCardProps) {
   return (
-    <div className="flex w-57.75 flex-col items-center gap-25">
+    <div className="absolute top-1/2 left-1/2 flex w-57.75 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-25">
       <div className="flex flex-col items-center gap-8.5">
         <EmptySymbolIcon />
         <div className="flex flex-col items-center gap-2">
@@ -16,7 +18,11 @@ export default function EmptyCard({ main, sub, buttonText }: EmptyCardProps) {
           <span className="text-grey-5 text-body-01 font-mediums">{sub}</span>
         </div>
       </div>
-      <button className="h-11 w-44.25 items-center justify-center rounded-xs border">{buttonText}</button>
+      <Link href="/shop?sort=wishCount,desc">
+        <button className="h-11 w-44.25 cursor-pointer items-center justify-center rounded-xs border">
+          {buttonText}
+        </button>
+      </Link>
     </div>
   );
 }
