@@ -1,4 +1,4 @@
-import type { PresignedUrlResponse, ReviewListResponse } from '@/types/review-controller';
+import type { PresignedUrlResponse, Review, ReviewListResponse } from '@/types/review-controller';
 
 import { withErrorBoundary } from './axios/instance';
 import { axiosInstance } from './axios/instance';
@@ -54,6 +54,25 @@ export const PostReview = (itemId: number, content: string, rating: number, imag
       return res.data.data;
     },
     itemId,
+    content,
+    rating,
+    imageKeys,
+  );
+
+/** itemId, reviewId, {content, rating, imageKeys} 중 수정사항을 전달하면 반영하는 함수 */
+export const PatchReview = (itemId: number, reviewId: number, content: string, rating: number, imageKeys: string[]) =>
+  withErrorBoundary<[number, number, string, number, string[]], Review>(
+    async (itemId, reviewId, content, rating, imageKeys) => {
+      const res = await axiosInstance.patch(`/items/${itemId}/reviews/${reviewId}`, {
+        content,
+        rating,
+        imageKeys,
+      });
+
+      return res.data.data;
+    },
+    itemId,
+    reviewId,
     content,
     rating,
     imageKeys,
