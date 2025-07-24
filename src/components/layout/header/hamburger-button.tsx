@@ -72,7 +72,7 @@ export default function HamburgerButton() {
             }}
             className="flex cursor-pointer items-center justify-center"
           >
-            <CloseIcon className="text-grey-9" />
+            <CloseIcon width={30} height={30} className="text-grey-9" />
           </button>
         </div>
         <div className="mx-5 flex flex-col gap-6">

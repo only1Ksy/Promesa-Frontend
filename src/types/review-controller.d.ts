@@ -39,7 +39,9 @@ export interface ReviewListResponse {
 }
 
 // 리뷰 이미지 URL
-export interface PresignedUrlResponse {
-  presignedUrls: string[];
-  fileUrls: string[];
+export interface PresignedUrl {
+  key: string;
+  url: string;
 }
+
+export type PresignedUrlResponse = PresignedUrl[];
