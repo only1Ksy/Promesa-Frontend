@@ -31,10 +31,12 @@ export default function ClientOrderItemPage() {
     [searchParams],
   );
 
+  // params에 따라 분기처리
   const isCartMode = params.mode === 'cart';
 
   const [agree, setAgree] = useState<boolean>(false);
 
+  // 다중 아이템일시 여러 번 호출
   const { data: item } = useQuery({
     queryKey: ['itemDetail', params.itemId],
     queryFn: () => fetchItemDetail(params.itemId),
