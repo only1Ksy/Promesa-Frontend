@@ -20,7 +20,7 @@ export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
           sectionTitle="나의 쇼핑 정보"
           subSectionList={[
             { subSectionTitle: '주문 내역 조회', subSectionLink: '/my' },
-            { subSectionTitle: '리뷰', subSectionLink: '/my' },
+            { subSectionTitle: '리뷰', subSectionLink: '/my/review' },
           ]}
         />
         <MyPageSection
