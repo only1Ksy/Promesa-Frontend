@@ -37,6 +37,7 @@ export default function ImageWithLoading({ src, alt, onLoad, ...rest }: ImagePro
         onLoad?.(e);
       }}
       {...rest}
+      unoptimized // image transformation
     />
   );
 }

@@ -36,6 +36,7 @@ export default function ImageWithEffect({ src, alt, onLoad, ...rest }: ImageProp
         }}
         className={clsx('z-1 transition-opacity duration-500', loaded ? 'opacity-100' : 'opacity-0')}
         {...rest}
+        unoptimized // image transformation
       />
     </div>
   );
