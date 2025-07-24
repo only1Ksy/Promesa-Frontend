@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 
+import CloseIcon from '@/public/icons/layout/close.svg';
+
 interface ReviewImageUploaderProps {
   images: File[];
   previews: string[];
@@ -15,37 +17,45 @@ export default function ReviewImageUploader({
   handleImageChange,
   handleImageRemove,
 }: ReviewImageUploaderProps) {
+  const showUploadButton = images.length < 3;
+
   return (
     <div className="mb-6">
-      {/* 이미지 업로드 input */}
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        disabled={images.length >= 3}
-        className="mb-3 block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-gray-700 hover:file:bg-gray-200"
-        onChange={handleImageChange}
-      />
+      <p className="mb-3 text-base font-medium text-gray-800">상품 사진을 첨부해주세요.</p>
 
-      {/* 업로드 상태 설명 */}
-      <p className="mb-3 text-sm text-gray-500">
-        최대 3장까지 업로드 가능 (현재 <span className="font-semibold">{images.length}</span>장)
-      </p>
-
-      {/* 이미지 미리보기 */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-2">
+        {/* 이미지 미리보기 */}
         {previews.map((src, idx) => (
-          <div key={idx} className="relative h-28 w-28 overflow-hidden rounded border border-gray-200">
-            <Image src={src} alt={`preview-${idx}`} className="h-full w-full object-cover" />
+          <div key={idx} className="bg-green relative h-29 w-28.75 overflow-hidden rounded">
+            <Image src={src} alt={`preview-${idx}`} fill className="rounded object-cover" />
             <button
               onClick={() => handleImageRemove(idx)}
-              className="absolute top-1 right-1 rounded-full bg-white p-1 text-xs text-red-500 shadow-md hover:bg-red-100"
+              className="hover:bg-deep-green/50 absolute top-1 right-1 z-10 cursor-pointer rounded-full p-[3px]"
               aria-label={`이미지 ${idx + 1} 삭제`}
             >
-              ❌
+              <CloseIcon width={16} height={16} />
             </button>
           </div>
         ))}
+
+        {/* 업로드 버튼 */}
+        {showUploadButton && (
+          <label
+            htmlFor="image-upload"
+            className="bg-green flex h-29 w-28.75 cursor-pointer items-center justify-center rounded-sm"
+          >
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="hidden"
+              disabled={images.length >= 3}
+            />
+            <CloseIcon width={30} height={30} className="rotate-45" />
+          </label>
+        )}
       </div>
     </div>
   );

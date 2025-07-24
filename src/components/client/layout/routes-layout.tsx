@@ -26,7 +26,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const isDetailPage = pathName.startsWith('/detail');
   const isOrderPage = pathName.startsWith('/order');
   const isOrderCompletePage = pathName.startsWith('/order/complete');
-  const isReviewPage = pathName.startsWith('/review');
+  const isReviewPage = pathName.startsWith('/review') || pathName.startsWith('/my/review/write');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage;
   const isHeaderShadow = !isDetailPage && !isOrderCompletePage;
