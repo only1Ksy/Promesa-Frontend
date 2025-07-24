@@ -23,12 +23,13 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const pathName = usePathname();
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
+  const isCartPage = pathName.startsWith('/cart');
   const isDetailPage = pathName.startsWith('/detail');
   const isOrderPage = pathName.startsWith('/order');
   const isOrderCompletePage = pathName.startsWith('/order/complete');
   const isReviewPage = pathName.startsWith('/review') || pathName.startsWith('/my/review/write');
 
-  const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage;
+  const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage;
   const isHeaderShadow = !isDetailPage && !isOrderCompletePage;
   const isFooter = !isOrderPage && !isReviewPage;
   const isFloatingButton = !isOrderPage && !isReviewPage;
