@@ -2,7 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PUBLIC_ONLY_PATH = '/login';
-const PROTECTED_PATHS = ['/cart', '/my'];
+const PROTECTED_PATHS = [
+  /* /cart', '/my' */
+];
 const LOGOUT_PATH = '/logout';
 
 function isLoggedIn(req: NextRequest): boolean {

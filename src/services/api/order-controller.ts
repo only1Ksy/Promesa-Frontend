@@ -1,5 +1,5 @@
 import { AddressSchema } from '@/types/address-controller';
-import { OrderRequestSchema, OrderResponseSchema } from '@/types/order-controller';
+import { OrderRequestSchema, OrderResponseSchema, OrderSummary } from '@/types/order-controller';
 
 import { withErrorBoundary } from './axios/instance';
 import { axiosInstance } from './axios/instance';
@@ -44,3 +44,10 @@ export const fetchDetailedOrder = (orderId: number) =>
     const res = await axiosInstance.get(`/orders/${orderId}`);
     return res.data.data;
   }, orderId);
+
+/** 사용자의 주문 내역 목록을 조회하는 함수 */
+export const fetchOrders = () =>
+  withErrorBoundary<[], OrderSummary[]>(async () => {
+    const res = await axiosInstance.get(`/orders`);
+    return res.data.data;
+  });

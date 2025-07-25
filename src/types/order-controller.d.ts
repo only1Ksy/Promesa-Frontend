@@ -25,21 +25,7 @@ export interface OrderRequestSchema {
 }
 
 export interface OrderResponseSchema {
-  summary: {
-    orderId: number;
-    orderDate: string;
-    orderStatus: 'WAITING_FOR_PAYMENT' | 'PAID' | 'CANCELLED' | string;
-    totalAmount: number;
-    totalQuantity: number;
-    itemThumbnail: string;
-    itemName: string;
-    buyerName: string;
-    buyerPhone: string;
-    deliveryExpectedDate: string;
-    deliveryStartDate: string;
-    deliveryCompletedDate: string;
-    deliveryStatus: 'READY' | 'SHIPPED' | 'DELIVERED' | string;
-  };
+  summary: OrderSummary;
   deposit: {
     bankName: string;
     depositorName: string;
