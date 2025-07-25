@@ -12,6 +12,7 @@ export default function OrderInformation({ order }: OrderInformationProps) {
     await navigator.clipboard.writeText(text);
   };
 
+  // 날짜 포매팅
   const date = new Date(order.deposit.depositDeadline);
 
   const year = date.getFullYear();
@@ -25,6 +26,9 @@ export default function OrderInformation({ order }: OrderInformationProps) {
 
   if (!isAM && hour > 12) hour -= 12;
   if (hour === 0) hour = 12;
+
+  // 은행 계좌 포매팅
+  const [bankName, accountNumber] = order.deposit.bankName.split(' ');
 
   return (
     <div className="flex w-full flex-col items-end gap-2">
@@ -63,7 +67,7 @@ export default function OrderInformation({ order }: OrderInformationProps) {
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">은행명</span>
-            <span className="text-body-02 font-bold">{order.deposit.bankName}</span>
+            <span className="text-body-02 font-bold">{bankName}</span>
           </div>
           <div className="flex items-start justify-between">
             <span className="text-body-02 font-bold">예금주</span>
@@ -72,10 +76,10 @@ export default function OrderInformation({ order }: OrderInformationProps) {
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">계좌번호</span>
             <div className="flex items-center gap-2">
-              <button className="cursor-pointer" onClick={() => copyClipBoard(order.deposit.accountNumber)}>
+              <button className="cursor-pointer" onClick={() => copyClipBoard(accountNumber)}>
                 <CopyIcon width={16} height={16} />
               </button>
-              <span className="text-body-02 font-medium">{order.deposit.accountNumber}</span>
+              <span className="text-body-02 font-medium">{accountNumber}</span>
             </div>
           </div>
           <div className="flex items-center justify-between">

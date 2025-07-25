@@ -42,7 +42,6 @@ export interface OrderResponseSchema {
   };
   deposit: {
     bankName: string;
-    accountNumber: string;
     depositorName: string;
     depositDeadline: string;
   };
