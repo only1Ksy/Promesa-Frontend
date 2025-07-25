@@ -26,8 +26,8 @@ export default function ShopSwiper() {
         </Link>
       </div>
       <HorizontalScroll className="ml-5 flex gap-2.5 pr-5">
-        {items.map((item, idx) => (
-          <div key={idx} className="w-44 flex-none">
+        {items.map((item) => (
+          <div key={item.itemId} className="w-44 flex-none">
             <ItemPreview item={item} maxWidthClass="max-w-44" heightClass="h-81" />
           </div>
         ))}
