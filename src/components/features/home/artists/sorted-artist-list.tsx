@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import sortItemsWithSection from '@/lib/utils/sort-items-with-section';
 import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
@@ -13,8 +14,13 @@ import ArtistProfileWithImage from './artist-profile-with-image';
 import NoWishArtist from './no-wish-artist';
 
 export default function SortedArtistList() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const isWishedListParam = searchParams.get('bookmark');
+
   const [openNameList, setOpenNameList] = useState(false);
-  const [isWishedList, setIsWishedList] = useState(false);
+  const [isWishedList, setIsWishedList] = useState(isWishedListParam === 'true');
 
   const { data } = useSuspenseQuery({
     queryKey: ['artistList'],
@@ -31,6 +37,16 @@ export default function SortedArtistList() {
   const displayData = isWishedList
     ? sortedWishDataWithSection
     : [...sortedWishDataWithSection, ...sortedNotWishDataWithSection];
+
+  useEffect(() => {
+    const current = new URLSearchParams();
+
+    if (isWishedList) {
+      current.set('bookmark', 'true');
+    }
+
+    router.replace(`?${current.toString()}`, { scroll: false });
+  }, [isWishedList, router]);
 
   return (
     <>
