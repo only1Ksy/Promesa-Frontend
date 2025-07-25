@@ -41,7 +41,9 @@ export default function OrderInformation({ order }: OrderInformationProps) {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">결제 금액</span>
-            <span className="text-body-02 font-medium">{order.summary.totalAmount.toLocaleString()}원</span>
+            <span className="text-body-02 font-medium">
+              {(order.summary.totalAmount + order.delivery.deliveryFee).toLocaleString()}원
+            </span>
           </div>
         </div>
         <hr
@@ -73,7 +75,9 @@ export default function OrderInformation({ order }: OrderInformationProps) {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">입금 금액</span>
-            <span className="text-body-02 font-medium">{order.summary.totalAmount}원</span>
+            <span className="text-body-02 font-medium">
+              {(order.summary.totalAmount + order.delivery.deliveryFee).toLocaleString()}원
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">입금 기한</span>
