@@ -1,5 +1,6 @@
 'use client';
 
+import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import CopyIcon from '@/public/icons/layout/copy.svg';
 import { OrderResponseSchema } from '@/types/order-controller';
 
@@ -13,19 +14,7 @@ export default function OrderInformation({ order }: OrderInformationProps) {
   };
 
   // 날짜 포매팅
-  const date = new Date(order.deposit.depositDeadline);
-
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  let hour = date.getHours();
-
-  const isAM = hour < 12;
-  const ampm = isAM ? '오전' : '오후';
-
-  if (!isAM && hour > 12) hour -= 12;
-  if (hour === 0) hour = 12;
+  const { year, month, day, ampm, hour } = formatKoreanDateTime(order.deposit.depositDeadline);
 
   // 은행 계좌 포매팅
   const [bankName, accountNumber] = order.deposit.bankName.split(' ');

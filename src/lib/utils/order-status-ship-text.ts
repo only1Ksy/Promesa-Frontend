@@ -1,3 +1,5 @@
+import { formatKoreanDateTime } from './date-format';
+
 // 주문건 상태 계산
 export const getOrderStatusText = (orderStatus: string, deliveryStatus: string): string => {
   if (orderStatus === 'WAITING_FOR_PAYMENT') return '입금확인중';
@@ -19,11 +21,14 @@ export const getShipComment = (
   deliveryExpectedDate: string,
   deliveryCompletedDate: string,
 ): string => {
+  const { month, day, weekday } = formatKoreanDateTime(
+    deliveryStatus === 'SHIPPING' ? deliveryExpectedDate : deliveryCompletedDate,
+  );
   if (deliveryStatus === 'SHIPPING') {
-    return `${deliveryExpectedDate} 도착 예정`;
+    return `${month}/${day} (${weekday}) 도착 예정`;
   }
   if (deliveryStatus === 'DELIVERED') {
-    return `${deliveryCompletedDate} 도착 완료`;
+    return `${month}/${day} (${weekday}) 도착 완료`;
   }
   return '';
 };
