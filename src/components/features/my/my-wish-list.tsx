@@ -27,9 +27,11 @@ export default function MyWishList({ targetType }: MyWishListProps) {
     [data],
   );
 
+  const isDisplay = useMemo(() => displayData[0].src || displayData[1].src || displayData[2].src, [displayData]);
+
   return (
     <div className="flex gap-1.75">
-      {displayData.length > 0 ? (
+      {isDisplay ? (
         displayData.map(({ src, isEnd }, idx) =>
           src ? (
             <div key={idx} className="bg-green relative aspect-square flex-1 overflow-hidden rounded-xs">
@@ -49,13 +51,11 @@ export default function MyWishList({ targetType }: MyWishListProps) {
           ),
         )
       ) : (
-        <>
-          <div className="text-grey-1 text-body-02 bg-grey-3/50 aspect-square flex-1 items-center justify-center rounded-xs font-medium">
-            <p>NO LIST</p>
-          </div>
-          <div className="aspect-square flex-1 bg-transparent" />
-          <div className="aspect-square flex-1 bg-transparent" />
-        </>
+        <div className="mx-1.75 flex aspect-[3/1] w-full flex-1 items-center justify-center">
+          <p className="text-body-01 text-grey-5 font-medium">
+            {targetType === 'ARTIST' ? '북마크한 아티스트가 없습니다' : '좋아요한 작품이 없습니다'}
+          </p>
+        </div>
       )}
     </div>
   );

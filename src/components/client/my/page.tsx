@@ -31,11 +31,11 @@ export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
           ]}
         />
         <div className="flex flex-col gap-5">
-          <MyPageSection sectionTitle="아티스트 북마크" />
+          <MyPageSection sectionTitle="아티스트 북마크" href="/home/artists?bookmark=true" />
           <MyWishList targetType="ARTIST" />
         </div>
         <div className="flex flex-col gap-5">
-          <MyPageSection sectionTitle="위시리스트" />
+          <MyPageSection sectionTitle="위시리스트" href="/my/wish-list" />
           <MyWishList targetType="ITEM" />
         </div>
       </div>

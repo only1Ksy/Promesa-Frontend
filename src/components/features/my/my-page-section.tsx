@@ -2,16 +2,26 @@
 
 import Link from 'next/link';
 
+import GoToFullListIcon from '@/public/icons/my/go-to-full-list.svg';
+
 interface MyPageSectionProps {
   sectionTitle: string;
   subSectionList?: { subSectionTitle: string; subSectionLink: string }[];
+  href?: string;
 }
 
-export default function MyPageSection({ sectionTitle, subSectionList }: MyPageSectionProps) {
+export default function MyPageSection({ sectionTitle, subSectionList, href }: MyPageSectionProps) {
   return (
     <section className="flex flex-col gap-3.5">
       <div className="flex flex-col gap-2.5">
-        <p className="text-subhead font-bold">{sectionTitle}</p>
+        <div className="flex">
+          <Link href={href ?? '/my'}>
+            <div className="flex items-center gap-2">
+              <p className="text-subhead font-bold text-black">{sectionTitle}</p>
+              {href && <GoToFullListIcon className="text-grey-9" />}
+            </div>
+          </Link>
+        </div>
         <hr className="border-t border-black" />
       </div>
       {subSectionList &&
