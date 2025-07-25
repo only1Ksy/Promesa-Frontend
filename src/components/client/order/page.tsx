@@ -15,7 +15,6 @@ import OrderedProductList from '@/components/features/order/ordered-product-list
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
 import { useOrderStore } from '@/lib/store/order-information-store';
-// import { fetchDefaultAddress } from '@/services/api/address-controller';
 import { fetchItemDetail } from '@/services/api/item-controller';
 import { postOrder } from '@/services/api/order-controller';
 import { postDefaultAddress } from '@/services/api/order-controller';

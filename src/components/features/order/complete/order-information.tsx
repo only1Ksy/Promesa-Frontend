@@ -27,8 +27,8 @@ export default function OrderInformation({ order }: OrderInformationProps) {
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">주문 상품</span>
             <span className="text-body-02 font-medium">
-              {order.summary.totalQuantity > 1
-                ? `${order.items[0].itemName} 외 ${order.summary.totalQuantity - 1}건`
+              {order.items.length > 1
+                ? `${order.items[0].itemName} 외 ${order.items.length - 1}건`
                 : order.items[0].itemName}
             </span>
           </div>
