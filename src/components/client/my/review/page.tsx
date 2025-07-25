@@ -10,11 +10,11 @@ export default function ClientMyReviewPage() {
   const [activeTab, setActiveTab] = useState<'available' | 'written'>('available');
 
   return (
-    <>
+    <div style={{ minHeight: 'calc(100vh - 46px)' }}>
       <div className="sticky top-11.5 z-40">
         <MyReviewToggle onSelect={setActiveTab} active={activeTab} />
       </div>
       <div className="py-8.75">{activeTab === 'available' ? <MyReviewAvailable /> : <MyReviewWritten />}</div>
-    </>
+    </div>
   );
 }
