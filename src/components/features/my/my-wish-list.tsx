@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import GoToFullListIcon from '@/public/icons/my/go-to-full-list.svg';
@@ -10,9 +11,10 @@ import type { TargetSchema } from '@/types/wish-controller';
 
 interface MyWishListProps {
   targetType: TargetSchema['targetType'];
+  href: string;
 }
 
-export default function MyWishList({ targetType }: MyWishListProps) {
+export default function MyWishList({ targetType, href }: MyWishListProps) {
   const { data } = useSuspenseQuery({
     queryKey: [targetType === 'ARTIST' ? 'artistWishList' : 'itemWishList', targetType],
     queryFn: () => fetchWishList(targetType),
@@ -37,13 +39,16 @@ export default function MyWishList({ targetType }: MyWishListProps) {
             <div key={idx} className="bg-green relative aspect-square flex-1 overflow-hidden rounded-xs">
               <ImageWithEffect src={src} alt={`아이템 ${data[idx].title} 이미지.`} fill />
               {isEnd && (
-                <div className="text-grey-1 text-body-02 bg-grey-3/50 absolute inset-0 z-5 flex h-full w-full flex-col items-center justify-center font-medium">
-                  <p>{targetType === 'ARTIST' ? '북마크' : '위시'}</p>
-                  <div className="flex items-center gap-1.5">
-                    <p>전체 보기</p>
-                    <GoToFullListIcon />
+                <>
+                  <div className="text-grey-1 text-body-02 bg-grey-3/50 absolute inset-0 z-5 flex h-full w-full flex-col items-center justify-center font-medium">
+                    <p>{targetType === 'ARTIST' ? '북마크' : '위시'}</p>
+                    <div className="flex items-center gap-1.5">
+                      <p>전체 보기</p>
+                      <GoToFullListIcon />
+                    </div>
                   </div>
-                </div>
+                  <Link href={href} className="absolute inset-0 z-10 h-full w-full" />
+                </>
               )}
             </div>
           ) : (
