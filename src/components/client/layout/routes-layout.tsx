@@ -32,7 +32,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const isMyOrderPage = pathName.startsWith('/my/order');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage;
-  const isHeaderShadow = !isDetailPage && !isOrderCompletePage;
+  const isHeaderShadow = !isDetailPage && !isOrderCompletePage && !isMyOrderPage && !isMyReviewPage && !isCartPage;
   const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage;
   const isFloatingButton = !isOrderPage && !isReviewPage;
 
