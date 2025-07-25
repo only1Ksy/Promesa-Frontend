@@ -13,6 +13,22 @@ interface ToggleWishParams {
   currentWished: boolean;
 }
 
+const QUERY_KEYS_BY_TARGET_TYPE: Record<WishToggleSchema['target']['targetType'], string[]> = {
+  ARTIST: [
+    'itemDetail', // /detail/[item-id]
+    'artist', // /artist/[artist-id]
+    'artistList', // /home/artists
+    'artistWishList', // /my
+  ],
+  ITEM: [
+    'nowPopularItems', // /home
+    'items', // /shop, /artist/[artist-id]
+    'itemDetail', // /detail/[item-id]
+    'artist', // /artist/[artist-id]
+    'itemWishList', // /my
+  ],
+};
+
 export const useToggleWish = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -22,11 +38,18 @@ export const useToggleWish = () => {
     mutationFn: async ({ targetType, targetId, currentWished }) => {
       return await toggleWish(targetType, targetId, currentWished);
     },
-    onSuccess: () => {
+    onSuccess: (_data, { targetType }) => {
+      const targetQueryKeys = QUERY_KEYS_BY_TARGET_TYPE[targetType] ?? [];
+
       queryClient
         .getQueryCache()
         .findAll()
-        .forEach((query) => queryClient.invalidateQueries({ queryKey: query.queryKey }));
+        .forEach((query) => {
+          const key = query.queryKey[0];
+          if (typeof key === 'string' && targetQueryKeys.includes(key)) {
+            queryClient.invalidateQueries({ queryKey: query.queryKey });
+          }
+        });
     },
     onError: (error) => {
       if (error instanceof HttpError && error.status === 401) {

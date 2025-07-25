@@ -10,7 +10,7 @@ export default async function MyPage() {
 
   await Promise.all([
     queryClient.prefetchQuery({ queryKey: ['me'], queryFn: fetchMe }),
-    queryClient.prefetchQuery({ queryKey: ['artistWishList', 'ARTIST'], queryFn: () => fetchWishList('ITEM') }),
+    queryClient.prefetchQuery({ queryKey: ['artistWishList', 'ARTIST'], queryFn: () => fetchWishList('ARTIST') }),
     queryClient.prefetchQuery({ queryKey: ['itemWishList', 'ITEM'], queryFn: () => fetchWishList('ITEM') }),
   ]);
 
