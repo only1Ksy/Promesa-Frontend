@@ -28,13 +28,14 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const isOrderCompletePage = pathName.startsWith('/order/complete');
   const isOrderPage = pathName.startsWith('/order');
   const isReviewPage = pathName.startsWith('/review') || pathName.startsWith('/my/review/write');
+  const isMyPage = pathName.startsWith('/my');
   const isMyReviewPage = pathName.startsWith('/my/review');
   const isMyOrderPage = pathName.startsWith('/my/order');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage;
   const isHeaderShadow = !isDetailPage && !isOrderCompletePage && !isMyOrderPage && !isMyReviewPage && !isCartPage;
   const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage;
-  const isFloatingButton = !isOrderPage && !isReviewPage;
+  const isFloatingButton = !isOrderPage && !isReviewPage && !isMyPage && !isCartPage;
 
   const isFetching = useIsFetching();
   const FetchingSpinner = dynamic(() => import('@/components/layout/fetching-spinner'), { ssr: false });
