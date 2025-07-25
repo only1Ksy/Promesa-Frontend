@@ -86,7 +86,9 @@ export default function MyOrderModal() {
             <div className="flex flex-col gap-3">
               <div className="text-subhead flex items-center justify-between">
                 <span className="font-medium">총 결제 금액</span>
-                <span className="text-orange font-bold">{(order.summary.totalAmount + 3000).toLocaleString()}원</span>
+                <span className="text-orange font-bold">
+                  {(order.summary.totalAmount + order.delivery.deliveryFee).toLocaleString()}원
+                </span>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
@@ -95,7 +97,7 @@ export default function MyOrderModal() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span>배송비</span>
-                  <span>+3,000원</span>
+                  <span>+{order.delivery.deliveryFee}원</span>
                 </div>
               </div>
             </div>

@@ -37,6 +37,7 @@ export interface OrderResponseSchema {
     zipCode: string;
     address: string;
     addressDetail: string;
+    deliveryFee: number;
   };
   items: Array<{
     itemId: number;
