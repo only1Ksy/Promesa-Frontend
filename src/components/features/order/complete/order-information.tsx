@@ -1,11 +1,30 @@
 'use client';
 
 import CopyIcon from '@/public/icons/layout/copy.svg';
+import { OrderResponseSchema } from '@/types/order-controllet';
 
-export default function OrderInformation() {
+interface OrderInformationProps {
+  order: OrderResponseSchema;
+}
+
+export default function OrderInformation({ order }: OrderInformationProps) {
   const copyClipBoard = async (text: string) => {
     await navigator.clipboard.writeText(text);
   };
+
+  const date = new Date(order.deposit.depositDeadline);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  let hour = date.getHours();
+
+  const isAM = hour < 12;
+  const ampm = isAM ? '오전' : '오후';
+
+  if (!isAM && hour > 12) hour -= 12;
+  if (hour === 0) hour = 12;
 
   return (
     <div className="flex w-full flex-col items-end gap-2">
@@ -14,18 +33,22 @@ export default function OrderInformation() {
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">주문 상품</span>
-            <span className="text-body-02 font-medium">빈티지 블랙 높은 잔 세트</span>
+            <span className="text-body-02 font-medium">
+              {order.summary.totalQuantity > 1
+                ? `${order.items[0].itemName} 외 ${order.summary.totalQuantity - 1}건`
+                : order.items[0].itemName}
+            </span>
           </div>
           <div className="flex items-start justify-between">
             <span className="text-body-02 font-bold">배송지</span>
             <div className="flex flex-col text-right">
-              <p className="text-body-02 font-medium">서울특별시 서대문구 연세로</p>
-              <p className="text-body-02 font-medium">제 4공학관 A567호</p>
+              <p className="text-body-02 font-medium">{order.delivery.address}</p>
+              <p className="text-body-02 font-medium">{order.delivery.addressDetail}</p>
             </div>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">결제 금액</span>
-            <span className="text-body-02 font-medium">165,000원</span>
+            <span className="text-body-02 font-medium">{order.summary.totalAmount.toLocaleString()}원</span>
           </div>
         </div>
         <hr
@@ -40,28 +63,30 @@ export default function OrderInformation() {
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">은행명</span>
-            <span className="text-body-02 font-bold">신한은행</span>
+            <span className="text-body-02 font-bold">{order.deposit.bankName}</span>
           </div>
           <div className="flex items-start justify-between">
             <span className="text-body-02 font-bold">예금주</span>
-            <span className="text-body-02 font-medium">이호영</span>
+            <span className="text-body-02 font-medium">{order.deposit.depositorName}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">계좌번호</span>
             <div className="flex items-center gap-2">
-              <button className="cursor-pointer" onClick={() => copyClipBoard('110-123-456789')}>
+              <button className="cursor-pointer" onClick={() => copyClipBoard(order.deposit.accountNumber)}>
                 <CopyIcon width={16} height={16} />
               </button>
-              <span className="text-body-02 font-medium">110-123-456789</span>
+              <span className="text-body-02 font-medium">{order.deposit.accountNumber}</span>
             </div>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">입금 금액</span>
-            <span className="text-body-02 font-medium">165,000원</span>
+            <span className="text-body-02 font-medium">{order.summary.totalAmount}원</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">입금 기한</span>
-            <span className="text-body-02 text-orange font-medium">2025년 6월 27일 오후 8시까지</span>
+            <span className="text-body-02 text-orange font-medium">
+              `${year}년 ${month}월 ${day}일 ${ampm} ${hour}시까지`
+            </span>
           </div>
         </div>
       </div>
