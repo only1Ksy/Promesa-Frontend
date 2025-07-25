@@ -23,6 +23,7 @@ interface OrderStore {
   updateDelivery: (key: keyof DeliveryForm, value: string | boolean) => void;
   updatePayment: (key: keyof PayForm, value: string) => void;
   resetForm: () => void;
+  resetDelivery: () => void;
 }
 
 const defaultState: OrderStore['delivery'] = {
@@ -48,4 +49,11 @@ export const useOrderStore = create<OrderStore>((set) => ({
   updateDelivery: (key, value) => set((state) => ({ delivery: { ...state.delivery, [key]: value } })),
   updatePayment: (key, value) => set((state) => ({ payment: { ...state.payment, [key]: value } })),
   resetForm: () => set({ delivery: { ...defaultState }, payment: { ...defaultPayState } }),
+  resetDelivery: () =>
+    set(() => ({
+      delivery: {
+        ...defaultState,
+        deliveryType: 'new',
+      },
+    })),
 }));

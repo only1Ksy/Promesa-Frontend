@@ -15,6 +15,7 @@ import OrderedProductList from '@/components/features/order/ordered-product-list
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
 import { useOrderStore } from '@/lib/store/order-information-store';
+// import { fetchDefaultAddress } from '@/services/api/address-controller';
 import { fetchItemDetail } from '@/services/api/item-controller';
 import { postOrder } from '@/services/api/order-controller';
 import { postDefaultAddress } from '@/services/api/order-controller';
@@ -98,13 +99,22 @@ export default function ClientOrderItemPage() {
 
     // 기본 배송지 저장 호출
     if (delivery.isDefault) {
-      postDefaultAddress(
-        delivery.name,
-        delivery.postcode,
-        delivery.address,
-        delivery.addressDetail,
-        `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
-      );
+      try {
+        const saved = await postDefaultAddress(
+          delivery.name,
+          delivery.postcode,
+          delivery.address,
+          delivery.addressDetail,
+          `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
+        );
+        console.log('✅ 기본 배송지 저장 성공:', saved);
+
+        // 필요하다면 여기서 fetchDefaultAddress()로 다시 불러올 수도 있음
+      } catch (error) {
+        console.error('❌ 기본 배송지 저장 실패:', error);
+        alert('기본 배송지 저장에 실패했습니다. 다시 시도해주세요.');
+        return;
+      }
     }
 
     // 주문 호출

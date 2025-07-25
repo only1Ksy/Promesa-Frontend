@@ -1,8 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
 import clsx from 'clsx';
 
 import { useOrderStore } from '@/lib/store/order-information-store';
+import { fetchDefaultAddress } from '@/services/api/address-controller';
+import { AddressSchema } from '@/types/address-controller';
 
 // import { fetchDefaultAddress } from '@/services/api/address-controller';
 import OrderDropdown from './order-dropdown';
@@ -10,8 +13,33 @@ import OrderDropdown from './order-dropdown';
 export default function DeliveryForm() {
   const delivery = useOrderStore((state) => state.delivery);
   const updateDelivery = useOrderStore((state) => state.updateDelivery);
+  const resetDelivery = useOrderStore((state) => state.resetDelivery);
 
-  // const defaultAddress = fetchDefaultAddress();
+  useEffect(() => {
+    const loadDefault = async () => {
+      if (delivery.deliveryType === 'recent') {
+        try {
+          const defaultAddress: AddressSchema = await fetchDefaultAddress();
+          updateDelivery('name', defaultAddress.recipientName);
+          updateDelivery('postcode', defaultAddress.zipCode);
+          updateDelivery('address', defaultAddress.addressMain);
+          updateDelivery('addressDetail', defaultAddress.addressDetails);
+
+          // 전화번호 분리
+          const [phone1, phone2, phone3] = defaultAddress.recipientPhone.split('-');
+          updateDelivery('phone1', phone1);
+          updateDelivery('phone2', phone2);
+          updateDelivery('phone3', phone3);
+        } catch (error) {
+          console.error('기본 배송지 불러오기 실패:', error);
+        }
+      } else if (delivery.deliveryType === 'new') {
+        resetDelivery();
+      }
+    };
+
+    loadDefault();
+  }, [delivery.deliveryType]);
 
   const openAddressSearch = () => {
     if (typeof window === 'undefined' || !window.daum?.Postcode) return;
