@@ -27,20 +27,36 @@ export default function Header({ shadow }: HeaderProps) {
 
   const isArtistPage = pathname.startsWith('/artist');
   const isDetailPage = pathname.startsWith('/detail');
-  const isMyPage = pathname.startsWith('/my');
+  const isMyOrderPage = pathname.startsWith('/my/order');
+  const isMyReviewWritePage = pathname.startsWith('/my/review/write');
+  const isMyReviewPage = pathname.startsWith('/my/review') && !isMyReviewWritePage;
+  const isMyPage = pathname.startsWith('/my') && !isMyOrderPage && !isMyReviewWritePage;
   const isOrderPage = pathname.startsWith('/order');
   const isOrderCompletePage = pathname.startsWith('/order/complete');
-  const isReviewPage = pathname.includes('/review');
+  const isReviewPage = pathname.includes('/review') && !isMyReviewWritePage;
   const isShopPage = pathname.startsWith('/shop');
+  const isCartPage = pathname.startsWith('/cart');
 
-  const isBack = isArtistPage || isDetailPage || isMyPage || isOrderPage || isReviewPage;
+  const isBack =
+    isArtistPage ||
+    isDetailPage ||
+    isMyPage ||
+    isOrderPage ||
+    isReviewPage ||
+    isMyReviewPage ||
+    isMyReviewWritePage ||
+    isMyOrderPage ||
+    isCartPage;
 
   const reviewMode = searchParams.get('mode');
+  const orderId = searchParams.get('id');
+
+  const isMyOrderDetailPage = isMyOrderPage && orderId !== null;
 
   const EmptyDiv = () => <div className="h-7.5 w-7.5" />;
 
   const LeftIcon = () => {
-    if (isAuthPage || isOrderCompletePage) return <EmptyDiv />;
+    if (isAuthPage || isOrderCompletePage || isMyOrderDetailPage) return <EmptyDiv />;
     else if (isBack) return <BackButton />;
     else return <HamburgerButton />;
   };
@@ -55,6 +71,12 @@ export default function Header({ shadow }: HeaderProps) {
         </span>
       );
     else if (isMyPage) return <span className="text-subhead text-grey-9 font-medium">마이페이지</span>;
+    else if (isMyOrderPage && !isMyOrderDetailPage)
+      return <span className="text-subhead text-grey-9 font-medium">주문 내역 조회</span>;
+    else if (isMyOrderDetailPage) return <span className="text-subhead text-grey-9 font-medium">주문 상세</span>;
+    else if (isMyReviewWritePage) return <span className="text-subhead text-grey-9 font-medium">리뷰 작성</span>;
+    else if (isMyReviewPage) return <span className="text-subhead text-grey-9 font-medium">리뷰</span>;
+    else if (isCartPage) return <span className="text-subhead text-grey-9 font-medium">장바구니</span>;
     else
       return (
         <Link href="/">
@@ -66,7 +88,7 @@ export default function Header({ shadow }: HeaderProps) {
   const RightHeader = () => {
     const FirstIcon = () => (isShopPage ? <SearchIcon className="text-grey-9" /> : <EmptyDiv />);
     const SecondIcon = () =>
-      isAuthPage || isMyPage || isOrderPage ? (
+      isAuthPage || isMyPage || isOrderPage || isMyOrderPage || isMyReviewWritePage || isMyReviewPage || isCartPage ? (
         <EmptyDiv />
       ) : (
         <Link href="/my">
@@ -74,7 +96,7 @@ export default function Header({ shadow }: HeaderProps) {
         </Link>
       );
     const ThirdIcon = () => {
-      if (isLoginPage)
+      if (isLoginPage || isMyOrderDetailPage)
         return (
           <button
             onClick={() => {
@@ -86,10 +108,17 @@ export default function Header({ shadow }: HeaderProps) {
             }}
             className="flex cursor-pointer items-center justify-center"
           >
-            <CloseIcon className="text-grey-9" />
+            <CloseIcon width={30} height={30} className="text-grey-9" />
           </button>
         );
-      else if (isLogoutPage || isOrderPage) return <EmptyDiv />;
+      else if (
+        isLogoutPage ||
+        isOrderPage ||
+        (isMyOrderPage && !isMyOrderDetailPage) ||
+        isMyReviewWritePage ||
+        isCartPage
+      )
+        return <EmptyDiv />;
       else return <CartButton />;
     };
 

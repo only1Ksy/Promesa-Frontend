@@ -35,8 +35,8 @@ export default function ClientOrderCompletePage({ orderId, orderDetailState }: C
 
   return (
     <HydrationBoundary state={orderDetailState}>
-      <div className="flex w-full justify-center p-5">
-        <div className="flex min-h-180 w-90.5 flex-col items-center gap-15">
+      <div className="flex w-full justify-center p-5" style={{ minHeight: 'calc(100vh - 130px)' }}>
+        <div className="flex w-90.5 flex-col items-center gap-15">
           {/* 상단 아이콘 */}
           <div className="flex w-full flex-col items-center justify-center px-5.5 text-center">
             <Lottie loop={false} animationData={orderCompletedJson} play={play} style={{ width: 103, height: 84.67 }} />

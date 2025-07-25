@@ -25,13 +25,15 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
 
   const isCartPage = pathName.startsWith('/cart');
   const isDetailPage = pathName.startsWith('/detail');
-  const isOrderPage = pathName.startsWith('/order');
   const isOrderCompletePage = pathName.startsWith('/order/complete');
+  const isOrderPage = pathName.startsWith('/order');
   const isReviewPage = pathName.startsWith('/review') || pathName.startsWith('/my/review/write');
+  const isMyReviewPage = pathName.startsWith('/my/review');
+  const isMyOrderPage = pathName.startsWith('/my/order');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage;
-  const isHeaderShadow = !isDetailPage && !isOrderCompletePage;
-  const isFooter = !isOrderPage && !isReviewPage;
+  const isHeaderShadow = !isDetailPage && !isOrderCompletePage && !isMyOrderPage && !isMyReviewPage && !isCartPage;
+  const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage;
   const isFloatingButton = !isOrderPage && !isReviewPage;
 
   const isFetching = useIsFetching();
@@ -70,8 +72,10 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
           <div className="pb-21">
             <Footer />
           </div>
-        ) : (
+        ) : isFooter ? (
           <Footer />
+        ) : (
+          <></>
         )}
         {isFloatingButton && <FloatingButton />}
       </BottomFixedBarTargetContext.Provider>
