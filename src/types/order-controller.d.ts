@@ -59,3 +59,21 @@ export interface OrderResponseSchema {
     quantity: number;
   }>;
 }
+
+export interface OrderSummary {
+  orderId: number;
+  orderDate: string;
+  orderStatus: 'WAITING_FOR_PAYMENT' | 'PAID' | 'CANCELLED' | string;
+  totalAmount: number;
+  totalQuantity: number;
+  itemThumbnail: string;
+  itemName: string;
+  buyerName: string;
+  buyerPhone: string;
+  deliveryExpectedDate: string;
+  deliveryStartDate: string;
+  deliveryCompletedDate: string;
+  deliveryStatus: 'READY' | 'SHIPPING' | 'DELIVERED' | string;
+}
+
+export type OrdersResponseSchema = OrderSummary[];

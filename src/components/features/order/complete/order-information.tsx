@@ -89,7 +89,7 @@ export default function OrderInformation({ order }: OrderInformationProps) {
           <div className="flex items-center justify-between">
             <span className="text-body-02 font-bold">입금 기한</span>
             <span className="text-body-02 text-orange font-medium">
-              `${year}년 ${month}월 ${day}일 ${ampm} ${hour}시까지`
+              {year}년 {month}월 {day}일 {ampm} {hour}시까지
             </span>
           </div>
         </div>

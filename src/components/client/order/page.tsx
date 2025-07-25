@@ -132,7 +132,7 @@ export default function ClientOrderItemPage() {
 
       // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
       alert(`주문이 완료되었습니다! 주문번호: ${result.summary.orderId}`);
-      router.push(`complete/${result.summary.orderId}`);
+      router.push(`order/complete/${result.summary.orderId}`);
     } catch (err) {
       console.error('주문 실패:', err);
       alert('주문 중 문제가 발생했습니다. 다시 시도해주세요.');
