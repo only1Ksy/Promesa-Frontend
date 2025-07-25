@@ -1,5 +1,5 @@
 import { AddressSchema } from '@/types/address-controller';
-import { OrderRequestSchema, OrderResponseSchema } from '@/types/order-controllet';
+import { OrderRequestSchema, OrderResponseSchema } from '@/types/order-controller';
 
 import { withErrorBoundary } from './axios/instance';
 import { axiosInstance } from './axios/instance';

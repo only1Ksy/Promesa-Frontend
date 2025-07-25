@@ -1,7 +1,7 @@
 'use client';
 
 import CopyIcon from '@/public/icons/layout/copy.svg';
-import { OrderResponseSchema } from '@/types/order-controllet';
+import { OrderResponseSchema } from '@/types/order-controller';
 
 interface OrderInformationProps {
   order: OrderResponseSchema;
