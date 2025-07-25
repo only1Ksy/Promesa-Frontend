@@ -1,30 +1,37 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 
 import Header from '@/components/layout/header';
+import { formatKoreanDateTime } from '@/lib/utils/date-format';
+import { getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
+import { fetchDetailedOrder } from '@/services/api/order-controller';
 
 import MyOrderCard from './my-order-card';
 
 export default function MyOrderModal() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('id');
+  const orderId = Number(searchParams.get('id'));
 
-  if (!orderId) return null;
+  const { data: order, isLoading } = useQuery({
+    enabled: !!orderId,
+    queryKey: ['orderDetail', orderId],
+    queryFn: () => fetchDetailedOrder(orderId),
+    select: (res) => res,
+  });
 
-  const TEMP_ORDER = {
-    date: '2025.08.08',
-    status: '배송중',
-    shipComment: '8/5 (금) 도착 예정',
-    url: '/src/image',
-    title: '반짝반짝 도자기',
-    price: 25000,
-    itemCount: 1,
-    orderId: { orderId },
-    name: '김서연',
-    phone: '010 - 1234 - 5678',
-  };
+  if (!orderId || !order || isLoading) return null;
+
+  const statusText = getOrderStatusText(order.summary.orderStatus, order.summary.deliveryStatus);
+  const shipComment = getShipComment(
+    order.summary.deliveryStatus,
+    order.summary.deliveryExpectedDate,
+    order.summary.deliveryCompletedDate,
+  );
+  // 날짜 계산
+  const { year, month, day } = formatKoreanDateTime(order.summary.orderDate);
 
   return (
     <motion.div
@@ -38,16 +45,22 @@ export default function MyOrderModal() {
       <div className="flex flex-col gap-3 pt-11.5">
         <div className="flex items-center gap-2.5 px-5 pt-5">
           <span className="text-headline-05">주문상품정보</span>
-          <span className="text-body-01 text-grey-5 font-medium">{TEMP_ORDER.date}</span>
+          <span className="text-body-01 text-grey-5 font-medium">
+            {String(year)}.{String(month).padStart(2, '0')}.{String(day).padStart(2, '0')}
+          </span>
         </div>
         <div className="flex flex-col items-center gap-6">
           <MyOrderCard
-            status={TEMP_ORDER.status}
-            shipComment={TEMP_ORDER.shipComment}
-            url={TEMP_ORDER.url}
-            title={TEMP_ORDER.title}
-            price={TEMP_ORDER.price}
-            itemCount={TEMP_ORDER.itemCount}
+            status={statusText}
+            shipComment={shipComment}
+            url={order.summary.itemThumbnail}
+            title={
+              order.items.length > 1
+                ? `${order.items[0].itemName} 외 ${order.items.length - 1}건`
+                : order.items[0].itemName
+            }
+            price={order.items[0].price}
+            itemCount={order.items[0].quantity}
           />
 
           <div className="bg-green h-[1px] w-90.5" />
@@ -57,11 +70,11 @@ export default function MyOrderModal() {
             <div className="text-body-01 flex flex-col gap-3 font-medium">
               <div className="flex items-center justify-between">
                 <span>구매자</span>
-                <span>{TEMP_ORDER.name}</span>
+                <span>{order.delivery.receiverName}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span>휴대전화</span>
-                <span>{TEMP_ORDER.phone}</span>
+                <span>{order.delivery.receiverPhone}</span>
               </div>
             </div>
           </div>
@@ -73,12 +86,12 @@ export default function MyOrderModal() {
             <div className="flex flex-col gap-3">
               <div className="text-subhead flex items-center justify-between">
                 <span className="font-medium">총 결제 금액</span>
-                <span className="text-orange font-bold">{(TEMP_ORDER.price + 3000).toLocaleString()}원</span>
+                <span className="text-orange font-bold">{(order.summary.totalAmount + 3000).toLocaleString()}원</span>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>총 상품 금액</span>
-                  <span>{TEMP_ORDER.price.toLocaleString()}원</span>
+                  <span>{order.summary.totalAmount.toLocaleString()}원</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>배송비</span>

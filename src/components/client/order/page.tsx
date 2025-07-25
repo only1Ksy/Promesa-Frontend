@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
@@ -20,6 +21,7 @@ import { postDefaultAddress } from '@/services/api/order-controller';
 
 export default function ClientOrderItemPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const { delivery, payment } = useOrderStore();
 
   const params = useMemo(
@@ -96,13 +98,22 @@ export default function ClientOrderItemPage() {
 
     // 기본 배송지 저장 호출
     if (delivery.isDefault) {
-      postDefaultAddress(
-        delivery.name,
-        delivery.postcode,
-        delivery.address,
-        delivery.addressDetail,
-        `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
-      );
+      try {
+        const saved = await postDefaultAddress(
+          delivery.name,
+          delivery.postcode,
+          delivery.address,
+          delivery.addressDetail,
+          `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
+        );
+        console.log('✅ 기본 배송지 저장 성공:', saved);
+
+        // 필요하다면 여기서 fetchDefaultAddress()로 다시 불러올 수도 있음
+      } catch (error) {
+        console.error('❌ 기본 배송지 저장 실패:', error);
+        alert('기본 배송지 저장에 실패했습니다. 다시 시도해주세요.');
+        return;
+      }
     }
 
     // 주문 호출
@@ -122,6 +133,7 @@ export default function ClientOrderItemPage() {
         depositorName: payment.depositor,
       },
     };
+    console.log(JSON.stringify(orderData, null, 2));
 
     try {
       const result = await postOrder(orderData);
@@ -129,6 +141,7 @@ export default function ClientOrderItemPage() {
 
       // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
       alert(`주문이 완료되었습니다! 주문번호: ${result.summary.orderId}`);
+      router.push(`order/complete/${result.summary.orderId}`);
     } catch (err) {
       console.error('주문 실패:', err);
       alert('주문 중 문제가 발생했습니다. 다시 시도해주세요.');

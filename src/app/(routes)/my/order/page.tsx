@@ -1,5 +1,19 @@
-import ClientMyOrderPage from '@/components/client/my/order/page';
+import { dehydrate } from '@tanstack/react-query';
 
-export default function MyOrderPage() {
-  return <ClientMyOrderPage />;
+import ClientMyOrderPage from '@/components/client/my/order/page';
+import { fetchOrders } from '@/services/api/order-controller';
+import { createQueryClient } from '@/services/query/server';
+
+export default async function MyOrderPage() {
+  const queryClient = createQueryClient();
+
+  // 주문 정보 prefetch
+  await queryClient.prefetchQuery({
+    queryKey: ['orders'],
+    queryFn: () => fetchOrders(),
+  });
+
+  const dehydratedState = dehydrate(queryClient);
+
+  return <ClientMyOrderPage ordersState={dehydratedState} />;
 }
