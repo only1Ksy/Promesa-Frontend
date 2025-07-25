@@ -16,6 +16,7 @@ export default function MyOrderModal() {
   const orderId = Number(searchParams.get('id'));
 
   const { data: order, isLoading } = useQuery({
+    enabled: !!orderId,
     queryKey: ['orderDetail', orderId],
     queryFn: () => fetchDetailedOrder(orderId),
     select: (res) => res,
