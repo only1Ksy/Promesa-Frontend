@@ -37,3 +37,10 @@ export const postOrder = (orderData: OrderRequestSchema) =>
     const res = await axiosInstance.post('/orders', orderData);
     return res.data.data;
   }, orderData);
+
+/** orderId를 전달하면 주문내역 상세조회 결과를 반환하는 함수 */
+export const fetchDetailedOrder = (orderId: number) =>
+  withErrorBoundary<[number], OrderResponseSchema>(async (orderId) => {
+    const res = await axiosInstance.get(`/orders/${orderId}`);
+    return res.data.data;
+  }, orderId);
