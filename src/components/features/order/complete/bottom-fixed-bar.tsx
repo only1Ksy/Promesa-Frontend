@@ -8,14 +8,16 @@ export default function BottomFixedBar() {
       <Link href={'/my/order'}>
         <button
           className={clsx(
-            'text-body-01 bg-pale-green border-grey-9 text-grey-9 w-44 cursor-pointer rounded-xs border py-2 font-bold',
+            'text-body-01 bg-pale-green border-grey-9 text-grey-9 h-14 w-44 cursor-pointer rounded-xs border py-2 font-bold',
           )}
         >
           주문 확인하기
         </button>
       </Link>
       <Link href="/shop?sort=wishCount,desc">
-        <button className={clsx('text-body-01 bg-grey-9 text-grey-1 w-44 cursor-pointer rounded-xs py-2 font-bold')}>
+        <button
+          className={clsx('text-body-01 bg-grey-9 text-grey-1 h-14 w-44 cursor-pointer rounded-xs py-2 font-bold')}
+        >
           쇼핑 계속하기
         </button>
       </Link>
