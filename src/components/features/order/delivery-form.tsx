@@ -143,7 +143,8 @@ export default function DeliveryForm() {
               <OrderDropdown items={phoneList} onSelect={handleSelect} width="w-64" />
               -
               <input
-                type="text"
+                type="tel"
+                inputMode="numeric"
                 maxLength={4}
                 value={delivery.phone2}
                 onChange={(e) => updateDelivery('phone2', e.target.value)}
@@ -152,7 +153,8 @@ export default function DeliveryForm() {
               />
               -
               <input
-                type="text"
+                type="tel"
+                inputMode="numeric"
                 maxLength={4}
                 value={delivery.phone3}
                 onChange={(e) => updateDelivery('phone3', e.target.value)}
