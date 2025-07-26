@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { useDeleteCartItem, usePatchCartItem } from '@/hooks/use-cart';
 import CloseIcon from '@/public/icons/layout/close.svg';
 import { CartSchema } from '@/types/cart-controller';
 
@@ -13,17 +14,28 @@ interface CartProductCardProps {
 export default function CartProductCard({ product }: CartProductCardProps) {
   const [quantity, setQuantity] = useState(product.quantity);
 
+  const { mutate: patchCarts } = usePatchCartItem();
+  const { mutate: deleteCarts } = useDeleteCartItem();
+
   // 수량 조절
   const itemCount = product.quantity;
   // !!! 수정 필요
   const isSoldOut = product.quantity < 1;
 
   const handleQuantityDecrease = () => {
-    if (quantity > 1) setQuantity((prev) => prev - 1);
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      patchCarts({ itemId: product.itemId, quantity: newQuantity });
+    }
   };
 
   const handleQuantityIncrease = () => {
-    if (quantity < itemCount) setQuantity((prev) => prev + 1);
+    if (quantity < itemCount) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      patchCarts({ itemId: product.itemId, quantity: newQuantity });
+    }
   };
 
   return (
@@ -36,7 +48,7 @@ export default function CartProductCard({ product }: CartProductCardProps) {
           <div className="flex w-full flex-col gap-1">
             <div className="flex w-full items-center justify-between">
               <span className="text-grey-9 text-body-01 font-bold overflow-ellipsis">{product.name}</span>
-              <button>
+              <button onClick={() => deleteCarts(product.itemId)}>
                 <CloseIcon width={20} height={20} />
               </button>
             </div>
