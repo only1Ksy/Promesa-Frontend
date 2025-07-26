@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import Header from '@/components/layout/header';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import { getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
+import CopyIcon from '@/public/icons/layout/copy.svg';
 import { fetchDetailedOrder } from '@/services/api/order-controller';
 
 import MyOrderCard from './my-order-card';
@@ -30,8 +31,23 @@ export default function MyOrderModal() {
     order.summary.deliveryExpectedDate,
     order.summary.deliveryCompletedDate,
   );
+
   // 날짜 계산
   const { year, month, day } = formatKoreanDateTime(order.summary.orderDate);
+  const {
+    year: depositYear,
+    month: depositMonth,
+    day: depositDay,
+    ampm: depositAmpm,
+    hour: depositHour,
+  } = formatKoreanDateTime(order.deposit.depositDeadline);
+
+  // 계좌 포매팅
+  const [bankName, accountNumber] = order.deposit.bankName.split(' ');
+
+  const copyClipBoard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+  };
 
   return (
     <motion.div
@@ -95,9 +111,23 @@ export default function MyOrderModal() {
                   <span>총 상품 금액</span>
                   <span>{order.summary.totalAmount.toLocaleString()}원</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span>배송비</span>
-                  <span>+{order.delivery.deliveryFee}원</span>
+                <div className="flex flex-col gap-3.5">
+                  <div className="flex items-center justify-between">
+                    <span>배송비</span>
+                    <span>+{order.delivery.deliveryFee.toLocaleString()}원</span>
+                  </div>
+                  <div className="text-grey-6 text-caption-01 flex flex-col gap-2.5 font-medium">
+                    <span className="flex items-center gap-0.5">
+                      입금통장: {`${bankName} ${accountNumber}`}
+                      <button className="cursor-pointer" onClick={() => copyClipBoard(accountNumber)}>
+                        <CopyIcon width={16} height={16} />
+                      </button>
+                    </span>
+                    <span>
+                      입금기한:
+                      {` ${depositYear}년 ${depositMonth}월 ${depositDay}일 ${depositAmpm} ${depositHour}시까지`}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
