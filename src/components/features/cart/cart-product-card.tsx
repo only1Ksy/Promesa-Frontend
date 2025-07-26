@@ -3,51 +3,56 @@
 import { useState } from 'react';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { useDeleteCartItem, usePatchCartItem } from '@/hooks/use-cart';
 import CloseIcon from '@/public/icons/layout/close.svg';
-
-interface Product {
-  url: string;
-  title: string;
-  ArtistName: string;
-  currentNum: number;
-  stock: number;
-  price: number;
-}
+import { CartSchema } from '@/types/cart-controller';
 
 interface CartProductCardProps {
-  product: Product;
+  product: CartSchema;
 }
 
 export default function CartProductCard({ product }: CartProductCardProps) {
-  const [quantity, setQuantity] = useState(product.stock);
+  const [quantity, setQuantity] = useState(product.quantity);
+
+  const { mutate: patchCarts } = usePatchCartItem();
+  const { mutate: deleteCarts } = useDeleteCartItem();
 
   // 수량 조절
-  const itemCount = product.stock;
-  const isSoldOut = product.stock < 1;
+  const itemCount = product.quantity;
+  // !!! 수정 필요
+  const isSoldOut = product.quantity < 1;
 
   const handleQuantityDecrease = () => {
-    if (quantity > 1) setQuantity((prev) => prev - 1);
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      patchCarts({ itemId: product.itemId, quantity: newQuantity });
+    }
   };
 
   const handleQuantityIncrease = () => {
-    if (quantity < itemCount) setQuantity((prev) => prev + 1);
+    if (quantity < itemCount) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      patchCarts({ itemId: product.itemId, quantity: newQuantity });
+    }
   };
 
   return (
     <div className="flex gap-4">
       <div className="h-35 w-28">
-        <ImageWithEffect alt="장바구니 미리보기 이미지" fill src={product.url} />
+        <ImageWithEffect alt="장바구니 미리보기 이미지" fill src={product.thumbnailUrl} />
       </div>
       <div className="flex h-35 w-58.5 flex-col justify-between">
         <div className="flex justify-between">
           <div className="flex w-full flex-col gap-1">
             <div className="flex w-full items-center justify-between">
-              <span className="text-grey-9 text-body-01 font-bold overflow-ellipsis">{product.title}</span>
-              <button>
+              <span className="text-grey-9 text-body-01 font-bold overflow-ellipsis">{product.name}</span>
+              <button onClick={() => deleteCarts(product.itemId)} className="cursor-pointer">
                 <CloseIcon width={20} height={20} />
               </button>
             </div>
-            <span className="text-body-02 text-grey-6 font-medium">{product.ArtistName}</span>
+            <span className="text-body-02 text-grey-6 font-medium">{product.artistName}</span>
           </div>
         </div>
         <div className="flex justify-between">
@@ -72,7 +77,9 @@ export default function CartProductCard({ product }: CartProductCardProps) {
           ) : (
             <div className="text-subhead text-grey-9 ml-5 flex items-center font-medium opacity-40">품절</div>
           )}
-          <span className="text-grey-9 text-body-01 font-medium">{(product.price * itemCount).toLocaleString()}원</span>
+          <span className="text-grey-9 text-body-01 font-medium">
+            {(product.price * product.quantity).toLocaleString()}원
+          </span>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
+import { usePostCartItem } from '@/hooks/use-cart';
 import { ParsedItemData } from '@/types/item-controller';
 
 interface BottomFixedModalProps {
@@ -20,6 +21,8 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
   const [quantity, setQuantity] = useState(1);
 
   const router = useRouter();
+
+  const { mutate: postCarts } = usePostCartItem();
 
   useEffect(() => {
     setMounted(true);
@@ -51,6 +54,12 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
     });
 
     router.push(`/order?${query.toString()}`);
+  };
+
+  // 장바구니에 넣기
+  const onCartClicked = () => {
+    postCarts({ itemId: item.itemId, quantity });
+    // alert 모달
   };
 
   // 수량 조절
@@ -132,6 +141,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
             <div className="flex items-center gap-2 self-stretch">
               <button
                 disabled={isSoldOut}
+                onClick={onCartClicked}
                 className={clsx(
                   'text-body-01 border-grey-9 flex h-12 w-59 items-center justify-center rounded-xs border font-bold',
                   isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
