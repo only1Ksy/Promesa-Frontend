@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 import { useOrderStore } from '@/lib/store/order-information-store';
+import CloseIcon from '@/public/icons/layout/close.svg';
 import { fetchDefaultAddress } from '@/services/api/address-controller';
 import { AddressSchema } from '@/types/address-controller';
 
@@ -11,6 +12,8 @@ import { AddressSchema } from '@/types/address-controller';
 import OrderDropdown from './order-dropdown';
 
 export default function DeliveryForm() {
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+
   const delivery = useOrderStore((state) => state.delivery);
   const updateDelivery = useOrderStore((state) => state.updateDelivery);
   const resetDelivery = useOrderStore((state) => state.resetDelivery);
@@ -42,14 +45,21 @@ export default function DeliveryForm() {
   }, [delivery.deliveryType]);
 
   const openAddressSearch = () => {
-    if (typeof window === 'undefined' || !window.daum?.Postcode) return;
+    setIsPostcodeOpen(true);
 
-    new window.daum.Postcode({
-      oncomplete: (data) => {
-        updateDelivery('postcode', data.zonecode);
-        updateDelivery('address', data.address);
-      },
-    }).open();
+    setTimeout(() => {
+      const postcode = new window.daum.Postcode({
+        oncomplete: (data: { zonecode: string; address: string }) => {
+          updateDelivery('postcode', data.zonecode);
+          updateDelivery('address', data.address);
+          setIsPostcodeOpen(false);
+        },
+      });
+
+      (postcode as unknown as { embed: (el: HTMLElement) => void }).embed(
+        document.getElementById('postcode-embed-container') as HTMLElement,
+      );
+    }, 0);
   };
 
   const handleSelect = (value: string) => {
@@ -121,6 +131,26 @@ export default function DeliveryForm() {
                 우편번호 검색
               </button>
             </div>
+            {isPostcodeOpen && (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsPostcodeOpen(false)}
+                  className="absolute right-1.25 bottom-[-70] z-55 cursor-pointer"
+                >
+                  <CloseIcon width={20} height={20} />
+                </button>
+                <div
+                  id="postcode-embed-container"
+                  style={{
+                    transform: 'scale(0.725)',
+                    transformOrigin: 'top left',
+                    overflow: 'hidden',
+                  }}
+                  className="absolute z-50 mt-2 shadow-lg"
+                />
+              </div>
+            )}
             <input
               type="text"
               value={delivery.address}
@@ -143,8 +173,7 @@ export default function DeliveryForm() {
               <OrderDropdown items={phoneList} onSelect={handleSelect} width="w-64" />
               -
               <input
-                type="tel"
-                inputMode="numeric"
+                type="text"
                 maxLength={4}
                 value={delivery.phone2}
                 onChange={(e) => updateDelivery('phone2', e.target.value)}
@@ -153,8 +182,7 @@ export default function DeliveryForm() {
               />
               -
               <input
-                type="tel"
-                inputMode="numeric"
+                type="text"
                 maxLength={4}
                 value={delivery.phone3}
                 onChange={(e) => updateDelivery('phone3', e.target.value)}
