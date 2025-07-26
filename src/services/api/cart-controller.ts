@@ -9,3 +9,9 @@ export const fetchCarts = () =>
     const res = await axiosInstance.get(`/carts`);
     return res.data.data;
   });
+
+/** itemId, quantity를 전달하면 아이템을 장바구니에 추가하는 함수 */
+export const postCarts = async (cartData: CartRequest): Promise<CartResponse> => {
+  const res = await axiosInstance.post('/carts', cartData);
+  return res.data.data;
+};
