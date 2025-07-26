@@ -3,7 +3,7 @@
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import EmptyCard from '@/components/common/empty/empty-card';
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
