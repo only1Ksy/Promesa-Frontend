@@ -48,7 +48,7 @@ export default function CartProductCard({ product }: CartProductCardProps) {
           <div className="flex w-full flex-col gap-1">
             <div className="flex w-full items-center justify-between">
               <span className="text-grey-9 text-body-01 font-bold overflow-ellipsis">{product.name}</span>
-              <button onClick={() => deleteCarts(product.itemId)}>
+              <button onClick={() => deleteCarts(product.itemId)} className="cursor-pointer">
                 <CloseIcon width={20} height={20} />
               </button>
             </div>
