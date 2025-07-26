@@ -77,7 +77,9 @@ export default function CartProductCard({ product }: CartProductCardProps) {
           ) : (
             <div className="text-subhead text-grey-9 ml-5 flex items-center font-medium opacity-40">품절</div>
           )}
-          <span className="text-grey-9 text-body-01 font-medium">{product.price.toLocaleString()}원</span>
+          <span className="text-grey-9 text-body-01 font-medium">
+            {(product.price * product.quantity).toLocaleString()}원
+          </span>
         </div>
       </div>
     </div>

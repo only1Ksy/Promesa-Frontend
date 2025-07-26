@@ -27,7 +27,7 @@ export default function ClientCartPage({ cartsState }: ClientCartPageProps) {
 
   if (!carts || isLoading) return null;
 
-  const totalPrice = carts.reduce((acc, item) => acc + item.price, 0);
+  const totalPrice = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handlePurchase = () => {
     router.push('order?mode=cart');

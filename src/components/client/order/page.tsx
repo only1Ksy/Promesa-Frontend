@@ -15,6 +15,7 @@ import OrderedProductList from '@/components/features/order/ordered-product-list
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
 import { useOrderStore } from '@/lib/store/order-information-store';
+import { fetchCarts } from '@/services/api/cart-controller';
 import { fetchItemDetail } from '@/services/api/item-controller';
 import { postOrder } from '@/services/api/order-controller';
 import { postDefaultAddress } from '@/services/api/order-controller';
@@ -38,27 +39,47 @@ export default function ClientOrderItemPage() {
 
   const [agree, setAgree] = useState<boolean>(false);
 
-  // 다중 아이템일시 여러 번 호출
+  // 단일 아이템, 카트에 따라 분기
   const { data: item } = useQuery({
     queryKey: ['itemDetail', params.itemId],
     queryFn: () => fetchItemDetail(params.itemId),
     select: (res) => res,
+    enabled: !isCartMode,
   });
 
-  if (!item) return null;
+  const { data: carts } = useQuery({
+    queryKey: ['carts'],
+    queryFn: fetchCarts,
+    enabled: isCartMode, // cart일 때만 실행
+  });
 
-  const items = isCartMode
-    ? []
-    : [
-        {
-          imageSrc: item.mainImageUrls[0],
-          artistName: item.artist.name,
-          itemName: item.title,
-          itemNumber: params.itemCount,
-          price: item.price,
-          itemId: params.itemId,
-        },
-      ];
+  const items = useMemo(() => {
+    if (isCartMode) {
+      if (!carts) return [];
+
+      return carts.map((cart) => ({
+        imageSrc: cart.thumbnailUrl,
+        artistName: cart.artistName,
+        itemName: cart.name,
+        itemNumber: cart.quantity,
+        price: cart.price,
+        itemId: cart.itemId,
+      }));
+    }
+
+    if (!item) return [];
+
+    return [
+      {
+        imageSrc: item.mainImageUrls[0],
+        artistName: item.artist.name,
+        itemName: item.title,
+        itemNumber: params.itemCount,
+        price: item.price,
+        itemId: params.itemId,
+      },
+    ];
+  }, [isCartMode, item, params, carts]);
 
   const orderItems = items.map((item) => ({
     itemId: item.itemId,
