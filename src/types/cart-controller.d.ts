@@ -8,4 +8,9 @@ export interface CartSchema {
   thumbnailUrl: string;
 }
 
+export interface CartRequest {
+  itemId: number;
+  quantity: number;
+}
+
 export type CartResponse = CartSchema[];
