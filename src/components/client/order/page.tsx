@@ -24,7 +24,9 @@ import { postDefaultAddress } from '@/services/api/order-controller';
 export default function ClientOrderItemPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const { delivery, payment } = useOrderStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const params = useMemo(
     () => ({
@@ -88,7 +90,10 @@ export default function ClientOrderItemPage() {
   }));
 
   const handlePayClick = async () => {
-    if (!agree) return;
+    if (!agree || isSubmitting) return;
+
+    // 잠금
+    setIsSubmitting(true);
 
     // 유효성 검사 (delivery + payment)
     const deliveryResult = deliverySchema.safeParse(delivery);
@@ -151,6 +156,9 @@ export default function ClientOrderItemPage() {
     } catch (err) {
       console.error('주문 실패:', err);
       alert('주문 중 문제가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      // 잠금 해제
+      setIsSubmitting(false);
     }
   };
 
