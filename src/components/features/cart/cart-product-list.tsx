@@ -1,36 +1,15 @@
+import { CartResponse } from '@/types/cart-controller';
+
 import CartProductCard from './cart-product-card';
 
-export default function CartProductList() {
-  const PRODUCT_TEMP = [
-    {
-      url: 'src/image1',
-      title: 'Cosmos Duvet Cover',
-      ArtistName: '김아람 공방',
-      currentNum: 1,
-      stock: 1,
-      price: 28000,
-    },
-    {
-      url: 'src/image2',
-      title: 'Cosmos Duvet Cover',
-      ArtistName: '김아람 공방',
-      currentNum: 1,
-      stock: 5,
-      price: 28000,
-    },
-    {
-      url: 'src/image3',
-      title: 'Cosmos Duvet Cover',
-      ArtistName: '김아람 공방',
-      currentNum: 1,
-      stock: 5,
-      price: 28000,
-    },
-  ];
+interface CartProductListProps {
+  carts: CartResponse;
+}
 
+export default function CartProductList({ carts }: CartProductListProps) {
   return (
     <div className="flex flex-col items-center gap-5 px-5 pt-5">
-      {PRODUCT_TEMP.map((product, index) => (
+      {carts.map((product, index) => (
         <>
           <div key={index}>
             <CartProductCard product={product} />
