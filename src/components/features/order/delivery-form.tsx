@@ -136,7 +136,7 @@ export default function DeliveryForm() {
                 <button
                   type="button"
                   onClick={() => setIsPostcodeOpen(false)}
-                  className="absolute right-1.25 bottom-[-70] z-55 cursor-pointer"
+                  className="absolute right-1.25 bottom-[-63] z-55 cursor-pointer"
                 >
                   <CloseIcon width={20} height={20} />
                 </button>
@@ -147,7 +147,7 @@ export default function DeliveryForm() {
                     transformOrigin: 'top left',
                     overflow: 'hidden',
                   }}
-                  className="absolute z-50 mt-2 shadow-lg"
+                  className="absolute z-50 shadow-lg"
                 />
               </div>
             )}
