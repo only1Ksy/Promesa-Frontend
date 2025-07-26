@@ -1,5 +1,6 @@
 'use client';
 
+import { BANK_LIST } from '@/lib/constants/order-information';
 import { useOrderStore } from '@/lib/store/order-information-store';
 
 import OrderDropdown from './order-dropdown';
@@ -12,11 +13,7 @@ export default function PayForm() {
     updatePayment('selectedBank', value);
   };
 
-  const bankList = [
-    { label: '은행 선택', value: '' },
-    { label: '신한은행 123-456-789098', value: '신한은행 123-456-789098' },
-    { label: '국민은행 123-456-789098', value: '국민은행 123-456-789098' },
-  ];
+  const bankList = BANK_LIST;
 
   return (
     <section className="border-green flex flex-col gap-3.5 border-b px-5 pb-6.5">

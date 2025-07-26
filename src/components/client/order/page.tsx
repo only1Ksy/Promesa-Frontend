@@ -15,6 +15,7 @@ import OrderedProductList from '@/components/features/order/ordered-product-list
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
 import { useOrderStore } from '@/lib/store/order-information-store';
+import { deliverySchema, paymentSchema } from '@/lib/utils/order-validate';
 import { fetchCarts } from '@/services/api/cart-controller';
 import { fetchItemDetail } from '@/services/api/item-controller';
 import { postOrder } from '@/services/api/order-controller';
@@ -23,7 +24,9 @@ import { postDefaultAddress } from '@/services/api/order-controller';
 export default function ClientOrderItemPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const { delivery, payment } = useOrderStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const params = useMemo(
     () => ({
@@ -87,35 +90,25 @@ export default function ClientOrderItemPage() {
   }));
 
   const handlePayClick = async () => {
-    if (!agree) return;
+    if (!agree || isSubmitting) return;
 
-    if (!delivery.name) {
-      alert('이름을 입력해주세요.');
+    // 잠금
+    setIsSubmitting(true);
+
+    // 유효성 검사 (delivery + payment)
+    const deliveryResult = deliverySchema.safeParse(delivery);
+    const paymentResult = paymentSchema.safeParse(payment);
+
+    if (!deliveryResult.success || !paymentResult.success) {
+      const deliveryErrors = deliveryResult.error?.flatten().fieldErrors || {};
+      const paymentErrors = paymentResult.error?.flatten().fieldErrors || {};
+
+      const allErrors = { ...deliveryErrors, ...paymentErrors };
+      const firstErrorMessage = Object.values(allErrors).flat()[0];
+
+      alert(firstErrorMessage || '입력값을 다시 확인해주세요.');
       return;
     }
-
-    if (!delivery.postcode || !delivery.address || !delivery.addressDetail) {
-      alert('주소를 모두 입력해주세요.');
-      return;
-    }
-
-    if (!delivery.phone2 || !delivery.phone3) {
-      alert('전화번호를 정확히 입력해주세요.');
-      return;
-    }
-
-    if (!payment.selectedBank) {
-      alert('은행을 선택해주세요.');
-      return;
-    }
-
-    if (!payment.depositor) {
-      alert('입금자명을 입력해주세요.');
-      return;
-    }
-
-    // 모든 검사를 통과하면 결제 진행
-    console.log('✅ 제출 가능, 결제 진행!');
 
     // 기본 배송지 저장 호출
     if (delivery.isDefault) {
@@ -128,8 +121,6 @@ export default function ClientOrderItemPage() {
           `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
         );
         console.log('✅ 기본 배송지 저장 성공:', saved);
-
-        // 필요하다면 여기서 fetchDefaultAddress()로 다시 불러올 수도 있음
       } catch (error) {
         console.error('❌ 기본 배송지 저장 실패:', error);
         alert('기본 배송지 저장에 실패했습니다. 다시 시도해주세요.');
@@ -154,7 +145,6 @@ export default function ClientOrderItemPage() {
         depositorName: payment.depositor,
       },
     };
-    console.log(JSON.stringify(orderData, null, 2));
 
     try {
       const result = await postOrder(orderData);
@@ -166,6 +156,9 @@ export default function ClientOrderItemPage() {
     } catch (err) {
       console.error('주문 실패:', err);
       alert('주문 중 문제가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      // 잠금 해제
+      setIsSubmitting(false);
     }
   };
 
