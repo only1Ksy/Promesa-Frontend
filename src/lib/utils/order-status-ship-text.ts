@@ -19,20 +19,20 @@ export const getOrderStatusText = (orderStatus: string, deliveryStatus: string):
     case 'DELIVERED':
       return '배송완료';
     case 'CANCEL_REQUESTED':
-      return '취소접수중';
+      return '취소접수';
     case 'CANCELLED':
       return '취소완료';
     case 'RETURN_REQUESTED':
-      return '반품접수중';
+      return '반품접수';
     case 'RETURNED':
       return '반품완료';
     case 'EXCHANGE_REQUESTED':
-      return '교환접수중';
+      return '교환접수';
     case 'EXCHANGED':
       return '교환완료';
     case 'CANCEL_BEFORE_PAYMENT':
     case 'CANCEL_NO_PAYMENT':
-      return '주문취소완료';
+      return '취소완료';
     default:
       return '기타';
   }

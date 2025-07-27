@@ -1,7 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
-
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 
 interface MyOrderCardProps {
@@ -14,6 +12,51 @@ interface MyOrderCardProps {
 }
 
 export default function MyOrderCard({ status, shipComment, url, title, price, itemCount }: MyOrderCardProps) {
+  const isCancelButton = status === '입금확인중' || '배송준비중';
+  const isReturnExchangeButton = status === '배송중' || '배송완료';
+
+  const renderButtons = () => {
+    if (isCancelButton) {
+      return (
+        <>
+          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+            취소 접수
+          </button>
+          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+            문의하기
+          </button>
+        </>
+      );
+    } else if (isReturnExchangeButton) {
+      return (
+        <>
+          <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
+            반품 접수
+          </button>
+          <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
+            교환 접수
+          </button>
+          <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
+            문의하기
+          </button>
+        </>
+      );
+    }
+    return (
+      <>
+        <button className="text-body-02 border-grey-5 text-grey-5 flex h-full w-28.75 cursor-not-allowed items-center justify-center rounded-xs border font-medium">
+          반품 접수
+        </button>
+        <button className="text-body-02 border-grey-5 text-grey-5 flex h-full w-28.75 cursor-not-allowed items-center justify-center rounded-xs border font-medium">
+          교환 접수
+        </button>
+        <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          문의하기
+        </button>
+      </>
+    );
+  };
+
   return (
     <div className="flex flex-col gap-4.5">
       <div className="flex flex-col gap-3.5">
@@ -31,27 +74,7 @@ export default function MyOrderCard({ status, shipComment, url, title, price, it
           </div>
         </div>
       </div>
-      <div className="flex h-10.5 items-center justify-center gap-2 px-5">
-        <button
-          className={clsx(
-            'text-body-02 flex h-full w-28.75 items-center justify-center rounded-xs border font-medium',
-            status === '취소접수' ? 'border-grey-5 text-grey-5 cursor-not-allowed' : 'cursor-pointer',
-          )}
-        >
-          반품 접수
-        </button>
-        <button
-          className={clsx(
-            'text-body-02 flex h-full w-28.75 items-center justify-center rounded-xs border font-medium',
-            status === '취소접수' ? 'border-grey-5 text-grey-5 cursor-not-allowed' : 'cursor-pointer',
-          )}
-        >
-          교환 접수
-        </button>
-        <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
-          문의하기
-        </button>
-      </div>
+      <div className="flex h-10.5 items-center justify-center gap-2 px-5">{renderButtons()}</div>
     </div>
   );
 }
