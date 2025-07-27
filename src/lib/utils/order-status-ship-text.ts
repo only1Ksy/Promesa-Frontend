@@ -32,7 +32,7 @@ export const getOrderStatusText = (orderStatus: string, deliveryStatus: string):
       return '교환완료';
     case 'CANCEL_BEFORE_PAYMENT':
     case 'CANCEL_NO_PAYMENT':
-      return '주문취소완료';
+      return '취소완료';
     default:
       return '기타';
   }
