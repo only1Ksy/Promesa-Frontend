@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import EmptyCard from '@/components/common/empty/empty-card';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
+import { postCarts } from '@/services/api/cart-controller';
 import { fetchWishList } from '@/services/api/wish-controller';
 
 import WishListItem from './wish-list-item';
@@ -47,9 +48,10 @@ export default function WishListWithPaginationComponent() {
     setSelectedList((prev) => prev.map((val, i) => (i === idx ? !val : val)));
   };
 
+  // 선택 작품 삭제
   const handleDeleteSelected = () => {
     paginatedData.forEach((item, idx) => {
-      if (item && selectedList[idx]) {
+      if (selectedList[idx]) {
         toggleWish({
           targetType: 'ITEM',
           targetId: item.targetId,
@@ -63,16 +65,28 @@ export default function WishListWithPaginationComponent() {
     router.replace(`?${newSearchParams.toString()}`);
   };
 
+  // 전체 삭제
   const handleDeleteAll = () => {
-    paginatedData.forEach((item) => {
-      if (item) {
-        toggleWish({
-          targetType: 'ITEM',
-          targetId: item.targetId,
-          currentWished: true,
-        });
-      }
-    });
+    paginatedData.forEach((item) =>
+      toggleWish({
+        targetType: 'ITEM',
+        targetId: item.targetId,
+        currentWished: true,
+      }),
+    );
+
+    setSelectedList(Array(PAGE_SIZE).fill(false));
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    router.replace(`?${newSearchParams.toString()}`);
+  };
+
+  // 장바구니 담기
+  const handlePostCart = async () => {
+    const cartsData = paginatedData.map((item, idx) => selectedList[idx] && { itemId: item.targetId, quantity: 1 });
+
+    if (!cartsData) {
+      await postCarts(cartsData);
+    }
 
     setSelectedList(Array(PAGE_SIZE).fill(false));
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -110,7 +124,7 @@ export default function WishListWithPaginationComponent() {
                 <p className="text-body-02 text-grey-9 font-medium">선택 작품 삭제</p>
               </div>
             </button>
-            <button className="flex-1 cursor-pointer">
+            <button onClick={handlePostCart} className="flex-1 cursor-pointer">
               <div className="flex h-11 w-full items-center justify-center bg-[#000000]">
                 <p className="text-body-02 text-grey-0 font-medium">장바구니 담기</p>
               </div>
