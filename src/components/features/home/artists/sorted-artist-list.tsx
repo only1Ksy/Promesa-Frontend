@@ -31,12 +31,11 @@ export default function SortedArtistList() {
     return sortItemsWithSection(data, 'profile.name');
   }, [data]);
 
-  // sort with name + wish-/not-wish-list
-  const sortedWishDataWithSection = sortedDataWithSection.filter((item) => item.wish.isWishlisted);
-  const sortedNotWishDataWithSection = sortedDataWithSection.filter((item) => !item.wish.isWishlisted);
-  const displayData = isWishedList
-    ? sortedWishDataWithSection
-    : [...sortedWishDataWithSection, ...sortedNotWishDataWithSection];
+  const sortedData = sortedDataWithSection.flatMap((sec) => sec.items);
+  const sortedWishedData = sortedData.filter((item) => item.wish.isWishlisted);
+  const sortedNotWishedData = sortedData.filter((item) => !item.wish.isWishlisted);
+
+  const displayData = isWishedList ? sortedWishedData : [...sortedWishedData, ...sortedNotWishedData];
 
   useEffect(() => {
     const current = new URLSearchParams();
@@ -74,9 +73,7 @@ export default function SortedArtistList() {
         {/* 49 = 11.5 (header height) + 5 (padding top) + 7.5 (title height) + 5 (gap) + 20 (padding bottom) */}
         <div className="relative flex min-h-[calc(100vh-var(--spacing)*49)] flex-col gap-3">
           {displayData.length > 0 ? (
-            displayData.map((item) => (
-              <ArtistProfileWithImage key={item.profile.artistId} artistProfileWithSection={item} />
-            ))
+            displayData.map((item) => <ArtistProfileWithImage key={item.profile.artistId} item={item} />)
           ) : (
             <NoWishArtist />
           )}
