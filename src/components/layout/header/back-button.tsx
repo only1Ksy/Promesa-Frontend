@@ -19,7 +19,7 @@ export default function BackButton({ backPath }: BackButtonProps) {
         } else if (window.history.length > 1) {
           router.back();
         } else {
-          router.push('/');
+          router.replace('/');
         }
       }}
       className="flex cursor-pointer items-center justify-center"

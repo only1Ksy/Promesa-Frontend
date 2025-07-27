@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import CloseIcon from '@/public/icons/layout/close.svg';
 import MyIcon from '@/public/icons/layout/my.svg';
@@ -19,6 +19,7 @@ interface HeaderProps {
 
 export default function Header({ shadow }: HeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const isLoginPage = pathname.startsWith('/login');
@@ -101,9 +102,9 @@ export default function Header({ shadow }: HeaderProps) {
           <button
             onClick={() => {
               if (window.history.length > 1) {
-                window.history.back();
+                router.back();
               } else {
-                window.location.href = '/';
+                router.replace('/');
               }
             }}
             className="flex cursor-pointer items-center justify-center"
