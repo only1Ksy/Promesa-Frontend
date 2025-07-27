@@ -66,7 +66,7 @@ export default function ClientOrderItemPage() {
         itemName: cart.name,
         itemNumber: cart.quantity,
         price: cart.price,
-        itemId: cart.itemId,
+        itemId: cart.cartItemId,
       }));
     }
 
@@ -130,7 +130,7 @@ export default function ClientOrderItemPage() {
 
     // 주문 호출
     const orderData = {
-      type: isCartMode ? ('MULTIPLE' as const) : ('SINGLE' as const),
+      type: isCartMode ? ('CART' as const) : ('SINGLE' as const),
       items: orderItems,
       address: {
         recipientName: delivery.name,

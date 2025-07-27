@@ -18,7 +18,7 @@ export interface Payment {
 }
 
 export interface OrderRequestSchema {
-  type: 'SINGLE' | 'MULTIPLE';
+  type: 'SINGLE' | 'CART';
   items: OrderItem[];
   address: Address;
   payment: Payment;
