@@ -10,11 +10,11 @@ import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
 import type { ArtistResponseSchema } from '@/types/artist-controller';
 
 interface ArtistProfileWithImageProps {
-  artistProfileWithSection: ArtistResponseSchema & { section: string };
+  item: ArtistResponseSchema;
 }
 
-export default function ArtistProfileWithImage({ artistProfileWithSection }: ArtistProfileWithImageProps) {
-  const { profile, wish } = artistProfileWithSection;
+export default function ArtistProfileWithImage({ item }: ArtistProfileWithImageProps) {
+  const { profile, wish } = item;
   const { artistId, name, profileImageUrl } = profile;
   const { isWishlisted, wishCount } = wish;
 
