@@ -13,6 +13,8 @@ import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { fetchExhibitions } from '@/services/api/exhibition-controller';
 import type { ExhibitionSummarySchema } from '@/types/exhibition-controller';
 
+import NoExhibitions from './no-exhibitions';
+
 const STATUS_LIST = ['ALL', 'ONGOING', 'PERMANENT', 'UPCOMING', 'PAST'] as const; // strict declaration
 
 interface ExhibitionListProps {
@@ -39,7 +41,7 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
   });
 
   useEffect(() => {
-    const isFirstVisit = JSON.stringify(initialStatusRef) === JSON.stringify(selectedStatus);
+    const isFirstVisit = initialStatusRef.current === selectedStatus;
     if (!hasMountedRef.current && isFirstVisit) {
       return;
     }
@@ -85,48 +87,55 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
         </HorizontalScrollWithActiveLine>
       </div>
       {/* 전시회 리스트 */}
-      <div className="flex flex-col gap-7">
-        {data.map((exhibitionItem, idx) => (
-          <React.Fragment key={exhibitionItem.summary.id}>
-            <div className="flex flex-col gap-5">
-              <div className="mx-5 flex flex-col gap-5">
-                <div className="bg-green relative h-103 w-full overflow-hidden rounded-xs">
-                  <ImageWithEffect
-                    src={exhibitionItem.summary.imageUrl}
-                    alt={`전시회 ${exhibitionItem.summary.title}의 메인 이미지.`}
-                    fill
-                    priority
-                  />
-                </div>
-                <div className="mx-1.5 flex flex-col gap-5">
-                  <div className="flex flex-col">
-                    <p className="text-headline-05 text-black">{exhibitionItem.summary.title}</p>
-                    <div className="text-caption-01 flex gap-1 font-medium text-black">
-                      <p>{exhibitionItem.summary.startDate}</p>
-                      <p>~</p>
-                      <p>{exhibitionItem.summary.endDate}</p>
-                    </div>
+      {data.length > 0 ? (
+        <div className="flex flex-col gap-7">
+          {data.map((exhibitionItem, idx) => (
+            <React.Fragment key={exhibitionItem.summary.id}>
+              <div className="flex flex-col gap-5">
+                <div className="mx-5 flex flex-col gap-5">
+                  <div className="bg-green relative h-103 w-full overflow-hidden rounded-xs">
+                    <ImageWithEffect
+                      src={exhibitionItem.summary.imageUrl}
+                      alt={`전시회 ${exhibitionItem.summary.title}의 메인 이미지.`}
+                      fill
+                      priority
+                    />
                   </div>
-                  <p className="text-body-02 custom-break-words font-medium text-black">
-                    {exhibitionItem.summary.description}
-                  </p>
-                </div>
-              </div>
-              {/* 아이템 리스트 */}
-              <HorizontalScroll className="ml-5 flex gap-2.5 pr-5">
-                {exhibitionItem.itemPreviews.map((item) => (
-                  <Link key={item.itemId} href={`/detail/${item.itemId}`}>
-                    <div className="bg-green aspect-[4/5] h-33">
-                      <ImageWithEffect src={item.imageUrl} alt={`아이템 ${item.itemId}의 프리뷰 이미지.`} fill />
+                  <div className="mx-1.5 flex flex-col gap-5">
+                    <div className="flex flex-col">
+                      <p className="text-headline-05 text-black">{exhibitionItem.summary.title}</p>
+                      <div className="text-caption-01 flex gap-1 font-medium text-black">
+                        <p>{exhibitionItem.summary.startDate}</p>
+                        <p>~</p>
+                        <p>{exhibitionItem.summary.endDate}</p>
+                      </div>
                     </div>
-                  </Link>
-                ))}
-              </HorizontalScroll>
-            </div>
-            {idx !== data.length - 1 && <hr className="mx-5 border-t border-black/20" />}
-          </React.Fragment>
-        ))}
-      </div>
+                    <p className="text-body-02 custom-break-words font-medium text-black">
+                      {exhibitionItem.summary.description}
+                    </p>
+                  </div>
+                </div>
+                {/* 아이템 리스트 */}
+                <HorizontalScroll className="ml-5 flex gap-2.5 pr-5">
+                  {exhibitionItem.itemPreviews.map((item) => (
+                    <Link key={item.itemId} href={`/detail/${item.itemId}`}>
+                      <div className="bg-green aspect-[4/5] h-33">
+                        <ImageWithEffect src={item.imageUrl} alt={`아이템 ${item.itemId}의 프리뷰 이미지.`} fill />
+                      </div>
+                    </Link>
+                  ))}
+                </HorizontalScroll>
+              </div>
+              {idx !== data.length - 1 && <hr className="mx-5 border-t border-black/20" />}
+            </React.Fragment>
+          ))}
+        </div>
+      ) : (
+        // 58 = 11.5 (header) + 26.5 (home-exhibitions header) + 20 (margin bottom)
+        <div className="relative min-h-[calc(100vh-var(--spacing)*58)]">
+          <NoExhibitions />
+        </div>
+      )}
     </div>
   );
 }
