@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { useImageZoomModal } from '@/hooks/use-image-zoom-modal';
+import { maskName } from '@/lib/utils/mask-name';
 import DropdownIcon from '@/public/icons/item/drop-down.svg';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { Review } from '@/types/review-controller';
@@ -12,7 +13,7 @@ import { Review } from '@/types/review-controller';
 import Expandable from '../utilities/expandable';
 import ImageZoomModal from './image-zoom-modal';
 
-export default function ReviewCard({ reviewerId, rating, content, reviewImages, updatedAt }: Review) {
+export default function ReviewCard({ reviewerName, rating, content, reviewImages, updatedAt }: Review) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
@@ -37,7 +38,7 @@ export default function ReviewCard({ reviewerId, rating, content, reviewImages, 
         {/* 닉네임, 별점, 날짜 */}
         <div className="flex items-start justify-between self-stretch">
           <div className="flex w-53 items-start gap-2">
-            <span className="text-grey-9 text-body-02 font-medium">{reviewerId}</span>
+            <span className="text-grey-9 text-body-02 font-medium">{maskName(reviewerName)}</span>
             <div className="flex items-center self-center">
               {Array.from({ length: 5 }).map((_, i) => (
                 <ReviewStarIcon key={i} className={`h-3 w-3.25 ${i < rating ? 'text-orange' : 'text-deep-green'}`} />
