@@ -25,7 +25,7 @@ const QUERY_KEYS_BY_TARGET_TYPE: Record<WishToggleSchema['target']['targetType']
     'items', // /shop, /artist/[artist-id]
     'itemDetail', // /detail/[item-id]
     'artist', // /artist/[artist-id]
-    'itemWishList', // /my
+    'itemWishList', // /my, /my.wish-list
   ],
 };
 
