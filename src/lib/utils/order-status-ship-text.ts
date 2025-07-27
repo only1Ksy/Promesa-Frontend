@@ -19,7 +19,7 @@ export const getOrderStatusText = (orderStatus: string, deliveryStatus: string):
     case 'DELIVERED':
       return '배송완료';
     case 'CANCEL_REQUESTED':
-      return '취소접수중';
+      return '취소접수';
     case 'CANCELLED':
       return '취소완료';
     case 'RETURN_REQUESTED':
