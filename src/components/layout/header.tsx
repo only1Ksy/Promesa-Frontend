@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import SearchHeader from '@/components/features/search/search-header';
 import CloseIcon from '@/public/icons/layout/close.svg';
 import MyIcon from '@/public/icons/layout/my.svg';
 import SearchIcon from '@/public/icons/layout/search.svg';
@@ -87,7 +88,14 @@ export default function Header({ shadow }: HeaderProps) {
   };
 
   const RightHeader = () => {
-    const FirstIcon = () => (isShopPage ? <SearchIcon className="text-grey-9" /> : <EmptyDiv />);
+    const FirstIcon = () =>
+      isShopPage ? (
+        <Link href="/search">
+          <SearchIcon className="text-grey-9" />
+        </Link>
+      ) : (
+        <EmptyDiv />
+      );
     const SecondIcon = () =>
       isAuthPage || isMyPage || isOrderPage || isMyOrderPage || isMyReviewWritePage || isMyReviewPage || isCartPage ? (
         <EmptyDiv />
@@ -131,6 +139,17 @@ export default function Header({ shadow }: HeaderProps) {
       </>
     );
   };
+
+  // search page
+  const isSearchPage = pathname.startsWith('/search');
+  if (isSearchPage)
+    return (
+      <header
+        className={clsx('bg-pale-green fixed-component top-0 flex items-center px-5 py-2', shadow && 'home-shadow')}
+      >
+        <SearchHeader />
+      </header>
+    );
 
   return (
     <header
