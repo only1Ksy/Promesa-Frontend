@@ -27,6 +27,9 @@ export default function SearchedResult({ keyword: initialKeyword }: SearchedResu
       {/* 검색된 아티스트 리스트 */}
       {data.artists.length > 0 && (
         <div className="mt-2.5 flex flex-col gap-2.5">
+          <div className="my-2.5">
+            <p className="text-body-01 font-medium text-black">Artist</p>
+          </div>
           <div className="flex flex-col">
             {data.artists.map((art) => (
               <Link key={art.profile.artistId} href={`/artist/${art.profile.artistId}`}>
