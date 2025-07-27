@@ -70,7 +70,7 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
         <p className="text-headline-06 text-black">Exhibition</p>
         <HorizontalScrollWithActiveLine
           activeId={`status-id-${selectedStatus}`}
-          className="text-body-01 flex gap-6 font-medium"
+          className="text-body-01 flex justify-between font-medium"
         >
           {STATUS_LIST.map((stat, idx) => {
             const isActive = selectedStatus === stat;
