@@ -3,6 +3,7 @@ export interface Review {
   content: string;
   itemId: number;
   reviewerId: number;
+  reviewerName: string;
   rating: number;
   reviewImages: string[];
   createdAt: string;
