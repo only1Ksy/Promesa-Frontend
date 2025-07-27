@@ -20,17 +20,17 @@ interface ClientRoutesLayoutProps {
 }
 
 export default function ClientRoutesLayout({ dehydratedState, children }: ClientRoutesLayoutProps) {
-  const pathName = usePathname();
+  const pathname = usePathname();
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
-  const isCartPage = pathName.startsWith('/cart');
-  const isDetailPage = pathName.startsWith('/detail');
-  const isOrderCompletePage = pathName.startsWith('/order/complete');
-  const isOrderPage = pathName.startsWith('/order');
-  const isReviewPage = pathName.startsWith('/review') || pathName.startsWith('/my/review/write');
-  const isMyPage = pathName.startsWith('/my');
-  const isMyReviewPage = pathName.startsWith('/my/review');
-  const isMyOrderPage = pathName.startsWith('/my/order');
+  const isCartPage = pathname.startsWith('/cart');
+  const isDetailPage = pathname.startsWith('/detail');
+  const isOrderCompletePage = pathname.startsWith('/order/complete');
+  const isOrderPage = pathname.startsWith('/order');
+  const isReviewPage = pathname.startsWith('/review') || pathname.startsWith('/my/review/write');
+  const isMyPage = pathname.startsWith('/my');
+  const isMyReviewPage = pathname.startsWith('/my/review');
+  const isMyOrderPage = pathname.startsWith('/my/order');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage;
   const isHeaderShadow = !isDetailPage && !isOrderCompletePage && !isMyOrderPage && !isMyReviewPage && !isCartPage;
