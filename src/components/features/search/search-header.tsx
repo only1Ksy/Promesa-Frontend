@@ -1,18 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import BackButton from '@/components/layout/header/back-button';
 import SearchIcon from '@/public/icons/layout/search.svg';
 
 export default function SearchHeader() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isComposing, setIsComposing] = useState(false);
 
-  const keywordParam = searchParams.get('keyword');
-  const [inputValue, setInputValue] = useState(keywordParam ?? '');
+  const urlParams = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search);
+  const [inputValue, setInputValue] = useState(urlParams.get('keyword') ?? '');
 
   // debounce
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -20,7 +21,7 @@ export default function SearchHeader() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(window.location.search);
 
       if (inputValue !== '') {
         params.set('keyword', inputValue);
@@ -28,29 +29,70 @@ export default function SearchHeader() {
         params.delete('keyword');
       }
 
+      params.delete('commited');
+
       router.replace(`?${params.toString()}`, { scroll: false });
-    }, 300);
+    }, 100);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [inputValue, router, searchParams]);
+  }, [inputValue, router]);
+
+  // commit
+  const handleSearchCommit = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (inputValue !== '') {
+      params.set('keyword', inputValue);
+      params.set('commited', 'true');
+    } else {
+      params.delete('keyword');
+      params.delete('commited');
+    }
+
+    router.replace(`?${params.toString()}`, { scroll: false });
+    inputRef.current?.blur(); // remove focus
+  }, [inputValue, router]);
 
   return (
     <>
-      <BackButton />
-      <div className="relative ml-5 flex flex-1 items-center">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="검색 PLACEHOLDER"
+      <div className="my-0.75">
+        <BackButton />
+      </div>
+      <div className="ml-5 flex flex-1 gap-0.75">
+        {/* calc(var(--spacing)*1.5-1 : 37px -> 36px */}
+        <div
           className={clsx(
-            'border-b-grey-9 w-full border-b pr-6 outline-none',
-            'text-body-01 placeholder:text-body-02 text-grey-9 placeholder:text-grey-5 font-medium',
+            'flex-1 border-b pb-[calc(var(--spacing)*1.5-1)]',
+            inputValue === '' ? 'border-b-deep-green' : 'border-b-grey-9',
           )}
-        />
-        <SearchIcon className={inputValue === '' ? 'text-deep-green' : 'text-grey-9 cursor-pointer'} />
+        >
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !isComposing) {
+                e.preventDefault();
+                handleSearchCommit();
+              }
+            }}
+            placeholder="원하는 아티스트나 상품을 입력해보세요."
+            className={clsx(
+              'h-7.5 w-full pr-6 font-medium outline-none',
+              inputValue === ''
+                ? 'placeholder:text-body-02 placeholder:text-grey-5 placeholder:opacity-100'
+                : 'text-body-01 text-grey-9',
+            )}
+          />
+        </div>
+        <button onClick={handleSearchCommit} className="flex items-center justify-center">
+          <SearchIcon className={inputValue === '' ? 'text-deep-green' : 'text-grey-9 cursor-pointer'} />
+        </button>
       </div>
     </>
   );

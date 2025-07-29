@@ -92,29 +92,31 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
           {data.map((exhibitionItem, idx) => (
             <React.Fragment key={exhibitionItem.summary.id}>
               <div className="flex flex-col gap-5">
-                <div className="mx-5 flex flex-col gap-5">
-                  <div className="bg-green relative h-103 w-full overflow-hidden rounded-xs">
-                    <ImageWithEffect
-                      src={exhibitionItem.summary.imageUrl}
-                      alt={`전시회 ${exhibitionItem.summary.title}의 메인 이미지.`}
-                      fill
-                      priority
-                    />
-                  </div>
-                  <div className="mx-1.5 flex flex-col gap-5">
-                    <div className="flex flex-col">
-                      <p className="text-headline-05 text-black">{exhibitionItem.summary.title}</p>
-                      <div className="text-caption-01 flex gap-1 font-medium text-black">
-                        <p>{exhibitionItem.summary.startDate}</p>
-                        <p>~</p>
-                        <p>{exhibitionItem.summary.endDate}</p>
-                      </div>
+                <Link href={`/exhibition/${exhibitionItem.summary.id}`}>
+                  <div className="mx-5 flex flex-col gap-5">
+                    <div className="bg-green relative h-103 w-full overflow-hidden rounded-xs">
+                      <ImageWithEffect
+                        src={exhibitionItem.summary.imageUrl}
+                        alt={`전시회 ${exhibitionItem.summary.title}의 메인 이미지.`}
+                        fill
+                        priority
+                      />
                     </div>
-                    <p className="text-body-02 custom-break-words font-medium text-black">
-                      {exhibitionItem.summary.description}
-                    </p>
+                    <div className="mx-1.5 flex flex-col gap-5">
+                      <div className="flex flex-col">
+                        <p className="text-headline-05 text-black">{exhibitionItem.summary.title}</p>
+                        <div className="text-caption-01 flex gap-1 font-medium text-black">
+                          <p>{exhibitionItem.summary.startDate}</p>
+                          <p>~</p>
+                          <p>{exhibitionItem.summary.endDate}</p>
+                        </div>
+                      </div>
+                      <p className="text-body-02 custom-break-words font-medium text-black">
+                        {exhibitionItem.summary.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
                 {/* 아이템 리스트 */}
                 <HorizontalScroll className="ml-5 flex gap-2.5 pr-5">
                   {exhibitionItem.itemPreviews.map((item) => (
