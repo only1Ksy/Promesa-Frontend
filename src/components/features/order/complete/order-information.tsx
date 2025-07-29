@@ -1,5 +1,6 @@
 'use client';
 
+import { useToast } from '@/components/common/alert/toast-provider';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import CopyIcon from '@/public/icons/layout/copy.svg';
 import { OrderResponseSchema } from '@/types/order-controller';
@@ -9,8 +10,11 @@ interface OrderInformationProps {
 }
 
 export default function OrderInformation({ order }: OrderInformationProps) {
+  const { showToast } = useToast();
+
   const copyClipBoard = async (text: string) => {
     await navigator.clipboard.writeText(text);
+    showToast('클립보드에 복사되었습니다.');
   };
 
   // 날짜 포매팅

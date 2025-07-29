@@ -14,6 +14,7 @@ import DeliveryForm from '@/components/features/order/delivery-form';
 import OrderedProductList from '@/components/features/order/ordered-product-list';
 import PayForm from '@/components/features/order/pay-form';
 import TotalPrice from '@/components/features/order/total-price';
+import useAlert from '@/hooks/use-alert';
 import { useOrderStore } from '@/lib/store/order-information-store';
 import { deliverySchema, paymentSchema } from '@/lib/utils/order-validate';
 import { fetchCarts } from '@/services/api/cart-controller';
@@ -27,6 +28,7 @@ export default function ClientOrderItemPage() {
 
   const { delivery, payment } = useOrderStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const alertModal = useAlert();
 
   const params = useMemo(
     () => ({
@@ -106,7 +108,8 @@ export default function ClientOrderItemPage() {
       const allErrors = { ...deliveryErrors, ...paymentErrors };
       const firstErrorMessage = Object.values(allErrors).flat()[0];
 
-      alert(firstErrorMessage || '입력값을 다시 확인해주세요.');
+      alertModal(firstErrorMessage || '입력값을 다시 확인해주세요.');
+      setIsSubmitting(false);
       return;
     }
 
@@ -123,7 +126,8 @@ export default function ClientOrderItemPage() {
         console.log('✅ 기본 배송지 저장 성공:', saved);
       } catch (error) {
         console.error('❌ 기본 배송지 저장 실패:', error);
-        alert('기본 배송지 저장에 실패했습니다. 다시 시도해주세요.');
+        alertModal('기본 배송지 저장에 실패했습니다. 다시 시도해주세요.');
+        setIsSubmitting(false);
         return;
       }
     }
@@ -151,11 +155,11 @@ export default function ClientOrderItemPage() {
       console.log('주문 성공:', result);
 
       // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
-      alert(`주문이 완료되었습니다! 주문번호: ${result.summary.orderId}`);
+      alertModal(`주문이 완료되었습니다! 주문번호: ${result.summary.orderId}`);
       router.push(`order/complete/${result.summary.orderId}`);
     } catch (err) {
       console.error('주문 실패:', err);
-      alert('주문 중 문제가 발생했습니다. 다시 시도해주세요.');
+      alertModal('주문 중 문제가 발생했습니다. 다시 시도해주세요.');
     } finally {
       // 잠금 해제
       setIsSubmitting(false);
