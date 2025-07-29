@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
+import useAlert from '@/hooks/use-alert';
 import { usePostCartItem } from '@/hooks/use-cart';
 import { ParsedItemData } from '@/types/item-controller';
 
@@ -19,6 +20,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
   const [mounted, setMounted] = useState(false);
   const [internalOpen, setInternalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const alertModal = useAlert();
 
   const router = useRouter();
 
@@ -59,7 +61,9 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
   // 장바구니에 넣기
   const onCartClicked = () => {
     postCarts({ itemId: item.itemId, quantity });
+    handleClose();
     // alert 모달
+    alertModal('장바구니에 추가했습니다.');
   };
 
   // 수량 조절
