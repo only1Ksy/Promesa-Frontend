@@ -1,12 +1,10 @@
-// dev test v.
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
-import { logoutOnce } from './auth';
-import { setHeader, shouldBypass, toHttpError } from './utils';
+import { logoutOnce, reissueOnce } from './auth';
+import { setHeader, shouldBypass, store, toHttpError } from './utils';
 
 const baseURL = typeof window === 'undefined' ? process.env.API_BASE_URL : '/api';
-const TOKEN = process.env.NEXT_PUBLIC_DEV_TOKEN;
 
 export const axiosInstance = axios.create({
   baseURL,
@@ -19,9 +17,8 @@ axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     if (shouldBypass(config.url)) return config;
 
-    // const token = store().accessToken;
-    //if (token)
-    setHeader(config.headers, 'Authorization', `Bearer ${TOKEN}`);
+    const token = store().accessToken;
+    if (token) setHeader(config.headers, 'Authorization', `Bearer ${token}`);
 
     return config;
   },
@@ -44,12 +41,12 @@ axiosInstance.interceptors.response.use(
     if (response.status === 401 && !originalRequest._retry && !shouldBypass(originalRequest.url)) {
       originalRequest._retry = true;
 
-      // const newToken = await reissueOnce();
+      const newToken = await reissueOnce();
 
-      //if (newToken) {
-      setHeader(originalRequest.headers, 'Authorization', `Bearer ${TOKEN}`);
-      return axiosInstance(originalRequest);
-      //}
+      if (newToken) {
+        setHeader(originalRequest.headers, 'Authorization', `Bearer ${newToken}`);
+        return axiosInstance(originalRequest);
+      }
 
       await logoutOnce();
       return Promise.reject(error);
