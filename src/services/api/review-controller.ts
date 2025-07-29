@@ -105,3 +105,10 @@ export const fetchMyWrittenReviews = () =>
     const res = await axiosInstance.get(`/members/me/reviews`);
     return res.data.data;
   });
+
+/** 사용자의 작성 가능한 리뷰 목록을 반환하는 함수 */
+export const fetchMyEligibleReviews = () =>
+  withErrorBoundary<[], Review[]>(async () => {
+    const res = await axiosInstance.get(`/members/me/reviews/eligible`);
+    return res.data.data;
+  });
