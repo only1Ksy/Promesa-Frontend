@@ -1,11 +1,12 @@
 'use client';
 
 import { createContext, ReactNode, useContext, useState } from 'react';
+import { useEffect } from 'react';
 
 import AlertModal from './alert-modal';
 
 interface AlertContextType {
-  showAlert: (message: string, onConfirm?: () => void) => void;
+  showAlert: (message: string) => void;
 }
 
 const AlertContext = createContext<AlertContextType | null>(null);
@@ -13,11 +14,9 @@ const AlertContext = createContext<AlertContextType | null>(null);
 export const AlertProvider = ({ children }: { children: ReactNode }) => {
   const [message, setMessage] = useState('');
   const [visible, setVisible] = useState(false);
-  const [onConfirm, setOnConfirm] = useState<() => void>(() => () => {});
 
-  const showAlert = (msg: string, callback?: () => void) => {
+  const showAlert = (msg: string) => {
     setMessage(msg);
-    setOnConfirm(() => callback || (() => {}));
     setVisible(true);
   };
 
@@ -26,15 +25,18 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
     setMessage('');
   };
 
-  const handleConfirm = () => {
-    onConfirm();
-    handleClose();
-  };
+  useEffect(() => {
+    console.log('visible changed:', visible);
+  }, [visible]);
+
+  useEffect(() => {
+    console.log('message changed:', message);
+  }, [message]);
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
       {children}
-      {visible && <AlertModal message={message} onConfirm={handleConfirm} onClose={handleClose} />}
+      <AlertModal message={message} visible={visible} onClose={handleClose} />
     </AlertContext.Provider>
   );
 };
