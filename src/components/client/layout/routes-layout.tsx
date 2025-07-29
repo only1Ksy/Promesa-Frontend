@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 
+import { ToastProvider } from '@/components/common/alert/toast-provider';
 import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
@@ -65,23 +66,25 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      {isFetching > 0 && <FetchingSpinner />}
-      <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
-        {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
-        <Header shadow={isHeaderShadow} />
-        <div className="bg-pale-green pt-11.5">{children}</div>
-        {isFooter && isBottomBarRef ? (
-          // need to refactor
-          <div className="pb-21">
+      <ToastProvider>
+        {isFetching > 0 && <FetchingSpinner />}
+        <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
+          {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
+          <Header shadow={isHeaderShadow} />
+          <div className="bg-pale-green pt-11.5">{children}</div>
+          {isFooter && isBottomBarRef ? (
+            // need to refactor
+            <div className="pb-21">
+              <Footer />
+            </div>
+          ) : isFooter ? (
             <Footer />
-          </div>
-        ) : isFooter ? (
-          <Footer />
-        ) : (
-          <></>
-        )}
-        {isFloatingButton && <FloatingButton />}
-      </BottomFixedBarTargetContext.Provider>
+          ) : (
+            <></>
+          )}
+          {isFloatingButton && <FloatingButton />}
+        </BottomFixedBarTargetContext.Provider>
+      </ToastProvider>
     </HydrationBoundary>
   );
 }

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 
+import { useToast } from '@/components/common/alert/toast-provider';
 import Header from '@/components/layout/header';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import { getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
@@ -15,6 +16,8 @@ import MyOrderCard from './my-order-card';
 export default function MyOrderModal() {
   const searchParams = useSearchParams();
   const orderId = Number(searchParams.get('id'));
+
+  const { showToast } = useToast();
 
   const { data: order, isLoading } = useQuery({
     enabled: !!orderId,
@@ -47,6 +50,8 @@ export default function MyOrderModal() {
 
   const copyClipBoard = async (text: string) => {
     await navigator.clipboard.writeText(text);
+    showToast('클립보드에 복사되었습니다.');
+    console.log('copy');
   };
 
   return (
