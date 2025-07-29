@@ -1,10 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { DehydratedState } from '@tanstack/react-query';
-import { HydrationBoundary } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
 
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import MyReviewProductCard from '@/components/features/my/review/my-review-product-card';
@@ -12,35 +8,36 @@ import BottomFixedBar from '@/components/features/my/review/write/bottom-fixed-b
 import ReviewImageUploader from '@/components/features/my/review/write/review-image-uploader';
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
-import { fetchMyEligibleReviews } from '@/services/api/review-controller';
-import { PostReview, PostReviewImages } from '@/services/api/review-controller';
+import { DeleteReviewImage, PatchReview, PostReviewImages } from '@/services/api/review-controller';
 
 interface MyReviewEditModalProps {
-  orderId: number;
-  orderDetailState: DehydratedState;
+  itemId: number;
+  reviewId: number;
+  initialRating: number;
+  initialContent: string;
+  initialPreviews: string[];
+  setIsModalOpen: () => void;
 }
 
-export default function MyReviewEditModal({ orderId, orderDetailState }: MyReviewEditModalProps) {
-  const [rating, setRating] = useState(0);
+export default function MyReviewEditModal({
+  itemId,
+  reviewId,
+  initialRating,
+  initialContent,
+  initialPreviews,
+  setIsModalOpen,
+}: MyReviewEditModalProps) {
+  const [rating, setRating] = useState(initialRating);
   const [hovered, setHovered] = useState<number | null>(null);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(initialContent);
+  // 기존 서버 이미지
+  const [originalPreviews, setOriginalPreviews] = useState<string[]>(initialPreviews);
+  // 삭제한 기존 이미지 key
+  const [deletedPreviews, setDeletedPreviews] = useState<string[]>([]);
+  // 새로 추가한 이미지
   const [images, setImages] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
-
-  const searchParams = useSearchParams();
-  const itemId = Number(searchParams.get('item'));
-
-  const { data: eligibleReviews, isLoading } = useQuery({
-    queryKey: ['eligibleReviews'],
-    queryFn: () => fetchMyEligibleReviews(),
-    select: (res) => res,
-  });
-
-  if (!eligibleReviews || isLoading) return null;
-
-  const orderItem = eligibleReviews.find((item) => item.orderItemId === itemId);
-
-  if (!orderItem) return null;
+  // 미리보기 통합 리스트
+  const [previews, setPreviews] = useState<string[]>(initialPreviews);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -54,11 +51,22 @@ export default function MyReviewEditModal({ orderId, orderDetailState }: MyRevie
   };
 
   const handleImageRemove = (index: number) => {
-    const newImages = [...images];
+    const previewToRemove = previews[index];
+
+    // 기존 이미지에서 삭제
+    if (originalPreviews.includes(previewToRemove)) {
+      setDeletedPreviews((prev) => [...prev, previewToRemove]);
+      setOriginalPreviews((prev) => prev.filter((p) => p !== previewToRemove));
+    } else {
+      // 새로 추가된 이미지 삭제
+      const newImages = [...images];
+      newImages.splice(index - originalPreviews.length, 1);
+      setImages(newImages);
+    }
+
+    // 전체 프리뷰에서 제거
     const newPreviews = [...previews];
-    newImages.splice(index, 1);
     newPreviews.splice(index, 1);
-    setImages(newImages);
     setPreviews(newPreviews);
   };
 
@@ -69,18 +77,17 @@ export default function MyReviewEditModal({ orderId, orderDetailState }: MyRevie
     }
 
     try {
-      let imageKeys: string[] = [];
+      await Promise.all(deletedPreviews.map((key) => DeleteReviewImage(key)));
+
+      let imageKeys: string[] = [...originalPreviews];
 
       if (images.length > 0) {
         const fileNames = images.map((file) => file.name);
-        // 1) PresignedUrl 발급 받기
-        const presigned = await PostReviewImages('MEMBER', 'REVIEW', orderId, fileNames);
-        console.log(presigned);
+        const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
 
         await Promise.all(
           presigned.map((item, i) =>
             fetch(item.url, {
-              // presigned URL로 이미지를 업로드
               method: 'PUT',
               headers: { 'Content-Type': images[i].type },
               body: images[i],
@@ -88,11 +95,14 @@ export default function MyReviewEditModal({ orderId, orderDetailState }: MyRevie
           ),
         );
 
-        imageKeys = presigned.map((item) => item.key); // 리뷰 등록에 key를 넘김
+        const newKeys = presigned.map((item) => item.key);
+        imageKeys = [...imageKeys, ...newKeys];
       }
 
-      await PostReview(orderItem.orderItemId, content, rating, imageKeys);
-      alert('리뷰 등록 성공!');
+      await PatchReview(itemId, reviewId, content, rating, imageKeys);
+
+      alert('리뷰 수정 성공!');
+      setIsModalOpen();
     } catch (e) {
       if (typeof window !== 'undefined') {
         window.console.error(e);
@@ -102,7 +112,7 @@ export default function MyReviewEditModal({ orderId, orderDetailState }: MyRevie
   };
 
   return (
-    <HydrationBoundary state={orderDetailState}>
+    <>
       <div className="flex flex-col gap-7 px-5" style={{ minHeight: 'calc(100vh - 46px)' }}>
         {/* 상품 정보*/}
         <div className="pt-7">
@@ -136,6 +146,6 @@ export default function MyReviewEditModal({ orderId, orderDetailState }: MyRevie
       <BottomFixedBarPortal>
         <BottomFixedBar handleUpload={handleSubmit} />
       </BottomFixedBarPortal>
-    </HydrationBoundary>
+    </>
   );
 }

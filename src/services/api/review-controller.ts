@@ -71,18 +71,10 @@ export const PostReview = (itemId: number, orderItemId: number, content: string,
   );
 
 /** itemId, reviewId, {content, rating, imageKeys} 중 수정사항을 전달하면 반영하는 함수 */
-export const PatchReview = (
-  itemId: number,
-  orderItemId: number,
-  reviewId: number,
-  content: string,
-  rating: number,
-  imageKeys: string[],
-) =>
-  withErrorBoundary<[number, number, number, string, number, string[]], Review>(
-    async (itemId, orderItemId, reviewId, content, rating, imageKeys) => {
+export const PatchReview = (itemId: number, reviewId: number, content: string, rating: number, imageKeys: string[]) =>
+  withErrorBoundary<[number, number, string, number, string[]], Review>(
+    async (itemId, reviewId, content, rating, imageKeys) => {
       const res = await axiosInstance.patch(`/items/${itemId}/reviews/${reviewId}`, {
-        orderItemId,
         content,
         rating,
         imageKeys,
@@ -91,7 +83,6 @@ export const PatchReview = (
       return res.data.data;
     },
     itemId,
-    orderItemId,
     reviewId,
     content,
     rating,

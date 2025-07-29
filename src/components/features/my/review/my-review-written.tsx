@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Review } from '@/types/review-controller';
 
 import MyReviewCard from './my-review-card';
@@ -9,7 +11,11 @@ interface MyReviewAvailableProps {
 }
 
 export default function MyReviewWritten({ writtenReviews }: MyReviewAvailableProps) {
-  const editReview = () => {};
+  const [editingReview, setEditingReview] = useState<number | null>(null);
+
+  const editReview = (reviewId: number) => {
+    setEditingReview(reviewId);
+  };
 
   const deleteReview = () => {};
 
@@ -18,8 +24,8 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
       <div className="flex w-full flex-col gap-8.75">
         {writtenReviews.map((review, index) => (
           <>
-            <div className="flex flex-col gap-5 px-5">
-              <div key={index} className="flex flex-col items-center justify-center gap-6.5">
+            <div key={index} className="flex flex-col gap-5 px-5">
+              <div className="flex flex-col items-center justify-center gap-6.5">
                 <MyReviewProductCard
                   url={review.url}
                   artistName={review.artistName}
@@ -31,7 +37,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
               </div>
               <div className="text-grey-9 text-body-02 flex items-center gap-1.5 font-medium">
                 <button
-                  onClick={editReview}
+                  onClick={() => editReview(review.reviewId)}
                   className="flex h-8.75 w-24.25 cursor-pointer items-center justify-center rounded-xs border"
                 >
                   수정
@@ -45,7 +51,16 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
               </div>
             </div>
             {index !== writtenReviews.length - 1 && <div className="bg-green h-[1px] w-full" />}
-            <MyReviewEditModal rating={review.rating} />
+            {editingReview === review.reviewId && (
+              <MyReviewEditModal
+                itemId={review.itemId}
+                reviewId={review.reviewId}
+                initialRating={review.rating}
+                initialContent={review.content}
+                initialPreviews={review.reviewImages}
+                setIsModalOpen={() => setEditingReview(null)}
+              />
+            )}
           </>
         ))}
       </div>
