@@ -1,6 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { DehydratedState } from '@tanstack/react-query';
+import { HydrationBoundary } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import MyReviewProductCard from '@/components/features/my/review/my-review-product-card';
@@ -8,18 +12,35 @@ import BottomFixedBar from '@/components/features/my/review/write/bottom-fixed-b
 import ReviewImageUploader from '@/components/features/my/review/write/review-image-uploader';
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
+import { fetchMyEligibleReviews } from '@/services/api/review-controller';
 import { PostReview, PostReviewImages } from '@/services/api/review-controller';
 
 interface ClientReviewWritePageProps {
   orderId: number;
+  orderDetailState: DehydratedState;
 }
 
-export default function ReviewTestPage({ orderId }: ClientReviewWritePageProps) {
+export default function ReviewTestPage({ orderId, orderDetailState }: ClientReviewWritePageProps) {
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const [content, setContent] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  const searchParams = useSearchParams();
+  const itemId = Number(searchParams.get('item'));
+
+  const { data: eligibleReviews, isLoading } = useQuery({
+    queryKey: ['eligibleReviews'],
+    queryFn: () => fetchMyEligibleReviews(),
+    select: (res) => res,
+  });
+
+  if (!eligibleReviews || isLoading) return null;
+
+  const orderItem = eligibleReviews.find((item) => item.orderItemId === itemId);
+
+  if (!orderItem) return null;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -39,15 +60,6 @@ export default function ReviewTestPage({ orderId }: ClientReviewWritePageProps) 
     newPreviews.splice(index, 1);
     setImages(newImages);
     setPreviews(newPreviews);
-  };
-
-  const REVIEW_TEMP = {
-    itemId: 1,
-    url: '/src/review',
-    artistName: '김영은',
-    title: '빈티지 블랙 높은 잔 세트',
-    itemCount: 5,
-    date: '2025.05.25',
   };
 
   const handleSubmit = async () => {
@@ -79,7 +91,7 @@ export default function ReviewTestPage({ orderId }: ClientReviewWritePageProps) 
         imageKeys = presigned.map((item) => item.key); // 리뷰 등록에 key를 넘김
       }
 
-      await PostReview(REVIEW_TEMP.itemId, content, rating, imageKeys);
+      await PostReview(orderItem.orderItemId, content, rating, imageKeys);
       alert('리뷰 등록 성공!');
     } catch (e) {
       if (typeof window !== 'undefined') {
@@ -90,16 +102,16 @@ export default function ReviewTestPage({ orderId }: ClientReviewWritePageProps) 
   };
 
   return (
-    <>
+    <HydrationBoundary state={orderDetailState}>
       <div className="flex flex-col gap-7 px-5" style={{ minHeight: 'calc(100vh - 46px)' }}>
         {/* 상품 정보*/}
         <div className="pt-7">
           <MyReviewProductCard
-            url={REVIEW_TEMP.url}
-            artistName={REVIEW_TEMP.artistName}
-            title={REVIEW_TEMP.title}
-            itemCount={REVIEW_TEMP.itemCount}
-            date={REVIEW_TEMP.date}
+            url={orderItem.itemThumbnail}
+            artistName={orderItem.artistName}
+            title={orderItem.itemName}
+            itemCount={orderItem.quantity}
+            date={orderItem.orderDate}
           />
         </div>
 
@@ -124,6 +136,6 @@ export default function ReviewTestPage({ orderId }: ClientReviewWritePageProps) 
       <BottomFixedBarPortal>
         <BottomFixedBar handleUpload={handleSubmit} />
       </BottomFixedBarPortal>
-    </>
+    </HydrationBoundary>
   );
 }
