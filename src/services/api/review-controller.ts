@@ -98,3 +98,10 @@ export const DeleteReview = (itemId: number, reviewId: number) =>
     itemId,
     reviewId,
   );
+
+/** 사용자의 작성한 리뷰 목록을 반환하는 함수 */
+export const fetchMyWrittenReviews = () =>
+  withErrorBoundary<[], Review[]>(async () => {
+    const res = await axiosInstance.get(`/members/me/reviews`);
+    return res.data.data;
+  });
