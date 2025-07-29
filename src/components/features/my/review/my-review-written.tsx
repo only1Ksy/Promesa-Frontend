@@ -1,6 +1,7 @@
 import { Review } from '@/types/review-controller';
 
 import MyReviewCard from './my-review-card';
+import MyReviewEditModal from './my-review-edit-modal';
 import MyReviewProductCard from './my-review-product-card';
 
 interface MyReviewAvailableProps {
@@ -44,6 +45,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
               </div>
             </div>
             {index !== writtenReviews.length - 1 && <div className="bg-green h-[1px] w-full" />}
+            <MyReviewEditModal rating={review.rating} />
           </>
         ))}
       </div>

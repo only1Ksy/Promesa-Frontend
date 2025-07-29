@@ -15,12 +15,12 @@ import ReviewText from '@/components/features/my/review/write/review-text';
 import { fetchMyEligibleReviews } from '@/services/api/review-controller';
 import { PostReview, PostReviewImages } from '@/services/api/review-controller';
 
-interface ClientReviewWritePageProps {
-  orderItemId: number;
+interface MyReviewEditModalProps {
+  orderId: number;
   orderDetailState: DehydratedState;
 }
 
-export default function ClientReviewWritePage({ orderItemId, orderDetailState }: ClientReviewWritePageProps) {
+export default function MyReviewEditModal({ orderId, orderDetailState }: MyReviewEditModalProps) {
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const [content, setContent] = useState('');
@@ -28,7 +28,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
   const [previews, setPreviews] = useState<string[]>([]);
 
   const searchParams = useSearchParams();
-  const itemId = Number(searchParams.get('id'));
+  const itemId = Number(searchParams.get('item'));
 
   const { data: eligibleReviews, isLoading } = useQuery({
     queryKey: ['eligibleReviews'],
@@ -36,9 +36,9 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
     select: (res) => res,
   });
 
-  if (!eligibleReviews || isLoading || !itemId) return null;
+  if (!eligibleReviews || isLoading) return null;
 
-  const orderItem = eligibleReviews.find((item) => item.orderItemId === orderItemId);
+  const orderItem = eligibleReviews.find((item) => item.orderItemId === itemId);
 
   if (!orderItem) return null;
 
@@ -74,7 +74,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
       if (images.length > 0) {
         const fileNames = images.map((file) => file.name);
         // 1) PresignedUrl 발급 받기
-        const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
+        const presigned = await PostReviewImages('MEMBER', 'REVIEW', orderId, fileNames);
         console.log(presigned);
 
         await Promise.all(
@@ -91,7 +91,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
         imageKeys = presigned.map((item) => item.key); // 리뷰 등록에 key를 넘김
       }
 
-      await PostReview(itemId, orderItemId, content, rating, imageKeys);
+      await PostReview(orderItem.orderItemId, content, rating, imageKeys);
       alert('리뷰 등록 성공!');
     } catch (e) {
       if (typeof window !== 'undefined') {

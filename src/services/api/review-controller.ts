@@ -50,11 +50,12 @@ export const DeleteReviewImage = (key: string) =>
     return res.data.data;
   }, key);
 
-/** itemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
-export const PostReview = (itemId: number, content: string, rating: number, imageKeys: string[]) =>
-  withErrorBoundary<[number, string, number, string[]], PresignedUrlResponse>(
-    async (itemId, content, rating, imageKeys) => {
+/** itemId, orderItemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
+export const PostReview = (itemId: number, orderItemId: number, content: string, rating: number, imageKeys: string[]) =>
+  withErrorBoundary<[number, number, string, number, string[]], PresignedUrlResponse>(
+    async (itemId, orderItemId, content, rating, imageKeys) => {
       const res = await axiosInstance.post(`/items/${itemId}/reviews`, {
+        orderItemId,
         content,
         rating,
         imageKeys,
@@ -63,16 +64,25 @@ export const PostReview = (itemId: number, content: string, rating: number, imag
       return res.data.data;
     },
     itemId,
+    orderItemId,
     content,
     rating,
     imageKeys,
   );
 
 /** itemId, reviewId, {content, rating, imageKeys} 중 수정사항을 전달하면 반영하는 함수 */
-export const PatchReview = (itemId: number, reviewId: number, content: string, rating: number, imageKeys: string[]) =>
-  withErrorBoundary<[number, number, string, number, string[]], Review>(
-    async (itemId, reviewId, content, rating, imageKeys) => {
+export const PatchReview = (
+  itemId: number,
+  orderItemId: number,
+  reviewId: number,
+  content: string,
+  rating: number,
+  imageKeys: string[],
+) =>
+  withErrorBoundary<[number, number, number, string, number, string[]], Review>(
+    async (itemId, orderItemId, reviewId, content, rating, imageKeys) => {
       const res = await axiosInstance.patch(`/items/${itemId}/reviews/${reviewId}`, {
+        orderItemId,
         content,
         rating,
         imageKeys,
@@ -81,6 +91,7 @@ export const PatchReview = (itemId: number, reviewId: number, content: string, r
       return res.data.data;
     },
     itemId,
+    orderItemId,
     reviewId,
     content,
     rating,
@@ -88,14 +99,15 @@ export const PatchReview = (itemId: number, reviewId: number, content: string, r
   );
 
 /** itemId, reviewId를 전달하면 리뷰를 삭제하는 함수 */
-export const DeleteReview = (itemId: number, reviewId: number) =>
-  withErrorBoundary<[number, number], string>(
-    async (itemId, reviewId) => {
+export const DeleteReview = (itemId: number, orderItemId: number, reviewId: number) =>
+  withErrorBoundary<[number, number, number], string>(
+    async (itemId, orderItemId, reviewId) => {
       const res = await axiosInstance.delete(`/items/${itemId}/reviews/${reviewId}`);
 
       return res.data.data;
     },
     itemId,
+    orderItemId,
     reviewId,
   );
 

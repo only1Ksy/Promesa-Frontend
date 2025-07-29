@@ -11,8 +11,8 @@ interface MyReviewAvailableProps {
 export default function MyReviewAvailable({ eligibleReviews }: MyReviewAvailableProps) {
   const router = useRouter();
 
-  const writeReviewClicked = (orderId: number, orderItemId: number) => {
-    router.push(`review/write/${orderId}?item=${orderItemId}`);
+  const writeReviewClicked = (orderItemId: number, itemId: number) => {
+    router.push(`review/write/${orderItemId}?id=${itemId}`);
   };
 
   return (
@@ -29,7 +29,7 @@ export default function MyReviewAvailable({ eligibleReviews }: MyReviewAvailable
                 date={review.orderDate}
               />
               <button
-                onClick={() => writeReviewClicked(review.orderId, review.orderItemId)}
+                onClick={() => writeReviewClicked(review.orderItemId, review.itemId)}
                 className="flex h-8.75 w-85.5 cursor-pointer items-center justify-center rounded-xs border"
               >
                 리뷰 쓰기

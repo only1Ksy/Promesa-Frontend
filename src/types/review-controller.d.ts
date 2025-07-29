@@ -50,6 +50,7 @@ export type PresignedUrlResponse = PresignedUrl[];
 // 작성 가능한 리뷰 아이템
 export interface EligibleReviewItem {
   orderId: number;
+  itemId: number;
   orderItemId: number;
   itemName: string;
   artistName: string;

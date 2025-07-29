@@ -4,9 +4,9 @@ import ClientReviewWritePage from '@/components/client/my/review/write/page';
 import { fetchMyEligibleReviews } from '@/services/api/review-controller';
 import { createQueryClient } from '@/services/query/server';
 
-export default async function DetailPage({ params: paramsPromise }: { params: Promise<{ 'order-id': string }> }) {
+export default async function DetailPage({ params: paramsPromise }: { params: Promise<{ 'item-id': string }> }) {
   const params = await paramsPromise;
-  const orderId = Number(params['order-id']);
+  const orderItemId = Number(params['item-id']);
 
   const queryClient = createQueryClient();
 
@@ -17,5 +17,5 @@ export default async function DetailPage({ params: paramsPromise }: { params: Pr
 
   const dehydratedState = dehydrate(queryClient);
 
-  return <ClientReviewWritePage orderId={orderId} orderDetailState={dehydratedState} />;
+  return <ClientReviewWritePage orderItemId={orderItemId} orderDetailState={dehydratedState} />;
 }
