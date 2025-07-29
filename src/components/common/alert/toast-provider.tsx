@@ -28,7 +28,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     <ToastContext.Provider value={{ showToast }}>
       {children}
       {visible && (
-        <div className="text-body-02 fixed bottom-40 left-1/2 z-50 -translate-x-1/2 rounded-sm bg-black/70 px-4 py-2 text-white transition-opacity duration-500">
+        <div className="text-body-02 fixed bottom-40 left-1/2 z-9999 -translate-x-1/2 rounded-sm bg-black/70 px-4 py-2 text-white transition-opacity duration-500">
           {message}
         </div>
       )}
