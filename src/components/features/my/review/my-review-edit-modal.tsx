@@ -16,6 +16,11 @@ interface MyReviewEditModalProps {
   initialRating: number;
   initialContent: string;
   initialPreviews: string[];
+  productThumbnail: string;
+  artistName: string;
+  itemName: string;
+  itemCount: number;
+  orderDate: string;
   setIsModalOpen: () => void;
 }
 
@@ -25,6 +30,11 @@ export default function MyReviewEditModal({
   initialRating,
   initialContent,
   initialPreviews,
+  productThumbnail,
+  artistName,
+  itemName,
+  itemCount,
+  orderDate,
   setIsModalOpen,
 }: MyReviewEditModalProps) {
   const [rating, setRating] = useState(initialRating);
@@ -117,11 +127,11 @@ export default function MyReviewEditModal({
         {/* 상품 정보*/}
         <div className="pt-7">
           <MyReviewProductCard
-            url={orderItem.itemThumbnail}
-            artistName={orderItem.artistName}
-            title={orderItem.itemName}
-            itemCount={orderItem.quantity}
-            date={orderItem.orderDate}
+            url={productThumbnail}
+            artistName={artistName}
+            title={itemName}
+            itemCount={itemCount}
+            date={orderDate}
           />
         </div>
 

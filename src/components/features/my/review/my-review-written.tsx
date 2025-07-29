@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-import { Review } from '@/types/review-controller';
+import { WrittenReviewsResponse } from '@/types/review-controller';
 
 import MyReviewCard from './my-review-card';
 import MyReviewEditModal from './my-review-edit-modal';
 import MyReviewProductCard from './my-review-product-card';
 
 interface MyReviewAvailableProps {
-  writtenReviews: Review[];
+  writtenReviews: WrittenReviewsResponse;
 }
 
 export default function MyReviewWritten({ writtenReviews }: MyReviewAvailableProps) {
@@ -27,17 +27,21 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
             <div key={index} className="flex flex-col gap-5 px-5">
               <div className="flex flex-col items-center justify-center gap-6.5">
                 <MyReviewProductCard
-                  url={review.url}
-                  artistName={review.artistName}
-                  title={review.title}
-                  itemCount={review.itemCount}
-                  date={review.date}
+                  url={review.orderItemSummary.itemThumbnail}
+                  artistName={review.orderItemSummary.artistName}
+                  title={review.orderItemSummary.itemName}
+                  itemCount={review.orderItemSummary.quantity}
+                  date={review.orderItemSummary.orderDate}
                 />
-                <MyReviewCard rating={review.rating} content={review.content} reviewImages={review.reviewImages} />
+                <MyReviewCard
+                  rating={review.reviewResponse.rating}
+                  content={review.reviewResponse.content}
+                  reviewImages={review.reviewResponse.reviewImages}
+                />
               </div>
               <div className="text-grey-9 text-body-02 flex items-center gap-1.5 font-medium">
                 <button
-                  onClick={() => editReview(review.reviewId)}
+                  onClick={() => editReview(review.reviewResponse.reviewId)}
                   className="flex h-8.75 w-24.25 cursor-pointer items-center justify-center rounded-xs border"
                 >
                   수정
@@ -51,13 +55,18 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
               </div>
             </div>
             {index !== writtenReviews.length - 1 && <div className="bg-green h-[1px] w-full" />}
-            {editingReview === review.reviewId && (
+            {editingReview === review.reviewResponse.reviewId && (
               <MyReviewEditModal
-                itemId={review.itemId}
-                reviewId={review.reviewId}
-                initialRating={review.rating}
-                initialContent={review.content}
-                initialPreviews={review.reviewImages}
+                itemId={review.orderItemSummary.itemId}
+                reviewId={review.reviewResponse.reviewId}
+                initialRating={review.reviewResponse.rating}
+                initialContent={review.reviewResponse.content}
+                initialPreviews={review.reviewResponse.reviewImages}
+                productThumbnail={review.orderItemSummary.itemThumbnail}
+                artistName={review.orderItemSummary.artistName}
+                itemName={review.orderItemSummary.itemName}
+                itemCount={review.orderItemSummary.quantity}
+                orderDate={review.orderItemSummary.orderDate}
                 setIsModalOpen={() => setEditingReview(null)}
               />
             )}
