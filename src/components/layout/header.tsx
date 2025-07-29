@@ -144,9 +144,7 @@ export default function Header({ shadow }: HeaderProps) {
   const isSearchPage = pathname.startsWith('/search');
   if (isSearchPage)
     return (
-      <header
-        className={clsx('bg-pale-green fixed-component top-0 flex items-center px-5 py-2', shadow && 'home-shadow')}
-      >
+      <header className={clsx('bg-pale-green fixed-component top-0 flex w-full px-5 py-2', shadow && 'home-shadow')}>
         <SearchHeader />
       </header>
     );
