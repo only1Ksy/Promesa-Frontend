@@ -11,10 +11,10 @@ import ReviewText from '@/components/features/my/review/write/review-text';
 import { PostReview, PostReviewImages } from '@/services/api/review-controller';
 
 interface ClientReviewWritePageProps {
-  itemId: number;
+  orderId: number;
 }
 
-export default function ReviewTestPage({ itemId }: ClientReviewWritePageProps) {
+export default function ReviewTestPage({ orderId }: ClientReviewWritePageProps) {
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const [content, setContent] = useState('');
@@ -62,7 +62,7 @@ export default function ReviewTestPage({ itemId }: ClientReviewWritePageProps) {
       if (images.length > 0) {
         const fileNames = images.map((file) => file.name);
         // 1) PresignedUrl 발급 받기
-        const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
+        const presigned = await PostReviewImages('MEMBER', 'REVIEW', orderId, fileNames);
         console.log(presigned);
 
         await Promise.all(
@@ -79,7 +79,7 @@ export default function ReviewTestPage({ itemId }: ClientReviewWritePageProps) {
         imageKeys = presigned.map((item) => item.key); // 리뷰 등록에 key를 넘김
       }
 
-      await PostReview(itemId, content, rating, imageKeys);
+      await PostReview(REVIEW_TEMP.itemId, content, rating, imageKeys);
       alert('리뷰 등록 성공!');
     } catch (e) {
       if (typeof window !== 'undefined') {

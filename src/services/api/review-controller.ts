@@ -1,4 +1,4 @@
-import type { PresignedUrlResponse, Review, ReviewListResponse } from '@/types/review-controller';
+import type { EligibleReviewItem, PresignedUrlResponse, Review, ReviewListResponse } from '@/types/review-controller';
 
 import { withErrorBoundary } from './axios/instance';
 import { axiosInstance } from './axios/instance';
@@ -108,7 +108,7 @@ export const fetchMyWrittenReviews = () =>
 
 /** 사용자의 작성 가능한 리뷰 목록을 반환하는 함수 */
 export const fetchMyEligibleReviews = () =>
-  withErrorBoundary<[], Review[]>(async () => {
+  withErrorBoundary<[], EligibleReviewItem[]>(async () => {
     const res = await axiosInstance.get(`/members/me/reviews/eligible`);
     return res.data.data;
   });
