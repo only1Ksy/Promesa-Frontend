@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 
 interface MyOrderCardProps {
@@ -10,9 +12,21 @@ interface MyOrderCardProps {
   price: number;
   itemCount: number;
   isButton: boolean;
+  itemId?: number;
 }
 
-export default function MyOrderCard({ status, shipComment, url, title, price, itemCount, isButton }: MyOrderCardProps) {
+export default function MyOrderCard({
+  status,
+  shipComment,
+  url,
+  title,
+  price,
+  itemCount,
+  isButton,
+  itemId,
+}: MyOrderCardProps) {
+  const router = useRouter();
+
   const isCancelButton = status === '입금확인중' || status === '배송준비중';
   const isReturnExchangeButton =
     status === '배송중' || status === '배송완료' || status === '반품완료' || status === '교환완료';
@@ -52,13 +66,25 @@ export default function MyOrderCard({ status, shipComment, url, title, price, it
     );
   };
 
+  const handleImageClick = () => {
+    if (itemId) {
+      router.push(`/detail/${itemId}`);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4.5">
       <div className="flex flex-col gap-3.5">
         <div className="flex gap-3.5 px-5">
-          <div className="h-28.75 w-23">
-            <ImageWithEffect fill src={url} alt={'상품 미리보기 이미지'} className="object-cover" />
-          </div>
+          {!itemId ? (
+            <div className="h-28.75 w-23">
+              <ImageWithEffect fill src={url} alt={'상품 미리보기 이미지'} className="object-cover" />
+            </div>
+          ) : (
+            <button onClick={handleImageClick} className="h-28.75 w-23 cursor-pointer">
+              <ImageWithEffect fill src={url} alt={'상품 미리보기 이미지'} className="object-cover" />
+            </button>
+          )}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-3">
               <span className="text-body-01 text-orange font-bold overflow-ellipsis">{status}</span>
