@@ -14,7 +14,7 @@ export default function ImageWithEffect({ src, alt, onLoad, ...rest }: ImageProp
   const [loaded, setLoaded] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
-  const safeSrc = normalizeSrc(src.toString());
+  const safeSrc = normalizeSrc(src?.toString() ?? null);
 
   useEffect(() => {
     setIsClient(true);
