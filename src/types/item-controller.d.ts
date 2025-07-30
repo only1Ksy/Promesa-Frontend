@@ -78,7 +78,7 @@ export interface ParsedItemData {
 
   price: number;
   stock: number;
-  soldOut: boolean;
+  saleStatus: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
   freeShipping: boolean;
   shippingPolicy: string;
 }

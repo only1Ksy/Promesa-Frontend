@@ -6,6 +6,8 @@ export interface CartSchema {
   artistName: string;
   price: number;
   thumbnailUrl: string;
+  stock: number;
+  saleStatus: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
 }
 
 export interface CartRequest {
