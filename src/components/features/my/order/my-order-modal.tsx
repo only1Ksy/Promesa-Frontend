@@ -139,6 +139,9 @@ export default function MyOrderModal() {
               </div>
             </div>
           </div>
+          <div className="flex w-full justify-center px-2.5 pb-7">
+            <button className="text-body-02 h-10.5 w-90.25 bg-black font-medium text-white">문의하기</button>
+          </div>
         </div>
       </div>
     </motion.div>
