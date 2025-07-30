@@ -27,7 +27,8 @@ export default function SearchedResult({ keyword: initialKeyword }: SearchedResu
   });
 
   return (
-    <div className="mx-5 flex min-h-[calc(100vh-var(--spacing)*11.5)] flex-col gap-2.25">
+    // 31.5 = 11.5 (header) + 20 (margin bottom)
+    <div className="mx-5 mb-20 flex min-h-[calc(100vh-var(--spacing)*31.5)] flex-col gap-2.25">
       {/* 검색된 아티스트 리스트 */}
       {data.artists.length > 0 && (
         <div className="mt-2.5 flex flex-col">

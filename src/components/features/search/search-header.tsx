@@ -23,15 +23,21 @@ export default function SearchHeader() {
     timeoutRef.current = setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
 
+      const prevCommitted = params.get('commited');
       if (inputValue !== '') {
         params.set('keyword', inputValue);
       } else {
         params.delete('keyword');
       }
 
+      const removed = params.has('commited');
       params.delete('commited');
 
       router.replace(`?${params.toString()}`, { scroll: false });
+
+      if (prevCommitted && removed) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }, 100);
 
     return () => {
@@ -53,6 +59,8 @@ export default function SearchHeader() {
 
     router.replace(`?${params.toString()}`, { scroll: false });
     inputRef.current?.blur(); // remove focus
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [inputValue, router]);
 
   return (
