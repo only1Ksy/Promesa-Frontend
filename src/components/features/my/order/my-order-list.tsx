@@ -50,7 +50,7 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
                 status={statusText}
                 shipComment={shipComment}
                 url={order.itemThumbnail}
-                title={order.itemName}
+                title={order.totalQuantity > 1 ? `${order.itemName} 외 ${order.totalQuantity - 1}건` : order.itemName}
                 price={order.totalAmount}
                 itemCount={order.totalQuantity}
                 isButton={isButton}

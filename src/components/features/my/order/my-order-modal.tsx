@@ -73,19 +73,18 @@ export default function MyOrderModal() {
           </span>
         </div>
         <div className="flex flex-col items-center gap-6">
-          <MyOrderCard
-            status={statusText}
-            shipComment={shipComment}
-            url={order.summary.itemThumbnail}
-            title={
-              order.items.length > 1
-                ? `${order.items[0].itemName} 외 ${order.items.length - 1}건`
-                : order.items[0].itemName
-            }
-            price={order.items[0].price}
-            itemCount={order.items[0].quantity}
-            isButton={isButton}
-          />
+          {order.items.map((item) => (
+            <MyOrderCard
+              key={item.itemId}
+              status={statusText}
+              shipComment={shipComment}
+              url={order.summary.itemThumbnail}
+              title={item.itemName}
+              price={item.price}
+              itemCount={item.quantity}
+              isButton={isButton}
+            />
+          ))}
 
           <div className="bg-green h-[1px] w-90.5" />
 

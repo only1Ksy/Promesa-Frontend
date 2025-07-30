@@ -40,6 +40,7 @@ export interface OrderResponseSchema {
     deliveryFee: number;
   };
   items: Array<{
+    itemThumbnail: string;
     itemId: number;
     itemName: string;
     price: number;
