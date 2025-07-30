@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function BottomFixedBar() {
   return (
-    <div className="bg-pale-green home-shadow flex h-21 w-full justify-between px-5 py-3">
+    <div className="bg-pale-green home-shadow flex h-21 w-full justify-between px-5 pt-3 pb-4">
       <Link href={'/my/order'}>
         <button
           className={clsx(
