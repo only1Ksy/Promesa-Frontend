@@ -26,7 +26,7 @@ export default function ClientMyPage({ dehydratedState }: ClientMePageProps) {
         <MyPageSection
           sectionTitle="나의 계정 정보"
           subSectionList={[
-            { subSectionTitle: '회원 정보 수정', subSectionLink: '/my' },
+            { subSectionTitle: '회원 정보 수정', subSectionLink: '/my/profile' },
             { subSectionTitle: '로그아웃', subSectionLink: '/logout' },
           ]}
         />
