@@ -14,7 +14,16 @@ export interface ExhibitionSummarySchema {
   updatedAt: string;
 }
 
-export interface ExhibitionResponseSchema {
+export interface ExhibitionDetailSchema {
+  detailedImageKey: string;
+  detailedImageUrl: string;
+}
+
+export interface ExhibitionSummaryResponseSchema {
   summary: ExhibitionSummarySchema;
   itemPreviews: ItemPreviewResponseSchema[];
+}
+
+export interface ExhibitionDetailResponseSchema extends ExhibitionSummaryResponseSchema {
+  detail: ExhibitionDetailSchema;
 }
