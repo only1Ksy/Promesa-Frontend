@@ -64,7 +64,7 @@ export default function MyOrderModal() {
       transition={{ duration: 0.3 }}
       className="bg-pale-green fixed inset-0 z-999 mx-auto w-full max-w-[var(--frame-width)] overflow-y-auto shadow-lg"
     >
-      <Header shadow />
+      <Header />
       <div className="flex flex-col gap-3 pt-11.5">
         <div className="flex items-center gap-2.5 px-5 pt-5">
           <span className="text-headline-05">주문상품정보</span>
