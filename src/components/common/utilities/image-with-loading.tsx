@@ -16,7 +16,7 @@ export default function ImageWithLoading({ src, alt, onLoad, ...rest }: ImagePro
   const endLoading = useImageLoadingStore((s) => s.endLoading);
   const [isClient, setIsClient] = useState(false);
 
-  const safeSrc = normalizeSrc(src.toString());
+  const safeSrc = normalizeSrc(src?.toString() ?? null);
 
   useEffect(() => {
     setIsClient(true);
