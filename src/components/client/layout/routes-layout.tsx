@@ -36,11 +36,18 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const isMyOrderPage = pathname.startsWith('/my/order');
   const isSearchPage = pathname.startsWith('/search');
   const isMyReviewEditPage = isMyReviewPage && searchParams.get('editId') !== null;
+  const isMyProfilePage = pathname.startsWith('/my/profile');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage || isMyReviewEditPage;
   const isHeaderShadow =
-    !isDetailPage && !isOrderCompletePage && !isMyOrderPage && !isMyReviewPage && !isCartPage && !isSearchPage;
-  const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage;
+    !isDetailPage &&
+    !isOrderCompletePage &&
+    !isMyOrderPage &&
+    !isMyReviewPage &&
+    !isCartPage &&
+    !isSearchPage &&
+    !isMyProfilePage;
+  const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage && !isMyProfilePage;
   const isFloatingButton = !isOrderPage && !isReviewPage && !isMyPage && !isCartPage;
 
   const isFetching = useIsFetching();

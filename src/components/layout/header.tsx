@@ -32,13 +32,14 @@ export default function Header({ shadow }: HeaderProps) {
   const isMyOrderPage = pathname.startsWith('/my/order');
   const isMyReviewWritePage = pathname.startsWith('/my/review/write');
   const isMyReviewPage = pathname.startsWith('/my/review') && !isMyReviewWritePage;
-  const isMyPage = pathname.startsWith('/my') && !isMyOrderPage && !isMyReviewWritePage && !isMyReviewPage;
+  const isMyPage = pathname === '/my';
   const isOrderPage = pathname.startsWith('/order');
   const isOrderCompletePage = pathname.startsWith('/order/complete');
   const isReviewPage = pathname.includes('/review') && !isMyReviewWritePage && !isMyReviewPage;
   const isShopPage = pathname.startsWith('/shop');
   const isCartPage = pathname.startsWith('/cart');
   const isExhibitionPage = pathname.startsWith('/exhibition');
+  const isMyProfilePage = pathname.startsWith('/my/profile');
 
   const isBack =
     isArtistPage ||
@@ -59,7 +60,8 @@ export default function Header({ shadow }: HeaderProps) {
   const EmptyDiv = () => <div className="h-7.5 w-7.5" />;
 
   const LeftIcon = () => {
-    if (isAuthPage || isOrderCompletePage || isMyOrderDetailPage || isExhibitionPage) return <EmptyDiv />;
+    if (isAuthPage || isOrderCompletePage || isMyOrderDetailPage || isExhibitionPage || isMyProfilePage)
+      return <EmptyDiv />;
     else if (isBack) return <BackButton />;
     else return <HamburgerButton />;
   };
@@ -81,6 +83,7 @@ export default function Header({ shadow }: HeaderProps) {
     else if (isMyReviewPage) return <span className="text-subhead text-grey-9 font-medium">리뷰</span>;
     else if (isCartPage) return <span className="text-subhead text-grey-9 font-medium">장바구니</span>;
     else if (isExhibitionPage) return <span className="text-subhead text-grey-9 font-medium">기획전</span>;
+    else if (isMyProfilePage) return <span className="text-subhead text-grey-9 font-medium">기본정보 수정</span>;
     else
       return (
         <Link href="/">
@@ -106,7 +109,8 @@ export default function Header({ shadow }: HeaderProps) {
       isMyReviewWritePage ||
       isMyReviewPage ||
       isCartPage ||
-      isExhibitionPage ? (
+      isExhibitionPage ||
+      isMyProfilePage ? (
         <EmptyDiv />
       ) : (
         <Link href="/my">
@@ -114,7 +118,7 @@ export default function Header({ shadow }: HeaderProps) {
         </Link>
       );
     const ThirdIcon = () => {
-      if (isLoginPage || isMyOrderDetailPage || isExhibitionPage)
+      if (isLoginPage || isMyOrderDetailPage || isExhibitionPage || isMyProfilePage)
         return (
           <button
             onClick={() => {
