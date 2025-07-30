@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PUBLIC_ONLY_PATH = '/login';
-const PROTECTED_PATHS = ['/cart'];
+const PROTECTED_PATHS = ['/cart', '/my'];
 const LOGOUT_PATH = '/logout';
 
 function isLoggedIn(req: NextRequest): boolean {
@@ -34,5 +34,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/cart', '/login', '/logout'],
+  matcher: ['/cart', '/my', '/login', '/logout'],
 };
