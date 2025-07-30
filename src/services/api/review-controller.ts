@@ -1,4 +1,10 @@
-import type { PresignedUrlResponse, Review, ReviewListResponse } from '@/types/review-controller';
+import type {
+  EligibleReviewItem,
+  PresignedUrlResponse,
+  Review,
+  ReviewListResponse,
+  WrittenReviewsResponse,
+} from '@/types/review-controller';
 
 import { withErrorBoundary } from './axios/instance';
 import { axiosInstance } from './axios/instance';
@@ -50,11 +56,12 @@ export const DeleteReviewImage = (key: string) =>
     return res.data.data;
   }, key);
 
-/** itemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
-export const PostReview = (itemId: number, content: string, rating: number, imageKeys: string[]) =>
-  withErrorBoundary<[number, string, number, string[]], PresignedUrlResponse>(
-    async (itemId, content, rating, imageKeys) => {
+/** itemId, orderItemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
+export const PostReview = (itemId: number, orderItemId: number, content: string, rating: number, imageKeys: string[]) =>
+  withErrorBoundary<[number, number, string, number, string[]], PresignedUrlResponse>(
+    async (itemId, orderItemId, content, rating, imageKeys) => {
       const res = await axiosInstance.post(`/items/${itemId}/reviews`, {
+        orderItemId,
         content,
         rating,
         imageKeys,
@@ -63,6 +70,7 @@ export const PostReview = (itemId: number, content: string, rating: number, imag
       return res.data.data;
     },
     itemId,
+    orderItemId,
     content,
     rating,
     imageKeys,
@@ -98,3 +106,17 @@ export const DeleteReview = (itemId: number, reviewId: number) =>
     itemId,
     reviewId,
   );
+
+/** 사용자의 작성한 리뷰 목록을 반환하는 함수 */
+export const fetchMyWrittenReviews = () =>
+  withErrorBoundary<[], WrittenReviewsResponse>(async () => {
+    const res = await axiosInstance.get(`/members/me/reviews`);
+    return res.data.data;
+  });
+
+/** 사용자의 작성 가능한 리뷰 목록을 반환하는 함수 */
+export const fetchMyEligibleReviews = () =>
+  withErrorBoundary<[], EligibleReviewItem[]>(async () => {
+    const res = await axiosInstance.get(`/members/me/reviews/eligible`);
+    return res.data.data;
+  });

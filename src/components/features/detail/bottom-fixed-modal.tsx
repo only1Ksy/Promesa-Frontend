@@ -20,6 +20,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
   const [mounted, setMounted] = useState(false);
   const [internalOpen, setInternalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+
   const alertModal = useAlert();
 
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
     postCarts({ itemId: item.itemId, quantity });
     handleClose();
     // alert 모달
-    alertModal('장바구니에 추가했습니다.');
+    alertModal({ message: '장바구니에 추가했습니다.' });
   };
 
   // 수량 조절

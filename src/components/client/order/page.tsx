@@ -108,7 +108,7 @@ export default function ClientOrderItemPage() {
       const allErrors = { ...deliveryErrors, ...paymentErrors };
       const firstErrorMessage = Object.values(allErrors).flat()[0];
 
-      alertModal(firstErrorMessage || '입력값을 다시 확인해주세요.');
+      alertModal({ message: firstErrorMessage || '입력값을 다시 확인해주세요.' });
       setIsSubmitting(false);
       return;
     }
@@ -126,7 +126,7 @@ export default function ClientOrderItemPage() {
         console.log('✅ 기본 배송지 저장 성공:', saved);
       } catch (error) {
         console.error('❌ 기본 배송지 저장 실패:', error);
-        alertModal('기본 배송지 저장에 실패했습니다. 다시 시도해주세요.');
+        alertModal({ message: '기본 배송지 저장에 실패했습니다. 다시 시도해주세요.' });
         setIsSubmitting(false);
         return;
       }
@@ -155,11 +155,11 @@ export default function ClientOrderItemPage() {
       console.log('주문 성공:', result);
 
       // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
-      alertModal(`주문이 완료되었습니다! 주문번호: ${result.summary.orderId}`);
+      alertModal({ message: '주문이 완료되었습니다.' });
       router.push(`order/complete/${result.summary.orderId}`);
     } catch (err) {
       console.error('주문 실패:', err);
-      alertModal('주문 중 문제가 발생했습니다. 다시 시도해주세요.');
+      alertModal({ message: '주문 중 문제가 발생했습니다. 다시 시도해주세요.' });
     } finally {
       // 잠금 해제
       setIsSubmitting(false);
