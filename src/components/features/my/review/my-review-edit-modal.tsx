@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import MyReviewProductCard from '@/components/features/my/review/my-review-product-card';
@@ -9,45 +10,30 @@ import ReviewImageUploader from '@/components/features/my/review/write/review-im
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
 import { DeleteReviewImage, PatchReview, PostReviewImages } from '@/services/api/review-controller';
+import { WrittenReviewsResponse } from '@/types/review-controller';
 
 interface MyReviewEditModalProps {
-  itemId: number;
-  reviewId: number;
-  initialRating: number;
-  initialContent: string;
-  initialPreviews: string[];
-  productThumbnail: string;
-  artistName: string;
-  itemName: string;
-  itemCount: number;
-  orderDate: string;
-  setIsModalOpen: () => void;
+  reviews: WrittenReviewsResponse;
 }
 
-export default function MyReviewEditModal({
-  itemId,
-  reviewId,
-  initialRating,
-  initialContent,
-  initialPreviews,
-  productThumbnail,
-  artistName,
-  itemName,
-  itemCount,
-  orderDate,
-  setIsModalOpen,
-}: MyReviewEditModalProps) {
-  const [rating, setRating] = useState(initialRating);
+export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = Number(searchParams.get('editId'));
+
+  const currentReview = reviews.find((r) => r.reviewResponse.reviewId === editId);
+
+  const [rating, setRating] = useState(() => currentReview?.reviewResponse.rating ?? 0);
   const [hovered, setHovered] = useState<number | null>(null);
-  const [content, setContent] = useState(initialContent);
-  // 기존 서버 이미지
-  const [originalPreviews, setOriginalPreviews] = useState<string[]>(initialPreviews);
-  // 삭제한 기존 이미지 key
+  const [content, setContent] = useState(() => currentReview?.reviewResponse.content ?? '');
+  const [originalPreviews, setOriginalPreviews] = useState<string[]>(
+    () => currentReview?.reviewResponse.reviewImages ?? [],
+  );
   const [deletedPreviews, setDeletedPreviews] = useState<string[]>([]);
-  // 새로 추가한 이미지
   const [images, setImages] = useState<File[]>([]);
-  // 미리보기 통합 리스트
-  const [previews, setPreviews] = useState<string[]>(initialPreviews);
+  const [previews, setPreviews] = useState<string[]>(() => currentReview?.reviewResponse.reviewImages ?? []);
+
+  if (!editId || !currentReview) return null;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -63,18 +49,15 @@ export default function MyReviewEditModal({
   const handleImageRemove = (index: number) => {
     const previewToRemove = previews[index];
 
-    // 기존 이미지에서 삭제
     if (originalPreviews.includes(previewToRemove)) {
       setDeletedPreviews((prev) => [...prev, previewToRemove]);
       setOriginalPreviews((prev) => prev.filter((p) => p !== previewToRemove));
     } else {
-      // 새로 추가된 이미지 삭제
       const newImages = [...images];
       newImages.splice(index - originalPreviews.length, 1);
       setImages(newImages);
     }
 
-    // 전체 프리뷰에서 제거
     const newPreviews = [...previews];
     newPreviews.splice(index, 1);
     setPreviews(newPreviews);
@@ -89,11 +72,11 @@ export default function MyReviewEditModal({
     try {
       await Promise.all(deletedPreviews.map((key) => DeleteReviewImage(key)));
 
-      let imageKeys: string[] = [...originalPreviews];
+      let imageKeys = [...originalPreviews];
 
       if (images.length > 0) {
         const fileNames = images.map((file) => file.name);
-        const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
+        const presigned = await PostReviewImages('MEMBER', 'REVIEW', currentReview.orderItemSummary.itemId, fileNames);
 
         await Promise.all(
           presigned.map((item, i) =>
@@ -109,29 +92,36 @@ export default function MyReviewEditModal({
         imageKeys = [...imageKeys, ...newKeys];
       }
 
-      await PatchReview(itemId, reviewId, content, rating, imageKeys);
+      await PatchReview(
+        currentReview.orderItemSummary.itemId,
+        currentReview.reviewResponse.reviewId,
+        content,
+        rating,
+        imageKeys,
+      );
 
       alert('리뷰 수정 성공!');
-      setIsModalOpen();
+      router.replace('/my/review');
     } catch (e) {
-      if (typeof window !== 'undefined') {
-        window.console.error(e);
-      }
+      console.error(e);
       alert('리뷰 등록 실패');
     }
   };
 
   return (
-    <>
-      <div className="flex flex-col gap-7 px-5" style={{ minHeight: 'calc(100vh - 46px)' }}>
+    <div
+      className="bg-pale-green absolute top-0 z-50 mt-12.5 flex flex-col"
+      style={{ minHeight: 'calc(100vh - 50px)' }}
+    >
+      <div className="flex flex-col gap-7 px-5">
         {/* 상품 정보*/}
         <div className="pt-7">
           <MyReviewProductCard
-            url={productThumbnail}
-            artistName={artistName}
-            title={itemName}
-            itemCount={itemCount}
-            date={orderDate}
+            url={currentReview.orderItemSummary.itemThumbnail}
+            artistName={currentReview.orderItemSummary.artistName}
+            title={currentReview.orderItemSummary.itemName}
+            itemCount={currentReview.orderItemSummary.quantity}
+            date={currentReview.orderItemSummary.orderDate}
           />
         </div>
 
@@ -152,10 +142,9 @@ export default function MyReviewEditModal({
           handleImageRemove={handleImageRemove}
         />
       </div>
-      {/* 제출 버튼 */}
       <BottomFixedBarPortal>
-        <BottomFixedBar handleUpload={handleSubmit} />
+        <BottomFixedBar handleUpload={handleSubmit} barText="수정하기" />
       </BottomFixedBarPortal>
-    </>
+    </div>
   );
 }

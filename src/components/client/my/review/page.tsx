@@ -6,6 +6,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import MyReviewAvailable from '@/components/features/my/review/my-review-available';
+import MyReviewEditModal from '@/components/features/my/review/my-review-edit-modal';
 import MyReviewToggle from '@/components/features/my/review/my-review-toggle';
 import MyReviewWritten from '@/components/features/my/review/my-review-written';
 import { fetchMyEligibleReviews, fetchMyWrittenReviews } from '@/services/api/review-controller';
@@ -45,6 +46,7 @@ export default function ClientMyReviewPage({ myReviewsState }: ClientMyReviewPag
           )}
         </div>
       </div>
+      <MyReviewEditModal reviews={writtenReviews} />
     </HydrationBoundary>
   );
 }

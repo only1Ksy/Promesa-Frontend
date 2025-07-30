@@ -134,7 +134,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
       </div>
       {/* 제출 버튼 */}
       <BottomFixedBarPortal>
-        <BottomFixedBar handleUpload={handleSubmit} />
+        <BottomFixedBar handleUpload={handleSubmit} barText="등록하기" />
       </BottomFixedBarPortal>
     </HydrationBoundary>
   );

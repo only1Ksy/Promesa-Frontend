@@ -6,7 +6,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import { AlertProvider } from '@/components/common/alert/alert-provider';
 import { ToastProvider } from '@/components/common/alert/toast-provider';
@@ -23,6 +23,7 @@ interface ClientRoutesLayoutProps {
 
 export default function ClientRoutesLayout({ dehydratedState, children }: ClientRoutesLayoutProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
   const isCartPage = pathname.startsWith('/cart');
@@ -34,8 +35,9 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const isMyReviewPage = pathname.startsWith('/my/review');
   const isMyOrderPage = pathname.startsWith('/my/order');
   const isSearchPage = pathname.startsWith('/search');
+  const isMyReviewEditPage = isMyReviewPage && searchParams.get('editId') !== null;
 
-  const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage;
+  const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage || isMyReviewEditPage;
   const isHeaderShadow =
     !isDetailPage && !isOrderCompletePage && !isMyOrderPage && !isMyReviewPage && !isCartPage && !isSearchPage;
   const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage;
