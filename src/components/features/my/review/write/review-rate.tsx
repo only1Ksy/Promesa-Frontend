@@ -14,7 +14,7 @@ export default function ReviewRate({ rating, hovered, setRating, setHovered }: R
     <div className="flex flex-col items-center justify-center gap-2">
       <div className="flex flex-col items-center gap-1">
         <span className="text-subhead font-bold">상품은 어떠셨나요?</span>
-        <span className="text-body-02 font-regular">별점을 눌러 평가해주세요</span>
+        <span className="text-body-02 text-grey-5 font-regular">별점을 눌러 평가해주세요 (필수)</span>
       </div>
       <div className="flex gap-1.5">
         {[1, 2, 3, 4, 5].map((val) => (

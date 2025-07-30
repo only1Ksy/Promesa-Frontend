@@ -1,17 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
+import { useToast } from '@/components/common/alert/toast-provider';
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import MyReviewProductCard from '@/components/features/my/review/my-review-product-card';
 import BottomFixedBar from '@/components/features/my/review/write/bottom-fixed-bar';
 import ReviewImageUploader from '@/components/features/my/review/write/review-image-uploader';
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
+import useAlert from '@/hooks/use-alert';
 import { fetchMyEligibleReviews } from '@/services/api/review-controller';
 import { PostReview, PostReviewImages } from '@/services/api/review-controller';
 
@@ -26,6 +28,13 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
   const [content, setContent] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  const { showToast } = useToast();
+  const alertModal = useAlert();
+
+  const isUploadable = useMemo(() => {
+    return rating > 0 && content.trim().length > 0;
+  }, [rating, content]);
 
   const searchParams = useSearchParams();
   const itemId = Number(searchParams.get('id'));
@@ -64,7 +73,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
 
   const handleSubmit = async () => {
     if (!rating || !content.trim()) {
-      alert('별점과 내용을 모두 입력해 주세요.');
+      alertModal('별점과 내용(10자 이상)을 모두 입력해 주세요.');
       return;
     }
 
@@ -92,12 +101,12 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
       }
 
       await PostReview(itemId, orderItemId, content, rating, imageKeys);
-      alert('리뷰 등록 성공!');
+      showToast('리뷰를 등록했습니다.');
     } catch (e) {
       if (typeof window !== 'undefined') {
         window.console.error(e);
       }
-      alert('리뷰 등록 실패');
+      alertModal('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -134,7 +143,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
       </div>
       {/* 제출 버튼 */}
       <BottomFixedBarPortal>
-        <BottomFixedBar handleUpload={handleSubmit} barText="등록하기" />
+        <BottomFixedBar handleUpload={handleSubmit} barText="등록하기" isUploadable={isUploadable} />
       </BottomFixedBarPortal>
     </HydrationBoundary>
   );

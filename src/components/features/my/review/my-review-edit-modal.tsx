@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { useToast } from '@/components/common/alert/toast-provider';
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
 import MyReviewProductCard from '@/components/features/my/review/my-review-product-card';
 import BottomFixedBar from '@/components/features/my/review/write/bottom-fixed-bar';
 import ReviewImageUploader from '@/components/features/my/review/write/review-image-uploader';
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
+import useAlert from '@/hooks/use-alert';
 import { DeleteReviewImage, PatchReview, PostReviewImages } from '@/services/api/review-controller';
 import { WrittenReviewsResponse } from '@/types/review-controller';
 
@@ -21,6 +23,9 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
   const searchParams = useSearchParams();
   const editId = Number(searchParams.get('editId'));
 
+  const alertModal = useAlert();
+  const { showToast } = useToast();
+
   const currentReview = reviews.find((r) => r.reviewResponse.reviewId === editId);
 
   const [rating, setRating] = useState(() => currentReview?.reviewResponse.rating ?? 0);
@@ -32,6 +37,10 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
   const [deletedPreviews, setDeletedPreviews] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>(() => currentReview?.reviewResponse.reviewImages ?? []);
+
+  const isUploadable = useMemo(() => {
+    return rating > 0 && content.trim().length > 10;
+  }, [rating, content]);
 
   if (!editId || !currentReview) return null;
 
@@ -65,7 +74,7 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
 
   const handleSubmit = async () => {
     if (!rating || !content.trim()) {
-      alert('별점과 내용을 모두 입력해 주세요.');
+      alertModal('별점과 내용(10자 이상)을 모두 입력해 주세요.');
       return;
     }
 
@@ -100,11 +109,11 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
         imageKeys,
       );
 
-      alert('리뷰 수정 성공!');
+      showToast('리뷰를 수정했습니다.');
       router.replace('/my/review');
     } catch (e) {
       console.error(e);
-      alert('리뷰 등록 실패');
+      alertModal('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -143,7 +152,7 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
         />
       </div>
       <BottomFixedBarPortal>
-        <BottomFixedBar handleUpload={handleSubmit} barText="수정하기" />
+        <BottomFixedBar handleUpload={handleSubmit} barText="수정하기" isUploadable={isUploadable} />
       </BottomFixedBarPortal>
     </div>
   );

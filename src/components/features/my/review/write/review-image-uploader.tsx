@@ -21,8 +21,10 @@ export default function ReviewImageUploader({
 
   return (
     <div className="mb-6">
-      <p className="mb-3 text-base font-medium text-gray-800">상품 사진을 첨부해주세요.</p>
-
+      <div className="text-body-02 mb-3 flex gap-0.5 font-medium">
+        <span className="text-black">상품 사진을 첨부해주세요.</span>
+        <span className="text-grey-5">(선택)</span>
+      </div>
       <div className="flex flex-wrap gap-2">
         {/* 이미지 미리보기 */}
         {previews.map((src, idx) => (
