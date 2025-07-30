@@ -16,7 +16,7 @@ interface Props {
 
 export default function ReviewPagination({ currentPage, totalPage, onPageChange }: Props) {
   return (
-    <div className="item-center mx-auto flex gap-3">
+    <div className="item-center absolute bottom-10 mx-auto flex gap-3">
       {/* 왼쪽 이동 버튼들 */}
       <div className="text-grey-9 flex">
         <button onClick={() => currentPage > 1 && onPageChange(0)} className={currentPage > 1 ? 'cursor-pointer' : ''}>

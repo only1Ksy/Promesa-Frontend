@@ -117,7 +117,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
   return (
     <HydrationBoundary state={itemDetailState}>
       <DetailSwiper images={images} alt="product detail image" />
-      <div className="flex flex-col items-start gap-10 self-stretch pb-29.5">
+      <div className="flex flex-col items-start gap-10 self-stretch pb-4">
         <ProductInformation onSelect={scrollTo} item={item} />
         <div className="w-full">
           <div className="sticky top-11.5 z-40">
@@ -132,27 +132,33 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             <ProductNotice shippingPolicy={item.shippingPolicy} />
           </div>
 
-          <div ref={reviewRef} className="mt-10 flex min-h-100 w-full scroll-mt-26 flex-col items-center">
+          <div ref={reviewRef} className="mt-10 flex w-full scroll-mt-26 flex-col items-center">
             <div className="flex w-full items-end justify-between px-5">
               <div className="flex items-center gap-2">
                 <span className="text-subhead font-medium text-black">리뷰 ({item.reviewCount}) </span>
                 <div className="flex items-center gap-1">
                   <ReviewStarIcon className="text-orange h-4 w-4" />
-                  <div className="text-grey-6 text-body-02 font-medium">
-                    {item.averageRating}({item.reviewCount})
-                  </div>
+                  <div className="text-grey-6 text-body-02 font-medium">{item.averageRating}</div>
                 </div>
               </div>
             </div>
             <div className="pt-2 pb-3">
               <DividerIcon />
             </div>
-            <div className="flex w-full flex-col items-center gap-5">
-              <ReviewImageOnly imageUrls={reviewResponse.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
-            </div>
-            <div className="flex w-full flex-col items-center gap-5">
-              <ReviewPreview reviews={reviewResponse ?? []} openReviewModal={openReviewModal} />
-            </div>
+            {item.reviewCount === 0 ? (
+              <div className="text-body-02 text-grey-5 flex h-56 w-full items-center justify-center font-medium">
+                <span>아직 작성된 리뷰가 없어요</span>
+              </div>
+            ) : (
+              <>
+                <div className="flex w-full flex-col items-center gap-5">
+                  <ReviewImageOnly imageUrls={reviewResponse.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
+                </div>
+                <div className="flex w-full flex-col items-center gap-5">
+                  <ReviewPreview reviews={reviewResponse ?? []} openReviewModal={openReviewModal} />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
