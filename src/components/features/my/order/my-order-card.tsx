@@ -9,13 +9,16 @@ interface MyOrderCardProps {
   title: string;
   price: number;
   itemCount: number;
+  isButton: boolean;
 }
 
-export default function MyOrderCard({ status, shipComment, url, title, price, itemCount }: MyOrderCardProps) {
+export default function MyOrderCard({ status, shipComment, url, title, price, itemCount, isButton }: MyOrderCardProps) {
   const isCancelButton = status === '입금확인중' || '배송준비중';
   const isReturnExchangeButton = status === '배송중' || '배송완료';
 
   const renderButtons = () => {
+    if (!isButton) return null;
+
     if (isCancelButton) {
       return (
         <>
@@ -74,7 +77,7 @@ export default function MyOrderCard({ status, shipComment, url, title, price, it
           </div>
         </div>
       </div>
-      <div className="flex h-10.5 items-center justify-center gap-2 px-5">{renderButtons()}</div>
+      {isButton && <div className="flex h-10.5 items-center justify-center gap-2 px-5">{renderButtons()}</div>}
     </div>
   );
 }

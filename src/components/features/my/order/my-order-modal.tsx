@@ -54,6 +54,8 @@ export default function MyOrderModal() {
     console.log('copy');
   };
 
+  const isButton = true;
+
   return (
     <motion.div
       initial={{ x: '100%' }}
@@ -82,6 +84,7 @@ export default function MyOrderModal() {
             }
             price={order.items[0].price}
             itemCount={order.items[0].quantity}
+            isButton={isButton}
           />
 
           <div className="bg-green h-[1px] w-90.5" />

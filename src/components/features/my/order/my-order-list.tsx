@@ -16,6 +16,8 @@ interface MyOrderListProps {
 export default function MyOrderList({ orders }: MyOrderListProps) {
   const router = useRouter();
 
+  const isButton = false;
+
   return (
     <>
       {orders.map((order, index) => {
@@ -51,6 +53,7 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
                 title={order.itemName}
                 price={order.totalAmount}
                 itemCount={order.totalQuantity}
+                isButton={isButton}
               />
             </div>
             {index !== orders.length - 1 && <div className="bg-green mx-5 h-[1px]" />}
