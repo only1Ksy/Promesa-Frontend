@@ -1,5 +1,8 @@
 import { useRouter } from 'next/navigation';
 
+import { useToast } from '@/components/common/alert/toast-provider';
+import useAlert from '@/hooks/use-alert';
+import { DeleteReview } from '@/services/api/review-controller';
 import { WrittenReviewsResponse } from '@/types/review-controller';
 
 import MyReviewCard from './my-review-card';
@@ -12,11 +15,29 @@ interface MyReviewAvailableProps {
 export default function MyReviewWritten({ writtenReviews }: MyReviewAvailableProps) {
   const router = useRouter();
 
+  const alertModal = useAlert();
+  const { showToast } = useToast();
+
   const editReview = (reviewId: number) => {
     router.push(`review?editId=${reviewId}`);
   };
 
-  const deleteReview = () => {};
+  const handleDelete = (itemId: number, reviewId: number) => {
+    alertModal({
+      message: '정말 삭제하시겠습니까?',
+      confirmText: '삭제',
+      cancelText: '취소',
+      onConfirm: async () => {
+        try {
+          await DeleteReview(itemId, reviewId);
+          showToast('리뷰를 삭제했습니다.');
+        } catch (error) {
+          console.error('삭제 실패:', error);
+          alertModal({ message: '삭제 중 오류가 발생했습니다. 다시 시도해주세요.' });
+        }
+      },
+    });
+  };
 
   return (
     <>
@@ -45,7 +66,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
                 수정
               </button>
               <button
-                onClick={deleteReview}
+                onClick={() => handleDelete(review.orderItemSummary.itemId, review.reviewResponse.reviewId)}
                 className="flex h-8.75 w-24.25 cursor-pointer items-center justify-center rounded-xs border"
               >
                 삭제

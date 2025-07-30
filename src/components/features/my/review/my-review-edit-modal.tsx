@@ -74,47 +74,63 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
 
   const handleSubmit = async () => {
     if (!rating || !content.trim()) {
-      alertModal('별점과 내용(10자 이상)을 모두 입력해 주세요.');
+      alertModal({
+        message: '별점과 내용(10자 이상)을 모두 입력해 주세요.',
+      });
       return;
     }
 
-    try {
-      await Promise.all(deletedPreviews.map((key) => DeleteReviewImage(key)));
+    alertModal({
+      message: '이대로 수정하시겠습니까?',
+      confirmText: '수정',
+      cancelText: '취소',
+      onConfirm: async () => {
+        try {
+          await Promise.all(deletedPreviews.map((key) => DeleteReviewImage(key)));
 
-      let imageKeys = [...originalPreviews];
+          let imageKeys = [...originalPreviews];
 
-      if (images.length > 0) {
-        const fileNames = images.map((file) => file.name);
-        const presigned = await PostReviewImages('MEMBER', 'REVIEW', currentReview.orderItemSummary.itemId, fileNames);
+          if (images.length > 0) {
+            const fileNames = images.map((file) => file.name);
+            const presigned = await PostReviewImages(
+              'MEMBER',
+              'REVIEW',
+              currentReview.orderItemSummary.itemId,
+              fileNames,
+            );
 
-        await Promise.all(
-          presigned.map((item, i) =>
-            fetch(item.url, {
-              method: 'PUT',
-              headers: { 'Content-Type': images[i].type },
-              body: images[i],
-            }),
-          ),
-        );
+            await Promise.all(
+              presigned.map((item, i) =>
+                fetch(item.url, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': images[i].type },
+                  body: images[i],
+                }),
+              ),
+            );
 
-        const newKeys = presigned.map((item) => item.key);
-        imageKeys = [...imageKeys, ...newKeys];
-      }
+            const newKeys = presigned.map((item) => item.key);
+            imageKeys = [...imageKeys, ...newKeys];
+          }
 
-      await PatchReview(
-        currentReview.orderItemSummary.itemId,
-        currentReview.reviewResponse.reviewId,
-        content,
-        rating,
-        imageKeys,
-      );
+          await PatchReview(
+            currentReview.orderItemSummary.itemId,
+            currentReview.reviewResponse.reviewId,
+            content,
+            rating,
+            imageKeys,
+          );
 
-      showToast('리뷰를 수정했습니다.');
-      router.replace('/my/review');
-    } catch (e) {
-      console.error(e);
-      alertModal('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
-    }
+          showToast('리뷰를 수정했습니다.');
+          router.replace('/my/review');
+        } catch (e) {
+          console.error(e);
+          alertModal({
+            message: '리뷰 수정에 실패했습니다. 다시 시도해주세요.',
+          });
+        }
+      },
+    });
   };
 
   return (

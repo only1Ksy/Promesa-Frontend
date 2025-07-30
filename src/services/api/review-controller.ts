@@ -96,15 +96,14 @@ export const PatchReview = (itemId: number, reviewId: number, content: string, r
   );
 
 /** itemId, reviewId를 전달하면 리뷰를 삭제하는 함수 */
-export const DeleteReview = (itemId: number, orderItemId: number, reviewId: number) =>
-  withErrorBoundary<[number, number, number], string>(
-    async (itemId, orderItemId, reviewId) => {
+export const DeleteReview = (itemId: number, reviewId: number) =>
+  withErrorBoundary<[number, number], string>(
+    async (itemId, reviewId) => {
       const res = await axiosInstance.delete(`/items/${itemId}/reviews/${reviewId}`);
 
       return res.data.data;
     },
     itemId,
-    orderItemId,
     reviewId,
   );
 

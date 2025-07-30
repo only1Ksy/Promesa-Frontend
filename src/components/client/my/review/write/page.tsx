@@ -73,7 +73,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
 
   const handleSubmit = async () => {
     if (!rating || !content.trim()) {
-      alertModal('별점과 내용(10자 이상)을 모두 입력해 주세요.');
+      alertModal({ message: '별점과 내용(10자 이상)을 모두 입력해 주세요.' });
       return;
     }
 
@@ -106,7 +106,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
       if (typeof window !== 'undefined') {
         window.console.error(e);
       }
-      alertModal('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
+      alertModal({ message: '리뷰 등록에 실패했습니다. 다시 시도해주세요.' });
     }
   };
 
