@@ -32,10 +32,10 @@ export default function Header({ shadow }: HeaderProps) {
   const isMyOrderPage = pathname.startsWith('/my/order');
   const isMyReviewWritePage = pathname.startsWith('/my/review/write');
   const isMyReviewPage = pathname.startsWith('/my/review') && !isMyReviewWritePage;
-  const isMyPage = pathname.startsWith('/my') && !isMyOrderPage && !isMyReviewWritePage;
+  const isMyPage = pathname.startsWith('/my') && !isMyOrderPage && !isMyReviewWritePage && !isMyReviewPage;
   const isOrderPage = pathname.startsWith('/order');
   const isOrderCompletePage = pathname.startsWith('/order/complete');
-  const isReviewPage = pathname.includes('/review') && !isMyReviewWritePage;
+  const isReviewPage = pathname.includes('/review') && !isMyReviewWritePage && !isMyReviewPage;
   const isShopPage = pathname.startsWith('/shop');
   const isCartPage = pathname.startsWith('/cart');
 
@@ -69,7 +69,7 @@ export default function Header({ shadow }: HeaderProps) {
     else if (isReviewPage)
       return (
         <span className="text-subhead text-grey-9 font-medium">
-          {reviewMode == null ? '리뷰' : reviewMode === 'imageOnly' ? '모아보기' : '리뷰 전체보기'}
+          {reviewMode == null ? '리뷰 전체보기' : '모아보기'}
         </span>
       );
     else if (isMyPage) return <span className="text-subhead text-grey-9 font-medium">마이페이지</span>;

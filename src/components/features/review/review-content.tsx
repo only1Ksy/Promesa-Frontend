@@ -40,9 +40,7 @@ export default function ReviewContent({ reviews, itemId, mode, onPageChange }: R
               <span className="text-subhead font-medium text-black">리뷰 ({item.reviewCount})</span>
               <div className="flex items-center gap-1">
                 <ReviewStarIcon className="text-orange h-4 w-4" />
-                <div className="text-grey-6 text-body-02 font-medium">
-                  {averageRating} ({item.reviewCount})
-                </div>
+                <div className="text-grey-6 text-body-02 font-medium">{averageRating}</div>
               </div>
             </div>
           </div>
