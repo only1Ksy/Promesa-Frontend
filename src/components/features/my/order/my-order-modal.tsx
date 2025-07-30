@@ -28,13 +28,6 @@ export default function MyOrderModal() {
 
   if (!orderId || !order || isLoading) return null;
 
-  const statusText = getOrderStatusText(order.summary.orderStatus, order.summary.deliveryStatus);
-  const shipComment = getShipComment(
-    order.summary.deliveryStatus,
-    order.summary.deliveryExpectedDate,
-    order.summary.deliveryCompletedDate,
-  );
-
   // 날짜 계산
   const { year, month, day } = formatKoreanDateTime(order.summary.orderDate);
   const {
@@ -73,18 +66,26 @@ export default function MyOrderModal() {
           </span>
         </div>
         <div className="flex flex-col items-center gap-6">
-          {order.items.map((item) => (
-            <MyOrderCard
-              key={item.itemId}
-              status={statusText}
-              shipComment={shipComment}
-              url={order.summary.itemThumbnail}
-              title={item.itemName}
-              price={item.price}
-              itemCount={item.quantity}
-              isButton={isButton}
-            />
-          ))}
+          {order.items.map((item) => {
+            const itemStatusText = getOrderStatusText(order.summary.orderStatus, order.summary.deliveryStatus);
+            const itemShipComment = getShipComment(
+              order.summary.deliveryStatus,
+              order.summary.deliveryExpectedDate,
+              order.summary.deliveryCompletedDate,
+            );
+            return (
+              <MyOrderCard
+                key={item.itemId}
+                status={itemStatusText}
+                shipComment={itemShipComment}
+                url={item.orderItemThumbnail}
+                title={item.itemName}
+                price={item.price}
+                itemCount={item.quantity}
+                isButton={isButton}
+              />
+            );
+          })}
 
           <div className="bg-green h-[1px] w-90.5" />
 
