@@ -9,49 +9,44 @@ interface MyOrderCardProps {
   title: string;
   price: number;
   itemCount: number;
+  isButton: boolean;
 }
 
-export default function MyOrderCard({ status, shipComment, url, title, price, itemCount }: MyOrderCardProps) {
-  const isCancelButton = status === '입금확인중' || '배송준비중';
-  const isReturnExchangeButton = status === '배송중' || '배송완료';
+export default function MyOrderCard({ status, shipComment, url, title, price, itemCount, isButton }: MyOrderCardProps) {
+  const isCancelButton = status === '입금확인중' || status === '배송준비중';
+  const isReturnExchangeButton =
+    status === '배송중' || status === '배송완료' || status === '반품완료' || status === '교환완료';
 
   const renderButtons = () => {
+    if (!isButton) return null;
+
     if (isCancelButton) {
       return (
         <>
-          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button className="text-body-02 flex h-full w-90.5 cursor-pointer items-center justify-center rounded-xs border font-medium">
             취소 접수
-          </button>
-          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
-            문의하기
           </button>
         </>
       );
     } else if (isReturnExchangeButton) {
       return (
         <>
-          <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
             반품 접수
           </button>
-          <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
             교환 접수
-          </button>
-          <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
-            문의하기
           </button>
         </>
       );
     }
     return (
       <>
-        <button className="text-body-02 border-grey-5 text-grey-5 flex h-full w-28.75 cursor-not-allowed items-center justify-center rounded-xs border font-medium">
+        <button className="text-body-02 border-grey-5 text-grey-5 flex h-full w-44.25 cursor-not-allowed items-center justify-center rounded-xs border font-medium">
           반품 접수
         </button>
-        <button className="text-body-02 border-grey-5 text-grey-5 flex h-full w-28.75 cursor-not-allowed items-center justify-center rounded-xs border font-medium">
+        <button className="text-body-02 border-grey-5 text-grey-5 flex h-full w-44.25 cursor-not-allowed items-center justify-center rounded-xs border font-medium">
           교환 접수
-        </button>
-        <button className="text-body-02 flex h-full w-28.75 cursor-pointer items-center justify-center rounded-xs border font-medium">
-          문의하기
         </button>
       </>
     );
@@ -74,7 +69,7 @@ export default function MyOrderCard({ status, shipComment, url, title, price, it
           </div>
         </div>
       </div>
-      <div className="flex h-10.5 items-center justify-center gap-2 px-5">{renderButtons()}</div>
+      {isButton && <div className="flex h-10.5 items-center justify-center gap-2 px-5">{renderButtons()}</div>}
     </div>
   );
 }

@@ -28,13 +28,6 @@ export default function MyOrderModal() {
 
   if (!orderId || !order || isLoading) return null;
 
-  const statusText = getOrderStatusText(order.summary.orderStatus, order.summary.deliveryStatus);
-  const shipComment = getShipComment(
-    order.summary.deliveryStatus,
-    order.summary.deliveryExpectedDate,
-    order.summary.deliveryCompletedDate,
-  );
-
   // 날짜 계산
   const { year, month, day } = formatKoreanDateTime(order.summary.orderDate);
   const {
@@ -54,6 +47,8 @@ export default function MyOrderModal() {
     console.log('copy');
   };
 
+  const isButton = true;
+
   return (
     <motion.div
       initial={{ x: '100%' }}
@@ -62,7 +57,7 @@ export default function MyOrderModal() {
       transition={{ duration: 0.3 }}
       className="bg-pale-green fixed inset-0 z-999 mx-auto w-full max-w-[var(--frame-width)] overflow-y-auto shadow-lg"
     >
-      <Header shadow />
+      <Header />
       <div className="flex flex-col gap-3 pt-11.5">
         <div className="flex items-center gap-2.5 px-5 pt-5">
           <span className="text-headline-05">주문상품정보</span>
@@ -71,18 +66,26 @@ export default function MyOrderModal() {
           </span>
         </div>
         <div className="flex flex-col items-center gap-6">
-          <MyOrderCard
-            status={statusText}
-            shipComment={shipComment}
-            url={order.summary.itemThumbnail}
-            title={
-              order.items.length > 1
-                ? `${order.items[0].itemName} 외 ${order.items.length - 1}건`
-                : order.items[0].itemName
-            }
-            price={order.items[0].price}
-            itemCount={order.items[0].quantity}
-          />
+          {order.items.map((item) => {
+            const itemStatusText = getOrderStatusText(order.summary.orderStatus, order.summary.deliveryStatus);
+            const itemShipComment = getShipComment(
+              order.summary.deliveryStatus,
+              order.summary.deliveryExpectedDate,
+              order.summary.deliveryCompletedDate,
+            );
+            return (
+              <MyOrderCard
+                key={item.itemId}
+                status={itemStatusText}
+                shipComment={itemShipComment}
+                url={item.orderItemThumbnail}
+                title={item.itemName}
+                price={item.price}
+                itemCount={item.quantity}
+                isButton={isButton}
+              />
+            );
+          })}
 
           <div className="bg-green h-[1px] w-90.5" />
 
@@ -136,6 +139,9 @@ export default function MyOrderModal() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="flex w-full justify-center px-2.5 pb-7">
+            <button className="text-body-02 h-10.5 w-90.25 bg-black font-medium text-white">문의하기</button>
           </div>
         </div>
       </div>

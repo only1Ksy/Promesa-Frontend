@@ -42,6 +42,7 @@ export interface OrderResponseSchema {
   items: Array<{
     itemId: number;
     itemName: string;
+    orderItemThumbnail: string;
     price: number;
     quantity: number;
   }>;
