@@ -59,7 +59,7 @@ export const parseItemResponse = (data: ItemResponseSchema): ParsedItemData => (
 
   price: data.itemSales.price,
   stock: data.itemSales.stock,
-  soldOut: data.itemSales.soldOut,
+  saleStatus: data.itemSales.saleStatus,
   freeShipping: data.itemSales.freeShipping,
   shippingPolicy: data.itemSales.shippingPolicy,
 });

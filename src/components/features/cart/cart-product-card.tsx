@@ -18,9 +18,8 @@ export default function CartProductCard({ product }: CartProductCardProps) {
   const { mutate: deleteCarts } = useDeleteCartItem();
 
   // 수량 조절
-  const itemCount = product.quantity;
-  // !!! 수정 필요
-  const isSoldOut = product.quantity < 1;
+  const itemCount = product.stock;
+  const isSoldOut = product.saleStatus !== 'ON_SALE';
 
   const handleQuantityDecrease = () => {
     if (quantity > 1) {

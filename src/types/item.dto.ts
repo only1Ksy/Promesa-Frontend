@@ -25,7 +25,7 @@ export interface ItemWishSchema {
 
 export interface ItemSalesSchema {
   stock: number;
-  soldOut: boolean;
+  saleStatus: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
   price: number;
   freeShipping: boolean;
   shippingPolicy: string;
