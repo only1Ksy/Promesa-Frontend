@@ -15,7 +15,7 @@ interface ArtistProfileWithImageProps {
 
 export default function ArtistProfileWithImage({ item }: ArtistProfileWithImageProps) {
   const { profile, wish } = item;
-  const { artistId, name, profileImageUrl } = profile;
+  const { artistId, name, subname, profileImageUrl } = profile;
   const { isWishlisted, wishCount } = wish;
 
   const { mutate: toggleWish } = useToggleWish();
@@ -28,7 +28,7 @@ export default function ArtistProfileWithImage({ item }: ArtistProfileWithImageP
           <div className="absolute inset-0 -bottom-5.5 z-5 w-full bg-gradient-to-t from-[#000000] via-[#111111]/50 via-85% to-[#222222]/0" />
           <div className="z-10 flex flex-col">
             <p className="text-body-01 font-bold text-white">{name}</p>
-            <p className="text-body-02 text-grey-4 font-medium">{name}</p>
+            <p className="text-body-02 text-grey-4 font-medium">{subname}</p>
           </div>
           <div className="z-10 flex flex-col items-center text-white">
             {wishCount >= 0 ? (
