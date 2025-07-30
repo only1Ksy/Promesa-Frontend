@@ -69,7 +69,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
 
   // 수량 조절
   const itemCount = item.stock;
-  const isSoldOut = item.soldOut;
+  const isSoldOut = item.saleStatus !== 'ON_SALE';
   const isMultiple = itemCount > 1;
 
   const handleQuantityDecrease = () => {
