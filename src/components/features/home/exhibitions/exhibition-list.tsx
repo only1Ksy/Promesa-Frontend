@@ -96,7 +96,7 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
                   <div className="mx-5 flex flex-col gap-5">
                     <div className="bg-green relative h-103 w-full overflow-hidden rounded-xs">
                       <ImageWithEffect
-                        src={exhibitionItem.summary.imageUrl}
+                        src={exhibitionItem.summary.thumbnailImageUrl}
                         alt={`전시회 ${exhibitionItem.summary.title}의 메인 이미지.`}
                         fill
                         priority
