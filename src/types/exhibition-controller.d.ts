@@ -5,10 +5,11 @@ export interface ExhibitionSummarySchema {
   status: 'ONGOING' | 'UPCOMING' | 'PERMANENT' | 'PAST';
   title: string;
   description: string;
+  artistNames: string[];
   startDate: string;
   endDate: string;
-  imageKey: string;
-  imageUrl: string;
+  thumbnailImageKey: string;
+  thumbnailImageUrl: string;
   createdAt: string;
   updatedAt: string;
 }
