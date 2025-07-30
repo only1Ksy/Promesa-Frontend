@@ -83,6 +83,7 @@ export default function MyOrderModal() {
                 price={item.price}
                 itemCount={item.quantity}
                 isButton={isButton}
+                itemId={item.itemId}
               />
             );
           })}
