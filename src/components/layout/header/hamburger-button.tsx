@@ -126,8 +126,8 @@ export default function HamburgerButton() {
                 durationTime={400}
                 className="mt-4 flex flex-col gap-5"
               >
-                {data.map(({ id, name }, idx) => (
-                  <Link key={id} href={`/shop?categoryId=${idx}`}>
+                {data.map(({ id, name }) => (
+                  <Link key={id} href={`/shop?categoryId=${id}`}>
                     <p className="text-body-01 text-grey-5 only-hover:text-black cursor-pointer font-medium transition duration-300 active:text-black">
                       {name}
                     </p>
