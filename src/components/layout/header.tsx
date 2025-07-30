@@ -38,6 +38,7 @@ export default function Header({ shadow }: HeaderProps) {
   const isReviewPage = pathname.includes('/review') && !isMyReviewWritePage;
   const isShopPage = pathname.startsWith('/shop');
   const isCartPage = pathname.startsWith('/cart');
+  const isExhibitionPage = pathname.startsWith('/exhibition');
 
   const isBack =
     isArtistPage ||
@@ -58,7 +59,7 @@ export default function Header({ shadow }: HeaderProps) {
   const EmptyDiv = () => <div className="h-7.5 w-7.5" />;
 
   const LeftIcon = () => {
-    if (isAuthPage || isOrderCompletePage || isMyOrderDetailPage) return <EmptyDiv />;
+    if (isAuthPage || isOrderCompletePage || isMyOrderDetailPage || isExhibitionPage) return <EmptyDiv />;
     else if (isBack) return <BackButton />;
     else return <HamburgerButton />;
   };
@@ -79,6 +80,7 @@ export default function Header({ shadow }: HeaderProps) {
     else if (isMyReviewWritePage) return <span className="text-subhead text-grey-9 font-medium">리뷰 작성</span>;
     else if (isMyReviewPage) return <span className="text-subhead text-grey-9 font-medium">리뷰</span>;
     else if (isCartPage) return <span className="text-subhead text-grey-9 font-medium">장바구니</span>;
+    else if (isExhibitionPage) return <span className="text-subhead text-grey-9 font-medium">기획전</span>;
     else
       return (
         <Link href="/">
@@ -97,7 +99,14 @@ export default function Header({ shadow }: HeaderProps) {
         <EmptyDiv />
       );
     const SecondIcon = () =>
-      isAuthPage || isMyPage || isOrderPage || isMyOrderPage || isMyReviewWritePage || isMyReviewPage || isCartPage ? (
+      isAuthPage ||
+      isMyPage ||
+      isOrderPage ||
+      isMyOrderPage ||
+      isMyReviewWritePage ||
+      isMyReviewPage ||
+      isCartPage ||
+      isExhibitionPage ? (
         <EmptyDiv />
       ) : (
         <Link href="/my">
@@ -105,7 +114,7 @@ export default function Header({ shadow }: HeaderProps) {
         </Link>
       );
     const ThirdIcon = () => {
-      if (isLoginPage || isMyOrderDetailPage)
+      if (isLoginPage || isMyOrderDetailPage || isExhibitionPage)
         return (
           <button
             onClick={() => {

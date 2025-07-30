@@ -1,5 +1,8 @@
-import type { ExhibitionSummaryResponseSchema, ExhibitionSummarySchema } from '@/types/exhibition-controller';
-import type { ItemPreviewResponseSchema } from '@/types/item-controller';
+import type {
+  ExhibitionDetailResponseSchema,
+  ExhibitionSummaryResponseSchema,
+  ExhibitionSummarySchema,
+} from '@/types/exhibition-controller';
 
 import { axiosInstance, withErrorBoundary } from './axios/instance';
 
@@ -16,7 +19,7 @@ export const fetchOngoingExhibitions = () =>
   });
 
 export const fetchExhibition = (exhibitionId: number) =>
-  withErrorBoundary<[number], ItemPreviewResponseSchema[]>(async (exhibitionId) => {
+  withErrorBoundary<[number], ExhibitionDetailResponseSchema>(async (exhibitionId) => {
     const res = await axiosInstance.get(`/exhibitions/${exhibitionId}`);
     return res.data.data;
   }, exhibitionId);
