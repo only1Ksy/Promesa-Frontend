@@ -44,11 +44,16 @@ export interface DetailArtistResponseSchema {
   wishCount: number;
 }
 
+export interface MainImageUrls {
+  url: string;
+  sortOrder: number;
+}
+
 // detail page
 export interface ParsedItemData {
   itemId: number;
   title: string;
-  mainImageUrls: string[];
+  mainImageUrls: MainImageUrls[];
   detailImageUrls: string[];
   category: {
     id: number;
