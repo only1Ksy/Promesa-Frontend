@@ -47,7 +47,8 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     !isCartPage &&
     !isSearchPage &&
     !isMyProfilePage;
-  const isFooter = !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage && !isMyProfilePage;
+  const isFooter =
+    !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage && !isMyProfilePage && !isCartPage;
   const isFloatingButton = !isOrderPage && !isReviewPage && !isMyPage && !isCartPage;
 
   const isFetching = useIsFetching();

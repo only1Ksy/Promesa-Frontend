@@ -156,6 +156,7 @@ export default function ClientOrderItemPage() {
 
       // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
       alertModal({ message: '주문이 완료되었습니다.' });
+      useOrderStore.getState().resetForm();
       router.push(`order/complete/${result.summary.orderId}`);
     } catch (err) {
       console.error('주문 실패:', err);
@@ -177,10 +178,8 @@ export default function ClientOrderItemPage() {
         <DeliveryForm />
         {/* 결제 수단 */}
         <PayForm />
-        {/* 총 결제 금액 */}
-        <TotalPrice total={total} />
         {/* 결제 동의 버튼 */}
-        <div className="flex h-12.5 items-center gap-4.5 px-5">
+        <div className="flex max-h-12.5 flex-col gap-1 px-5">
           <button
             type="button"
             onClick={() => setAgree((prev) => !prev)}
@@ -191,7 +190,10 @@ export default function ClientOrderItemPage() {
               주문내용 확인 및 결제 동의
             </span>
           </button>
+          {!agree && <span className="text-caption-01 text-orange font-bold">* 필수 선택 항목입니다.</span>}
         </div>
+        {/* 총 결제 금액 */}
+        <TotalPrice total={total} />
       </div>
       {/* 하단 고정 결제하기 버튼 */}
       <BottomFixedBarPortal>

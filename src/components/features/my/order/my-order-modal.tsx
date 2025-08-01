@@ -49,6 +49,27 @@ export default function MyOrderModal() {
 
   const isButton = true;
 
+  const paymentInformation = () => {
+    if (order.summary.orderStatus === 'WAITING_FOR_PAYMENT') {
+      return (
+        <>
+          <span className="flex items-center gap-0.5">
+            입금통장: {`${bankName} ${accountNumber}`}
+            <button className="cursor-pointer" onClick={() => copyClipBoard(accountNumber)}>
+              <CopyIcon width={16} height={16} />
+            </button>
+          </span>
+          <span>
+            입금기한:
+            {` ${depositYear}년 ${depositMonth}월 ${depositDay}일 ${depositAmpm} ${depositHour}시까지`}
+          </span>
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   return (
     <motion.div
       initial={{ x: '100%' }}
@@ -95,11 +116,11 @@ export default function MyOrderModal() {
             <div className="text-body-01 flex flex-col gap-3 font-medium">
               <div className="flex items-center justify-between">
                 <span>구매자</span>
-                <span>{order.delivery.receiverName}</span>
+                <span>{order.summary.buyerName}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span>휴대전화</span>
-                <span>{order.delivery.receiverPhone}</span>
+                <span>{order.summary.buyerPhone ?? 'x'}</span>
               </div>
             </div>
           </div>
@@ -126,21 +147,29 @@ export default function MyOrderModal() {
                     <span>+{order.delivery.deliveryFee.toLocaleString()}원</span>
                   </div>
                   <div className="text-grey-6 text-caption-01 flex flex-col gap-2.5 font-medium">
-                    <span className="flex items-center gap-0.5">
-                      입금통장: {`${bankName} ${accountNumber}`}
-                      <button className="cursor-pointer" onClick={() => copyClipBoard(accountNumber)}>
-                        <CopyIcon width={16} height={16} />
-                      </button>
-                    </span>
-                    <span>
-                      입금기한:
-                      {` ${depositYear}년 ${depositMonth}월 ${depositDay}일 ${depositAmpm} ${depositHour}시까지`}
-                    </span>
+                    {paymentInformation()}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div className="bg-green h-[1px] w-90.5" />
+
+          <div className="flex w-full flex-col gap-3.5 px-5">
+            <span className="text-headline-05">배송지 정보</span>
+            <div className="text-body-01 flex flex-col gap-3 font-medium">
+              <div className="flex items-center justify-between">
+                <span>받는 사람</span>
+                <span>{order.delivery.receiverName}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>휴대전화</span>
+                <span>{order.delivery.receiverPhone}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="flex w-full justify-center px-2.5 pb-7">
             <button className="text-body-02 h-10.5 w-90.25 bg-black font-medium text-white">문의하기</button>
           </div>

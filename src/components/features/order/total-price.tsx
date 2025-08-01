@@ -4,7 +4,7 @@ interface TotalPriceProps {
 
 export default function TotalPrice({ total }: TotalPriceProps) {
   return (
-    <div className="flex flex-col gap-3.5 px-5">
+    <div className="flex flex-col gap-3.5 px-5 pb-2">
       <div className="text-headline-05 flex items-center justify-between">
         <span>총 결제 금액</span>
         <span className="text-orange">{(total > 70000 ? total : total + 3000).toLocaleString()}원</span>

@@ -32,6 +32,9 @@ export default function ClientMyReviewPage({ myReviewsState }: ClientMyReviewPag
 
   if (!writtenReviews || !eligibleReviews || isLoading || isEligibleReviewLoading) return null;
 
+  const isWrittenReviewsEmpty = writtenReviews.length === 0;
+  const isEligibleReviewsEmpty = eligibleReviews.length === 0;
+
   return (
     <HydrationBoundary state={myReviewsState}>
       <div style={{ minHeight: 'calc(100vh - 46px)' }}>
@@ -40,7 +43,17 @@ export default function ClientMyReviewPage({ myReviewsState }: ClientMyReviewPag
         </div>
         <div className="py-8.75">
           {activeTab === 'available' ? (
-            <MyReviewAvailable eligibleReviews={eligibleReviews} />
+            isEligibleReviewsEmpty ? (
+              <p className="text-grey-6 text-body-01 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                작성 가능한 리뷰가 없어요
+              </p>
+            ) : (
+              <MyReviewAvailable eligibleReviews={eligibleReviews} />
+            )
+          ) : isWrittenReviewsEmpty ? (
+            <p className="text-grey-6 text-body-01 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              작성한 리뷰가 없어요
+            </p>
           ) : (
             <MyReviewWritten writtenReviews={writtenReviews} />
           )}
