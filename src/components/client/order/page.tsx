@@ -76,7 +76,7 @@ export default function ClientOrderItemPage() {
 
     return [
       {
-        imageSrc: item.mainImageUrls[0],
+        imageSrc: item.mainImageUrls[0].url,
         artistName: item.artist.name,
         itemName: item.title,
         itemNumber: params.itemCount,
