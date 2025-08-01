@@ -1,4 +1,5 @@
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { formatKoreanDateTime } from '@/lib/utils/date-format';
 
 interface MyReviewProductCardProps {
   url: string;
@@ -9,6 +10,8 @@ interface MyReviewProductCardProps {
 }
 
 export default function MyReviewProductCard({ url, artistName, title, itemCount, date }: MyReviewProductCardProps) {
+  const { year, month, day } = formatKoreanDateTime(date);
+
   return (
     <div className="flex gap-4.5">
       <div>
@@ -22,7 +25,9 @@ export default function MyReviewProductCard({ url, artistName, title, itemCount,
         </div>
         <div className="text-grey-5 text-caption-01 gap-1 self-end font-medium">
           <span>구매일자: </span>
-          <span>{date}</span>
+          <span>
+            {String(year)}.{String(month).padStart(2, '0')}.{String(day).padStart(2, '0')}
+          </span>
         </div>
       </div>
     </div>
