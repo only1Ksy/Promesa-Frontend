@@ -156,6 +156,7 @@ export default function ClientOrderItemPage() {
 
       // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
       alertModal({ message: '주문이 완료되었습니다.' });
+      useOrderStore.getState().resetForm();
       router.push(`order/complete/${result.summary.orderId}`);
     } catch (err) {
       console.error('주문 실패:', err);
