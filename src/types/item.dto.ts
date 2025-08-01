@@ -1,9 +1,14 @@
+export interface MainImageUrls {
+  url: string;
+  sortOrder: number;
+}
+
 export interface ItemSummarySchema {
   itemId: number;
   categoryId: number;
   categoryName: string;
   title: string;
-  mainImageUrls: string[];
+  mainImageUrls: MainImageUrls[];
   detailImageUrls: string[];
   averageRating: number;
   reviewCount: number;
