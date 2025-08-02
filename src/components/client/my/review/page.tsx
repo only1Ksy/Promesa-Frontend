@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import EmptyCardNoButton from '@/components/common/empty/empty-card-no-button';
 import MyReviewAvailable from '@/components/features/my/review/my-review-available';
 import MyReviewEditModal from '@/components/features/my/review/my-review-edit-modal';
 import MyReviewToggle from '@/components/features/my/review/my-review-toggle';
@@ -44,16 +45,12 @@ export default function ClientMyReviewPage({ myReviewsState }: ClientMyReviewPag
         <div className="py-8.75">
           {activeTab === 'available' ? (
             isEligibleReviewsEmpty ? (
-              <p className="text-grey-6 text-body-01 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                작성 가능한 리뷰가 없어요
-              </p>
+              <EmptyCardNoButton text="작성 가능한 리뷰가 없습니다" />
             ) : (
               <MyReviewAvailable eligibleReviews={eligibleReviews} />
             )
           ) : isWrittenReviewsEmpty ? (
-            <p className="text-grey-6 text-body-01 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              작성한 리뷰가 없어요
-            </p>
+            <EmptyCardNoButton text="작성한 리뷰가 없습니다" />
           ) : (
             <MyReviewWritten writtenReviews={writtenReviews} />
           )}

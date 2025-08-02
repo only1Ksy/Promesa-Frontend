@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import EmptyCardNoButton from '@/components/common/empty/empty-card-no-button';
 import ReviewImageOnly from '@/components/common/review/review-image-only';
 import type { ReviewListResponse } from '@/types/review-controller';
 
@@ -66,7 +67,7 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
         </>
       ) : (
         /* 이 자리에 리뷰 없음 컴포넌트 추가 */
-        <div className="absolute top-1/2">아직 작성된 리뷰가 없어요</div>
+        <EmptyCardNoButton text="작성된 리뷰가 없습니다" />
       )}
     </div>
   );

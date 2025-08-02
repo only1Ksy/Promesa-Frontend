@@ -167,6 +167,13 @@ export default function MyOrderModal() {
                 <span>휴대전화</span>
                 <span>{order.delivery.receiverPhone}</span>
               </div>
+              <div className="flex items-center justify-between">
+                <span>주소</span>
+                <div className="flex flex-col gap-0.5">
+                  <span>{order.delivery.address}</span>
+                  <span>{order.delivery.addressDetail}</span>
+                </div>
+              </div>
             </div>
           </div>
 

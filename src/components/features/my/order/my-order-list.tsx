@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
+import EmptyCardNoButton from '@/components/common/empty/empty-card-no-button';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import { getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
 import GoIcon from '@/public/icons/layout/scroll-to-top.svg';
@@ -21,11 +22,7 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
   const isMyOrdersEmpty = orders.length === 0;
 
   if (isMyOrdersEmpty) {
-    return (
-      <p className="text-grey-6 text-body-01 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        작성 가능한 리뷰가 없어요
-      </p>
-    );
+    return <EmptyCardNoButton text="주문 내역이 없습니다" />;
   } else {
     return (
       <>

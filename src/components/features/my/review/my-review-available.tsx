@@ -27,6 +27,7 @@ export default function MyReviewAvailable({ eligibleReviews }: MyReviewAvailable
                 title={review.itemName}
                 itemCount={review.quantity}
                 date={review.orderDate}
+                itemId={review.itemId}
               />
               <button
                 onClick={() => writeReviewClicked(review.orderItemId, review.itemId)}
