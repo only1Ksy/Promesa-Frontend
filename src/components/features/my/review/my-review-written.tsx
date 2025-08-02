@@ -51,6 +51,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
                 title={review.orderItemSummary.itemName}
                 itemCount={review.orderItemSummary.quantity}
                 date={review.orderItemSummary.orderDate}
+                itemId={review.orderItemSummary.itemId}
               />
               <MyReviewCard
                 rating={review.reviewResponse.rating}
