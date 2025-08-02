@@ -26,7 +26,6 @@ export default function ExhibitionItemList({ exhibitionId, frame: initialFrame }
   const initialFrameRef = useRef(initialFrame);
 
   const frame = searchParams.get('frame') == 'masonry' ? 'masonry' : 'grid';
-  console.log('a', frame);
   const FRAME_KEYS = [
     { label: FrameGridIcon, value: 'grid' },
     { label: FrameMasonryIcon, value: 'masonry' },
@@ -86,7 +85,7 @@ export default function ExhibitionItemList({ exhibitionId, frame: initialFrame }
     <div className="relative mx-5 mb-20 flex flex-col">
       <div ref={listTopRef} className="scroll-mt-11.5" />
       {/* 헤더 */}
-      <div className="bg-pale-green sticky top-11.5 z-10 flex items-center justify-between pb-6">
+      <div className="bg-pale-green sticky top-11.5 z-100 flex items-center justify-between pb-6">
         <p className="text-headline-05 text-black">작품 모아보기</p>
         <div className="flex gap-2.25">
           {FRAME_KEYS.map(({ label: LabelIcon, value }) => {

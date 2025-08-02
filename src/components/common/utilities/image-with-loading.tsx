@@ -32,9 +32,9 @@ export default function ImageWithLoading({ src, alt, onLoad, ...rest }: ImagePro
     <Image
       src={safeSrc}
       alt={alt}
-      onLoadingComplete={(e) => {
+      onLoad={(e) => {
         endLoading();
-        onLoad?.({ currentTarget: e } as never);
+        onLoad?.(e);
       }}
       {...rest}
       unoptimized // image transformation

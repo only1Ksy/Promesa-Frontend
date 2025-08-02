@@ -30,16 +30,19 @@ export default function ExhibitionDetail({ exhibitionId }: ExhibitionDetailProps
     <div className="relative">
       <Expandable flag={open} collapsedMaxHeight={250} durationTime={2000} className="w-full">
         <div
-          className="bg-pale-green relative w-full"
-          style={paddingTop ? { paddingTop: `${paddingTop}%` } : { minHeight: 'calc(var(--spacing) * 250' }}
+          className="bg-pale-green relative flex w-full flex-col"
+          style={paddingTop ? { paddingTop: `${paddingTop}%` } : { minHeight: 'calc(var(--spacing)*250' }}
         >
-          <ImageWithLoading
-            src={data.detail.detailedImageUrl}
-            alt={`기획전 ${data.summary.title}의 세부 이미지.`}
-            fill
-            priority
-            onLoad={handleImageLoad}
-          />
+          {data.detail.images.map((item) => (
+            <ImageWithLoading
+              key={item.sortOrder}
+              src={item.detailedImageUrl}
+              alt={`기획전 ${data.summary.title}의 세부 이미지.`}
+              fill
+              priority
+              onLoad={handleImageLoad}
+            />
+          ))}
         </div>
       </Expandable>
       <div className="absolute bottom-0 z-5 flex w-full flex-col">
