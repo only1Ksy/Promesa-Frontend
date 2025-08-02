@@ -5,6 +5,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
 import BottomFixedBarPortal from '@/components/common/utilities/bottom-fixed-bar-portal';
@@ -28,6 +29,8 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
   const [content, setContent] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  const router = useRouter();
 
   const { showToast } = useToast();
   const alertModal = useAlert();
@@ -72,42 +75,47 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
   };
 
   const handleSubmit = async () => {
-    if (!rating || !content.trim()) {
+    if (!rating || content.trim().length < 10) {
       alertModal({ message: '별점과 내용(10자 이상)을 모두 입력해 주세요.' });
       return;
     }
 
-    try {
-      let imageKeys: string[] = [];
+    alertModal({
+      message: '이대로 등록하시겠습니까?',
+      confirmText: '등록',
+      cancelText: '취소',
+      onConfirm: async () => {
+        try {
+          let imageKeys: string[] = [];
 
-      if (images.length > 0) {
-        const fileNames = images.map((file) => file.name);
-        // 1) PresignedUrl 발급 받기
-        const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
-        console.log(presigned);
+          if (images.length > 0) {
+            const fileNames = images.map((file) => file.name);
+            const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
 
-        await Promise.all(
-          presigned.map((item, i) =>
-            fetch(item.url, {
-              // presigned URL로 이미지를 업로드
-              method: 'PUT',
-              headers: { 'Content-Type': images[i].type },
-              body: images[i],
-            }),
-          ),
-        );
+            await Promise.all(
+              presigned.map((item, i) =>
+                fetch(item.url, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': images[i].type },
+                  body: images[i],
+                }),
+              ),
+            );
 
-        imageKeys = presigned.map((item) => item.key); // 리뷰 등록에 key를 넘김
-      }
+            imageKeys = presigned.map((item) => item.key);
+          }
 
-      await PostReview(itemId, orderItemId, content, rating, imageKeys);
-      showToast('리뷰를 등록했습니다.');
-    } catch (e) {
-      if (typeof window !== 'undefined') {
-        window.console.error(e);
-      }
-      alertModal({ message: '리뷰 등록에 실패했습니다. 다시 시도해주세요.' });
-    }
+          await PostReview(itemId, orderItemId, content, rating, imageKeys);
+          showToast('리뷰를 등록했습니다.');
+          router.replace('/my/review');
+        } catch (e) {
+          if (typeof window !== 'undefined') {
+            window.console.error(e);
+          }
+          alertModal({ message: '리뷰 등록에 실패했습니다. 다시 시도해주세요.' });
+        }
+      },
+    });
   };
 
   return (
