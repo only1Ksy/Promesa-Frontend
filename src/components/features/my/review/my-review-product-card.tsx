@@ -9,7 +9,7 @@ interface MyReviewProductCardProps {
   title: string;
   itemCount: number;
   date: string;
-  itemId: number;
+  itemId?: number;
 }
 
 export default function MyReviewProductCard({
@@ -31,9 +31,15 @@ export default function MyReviewProductCard({
 
   return (
     <div className="flex gap-4.5">
-      <button className="cursor-pointer" onClick={handleImageClick}>
-        <ImageWithEffect width={92} height={115} src={url} alt={'상품 미리보기 이미지'} className="object-cover" />
-      </button>
+      {!itemId ? (
+        <div>
+          <ImageWithEffect width={92} height={115} src={url} alt={'상품 미리보기 이미지'} className="object-cover" />
+        </div>
+      ) : (
+        <button className="cursor-pointer" onClick={handleImageClick}>
+          <ImageWithEffect width={92} height={115} src={url} alt={'상품 미리보기 이미지'} className="object-cover" />
+        </button>
+      )}
       <div className="flex h-28.75 w-63 flex-col justify-between">
         <div className="flex flex-col gap-0.5">
           <span className="text-body-02 font-bold">{artistName}</span>
