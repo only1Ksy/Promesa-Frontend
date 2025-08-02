@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { useToast } from '@/components/common/alert/toast-provider';
 import Header from '@/components/layout/header';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
-import { getItemStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
+import { getItemStatusText, getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
 import CopyIcon from '@/public/icons/layout/copy.svg';
 import { fetchDetailedOrder } from '@/services/api/order-controller';
 
@@ -88,13 +88,19 @@ export default function MyOrderModal() {
         </div>
         <div className="flex flex-col items-center gap-6">
           {order.items.map((item) => {
-            console.log(item.itemStatus);
-            const itemStatusText = getItemStatusText(item.itemStatus);
-            const itemShipComment = getShipComment(
-              order.delivery.deliveryStatus,
-              order.delivery.deliveryExpectedDate,
-              order.delivery.deliveryCompletedDate,
-            );
+            const itemStatusText =
+              item.itemStatus === null
+                ? getOrderStatusText(order.summary.orderStatus, order.delivery.deliveryStatus)
+                : getItemStatusText(item.itemStatus);
+            const itemShipComment =
+              item.itemStatus === null
+                ? ''
+                : getShipComment(
+                    order.delivery.deliveryStatus,
+                    order.delivery.deliveryExpectedDate,
+                    order.delivery.deliveryCompletedDate,
+                  );
+
             return (
               <MyOrderCard
                 key={item.itemId}
