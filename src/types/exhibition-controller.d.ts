@@ -15,8 +15,10 @@ export interface ExhibitionSummarySchema {
 }
 
 export interface ExhibitionDetailSchema {
-  detailedImageKey: string;
-  detailedImageUrl: string;
+  images: {
+    detailedImageUrl: string;
+    sortOrder: number;
+  }[];
 }
 
 export interface ExhibitionSummaryResponseSchema {
