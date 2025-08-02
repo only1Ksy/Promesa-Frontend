@@ -6,12 +6,12 @@ import EmptyCardNoButton from '@/components/common/empty/empty-card-no-button';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import { getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
 import GoIcon from '@/public/icons/layout/scroll-to-top.svg';
-import { OrderSummary } from '@/types/order-controller';
+import { OrderResponseSchema } from '@/types/order-controller';
 
 import MyOrderCard from './my-order-card';
 
 interface MyOrderListProps {
-  orders: OrderSummary[];
+  orders: OrderResponseSchema[];
 }
 
 export default function MyOrderList({ orders }: MyOrderListProps) {
@@ -28,14 +28,14 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
       <>
         {orders.map((order, index) => {
           // 상태 텍스트 계산
-          const statusText = getOrderStatusText(order.orderStatus, order.deliveryStatus);
+          const statusText = getOrderStatusText(order.summary.orderStatus, order.delivery.deliveryStatus);
           const shipComment = getShipComment(
-            order.deliveryStatus,
-            order.deliveryExpectedDate,
-            order.deliveryCompletedDate,
+            order.delivery.deliveryStatus,
+            order.delivery.deliveryExpectedDate,
+            order.delivery.deliveryCompletedDate,
           );
           // 날짜 계산
-          const { year, month, day } = formatKoreanDateTime(order.orderDate);
+          const { year, month, day } = formatKoreanDateTime(order.summary.orderDate);
 
           return (
             <>
@@ -45,7 +45,7 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
                     {String(year)}.{String(month).padStart(2, '0')}.{String(day).padStart(2, '0')}
                   </span>
                   <button
-                    onClick={() => router.push(`/my/order?id=${order.orderId}`)}
+                    onClick={() => router.push(`/my/order?id=${order.summary.orderId}`)}
                     className="flex cursor-pointer items-center gap-1"
                   >
                     <span>주문 상세</span>
@@ -55,10 +55,14 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
                 <MyOrderCard
                   status={statusText}
                   shipComment={shipComment}
-                  url={order.itemThumbnail}
-                  title={order.totalQuantity > 1 ? `${order.itemName} 외 ${order.totalQuantity - 1}건` : order.itemName}
-                  price={order.totalAmount}
-                  itemCount={order.totalQuantity}
+                  url={order.summary.itemThumbnail}
+                  title={
+                    order.summary.totalQuantity > 1
+                      ? `${order.summary.itemName} 외 ${order.summary.totalQuantity - 1}건`
+                      : order.summary.itemName
+                  }
+                  price={order.summary.totalAmount}
+                  itemCount={order.summary.totalQuantity}
                   isButton={isButton}
                 />
               </div>

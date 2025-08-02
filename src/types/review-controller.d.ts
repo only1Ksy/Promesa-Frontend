@@ -56,7 +56,7 @@ export interface EligibleReviewItem {
   artistName: string;
   itemThumbnail: string;
   orderDate: string;
-  orderStatus: string;
+  deliveryStatus: 'READY' | 'SHIPPING' | 'DELIVERED' | string;
   quantity: number;
 }
 

@@ -38,6 +38,10 @@ export interface OrderResponseSchema {
     address: string;
     addressDetail: string;
     deliveryFee: number;
+    deliveryExpectedDate: string;
+    deliveryStartDate: string;
+    deliveryCompletedDate: string;
+    deliveryStatus: 'READY' | 'SHIPPING' | 'DELIVERED' | string;
   };
   items: Array<{
     itemId: number;
@@ -45,6 +49,15 @@ export interface OrderResponseSchema {
     orderItemThumbnail: string;
     price: number;
     quantity: number;
+    itemStatus:
+      | 'ORDERED'
+      | 'CANCEL_REQUESTED'
+      | 'CANCELLED'
+      | 'RETURN_REQUESTED'
+      | 'RETURNED'
+      | 'EXCHANGE_REQUESTED'
+      | 'EXCHANGED'
+      | string;
   }>;
 }
 
@@ -58,10 +71,4 @@ export interface OrderSummary {
   itemName: string;
   buyerName: string;
   buyerPhone: string;
-  deliveryExpectedDate: string;
-  deliveryStartDate: string;
-  deliveryCompletedDate: string;
-  deliveryStatus: 'READY' | 'SHIPPING' | 'DELIVERED' | string;
 }
-
-export type OrdersResponseSchema = OrderSummary[];
