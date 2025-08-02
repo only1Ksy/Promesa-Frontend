@@ -88,6 +88,7 @@ export default function MyOrderModal() {
         </div>
         <div className="flex flex-col items-center gap-6">
           {order.items.map((item) => {
+            console.log(item.itemStatus);
             const itemStatusText = getItemStatusText(item.itemStatus);
             const itemShipComment = getShipComment(
               order.delivery.deliveryStatus,
@@ -169,7 +170,7 @@ export default function MyOrderModal() {
               </div>
               <div className="flex items-center justify-between">
                 <span>주소</span>
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col items-end gap-0.5">
                   <span>{order.delivery.address}</span>
                   <span>{order.delivery.addressDetail}</span>
                 </div>
