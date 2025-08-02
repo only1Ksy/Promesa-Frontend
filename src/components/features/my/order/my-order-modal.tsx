@@ -88,11 +88,11 @@ export default function MyOrderModal() {
         </div>
         <div className="flex flex-col items-center gap-6">
           {order.items.map((item) => {
-            const itemStatusText = getOrderStatusText(order.summary.orderStatus, order.summary.deliveryStatus);
+            const itemStatusText = getOrderStatusText(order.summary.orderStatus, order.delivery.deliveryStatus);
             const itemShipComment = getShipComment(
-              order.summary.deliveryStatus,
-              order.summary.deliveryExpectedDate,
-              order.summary.deliveryCompletedDate,
+              order.delivery.deliveryStatus,
+              order.delivery.deliveryExpectedDate,
+              order.delivery.deliveryCompletedDate,
             );
             return (
               <MyOrderCard
