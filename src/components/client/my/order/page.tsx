@@ -19,8 +19,6 @@ export default function ClientMyOrderPage({ ordersState }: ClientMyOrderPageProp
     select: (res) => res,
   });
 
-  console.log(orders);
-
   if (!orders || isLoading) return null;
 
   return (

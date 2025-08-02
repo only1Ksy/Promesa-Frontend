@@ -61,8 +61,6 @@ export const getShipComment = (
 
 export const getItemStatusText = (itemStatus: string): string => {
   switch (itemStatus) {
-    case 'ORDERED':
-      return '주문완료';
     case 'CANCEL_REQUESTED':
       return '취소접수';
     case 'CANCELLED':
