@@ -64,7 +64,7 @@ export interface OrderResponseSchema {
 export interface OrderSummary {
   orderId: number;
   orderDate: string;
-  orderStatus: 'WAITING_FOR_PAYMENT' | 'PAID' | 'CANCELLED' | string;
+  orderStatus: 'WAITING_FOR_PAYMENT' | 'PAID' | 'CANCEL_NO_PAYMENT' | string;
   totalAmount: number;
   totalQuantity: number;
   itemThumbnail: string;
