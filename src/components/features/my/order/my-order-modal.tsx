@@ -6,9 +6,11 @@ import { useSearchParams } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
 import Header from '@/components/layout/header';
+import useAlert from '@/hooks/use-alert';
 import { formatKoreanDateTime } from '@/lib/utils/date-format';
 import { getItemStatusText, getOrderStatusText, getShipComment } from '@/lib/utils/order-status-ship-text';
 import CopyIcon from '@/public/icons/layout/copy.svg';
+import { cancelOrder } from '@/services/api/order-controller';
 import { fetchDetailedOrder } from '@/services/api/order-controller';
 
 import MyOrderCard from './my-order-card';
@@ -18,6 +20,7 @@ export default function MyOrderModal() {
   const orderId = Number(searchParams.get('id'));
 
   const { showToast } = useToast();
+  const alertModal = useAlert();
 
   const { data: order, isLoading } = useQuery({
     enabled: !!orderId,
@@ -47,7 +50,25 @@ export default function MyOrderModal() {
     console.log('copy');
   };
 
+  const onCancelClicked = async () => {
+    alertModal({
+      message: '정말 취소하시겠습니까?',
+      confirmText: '확인',
+      cancelText: '취소',
+      onConfirm: async () => {
+        try {
+          await cancelOrder(order.summary.orderId);
+          showToast('주문을 취소했습니다.');
+        } catch (error) {
+          console.error('취소 실패:', error);
+          alertModal({ message: '주문 취소 중 오류가 발생했습니다. 다시 시도해주세요.' });
+        }
+      },
+    });
+  };
+
   const isButton = true;
+  const isCancelAvailable = order.summary.orderStatus === 'WATING_FOR_PAYMENT';
 
   const paymentInformation = () => {
     if (order.summary.orderStatus === 'WAITING_FOR_PAYMENT') {
@@ -184,6 +205,16 @@ export default function MyOrderModal() {
             </div>
           </div>
 
+          {isCancelAvailable && (
+            <div className="flex w-full justify-center px-2.5 pb-7">
+              <button
+                onClick={onCancelClicked}
+                className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white"
+              >
+                취소하기
+              </button>
+            </div>
+          )}
           <div className="flex w-full justify-center px-2.5 pb-7">
             <button className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white">
               문의하기
