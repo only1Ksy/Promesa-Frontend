@@ -21,6 +21,7 @@ export const getOrderStatusText = (orderStatus: string, deliveryStatus: string):
     case 'CANCEL_REQUESTED':
       return '취소접수';
     case 'CANCELLED':
+    case 'CANCEL':
       return '취소완료';
     case 'RETURN_REQUESTED':
       return '반품접수';

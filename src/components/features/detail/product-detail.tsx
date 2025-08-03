@@ -34,6 +34,7 @@ export default function ProductDetail({ item }: ProductDetailProps) {
                 width={800}
                 height={0}
                 sizes="100vw"
+                priority
                 className="object-cover"
               />
             </div>
