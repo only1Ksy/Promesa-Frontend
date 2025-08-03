@@ -22,7 +22,7 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
   if (images.length === 1) {
     return (
       <div className="bg-green relative mb-5 aspect-square h-96 w-full">
-        <ImageWithEffect src={images[0]} alt={alt} fill className="rounded-lg object-cover" />
+        <ImageWithEffect src={images[0]} alt={alt} fill className="object-cover" />
       </div>
     );
   }
