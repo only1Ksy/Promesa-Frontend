@@ -22,14 +22,11 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = Number(searchParams.get('editId'));
-  console.log(editId);
 
   const alertModal = useAlert();
   const { showToast } = useToast();
 
   const currentReview = reviews.find((r) => r.reviewResponse.reviewId === editId);
-
-  console.log(currentReview);
 
   const [hovered, setHovered] = useState<number | null>(null);
   const [rating, setRating] = useState(0);
