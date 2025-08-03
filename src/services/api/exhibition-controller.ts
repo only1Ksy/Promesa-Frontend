@@ -13,8 +13,8 @@ export const fetchExhibitions = (status: ExhibitionSummarySchema['status'] | 'AL
   }, status);
 
 export const fetchOngoingExhibitions = () =>
-  withErrorBoundary<[], ExhibitionSummarySchema[]>(async () => {
-    const res = await axiosInstance.get('/exhibitions/ongoing');
+  withErrorBoundary<[], ExhibitionSummaryResponseSchema[]>(async () => {
+    const res = await axiosInstance.get('/exhibitions?status=ONGOING');
     return res.data.data;
   });
 
