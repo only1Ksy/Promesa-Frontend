@@ -8,10 +8,14 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @param payload 수정할 배송 정보 (AdminDelivery)
  */
 export const editDelivery = (deliveryId: number, payload: AdminDelivery) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.put(`/admin/deliveries/${deliveryId}`, payload);
-    return res.data; // 또는 res.data.data
-  });
+  withErrorBoundary<[number, AdminDelivery], AdminDelivery>(
+    async (deliveryId, payload) => {
+      const res = await axiosInstance.put(`/admin/deliveries/${deliveryId}`, payload);
+      return res.data.data;
+    },
+    deliveryId,
+    payload,
+  );
 
 /**
  * 특정 주문의 배송 내역 조회
@@ -19,7 +23,7 @@ export const editDelivery = (deliveryId: number, payload: AdminDelivery) =>
  * @returns AdminDelivery (배송 정보)
  */
 export const fetchDeliveryByOrderId = (orderId: number) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.get<AdminDelivery>(`/admin/orders/${orderId}/deliveries`);
-    return res.data;
-  });
+  withErrorBoundary<[number], AdminDelivery>(async (orderId) => {
+    const res = await axiosInstance.get(`/admin/orders/${orderId}/deliveries`);
+    return res.data.data;
+  }, orderId);

@@ -10,10 +10,10 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @returns 등록 성공 여부 또는 메시지
  */
 export const createArtist = (payload: AdminArtist) =>
-  withErrorBoundary(async () => {
+  withErrorBoundary<[AdminArtist], string>(async (payload) => {
     const res = await axiosInstance.post('/admin/artists', payload);
-    return res.data;
-  });
+    return res.data.data;
+  }, payload);
 
 /**
  * 작가 정보 수정 API
@@ -24,10 +24,14 @@ export const createArtist = (payload: AdminArtist) =>
  * @returns 수정 성공 여부 또는 메시지
  */
 export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.patch(`/admin/artists/${artistId}`, payload);
-    return res.data;
-  });
+  withErrorBoundary<[number, AdminArtistUpdate], string>(
+    async (artistId, payload) => {
+      const res = await axiosInstance.patch(`/admin/artists/${artistId}`, payload);
+      return res.data.data;
+    },
+    artistId,
+    payload,
+  );
 
 /**
  * 작가 프로필 이미지 변경 API
@@ -38,7 +42,11 @@ export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =
  * @returns 변경 성공 여부 또는 메시지
  */
 export const updateArtistProfileImage = (artistId: number, payload: ArtistProfileImageUpdate) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.patch(`/admin/artists/${artistId}/profile-image`, payload);
-    return res.data;
-  });
+  withErrorBoundary<[number, ArtistProfileImageUpdate], string>(
+    async (artistId, payload) => {
+      const res = await axiosInstance.patch(`/admin/artists/${artistId}/profile-image`, payload);
+      return res.data.data;
+    },
+    artistId,
+    payload,
+  );
