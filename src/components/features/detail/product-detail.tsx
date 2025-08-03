@@ -6,6 +6,7 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ item }: ProductDetailProps) {
+  console.log(item.detailImageUrls);
   return (
     <div className="flex w-full flex-col items-start">
       {/* 상세 정보 */}
@@ -29,7 +30,7 @@ export default function ProductDetail({ item }: ProductDetailProps) {
           {item.detailImageUrls.map((url, index) => (
             <div key={index} className="relative w-full">
               <ImageWithEffect
-                src={url}
+                src={url.url}
                 alt={`product detail image ${index + 1}`}
                 width={800}
                 height={0}

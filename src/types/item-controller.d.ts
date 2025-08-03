@@ -54,7 +54,7 @@ export interface ParsedItemData {
   itemId: number;
   title: string;
   mainImageUrls: MainImageUrls[];
-  detailImageUrls: string[];
+  detailImageUrls: ImageUrls[];
   category: {
     id: number;
     name: string;
