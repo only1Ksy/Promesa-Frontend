@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
@@ -22,21 +22,32 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = Number(searchParams.get('editId'));
+  console.log(editId);
 
   const alertModal = useAlert();
   const { showToast } = useToast();
 
   const currentReview = reviews.find((r) => r.reviewResponse.reviewId === editId);
 
-  const [rating, setRating] = useState(() => currentReview?.reviewResponse.rating ?? 0);
+  console.log(currentReview);
+
   const [hovered, setHovered] = useState<number | null>(null);
-  const [content, setContent] = useState(() => currentReview?.reviewResponse.content ?? '');
-  const [originalPreviews, setOriginalPreviews] = useState<string[]>(
-    () => currentReview?.reviewResponse.reviewImages ?? [],
-  );
+  const [rating, setRating] = useState(0);
+  const [content, setContent] = useState('');
+  const [originalPreviews, setOriginalPreviews] = useState<string[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [deletedPreviews, setDeletedPreviews] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>(() => currentReview?.reviewResponse.reviewImages ?? []);
+
+  // reviews와 editId가 로딩 완료된 후 상태 초기화
+  useEffect(() => {
+    if (currentReview) {
+      setRating(currentReview.reviewResponse.rating);
+      setContent(currentReview.reviewResponse.content);
+      setOriginalPreviews(currentReview.reviewResponse.reviewImages);
+      setPreviews(currentReview.reviewResponse.reviewImages);
+    }
+  }, [currentReview]);
 
   const isUploadable = useMemo(() => {
     return rating > 0 && content.trim().length > 10;
