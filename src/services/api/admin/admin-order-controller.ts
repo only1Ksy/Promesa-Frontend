@@ -11,10 +11,14 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @returns 응답 메시지
  */
 export const updateOrderStatus = (orderId: number, payload: AdminOrderRequest) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.patch(`/admin/orders/${orderId}`, payload);
-    return res.data;
-  });
+  withErrorBoundary<[number, AdminOrderRequest], string>(
+    async (orderId, payload) => {
+      const res = await axiosInstance.patch(`/admin/orders/${orderId}`, payload);
+      return res.data.data;
+    },
+    orderId,
+    payload,
+  );
 
 /**
  * 주문 아이템 상태 변경
@@ -25,10 +29,14 @@ export const updateOrderStatus = (orderId: number, payload: AdminOrderRequest) =
  * @returns 응답 메시지
  */
 export const updateOrderItemStatus = (orderItemId: number, payload: AdminOrderItemRequest) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.patch(`/admin/order-items/${orderItemId}`, payload);
-    return res.data;
-  });
+  withErrorBoundary<[number, AdminOrderItemRequest], string>(
+    async (orderItemId, payload) => {
+      const res = await axiosInstance.patch(`/admin/order-items/${orderItemId}`, payload);
+      return res.data.data;
+    },
+    orderItemId,
+    payload,
+  );
 
 /**
  * 주문 및 주문 아이템 목록 조회
@@ -38,9 +46,9 @@ export const updateOrderItemStatus = (orderItemId: number, payload: AdminOrderIt
  * @returns 주문 목록 (AdminOrderResponse)
  */
 export const fetchAdminOrders = (params?: { orderStatus?: string; itemStatus?: string }) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.get<AdminOrderResponse>('/admin/orders', {
+  withErrorBoundary<[{ orderStatus?: string; itemStatus?: string }?], AdminOrderResponse>(async (params) => {
+    const res = await axiosInstance.get('/admin/orders', {
       params,
     });
-    return res.data;
-  });
+    return res.data.data;
+  }, params);

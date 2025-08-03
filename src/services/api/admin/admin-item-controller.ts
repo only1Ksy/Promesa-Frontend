@@ -8,17 +8,21 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @param payload 수정할 데이터 (AdminItemRequest)
  */
 export const editItemDetail = (itemId: number, payload: AdminItemRequest) =>
-  withErrorBoundary(async () => {
-    const res = await axiosInstance.put(`/admin/items/${itemId}`, payload);
-    return res.data.data;
-  });
+  withErrorBoundary<[number, AdminItemRequest], string>(
+    async (itemId, payload) => {
+      const res = await axiosInstance.put(`/admin/items/${itemId}`, payload);
+      return res.data.data;
+    },
+    itemId,
+    payload,
+  );
 
 /**
  * 작품을 등록하는 함수
  * @param payload 등록할 데이터 (AdminItemRequest)
  */
 export const postNewItem = (payload: AdminItemRequest) =>
-  withErrorBoundary(async () => {
+  withErrorBoundary<[AdminItemRequest], string>(async (payload) => {
     const res = await axiosInstance.post('/admin/items', payload);
     return res.data.data;
-  });
+  }, payload);
