@@ -4,20 +4,17 @@ import { useRouter } from 'next/navigation';
 
 import BackIcon from '@/public/icons/layout/back.svg';
 
-interface BackButtonProps {
-  backPath?: string;
-}
-
-export default function BackButton({ backPath }: BackButtonProps) {
+export default function BackButton() {
   const router = useRouter();
 
   return (
     <button
       onClick={() => {
-        if (backPath) {
-          router.push(backPath);
-        } else if (window.history.length > 1) {
+        if (window.history.length > 1) {
           router.back();
+          requestAnimationFrame(() => {
+            window.scrollTo(0, 0);
+          });
         } else {
           router.replace('/');
         }
