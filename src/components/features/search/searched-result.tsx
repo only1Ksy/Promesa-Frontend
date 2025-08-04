@@ -2,24 +2,17 @@
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 import ItemPreview from '@/components/common/item/item-preview';
 import HighlightedTextSpan from '@/components/common/utilities/highlighted-text-span';
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import { useSearchKeywordStore } from '@/lib/store/use-search-keyword-store';
 import chunkList from '@/lib/utils/chunk-list';
 import GoToArtistIcon from '@/public/icons/search/go-to-artist.svg';
 import { fetchSearch } from '@/services/api/home-controller';
 
-interface SearchedResultProps {
-  keyword: string;
-}
-
-export default function SearchedResult({ keyword: initialKeyword }: SearchedResultProps) {
-  const searchParams = useSearchParams();
-
-  const keyword = searchParams.get('keyword') ?? initialKeyword;
-  const isCommited = searchParams.get('commited') === 'true' ? true : false;
+export default function SearchedResult() {
+  const { keyword, isCommitted } = useSearchKeywordStore();
 
   const { data } = useSuspenseQuery({
     queryKey: ['search', keyword],
@@ -52,7 +45,7 @@ export default function SearchedResult({ keyword: initialKeyword }: SearchedResu
                       <p className="text-body-01 font-medium text-black">
                         <HighlightedTextSpan
                           text={art.profile.name}
-                          keyword={!isCommited ? keyword : ''}
+                          keyword={!isCommitted ? keyword : ''}
                           highlightedClassName="text-orange font-bold"
                         />
                       </p>
@@ -76,14 +69,14 @@ export default function SearchedResult({ keyword: initialKeyword }: SearchedResu
           <div className="my-2.5">
             <p className="text-body-01 font-medium text-black">Product</p>
           </div>
-          {!isCommited ? (
+          {!isCommitted ? (
             <div className="flex flex-col gap-1">
               {data.itemPreviews.map((item) => (
                 <div key={item.itemId} className="my-2.5">
                   <p className="text-body-02 text-grey-9 font-medium">
                     <HighlightedTextSpan
                       text={item.itemName}
-                      keyword={!isCommited ? keyword : ''}
+                      keyword={!isCommitted ? keyword : ''}
                       highlightedClassName="text-orange font-bold"
                     />
                   </p>
