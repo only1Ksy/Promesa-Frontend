@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 interface ToastContextType {
   showToast: (message: string) => void;
@@ -19,30 +19,51 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [visible, setVisible] = useState(false);
   const [isHiding, setIsHiding] = useState(false);
 
-  const showToast = (msg: string) => {
-    setMessage(msg);
-    setVisible(true);
-    setIsHiding(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideRef = useRef<NodeJS.Timeout | null>(null);
 
-    setTimeout(() => {
-      setIsHiding(true);
-      setTimeout(() => {
-        setVisible(false);
-        setMessage('');
-      }, 500);
-    }, 1800);
-  };
+  const showToast = useCallback(
+    (msg: string) => {
+      if (visible && msg === message) return;
+
+      setMessage(msg);
+      setVisible(true);
+      setIsHiding(false);
+
+      // clear old timers
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (hideRef.current) clearTimeout(hideRef.current);
+
+      timeoutRef.current = setTimeout(() => {
+        setIsHiding(true);
+        hideRef.current = setTimeout(() => {
+          setVisible(false);
+          setMessage('');
+        }, 500);
+      }, 1800);
+    },
+    [message, visible],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (hideRef.current) clearTimeout(hideRef.current);
+    };
+  }, []);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
       {visible && (
         <div
-          className={`text-body-02 fixed bottom-40 left-1/2 z-9999 -translate-x-1/2 rounded-sm bg-black/70 px-4 py-2 text-white transition-opacity duration-500 ${
+          className={`fixed-component max-z-index bottom-40 transition-opacity duration-500 ${
             isHiding ? 'opacity-0' : 'opacity-100'
           }`}
         >
-          {message}
+          <div className="flex items-center justify-center">
+            <p className="text-body-02 rounded-sm bg-black/70 px-4 py-2 text-center text-white">{message}</p>
+          </div>
         </div>
       )}
     </ToastContext.Provider>
