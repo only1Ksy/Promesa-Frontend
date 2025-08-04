@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
+import useAlert from '@/hooks/use-alert';
 import { useOrderStore } from '@/lib/store/order-information-store';
 import CloseIcon from '@/public/icons/layout/close.svg';
 import { fetchDefaultAddress } from '@/services/api/address-controller';
@@ -14,6 +15,8 @@ import OrderDropdown from './order-dropdown';
 export default function DeliveryForm() {
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
 
+  const alertModal = useAlert();
+
   const delivery = useOrderStore((state) => state.delivery);
   const updateDelivery = useOrderStore((state) => state.updateDelivery);
   const resetDelivery = useOrderStore((state) => state.resetDelivery);
@@ -23,12 +26,23 @@ export default function DeliveryForm() {
       if (delivery.deliveryType === 'recent') {
         try {
           const defaultAddress: AddressSchema = await fetchDefaultAddress();
+          console.log(defaultAddress);
+          // 배송지가 없을 때 예외 처리
+          if (!defaultAddress || defaultAddress.addressMain === '') {
+            alertModal({
+              message: '기본 배송지가 없습니다.\n새로운 배송지를 입력해주세요.',
+              onConfirm: () => {
+                updateDelivery('deliveryType', 'new');
+              },
+            });
+            return;
+          }
+
           updateDelivery('name', defaultAddress.recipientName);
           updateDelivery('postcode', defaultAddress.zipCode);
           updateDelivery('address', defaultAddress.addressMain);
           updateDelivery('addressDetail', defaultAddress.addressDetails);
 
-          // 전화번호 분리
           const [phone1, phone2, phone3] = defaultAddress.recipientPhone.split('-');
           updateDelivery('phone1', phone1);
           updateDelivery('phone2', phone2);
