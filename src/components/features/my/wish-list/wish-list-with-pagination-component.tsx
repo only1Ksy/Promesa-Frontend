@@ -8,6 +8,7 @@ import EmptyCard from '@/components/common/empty/empty-card';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
 import { postCarts } from '@/services/api/cart-controller';
 import { fetchWishList } from '@/services/api/wish-controller';
+import { getQueryClient } from '@/services/query/client';
 
 import WishListItem from './wish-list-item';
 import WishListPaginationFooter from './wish-list-pagination-footer';
@@ -81,12 +82,15 @@ export default function WishListWithPaginationComponent() {
   };
 
   // 장바구니 담기
-  const handlePostCart = async () => {
-    const cartsData = paginatedData.map((item, idx) => selectedList[idx] && { itemId: item.targetId, quantity: 1 });
+  const handlePostCart = () => {
+    paginatedData.map(async (item, idx) => {
+      if (selectedList[idx]) {
+        await postCarts({ itemId: item.targetId, quantity: 1 });
+      }
+    });
 
-    if (!cartsData) {
-      await postCarts(cartsData);
-    }
+    const queryClient = getQueryClient();
+    queryClient.refetchQueries({ queryKey: ['carts'] });
 
     setSelectedList(Array(PAGE_SIZE).fill(false));
     const newSearchParams = new URLSearchParams(searchParams.toString());
