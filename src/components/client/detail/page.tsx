@@ -138,7 +138,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
                 <span className="text-subhead font-medium text-black">리뷰 ({item.reviewCount}) </span>
                 <div className="flex items-center gap-1">
                   <ReviewStarIcon className="text-orange h-4 w-4" />
-                  <div className="text-grey-6 text-body-02 font-medium">{item.averageRating}</div>
+                  <div className="text-grey-6 text-body-02 font-medium"> {item.averageRating.toFixed(1)}</div>
                 </div>
               </div>
             </div>
