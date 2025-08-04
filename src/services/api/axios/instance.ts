@@ -9,7 +9,7 @@ const baseURL = typeof window === 'undefined' ? process.env.API_BASE_URL : '/api
 export const axiosInstance = axios.create({
   baseURL,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true,
+  withCredentials: false,
 });
 
 // request interceptor
