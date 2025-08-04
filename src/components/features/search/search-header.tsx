@@ -2,57 +2,52 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import BackButton from '@/components/layout/header/back-button';
 import SearchIcon from '@/public/icons/layout/search.svg';
 
 export default function SearchHeader() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isComposing, setIsComposing] = useState(false);
 
-  const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    const keyword = searchParams.get('keyword') ?? '';
-    setInputValue(keyword);
-  }, [searchParams]);
+  const urlParams = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search);
+  const [inputValue, setInputValue] = useState(urlParams.get('keyword') ?? '');
 
   // debounce
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    const isCommited = searchParams.get('commited') === 'true';
-    if (isCommited) return;
-
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(window.location.search);
 
+      const prevCommitted = params.get('commited');
       if (inputValue !== '') {
         params.set('keyword', inputValue);
       } else {
         params.delete('keyword');
       }
 
+      const removed = params.has('commited');
+      params.delete('commited');
+
       router.replace(`?${params.toString()}`, { scroll: false });
+
+      if (prevCommitted && removed) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }, 100);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [inputValue, router, searchParams]);
+  }, [inputValue, router]);
 
   // commit
   const handleSearchCommit = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
 
     if (inputValue !== '') {
       params.set('keyword', inputValue);
@@ -66,31 +61,7 @@ export default function SearchHeader() {
     inputRef.current?.blur(); // remove focus
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [inputValue, router, searchParams]);
-
-  // input change
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
-      setInputValue(newValue);
-
-      const isCommited = searchParams.get('commited') === 'true';
-      if (isCommited) {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete('commited');
-
-        if (newValue !== '') {
-          params.set('keyword', newValue);
-        } else {
-          params.delete('keyword');
-        }
-
-        router.replace(`?${params.toString()}`, { scroll: false });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
-    [router, searchParams],
-  );
+  }, [inputValue, router]);
 
   return (
     <>
@@ -109,7 +80,7 @@ export default function SearchHeader() {
             ref={inputRef}
             type="text"
             value={inputValue}
-            onChange={handleInputChange}
+            onChange={(e) => setInputValue(e.target.value)}
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onKeyDown={(e) => {
