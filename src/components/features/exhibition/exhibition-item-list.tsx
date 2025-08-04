@@ -55,7 +55,6 @@ export default function ExhibitionItemList({ exhibitionId, frame: initialFrame }
 
   // item-list setting
   const { rowLength, heightClass, maxWidthClass, gapClass } = useMemo(() => {
-    console.log('b', frame);
     switch (frame) {
       case 'grid':
         return {

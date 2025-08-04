@@ -13,35 +13,44 @@ interface ExhibitionDetailProps {
 
 export default function ExhibitionDetail({ exhibitionId }: ExhibitionDetailProps) {
   const [open, setOpen] = useState(false);
-  const [paddingTop, setPaddingTop] = useState<number>(0);
 
   const { data } = useSuspenseQuery({
     queryKey: ['exhibition', exhibitionId],
     queryFn: () => fetchExhibition(exhibitionId),
   });
 
-  const handleImageLoad = (e: SyntheticEvent<HTMLImageElement>) => {
+  const [ratios, setRatios] = useState<number[]>([]);
+
+  const handleImageLoad = (index: number, e: SyntheticEvent<HTMLImageElement>) => {
     const img = e.currentTarget;
     const ratio = img.naturalHeight / img.naturalWidth;
-    setPaddingTop(ratio * 100);
+    setRatios((prev) => {
+      const copy = [...prev];
+      copy[index] = ratio;
+      return copy;
+    });
   };
 
   return (
     <div className="relative">
       <Expandable flag={open} collapsedMaxHeight={250} durationTime={2000} className="w-full">
-        <div
-          className="bg-pale-green relative flex w-full flex-col"
-          style={paddingTop ? { paddingTop: `${paddingTop}%` } : { minHeight: 'calc(var(--spacing)*250' }}
-        >
-          {data.detail.images.map((item) => (
-            <ImageWithLoading
+        <div className="bg-pale-green flex w-full flex-col" style={{ minHeight: 'calc(var(--spacing)*250' }}>
+          {data.detail.images.map((item, idx) => (
+            <div
               key={item.sortOrder}
-              src={item.detailedImageUrl}
-              alt={`기획전 ${data.summary.title}의 세부 이미지.`}
-              fill
-              priority
-              onLoad={handleImageLoad}
-            />
+              className="relative w-full"
+              style={{
+                paddingTop: `${ratios[idx] * 100}%`,
+              }}
+            >
+              <ImageWithLoading
+                src={item.detailedImageUrl}
+                alt={`기획전 ${data.summary.title}의 세부 이미지.`}
+                fill
+                priority
+                onLoad={(e) => handleImageLoad(idx, e)}
+              />
+            </div>
           ))}
         </div>
       </Expandable>

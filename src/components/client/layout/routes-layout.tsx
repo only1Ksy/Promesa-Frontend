@@ -14,6 +14,7 @@ import FloatingButton from '@/components/layout/floating-button';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { useAccessTokenStore } from '@/lib/store/use-access-token-store';
+import { useImageLoadingStore } from '@/lib/store/use-image-loading-store';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 
 interface ClientRoutesLayoutProps {
@@ -51,6 +52,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage && !isMyProfilePage && !isCartPage;
   const isFloatingButton = !isOrderPage && !isReviewPage && !isMyPage && !isCartPage;
 
+  const loadingCount = useImageLoadingStore((s) => s.loadingCount);
   const isFetching = useIsFetching();
   const FetchingSpinner = dynamic(() => import('@/components/layout/fetching-spinner'), { ssr: false });
 
@@ -79,7 +81,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     <HydrationBoundary state={dehydratedState}>
       <AlertProvider>
         <ToastProvider>
-          {isFetching > 0 && <FetchingSpinner />}
+          {(loadingCount > 0 || isFetching > 0) && <FetchingSpinner />}
           <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
             {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
             <Header shadow={isHeaderShadow} />

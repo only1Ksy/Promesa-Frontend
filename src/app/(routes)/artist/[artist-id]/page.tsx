@@ -36,7 +36,10 @@ export default async function ArtistPage({
       queryKey: ['artist', artistId],
       queryFn: () => fetchArtist(artistId),
     }),
-    queryClient.prefetchQuery({ queryKey: ['exhibitions', artistId], queryFn: () => fetchArtistExhibitions(artistId) }),
+    queryClient.prefetchQuery({
+      queryKey: ['artistExhibitions', artistId],
+      queryFn: () => fetchArtistExhibitions(artistId),
+    }),
     queryClient.prefetchQuery({
       queryKey: ['items', serverParams],
       queryFn: () => fetchArtistItems(serverParams),
