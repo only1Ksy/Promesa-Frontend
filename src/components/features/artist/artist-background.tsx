@@ -16,7 +16,6 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
   const { data } = useSuspenseQuery({
     queryKey: ['artist', artistId],
     queryFn: () => fetchArtist(artistId),
-    refetchOnMount: 'always',
   });
 
   const { mutate: toggleWish } = useToggleWish();

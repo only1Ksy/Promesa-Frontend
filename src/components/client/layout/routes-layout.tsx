@@ -77,6 +77,21 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
       .forEach((query) => queryClient.invalidateQueries({ queryKey: query.queryKey }));
   }, [accessToken, queryClient]);
 
+  // scroll-to-top when history back
+  useEffect(() => {
+    const handlePopState = () => {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+      });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   return (
     <HydrationBoundary state={dehydratedState}>
       <AlertProvider>
