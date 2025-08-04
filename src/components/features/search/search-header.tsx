@@ -55,7 +55,7 @@ export default function SearchHeader() {
         <div
           className={clsx(
             'flex-1 border-b pb-[calc(var(--spacing)*1.5-1)]',
-            keyword === '' ? 'border-b-deep-green' : 'border-b-grey-9',
+            localKeyword === '' ? 'border-b-deep-green' : 'border-b-grey-9',
           )}
         >
           <input
@@ -77,14 +77,14 @@ export default function SearchHeader() {
             placeholder="원하는 아티스트나 상품을 입력해보세요."
             className={clsx(
               'h-7.5 w-full pr-6 font-medium outline-none',
-              keyword === ''
+              localKeyword === ''
                 ? 'placeholder:text-body-02 placeholder:text-grey-5 placeholder:opacity-100'
                 : 'text-body-01 text-grey-9',
             )}
           />
         </div>
         <button onClick={handleSearchCommit} className="flex items-center justify-center">
-          <SearchIcon className={keyword === '' ? 'text-deep-green' : 'text-grey-9 cursor-pointer'} />
+          <SearchIcon className={localKeyword === '' ? 'text-deep-green' : 'text-grey-9 cursor-pointer'} />
         </button>
       </div>
     </>
