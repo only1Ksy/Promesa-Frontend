@@ -5,10 +5,10 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import EmptyCard from '@/components/common/empty/empty-card';
+import useAlert from '@/hooks/use-alert';
+import { usePostCartItem } from '@/hooks/use-cart';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
-import { postCarts } from '@/services/api/cart-controller';
 import { fetchWishList } from '@/services/api/wish-controller';
-import { getQueryClient } from '@/services/query/client';
 
 import WishListItem from './wish-list-item';
 import WishListPaginationFooter from './wish-list-pagination-footer';
@@ -22,6 +22,8 @@ export default function WishListWithPaginationComponent() {
 
   const { data } = useSuspenseQuery({ queryKey: ['itemWishList', 'ITEM'], queryFn: () => fetchWishList('ITEM') });
 
+  const alertModal = useAlert();
+  const { mutate: postCarts } = usePostCartItem();
   const { mutate: toggleWish } = useToggleWish();
 
   const currentPage = useMemo(() => {
@@ -83,18 +85,17 @@ export default function WishListWithPaginationComponent() {
 
   // 장바구니 담기
   const handlePostCart = () => {
-    paginatedData.map(async (item, idx) => {
+    paginatedData.map((item, idx) => {
       if (selectedList[idx]) {
-        await postCarts({ itemId: item.targetId, quantity: 1 });
+        postCarts({ itemId: item.targetId, quantity: 1 });
       }
     });
-
-    const queryClient = getQueryClient();
-    queryClient.refetchQueries({ queryKey: ['carts'] });
 
     setSelectedList(Array(PAGE_SIZE).fill(false));
     const newSearchParams = new URLSearchParams(searchParams.toString());
     router.replace(`?${newSearchParams.toString()}`);
+
+    alertModal({ message: '장바구니에 추가했습니다.' });
   };
 
   return data.length === 0 ? (
