@@ -12,7 +12,7 @@ export interface MemberBasicSchema {
   providerId: string;
   phone: string;
   smsAgree: boolean;
-  gender: 'MALE' | 'FEMALE';
+  gender: 'MALE' | 'FEMALE' | null; // extend null
 }
 
 export interface MemberBirthSchema {
@@ -30,8 +30,13 @@ export interface MemberResponseSchema {
 
 export interface MemberUpdateRequestSchema {
   phone: MemberBasicSchema['phone'];
-  smsAgree: MemberBasicSchema['boolean'];
+  smsAgree: MemberBasicSchema['smsAgree'];
   gender: MemberBasicSchema['gender'];
-  birth: MemberBirthSchema;
+  birth: {
+    year: MemberBirthSchema['birthYear'];
+    month: MemberBirthSchema['birthMonth'];
+    day: MemberBirthSchema['birthDay'];
+    solar: MemberBirthSchema['isSolar'];
+  };
   address: MemberAddressSchema;
 }

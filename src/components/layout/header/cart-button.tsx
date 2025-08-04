@@ -8,21 +8,21 @@ import { useAuthStore } from '@/lib/store/use-auth-store';
 import CartIcon from '@/public/icons/layout/cart.svg';
 import { fetchCarts } from '@/services/api/cart-controller';
 
-function CartBadge() {
-  const { data } = useSuspenseQuery({
-    queryKey: ['carts'],
-    queryFn: fetchCarts,
-  });
-
-  return (
-    <div className="bg-orange absolute right-0 bottom-0 flex h-4 w-4 items-center justify-center rounded-full">
-      <p className="text-caption-02 text-center font-medium text-white">{data.length}</p>
-    </div>
-  );
-}
-
 export default function CartButton() {
   const { isLoggedIn, hasChecked, checkLogin } = useAuthStore();
+
+  const CartBadge = () => {
+    const { data } = useSuspenseQuery({
+      queryKey: ['carts'],
+      queryFn: fetchCarts,
+    });
+
+    return (
+      <div className="bg-orange absolute right-0 bottom-0 flex h-4 w-4 items-center justify-center rounded-full">
+        <p className="text-caption-02 text-center font-medium text-white">{data.length}</p>
+      </div>
+    );
+  };
 
   useEffect(() => {
     if (!hasChecked) checkLogin();

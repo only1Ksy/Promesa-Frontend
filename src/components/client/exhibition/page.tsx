@@ -18,7 +18,7 @@ export default function ClientExhibitionPage({ dehydratedState, exhibitionId, fr
     <HydrationBoundary state={dehydratedState}>
       <div className="flex flex-col">
         <ExhibitionBackground exhibitionId={exhibitionId} />
-        <div className="mt-31 mb-12">
+        <div className="mb-12">
           <ExhibitionDetail exhibitionId={exhibitionId} />
         </div>
         <ExhibitionItemList exhibitionId={exhibitionId} frame={frame} />
