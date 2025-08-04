@@ -1,5 +1,7 @@
 'use client';
 
+import clsx from 'clsx';
+
 interface AlertModalProps {
   visible: boolean;
   message: string;
@@ -32,16 +34,25 @@ export default function AlertModal({
   };
 
   return (
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40" onClick={onClose}>
-      <div className="w-80 rounded-sm bg-white p-6 shadow-md" onClick={(e) => e.stopPropagation()}>
-        <p className="text-center text-gray-800">{message}</p>
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50" onClick={onClose}>
+      <div className="bg-pale-green/90 w-80 rounded-xs px-3.5 pt-7 pb-5 shadow-md" onClick={(e) => e.stopPropagation()}>
+        <p className="text-body-02 text-center font-medium">{message}</p>
         <div className="mt-4 flex gap-2">
           {cancelText && (
-            <button onClick={handleCancel} className="w-1/2 rounded-sm bg-gray-300 py-2 text-white">
+            <button
+              onClick={handleCancel}
+              className="text-body-01 h-12 w-38 cursor-pointer rounded-xs border-[1.5px] py-2 font-bold text-black"
+            >
               {cancelText}
             </button>
           )}
-          <button onClick={handleConfirm} className="bg-orange w-full rounded-sm py-2 text-white">
+          <button
+            onClick={handleConfirm}
+            className={clsx(
+              'text-body-01 text-grey-1 h-12 cursor-pointer rounded-xs bg-black py-2 font-bold',
+              cancelText ? 'w-38' : 'w-full',
+            )}
+          >
             {confirmText}
           </button>
         </div>
