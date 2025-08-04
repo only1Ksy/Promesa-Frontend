@@ -222,7 +222,7 @@ export default function ProfileListWithBottomFixedBar() {
     window.location.replace('/');
   };
 
-  const handleWithDraw = async () => {
+  const handleWithdraw = async () => {
     await patchMeWithdraw();
     logout();
   };
@@ -360,7 +360,7 @@ export default function ProfileListWithBottomFixedBar() {
         </div>
       </div>
       <div className="flex justify-center">
-        <button className="cursor-pointer" onClick={handleWithDraw}>
+        <button className="cursor-pointer" onClick={handleWithdraw}>
           <p className="text-grey-5 text-body-02 font-medium underline">회원 탈퇴하기</p>
         </button>
       </div>
