@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 
+import { useToast } from '@/components/common/alert/toast-provider';
 import { toggleWish } from '@/services/api/wish-controller';
 import { HttpError } from '@/types/axios.dto';
 import type { WishToggleSchema } from '@/types/wish-controller';
@@ -31,6 +32,7 @@ const QUERY_KEYS_BY_TARGET_TYPE: Record<WishToggleSchema['target']['targetType']
 
 export const useToggleWish = () => {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -38,7 +40,7 @@ export const useToggleWish = () => {
     mutationFn: async ({ targetType, targetId, currentWished }) => {
       return await toggleWish(targetType, targetId, currentWished);
     },
-    onSuccess: (_data, { targetType }) => {
+    onSuccess: (_data, { targetType, currentWished }) => {
       const targetQueryKeys = QUERY_KEYS_BY_TARGET_TYPE[targetType] ?? [];
 
       queryClient
@@ -49,6 +51,11 @@ export const useToggleWish = () => {
           if (typeof key === 'string' && targetQueryKeys.includes(key)) {
             queryClient.invalidateQueries({ queryKey: query.queryKey });
           }
+
+          // show toast pop-up
+          const toastTarget = targetType === 'ITEM' ? '위시리스트' : '아티스트 북마크';
+          const toastAction = currentWished ? '에서 삭제했습니다' : '에 추가했습니다';
+          showToast(`${toastTarget}${toastAction}.`);
         });
     },
     onError: (error) => {
