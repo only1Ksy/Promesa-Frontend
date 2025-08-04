@@ -55,7 +55,7 @@ export const fetchOrders = () =>
 /** 주문 ID를 전달하면 주문을 취소하는 함수 */
 export const cancelOrder = (orderId: number) =>
   withErrorBoundary<[number], string>(async (orderId) => {
-    const res = await axiosInstance.delete(`/orders/${orderId}/cancel`);
+    const res = await axiosInstance.patch(`/orders/${orderId}/cancel`);
 
     return res.data.data;
   }, orderId);
