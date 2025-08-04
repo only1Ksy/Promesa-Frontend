@@ -54,7 +54,7 @@ export const useToggleWish = () => {
 
           // show toast pop-up
           const toastTarget = targetType === 'ITEM' ? '위시리스트' : '아티스트 북마크';
-          const toastAction = currentWished ? '에서 삭제하였습니다' : '에 추가하였습니다';
+          const toastAction = currentWished ? '에서 삭제했습니다' : '에 추가했습니다';
           showToast(`${toastTarget}${toastAction}.`);
         });
     },
