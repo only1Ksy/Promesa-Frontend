@@ -2,6 +2,8 @@
 
 import clsx from 'clsx';
 
+import stringToMultilineTSX from '@/lib/utils/string-to-multiline-tsx';
+
 interface AlertModalProps {
   visible: boolean;
   message: string;
@@ -36,7 +38,7 @@ export default function AlertModal({
   return (
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50" onClick={onClose}>
       <div className="bg-pale-green/90 w-80 rounded-xs px-3.5 pt-7 pb-5 shadow-md" onClick={(e) => e.stopPropagation()}>
-        <p className="text-body-02 text-center font-medium">{message}</p>
+        <p className="text-body-02 text-center font-medium">{stringToMultilineTSX(message)}</p>
         <div className="mt-4 flex gap-2">
           {cancelText && (
             <button
