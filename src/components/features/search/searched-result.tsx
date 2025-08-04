@@ -1,6 +1,6 @@
 'use client';
 
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import ItemPreview from '@/components/common/item/item-preview';
@@ -14,10 +14,14 @@ import { fetchSearch } from '@/services/api/home-controller';
 export default function SearchedResult() {
   const { keyword, isCommitted } = useSearchKeywordStore();
 
-  const { data } = useSuspenseQuery({
+  // do not use useSuspenseQuery
+  const { data } = useQuery({
     queryKey: ['search', keyword],
     queryFn: () => fetchSearch(keyword),
+    placeholderData: (prev) => prev,
   });
+
+  if (!data) return null;
 
   return (
     // 31.5 = 11.5 (header) + 20 (margin bottom)
