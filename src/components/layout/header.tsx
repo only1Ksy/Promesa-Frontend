@@ -124,6 +124,9 @@ export default function Header({ shadow }: HeaderProps) {
             onClick={() => {
               if (window.history.length > 1) {
                 router.back();
+                requestAnimationFrame(() => {
+                  window.scrollTo(0, 0);
+                });
               } else {
                 router.replace('/');
               }

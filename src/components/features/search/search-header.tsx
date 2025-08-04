@@ -12,32 +12,48 @@ export default function SearchHeader() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isComposing, setIsComposing] = useState(false);
 
-  const urlParams = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search);
-  const [inputValue, setInputValue] = useState(urlParams.get('keyword') ?? '');
+  const [inputValue, setInputValue] = useState(() => {
+    const params = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search);
+    return params.get('keyword') ?? '';
+  });
+
+  const isBackRef = useRef(false);
+
+  // remain commited when router.back
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      setInputValue(params.get('keyword') ?? '');
+      isBackRef.current = true;
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   // debounce
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
+    if (isBackRef.current) {
+      isBackRef.current = false;
+      return;
+    }
+
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
 
-      const prevCommitted = params.get('commited');
-      if (inputValue !== '') {
-        params.set('keyword', inputValue);
-      } else {
-        params.delete('keyword');
-      }
+      const hadCommitted = params.get('commited') === 'true';
 
-      const removed = params.has('commited');
+      if (inputValue) params.set('keyword', inputValue);
+      else params.delete('keyword');
+
       params.delete('commited');
 
       router.replace(`?${params.toString()}`, { scroll: false });
 
-      if (prevCommitted && removed) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      if (hadCommitted) window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
 
     return () => {
