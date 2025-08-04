@@ -37,7 +37,7 @@ export default function MyWishList({ targetType, href }: MyWishListProps) {
         displayData.map(({ src, isEnd }, idx) =>
           src ? (
             <div key={idx} className="bg-green relative aspect-square flex-1 overflow-hidden rounded-xs">
-              <ImageWithEffect src={src} alt={`아이템 ${data[idx].title} 이미지.`} fill />
+              <ImageWithEffect src={src} alt={`아이템 ${data[idx].title} 이미지.`} fill className="object-cover" />
               {isEnd && (
                 <>
                   <div className="text-grey-1 text-body-02 bg-grey-3/50 absolute inset-0 z-5 flex h-full w-full flex-col items-center justify-center font-medium">

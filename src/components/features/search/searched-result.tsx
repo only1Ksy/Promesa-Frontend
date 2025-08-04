@@ -45,6 +45,7 @@ export default function SearchedResult({ keyword: initialKeyword }: SearchedResu
                         src={art.profile.profileImageUrl}
                         alt={`아티스트 ${art.profile.name} 의 프로필 이미지`}
                         fill
+                        className="object-cover"
                       />
                     </div>
                     <div className="flex flex-col justify-center">
