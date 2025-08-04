@@ -50,7 +50,6 @@ export interface OrderResponseSchema {
     price: number;
     quantity: number;
     itemStatus:
-      | 'ORDERED'
       | 'CANCEL_REQUESTED'
       | 'CANCELLED'
       | 'RETURN_REQUESTED'

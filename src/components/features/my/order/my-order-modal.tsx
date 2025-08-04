@@ -61,14 +61,14 @@ export default function MyOrderModal() {
           showToast('주문을 취소했습니다.');
         } catch (error) {
           console.error('취소 실패:', error);
-          alertModal({ message: '주문 취소 중 오류가 발생했습니다. 다시 시도해주세요.' });
+          alertModal({ message: '주문 취소 중 오류가 발생했습니다. \n다시 시도해주세요.' });
         }
       },
     });
   };
 
   const isButton = true;
-  const isCancelAvailable = order.summary.orderStatus === 'WATING_FOR_PAYMENT';
+  const isCancelAvailable = order.summary.orderStatus === 'WAITING_FOR_PAYMENT';
 
   const paymentInformation = () => {
     if (order.summary.orderStatus === 'WAITING_FOR_PAYMENT') {
@@ -205,21 +205,21 @@ export default function MyOrderModal() {
             </div>
           </div>
 
+          <div className="flex w-full justify-center px-2.5">
+            <button className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white">
+              문의하기
+            </button>
+          </div>
           {isCancelAvailable && (
             <div className="flex w-full justify-center px-2.5 pb-7">
               <button
                 onClick={onCancelClicked}
-                className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white"
+                className="text-body-02 h-10.5 w-90.25 cursor-pointer border-[1.5px] bg-white font-medium text-black"
               >
                 취소하기
               </button>
             </div>
           )}
-          <div className="flex w-full justify-center px-2.5 pb-7">
-            <button className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white">
-              문의하기
-            </button>
-          </div>
         </div>
       </div>
     </motion.div>

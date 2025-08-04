@@ -94,77 +94,77 @@ export default function ClientOrderItemPage() {
   const handlePayClick = async () => {
     if (!agree || isSubmitting) return;
 
-    // 잠금
-    setIsSubmitting(true);
+    alertModal({
+      message: '주문하시겠습니까?',
+      confirmText: '주문하기',
+      cancelText: '취소',
+      onConfirm: async () => {
+        setIsSubmitting(true);
 
-    // 유효성 검사 (delivery + payment)
-    const deliveryResult = deliverySchema.safeParse(delivery);
-    const paymentResult = paymentSchema.safeParse(payment);
+        // 유효성 검사
+        const deliveryResult = deliverySchema.safeParse(delivery);
+        const paymentResult = paymentSchema.safeParse(payment);
 
-    if (!deliveryResult.success || !paymentResult.success) {
-      const deliveryErrors = deliveryResult.error?.flatten().fieldErrors || {};
-      const paymentErrors = paymentResult.error?.flatten().fieldErrors || {};
+        if (!deliveryResult.success || !paymentResult.success) {
+          const deliveryErrors = deliveryResult.error?.flatten().fieldErrors || {};
+          const paymentErrors = paymentResult.error?.flatten().fieldErrors || {};
+          const allErrors = { ...deliveryErrors, ...paymentErrors };
+          const firstErrorMessage = Object.values(allErrors).flat()[0];
 
-      const allErrors = { ...deliveryErrors, ...paymentErrors };
-      const firstErrorMessage = Object.values(allErrors).flat()[0];
+          alertModal({ message: firstErrorMessage || '입력값을 다시 확인해주세요.' });
+          setIsSubmitting(false);
+          return;
+        }
 
-      alertModal({ message: firstErrorMessage || '입력값을 다시 확인해주세요.' });
-      setIsSubmitting(false);
-      return;
-    }
+        // 기본 배송지 저장
+        if (delivery.isDefault) {
+          try {
+            await postDefaultAddress(
+              delivery.name,
+              delivery.postcode,
+              delivery.address,
+              delivery.addressDetail,
+              `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
+            );
+          } catch (error) {
+            console.error('❌ 기본 배송지 저장 실패:', error);
+            alertModal({ message: '기본 배송지 저장에 실패했습니다. \n다시 시도해주세요.' });
+            setIsSubmitting(false);
+            return;
+          }
+        }
 
-    // 기본 배송지 저장 호출
-    if (delivery.isDefault) {
-      try {
-        const saved = await postDefaultAddress(
-          delivery.name,
-          delivery.postcode,
-          delivery.address,
-          delivery.addressDetail,
-          `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
-        );
-        console.log('✅ 기본 배송지 저장 성공:', saved);
-      } catch (error) {
-        console.error('❌ 기본 배송지 저장 실패:', error);
-        alertModal({ message: '기본 배송지 저장에 실패했습니다. 다시 시도해주세요.' });
-        setIsSubmitting(false);
-        return;
-      }
-    }
+        // 주문 API 호출
+        const orderData = {
+          type: isCartMode ? ('CART' as const) : ('SINGLE' as const),
+          items: orderItems,
+          address: {
+            recipientName: delivery.name,
+            zipCode: delivery.postcode,
+            addressMain: delivery.address,
+            addressDetails: delivery.addressDetail,
+            recipientPhone: `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
+          },
+          payment: {
+            paymentMethod: '무통장입금',
+            bankName: payment.selectedBank,
+            depositorName: payment.depositor,
+          },
+        };
 
-    // 주문 호출
-    const orderData = {
-      type: isCartMode ? ('CART' as const) : ('SINGLE' as const),
-      items: orderItems,
-      address: {
-        recipientName: delivery.name,
-        zipCode: delivery.postcode,
-        addressMain: delivery.address,
-        addressDetails: delivery.addressDetail,
-        recipientPhone: `${delivery.phone1}-${delivery.phone2}-${delivery.phone3}`,
+        try {
+          const result = await postOrder(orderData);
+          alertModal({ message: '주문이 완료되었습니다.' });
+          useOrderStore.getState().resetForm();
+          router.push(`order/complete/${result.summary.orderId}`);
+        } catch (err) {
+          console.error('주문 실패:', err);
+          alertModal({ message: '주문 중 문제가 발생했습니다. \n다시 시도해주세요.' });
+        } finally {
+          setIsSubmitting(false);
+        }
       },
-      payment: {
-        paymentMethod: '무통장입금',
-        bankName: payment.selectedBank,
-        depositorName: payment.depositor,
-      },
-    };
-
-    try {
-      const result = await postOrder(orderData);
-      console.log('주문 성공:', result);
-
-      // 주문 완료 페이지로 이동하거나, 주문 완료 메시지 보여주기 등 처리
-      alertModal({ message: '주문이 완료되었습니다.' });
-      useOrderStore.getState().resetForm();
-      router.push(`order/complete/${result.summary.orderId}`);
-    } catch (err) {
-      console.error('주문 실패:', err);
-      alertModal({ message: '주문 중 문제가 발생했습니다. 다시 시도해주세요.' });
-    } finally {
-      // 잠금 해제
-      setIsSubmitting(false);
-    }
+    });
   };
 
   const total = items.reduce((sum, item) => sum + item.price * item.itemNumber, 0);
