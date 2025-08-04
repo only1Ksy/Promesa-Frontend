@@ -2,82 +2,48 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import BackButton from '@/components/layout/header/back-button';
+import { useSearchKeywordStore } from '@/lib/store/use-search-keyword-store';
 import SearchIcon from '@/public/icons/layout/search.svg';
+import { getQueryClient } from '@/services/query/client';
 
 export default function SearchHeader() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isComposing, setIsComposing] = useState(false);
 
-  const [inputValue, setInputValue] = useState(() => {
-    const params = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search);
-    return params.get('keyword') ?? '';
-  });
-
-  const isBackRef = useRef(false);
-
-  // remain commited when router.back
-  useEffect(() => {
-    const onPopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      setInputValue(params.get('keyword') ?? '');
-      isBackRef.current = true;
-    };
-    window.addEventListener('popstate', onPopState);
-    return () => window.removeEventListener('popstate', onPopState);
-  }, []);
-
-  // debounce
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    if (isBackRef.current) {
-      isBackRef.current = false;
-      return;
-    }
+  const { keyword, setKeyword, setCommitted } = useSearchKeywordStore();
+  const [localKeyword, setLocalKeyword] = useState(keyword);
 
+  // debounce
+  useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
-      const params = new URLSearchParams(window.location.search);
+      setKeyword(localKeyword);
+      const queryClient = getQueryClient();
+      queryClient.invalidateQueries({ queryKey: ['search', keyword] });
+    }, 150);
 
-      const hadCommitted = params.get('commited') === 'true';
-
-      if (inputValue) params.set('keyword', inputValue);
-      else params.delete('keyword');
-
-      params.delete('commited');
-
-      router.replace(`?${params.toString()}`, { scroll: false });
-
-      if (hadCommitted) window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [inputValue, router]);
+    return () => clearTimeout(timeoutRef.current!);
+  }, [localKeyword, keyword, setKeyword]);
 
   // commit
   const handleSearchCommit = useCallback(() => {
-    const params = new URLSearchParams(window.location.search);
+    const current = new URLSearchParams(searchParams.toString());
+    current.set('keyword', keyword);
+    setCommitted(true);
 
-    if (inputValue !== '') {
-      params.set('keyword', inputValue);
-      params.set('commited', 'true');
-    } else {
-      params.delete('keyword');
-      params.delete('commited');
-    }
+    router.replace(`?${current.toString()}`, { scroll: false });
 
-    router.replace(`?${params.toString()}`, { scroll: false });
     inputRef.current?.blur(); // remove focus
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [inputValue, router]);
+  }, [keyword, searchParams, router, setCommitted]);
 
   return (
     <>
@@ -89,14 +55,17 @@ export default function SearchHeader() {
         <div
           className={clsx(
             'flex-1 border-b pb-[calc(var(--spacing)*1.5-1)]',
-            inputValue === '' ? 'border-b-deep-green' : 'border-b-grey-9',
+            keyword === '' ? 'border-b-deep-green' : 'border-b-grey-9',
           )}
         >
           <input
             ref={inputRef}
             type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={localKeyword}
+            onChange={(e) => {
+              setLocalKeyword(e.target.value);
+              setCommitted(false);
+            }}
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onKeyDown={(e) => {
@@ -108,14 +77,14 @@ export default function SearchHeader() {
             placeholder="원하는 아티스트나 상품을 입력해보세요."
             className={clsx(
               'h-7.5 w-full pr-6 font-medium outline-none',
-              inputValue === ''
+              keyword === ''
                 ? 'placeholder:text-body-02 placeholder:text-grey-5 placeholder:opacity-100'
                 : 'text-body-01 text-grey-9',
             )}
           />
         </div>
         <button onClick={handleSearchCommit} className="flex items-center justify-center">
-          <SearchIcon className={inputValue === '' ? 'text-deep-green' : 'text-grey-9 cursor-pointer'} />
+          <SearchIcon className={keyword === '' ? 'text-deep-green' : 'text-grey-9 cursor-pointer'} />
         </button>
       </div>
     </>
