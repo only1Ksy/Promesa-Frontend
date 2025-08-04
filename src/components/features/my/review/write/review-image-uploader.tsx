@@ -29,13 +29,19 @@ export default function ReviewImageUploader({
         {/* 이미지 미리보기 */}
         {previews.map((src, idx) => (
           <div key={idx} className="bg-green relative h-29 w-28.75 overflow-hidden rounded">
+            {/* 이미지 */}
             <Image src={src} alt={`preview-${idx}`} fill className="rounded object-cover" />
+
+            {/* 그라디언트 오버레이 */}
+            <div className="absolute top-0 left-0 h-10 w-full rounded bg-gradient-to-b from-[rgba(34,34,34,0.42)] to-[rgba(34,34,34,0)]" />
+
+            {/* 삭제 버튼 */}
             <button
               onClick={() => handleImageRemove(idx)}
-              className="hover:bg-deep-green/50 absolute top-1 right-1 z-10 cursor-pointer rounded-full p-[3px]"
+              className="absolute top-1 right-1 z-10 cursor-pointer rounded-full p-0.75 hover:bg-black/50"
               aria-label={`이미지 ${idx + 1} 삭제`}
             >
-              <CloseIcon width={16} height={16} />
+              <CloseIcon width={20} height={20} className="text-white" />
             </button>
           </div>
         ))}
