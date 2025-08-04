@@ -96,7 +96,7 @@ export default function ClientOrderItemPage() {
 
     alertModal({
       message: '주문하시겠습니까?',
-      confirmText: '주문하기',
+      confirmText: '확인',
       cancelText: '취소',
       onConfirm: async () => {
         setIsSubmitting(true);

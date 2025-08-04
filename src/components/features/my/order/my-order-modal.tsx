@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
 import Header from '@/components/layout/header';
@@ -17,6 +18,7 @@ import MyOrderCard from './my-order-card';
 
 export default function MyOrderModal() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const orderId = Number(searchParams.get('id'));
 
   const { showToast } = useToast();
@@ -59,6 +61,7 @@ export default function MyOrderModal() {
         try {
           await cancelOrder(order.summary.orderId);
           showToast('주문을 취소했습니다.');
+          router.push('/my/order');
         } catch (error) {
           console.error('취소 실패:', error);
           alertModal({ message: '주문 취소 중 오류가 발생했습니다. \n다시 시도해주세요.' });
@@ -205,21 +208,23 @@ export default function MyOrderModal() {
             </div>
           </div>
 
-          <div className="flex w-full justify-center px-2.5">
-            <button className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white">
-              문의하기
-            </button>
-          </div>
-          {isCancelAvailable && (
+          <div className="flex flex-col gap-2">
+            {isCancelAvailable && (
+              <div className="flex w-full justify-center px-2.5">
+                <button
+                  onClick={onCancelClicked}
+                  className="text-body-02 bg-pale-green h-10.5 w-90.25 cursor-pointer border-[1.5px] font-medium text-black"
+                >
+                  취소하기
+                </button>
+              </div>
+            )}
             <div className="flex w-full justify-center px-2.5 pb-7">
-              <button
-                onClick={onCancelClicked}
-                className="text-body-02 h-10.5 w-90.25 cursor-pointer border-[1.5px] bg-white font-medium text-black"
-              >
-                취소하기
+              <button className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white">
+                문의하기
               </button>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </motion.div>

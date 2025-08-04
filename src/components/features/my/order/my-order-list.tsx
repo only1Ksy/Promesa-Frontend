@@ -57,7 +57,7 @@ export default function MyOrderList({ orders }: MyOrderListProps) {
                   shipComment={shipComment}
                   url={order.summary.itemThumbnail}
                   title={
-                    order.summary.totalQuantity > 1
+                    order.items.length > 1
                       ? `${order.summary.itemName} 외 ${order.summary.totalQuantity - 1}건`
                       : order.summary.itemName
                   }
