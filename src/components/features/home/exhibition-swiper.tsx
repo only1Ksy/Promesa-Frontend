@@ -18,8 +18,14 @@ interface ExhibitionSwiperProps {
 
 export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSwiperProps) {
   const { data } = useSuspenseQuery({
-    queryKey: page === 'HOME' ? ['onGoingExhibitions'] : ['exhibitions', artistId],
-    queryFn: page === 'HOME' ? fetchOngoingExhibitions : () => fetchArtistExhibitions(artistId!),
+    queryKey: page === 'HOME' ? ['onGoingExhibitions'] : ['artistExhibitions', artistId],
+    queryFn:
+      page === 'HOME'
+        ? async () => {
+            const data = await fetchOngoingExhibitions();
+            return data.map((item) => item.summary);
+          }
+        : () => fetchArtistExhibitions(artistId!),
   });
 
   if (data.length === 0) return null;
@@ -37,17 +43,13 @@ export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSw
       </div>
       <HorizontalScroll className="ml-5 flex gap-2 pr-5">
         {data.map((item, idx) => (
-          <Link key={item.summary.id} href={`/exhibition/${item.summary.id}`}>
+          <Link key={item.id} href={`/exhibition/${item.id}`}>
             <div className="bg-green relative flex h-77 w-68 flex-shrink-0 items-end px-7 pb-6">
-              <ImageWithLoading
-                src={item.summary.thumbnailImageUrl}
-                alt={`프로메사 ${idx + 1}번째 전시회 대표 이미지.`}
-                fill
-              />
+              <ImageWithLoading src={item.thumbnailImageUrl} alt={`프로메사 ${idx + 1}번째 전시회 대표 이미지.`} fill />
               <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-3/10 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]" />
               <div className="z-10 flex flex-col gap-0.5">
-                <p className="text-subhead text-grey-1 font-bold">{item.summary.title}</p>
-                <p className="text-caption-01 text-grey-2 font-medium">{item.summary.description}</p>
+                <p className="text-subhead text-grey-1 font-bold">{item.title}</p>
+                <p className="text-caption-01 text-grey-2 font-medium">{item.description}</p>
               </div>
             </div>
           </Link>

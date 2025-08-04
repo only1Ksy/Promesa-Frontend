@@ -11,7 +11,13 @@ export default async function HomePage() {
 
   await Promise.all([
     queryClient.prefetchQuery({ queryKey: ['brandInfo'], queryFn: fetchBrandInfo }),
-    queryClient.prefetchQuery({ queryKey: ['onGoingExhibitions'], queryFn: fetchOngoingExhibitions }),
+    queryClient.prefetchQuery({
+      queryKey: ['onGoingExhibitions'],
+      queryFn: async () => {
+        const data = await fetchOngoingExhibitions();
+        return data.map((item) => item.summary);
+      },
+    }),
     queryClient.prefetchQuery({ queryKey: ['nowPopularItems'], queryFn: fetchNowPopularItems }),
   ]);
 
