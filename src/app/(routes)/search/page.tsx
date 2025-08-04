@@ -10,7 +10,7 @@ export default async function SearchPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const raw = await searchParamsPromise;
-  const keyword = raw.keystring ? String(raw.keyword) : '';
+  const keyword = raw.keyword ? String(raw.keyword) : '';
 
   const queryClient = createQueryClient();
 
