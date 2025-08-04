@@ -36,7 +36,7 @@ export default function InputComponent({
             }
           } else setValue(e.target.value);
         }}
-        className="text-body-02 text-grey-7 w-full font-medium outline-none"
+        className="text-body-02 text-grey-7 w-full origin-left scale-[0.875] text-base font-medium outline-none"
         autoComplete="off"
         inputMode={isPhone ? 'numeric' : undefined}
         readOnly={readOnly}
