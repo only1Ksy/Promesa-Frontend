@@ -6,7 +6,6 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ item }: ProductDetailProps) {
-  console.log(item.detailImageUrls);
   return (
     <div className="flex w-full flex-col items-start">
       {/* 상세 정보 */}

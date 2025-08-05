@@ -71,19 +71,6 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     }
   };
 
-  // review page로 스크롤
-  /* useEffect(() => {
-    const shouldScrollToReview = sessionStorage.getItem('scrollToReview');
-    console.log(shouldScrollToReview);
-    if (shouldScrollToReview === 'true' && reviewRef.current) {
-      setTimeout(() => {
-        reviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setActiveTab('review');
-      }, 200);
-      sessionStorage.removeItem('scrollToReview');
-    }
-  }, []); */
-
   // IntersectionObserver 설정
   useEffect(() => {
     const handleScroll = () => {
