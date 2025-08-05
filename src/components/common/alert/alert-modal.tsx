@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import clsx from 'clsx';
 
 import stringToMultilineTSX from '@/lib/utils/string-to-multiline-tsx';
@@ -23,6 +24,17 @@ export default function AlertModal({
   confirmText = '확인',
   cancelText,
 }: AlertModalProps) {
+  useEffect(() => {
+    if (visible) {
+      const originalStyle = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [visible]);
+
   if (!visible) return null;
 
   const handleConfirm = () => {
