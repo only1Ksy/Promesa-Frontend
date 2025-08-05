@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 
+import useAlert from '@/hooks/use-alert';
 import { useAuthStore } from '@/lib/store/use-auth-store';
 import { logoutOnce } from '@/services/api/axios/auth';
 import { fetchMe, patchMe, patchMeWithdraw } from '@/services/api/member-controller';
@@ -35,6 +36,8 @@ export default function ProfileListWithBottomFixedBar() {
 
   const [phoneAlertText, setPhoneAlertText] = useState<string | null>(null);
   const [gendeAlertText, setGenderAlertText] = useState<string | null>(null);
+
+  const alertModal = useAlert();
 
   // non-change values
   const [recipientNameValue, setRecipientNameValue] = useState('');
@@ -222,9 +225,16 @@ export default function ProfileListWithBottomFixedBar() {
     window.location.replace('/');
   };
 
-  const handleWithdraw = async () => {
-    await patchMeWithdraw();
-    logout();
+  const handleWithdraw = () => {
+    alertModal({
+      message: '정말 회원 탈퇴를 진행하시겠습니까?\n탈퇴 시 모든 정보는 삭제되며, 복구가 불가능합니다.',
+      confirmText: '진행',
+      cancelText: '취소',
+      onConfirm: async () => {
+        await patchMeWithdraw();
+        logout();
+      },
+    });
   };
 
   return (
