@@ -163,7 +163,10 @@ export default function ProfileListWithBottomFixedBar() {
   // handle submit
   const handleSubmit = async () => {
     // necessary full phone number
-    if ((phoneMiddleValue !== '' && phoneEndValue === '') || (phoneMiddleValue === '' && phoneEndValue !== '')) {
+    const isValidPhoneNumber =
+      `${phoneStartValue}-${phoneMiddleValue}-${phoneEndValue}` === initialData?.phone ||
+      (phoneMiddleValue !== '' && phoneEndValue !== '');
+    if (!isValidPhoneNumber) {
       setPhoneAlertText('유효한 전화번호를 입력해야 합니다.');
 
       const element = document.getElementById('phone-value-component');
