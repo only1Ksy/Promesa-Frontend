@@ -87,7 +87,7 @@ export default function HamburgerButton() {
                 <p>Logout</p>
               </Link>
             )}
-            <Link href="/">
+            <Link href="/my/wish-list">
               <p>Wishlist</p>
             </Link>
             <Link href="https://www.instagram.com/promesa_ceramic" target="_blank" rel="noopener noreferrer">
