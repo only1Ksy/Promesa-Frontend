@@ -1,6 +1,6 @@
 import ClientAuthLayout from '@/components/client/layout/auth-layout';
 
-export default async function AuthLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
