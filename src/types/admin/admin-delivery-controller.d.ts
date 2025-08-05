@@ -1,4 +1,5 @@
 export interface AdminDelivery {
+  deliveryId?: number;
   courierName: string;
   receiverName: string;
   receiverPhone: string;
