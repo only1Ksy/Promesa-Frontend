@@ -20,7 +20,7 @@ export default function InputComponent({
     <div
       className={clsx(
         'flex min-w-0 flex-1 items-center rounded-sm p-2.5',
-        isHighlight ? 'bg-green' : 'border-deep-green border',
+        isHighlight ? 'bg-green border-green border' : 'border-deep-green border',
       )}
     >
       <input

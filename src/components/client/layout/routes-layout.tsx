@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
@@ -26,6 +26,9 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const bottomBarRef = useRef<HTMLDivElement>(null);
+
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => setHasMounted(true), []);
 
   const isCartPage = pathname.startsWith('/cart');
   const isDetailPage = pathname.startsWith('/detail');
@@ -96,7 +99,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     <HydrationBoundary state={dehydratedState}>
       <AlertProvider>
         <ToastProvider>
-          {(loadingCount > 0 || isFetching > 0) && <FetchingSpinner />}
+          {hasMounted && (loadingCount > 0 || isFetching > 0) && <FetchingSpinner />}
           <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
             {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
             <Header shadow={isHeaderShadow} />

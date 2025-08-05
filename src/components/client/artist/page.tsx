@@ -31,7 +31,7 @@ export default function ClientArtistPage({ dehydratedState, artistId, initialPar
           <ExhibitionSwiper title="참여한 기획전" page="ARTIST" artistId={artistId} />
 
           {/* 아이템 리스트 */}
-          <div className="-mt-7">
+          <div className="-mt-20">
             <ItemList initialParams={initialParams} page="ARTIST" />
           </div>
 

@@ -20,7 +20,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (PROTECTED_PATHS.includes(pathname) && !loggedIn) {
+  if (PROTECTED_PATHS.some((path) => pathname.startsWith(path)) && !loggedIn) {
     const loginUrl = new URL('/login', req.url);
     loginUrl.searchParams.set('afterLogin', pathname);
     return NextResponse.redirect(loginUrl);
@@ -34,5 +34,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/order', '/cart', '/my', '/login', '/logout'],
+  matcher: ['/order/:path*', '/cart/:path*', '/my/:path*', '/login', '/logout'],
 };
