@@ -44,6 +44,7 @@ export interface OrderResponseSchema {
     deliveryStatus: 'READY' | 'SHIPPING' | 'DELIVERED' | string;
   };
   items: Array<{
+    orderItemId: number;
     itemId: number;
     itemName: string;
     orderItemThumbnail: string;
