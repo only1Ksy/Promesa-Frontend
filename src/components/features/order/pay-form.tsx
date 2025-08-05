@@ -36,12 +36,12 @@ export default function PayForm() {
             </div>
 
             {/* 입금자명 */}
-            <div className="flex w-84.5 flex-col">
+            <div className="border-deep-green flex w-84.5 flex-col rounded-md border">
               <input
                 type="text"
                 value={payment.depositor}
                 onChange={(e) => updatePayment('depositor', e.target.value)}
-                className="border-deep-green rounded-md border p-2.5 outline-none"
+                className="w-full origin-left scale-[0.875] p-2.5 text-base outline-none"
                 placeholder="입금자명"
               />
             </div>
