@@ -89,13 +89,7 @@ export default function MyReviewCard({ rating, content, reviewImages }: MyReview
                 {reviewImages.map((src, i) => (
                   <div key={i} className="bg-green h-29 w-28.75 overflow-hidden">
                     <button onClick={() => openModal(src)} className="h-full w-full cursor-pointer">
-                      <ImageWithEffect
-                        alt={`review image ${i + 1}`}
-                        src={src}
-                        width={115}
-                        height={116}
-                        className="object-cover"
-                      />
+                      <ImageWithEffect alt={`review image ${i + 1}`} src={src} fill className="object-cover" />
                     </button>
                   </div>
                 ))}
