@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+import useAlert from '@/hooks/use-alert';
+import { usePostCartItem } from '@/hooks/use-cart';
 import ReviewStarIcon from '@/public/icons/item/review-star.svg';
 import { ParsedItemData } from '@/types/item-controller';
 
@@ -15,8 +17,19 @@ interface ProductInformationProps {
 export default function ProductInformation({ onSelect, item }: ProductInformationProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const alertModal = useAlert();
+
+  const { mutate: postCarts } = usePostCartItem();
+
   const onClicked = () => {
     setIsModalOpen(true);
+  };
+
+  // 장바구니에 넣기
+  const onCartClicked = () => {
+    postCarts({ itemId: item.itemId, quantity: 1 });
+    // alert 모달
+    alertModal({ message: '장바구니에 추가했습니다.' });
   };
 
   const rating = item.averageRating;
@@ -63,7 +76,10 @@ export default function ProductInformation({ onSelect, item }: ProductInformatio
         <ArtistPageButton artist={item.artist} />
         {/* 장바구니, 구매하기 버튼 */}
         <div className="flex w-full items-center justify-center gap-2 px-5 py-2">
-          <button className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] rounded-xs border-[1.4px] font-bold">
+          <button
+            onClick={onCartClicked}
+            className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] rounded-xs border-[1.4px] font-bold"
+          >
             장바구니
           </button>
           <button
