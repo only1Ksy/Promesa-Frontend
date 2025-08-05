@@ -117,12 +117,12 @@ export default function DeliveryForm() {
 
         <div className="text-body-02 flex flex-col gap-2.5 font-medium">
           {/* 이름 */}
-          <div className="flex flex-col">
+          <div className="border-deep-green flex flex-col rounded-md border">
             <input
               type="text"
               value={delivery.name}
               onChange={(e) => updateDelivery('name', e.target.value)}
-              className="border-deep-green rounded-md border p-2.5 outline-none"
+              className="w-full origin-left scale-[0.875] p-2.5 text-base outline-none"
               placeholder="이름"
             />
           </div>
@@ -165,44 +165,53 @@ export default function DeliveryForm() {
                 />
               </div>
             )}
-            <input
-              type="text"
-              value={delivery.address}
-              readOnly
-              placeholder="기본주소"
-              className="border-deep-green rounded-md border p-2.5 outline-none"
-            />
-            <input
-              type="text"
-              value={delivery.addressDetail}
-              onChange={(e) => updateDelivery('addressDetail', e.target.value)}
-              placeholder="상세주소 (건물명, 호수 등)"
-              className="border-deep-green rounded-md border p-2.5 outline-none"
-            />
+            <div className="border-deep-green flex flex-col rounded-md border">
+              <input
+                type="text"
+                value={delivery.address}
+                readOnly
+                placeholder="기본주소"
+                className="w-full origin-left scale-[0.875] p-2.5 text-base outline-none"
+              />
+            </div>
+            <div className="border-deep-green flex flex-col rounded-md border">
+              <input
+                type="text"
+                value={delivery.addressDetail}
+                onChange={(e) => updateDelivery('addressDetail', e.target.value)}
+                placeholder="상세주소 (건물명, 호수 등)"
+                className="w-full origin-left scale-[0.875] p-2.5 text-base outline-none"
+              />
+            </div>
           </div>
 
           {/* 연락처 */}
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1.75">
-              <OrderDropdown items={phoneList} onSelect={handleSelect} width="w-64" />
+              <OrderDropdown items={phoneList} onSelect={handleSelect} width="w-64" />-
+              <div className="border-deep-green flex flex-col rounded-md border">
+                <input
+                  type="text"
+                  maxLength={4}
+                  value={delivery.phone2}
+                  onChange={(e) => updateDelivery('phone2', e.target.value)}
+                  className="w-27 origin-left scale-[0.875] p-2.5 text-base outline-none"
+                  placeholder="1234"
+                  inputMode="numeric"
+                />
+              </div>
               -
-              <input
-                type="text"
-                maxLength={4}
-                value={delivery.phone2}
-                onChange={(e) => updateDelivery('phone2', e.target.value)}
-                className="border-deep-green w-27 rounded-md border p-2.5 outline-none"
-                placeholder="1234"
-              />
-              -
-              <input
-                type="text"
-                maxLength={4}
-                value={delivery.phone3}
-                onChange={(e) => updateDelivery('phone3', e.target.value)}
-                className="border-deep-green w-27 rounded-md border p-2.5 outline-none"
-                placeholder="5678"
-              />
+              <div className="border-deep-green flex flex-col rounded-md border">
+                <input
+                  type="text"
+                  maxLength={4}
+                  value={delivery.phone3}
+                  onChange={(e) => updateDelivery('phone3', e.target.value)}
+                  className="w-27 origin-left scale-[0.875] p-2.5 text-base outline-none"
+                  placeholder="5678"
+                  inputMode="numeric"
+                />
+              </div>
             </div>
           </div>
         </div>

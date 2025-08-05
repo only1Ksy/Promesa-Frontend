@@ -94,27 +94,27 @@ export default function ClientOrderItemPage() {
   const handlePayClick = async () => {
     if (!agree || isSubmitting) return;
 
+    // 유효성 검사
+    const deliveryResult = deliverySchema.safeParse(delivery);
+    const paymentResult = paymentSchema.safeParse(payment);
+
+    if (!deliveryResult.success || !paymentResult.success) {
+      const deliveryErrors = deliveryResult.error?.flatten().fieldErrors || {};
+      const paymentErrors = paymentResult.error?.flatten().fieldErrors || {};
+      const allErrors = { ...deliveryErrors, ...paymentErrors };
+      const firstErrorMessage = Object.values(allErrors).flat()[0];
+
+      alertModal({ message: firstErrorMessage || '입력값을 다시 확인해주세요.' });
+      setIsSubmitting(false);
+      return;
+    }
+
     alertModal({
       message: '주문하시겠습니까?',
       confirmText: '확인',
       cancelText: '취소',
       onConfirm: async () => {
         setIsSubmitting(true);
-
-        // 유효성 검사
-        const deliveryResult = deliverySchema.safeParse(delivery);
-        const paymentResult = paymentSchema.safeParse(payment);
-
-        if (!deliveryResult.success || !paymentResult.success) {
-          const deliveryErrors = deliveryResult.error?.flatten().fieldErrors || {};
-          const paymentErrors = paymentResult.error?.flatten().fieldErrors || {};
-          const allErrors = { ...deliveryErrors, ...paymentErrors };
-          const firstErrorMessage = Object.values(allErrors).flat()[0];
-
-          alertModal({ message: firstErrorMessage || '입력값을 다시 확인해주세요.' });
-          setIsSubmitting(false);
-          return;
-        }
 
         // 기본 배송지 저장
         if (delivery.isDefault) {
