@@ -42,6 +42,15 @@
       transform: translateX(100%);
     }
   }
+
+  /* my-profile-select */
+  .my-profile-select__menu-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .my-profile-select__menu-list::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer utilities {

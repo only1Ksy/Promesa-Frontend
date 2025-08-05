@@ -29,13 +29,13 @@ export default function ProfileListWithBottomFixedBar() {
   const [phoneEndValue, setPhoneEndValue] = useState('');
   const [smsAgreeValue, setSmsAgreeValue] = useState(true);
   const [genderValue, setGenderValue] = useState<MemberUpdateRequestSchema['gender']>(null);
-  const [birthYearValue, setBirthYearValue] = useState(now.getFullYear());
-  const [birthMonthValue, setBirthMonthValue] = useState(now.getMonth() + 1);
-  const [birthDayValue, setBirthDayValue] = useState(now.getDate());
+  const [birthYearValue, setBirthYearValue] = useState(0);
+  const [birthMonthValue, setBirthMonthValue] = useState(0);
+  const [birthDayValue, setBirthDayValue] = useState(0);
   const [isSolarValue, setIsSolarValue] = useState(true);
 
   const [phoneAlertText, setPhoneAlertText] = useState<string | null>(null);
-  const [gendeAlertText, setGenderAlertText] = useState<string | null>(null);
+  const [birthAlertText, setBirthAlertText] = useState<string | null>(null);
 
   const alertModal = useAlert();
 
@@ -62,9 +62,9 @@ export default function ProfileListWithBottomFixedBar() {
       birthDay: rawBirthDay,
       isSolar: rawIsSoloar,
     } = data.birth;
-    const birthYear = rawBirhtYear ?? now.getFullYear();
-    const birthMonth = rawBirhtMonth ?? now.getMonth() + 1;
-    const birthDay = rawBirthDay ?? now.getDate();
+    const birthYear = rawBirhtYear ?? 0;
+    const birthMonth = rawBirhtMonth ?? 0;
+    const birthDay = rawBirthDay ?? 0;
     const isSolar = rawIsSoloar ?? true;
 
     // address
@@ -106,7 +106,7 @@ export default function ProfileListWithBottomFixedBar() {
         recipientPhone,
       },
     });
-  }, [data, now]);
+  }, [data]);
 
   // handle data change
   const currentData: MemberUpdateRequestSchema = useMemo(
@@ -178,18 +178,20 @@ export default function ProfileListWithBottomFixedBar() {
     }
     setPhoneAlertText(null);
 
-    // necessary gender information
-    if (genderValue === null) {
-      setGenderAlertText('필수 입력 항목입니다.');
+    // necessary birth information
+    if (
+      !((birthYearValue && birthMonthValue && birthDayValue) || (!birthYearValue && !birthMonthValue && !birthDayValue))
+    ) {
+      setBirthAlertText('유효한 생년월일을 입력해야 합니다.');
 
-      const element = document.getElementById('gender-value-component');
+      const element = document.getElementById('birth-value-component');
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       return null;
     }
-    setGenderAlertText(null);
+    setBirthAlertText(null);
 
     const payload = {
       phone: `${phoneStartValue}-${phoneMiddleValue}-${phoneEndValue}`,
@@ -214,8 +216,6 @@ export default function ProfileListWithBottomFixedBar() {
 
     const queryClient = getQueryClient();
     await queryClient.invalidateQueries({ queryKey: ['me'] });
-
-    setGenderAlertText(null);
   };
 
   // withdraw
@@ -265,7 +265,7 @@ export default function ProfileListWithBottomFixedBar() {
                   isHighlight
                 />
                 <button onClick={openAddressSearch} className="cursor-pointer">
-                  <div className="flex h-11 w-29 items-center justify-center rounded-sm bg-black p-2.5">
+                  <div className="flex h-11.5 w-29 items-center justify-center rounded-sm bg-black p-2.5">
                     <p className="text-body-02 font-regular text-white">우편번호 검색</p>
                   </div>
                 </button>
@@ -330,7 +330,6 @@ export default function ProfileListWithBottomFixedBar() {
               falseText="남성"
               isNull={genderValue === null}
             />
-            {gendeAlertText && <span className="text-caption-01 text-orange -mt-2 font-bold">{gendeAlertText}</span>}
           </div>
           <hr className="border-t-green border-t" />
           {/* 생년월일 */}
@@ -344,6 +343,7 @@ export default function ProfileListWithBottomFixedBar() {
                   setValue={setBirthYearValue}
                   optionList={Array.from({ length: 100 }, (_, i) => now.getFullYear() - 99 + i)}
                   widthClass="w-21.25"
+                  isPlaceholder
                 />
                 <p className="text-body-02 font-medium text-[#000000]">년</p>
               </div>
@@ -354,6 +354,7 @@ export default function ProfileListWithBottomFixedBar() {
                   setValue={setBirthMonthValue}
                   optionList={Array.from({ length: 12 }, (_, i) => i + 1)}
                   widthClass="w-16.25"
+                  isPlaceholder
                 />
                 <p className="text-body-02 font-medium text-[#000000]">월</p>
               </div>
@@ -364,11 +365,13 @@ export default function ProfileListWithBottomFixedBar() {
                   setValue={setBirthDayValue}
                   optionList={Array.from({ length: 31 }, (_, i) => i + 1)}
                   widthClass="w-16.25"
+                  isPlaceholder
                 />
                 <p className="text-body-02 font-medium text-[#000000]">일</p>
               </div>
             </div>
             <BinaryComponent value={isSolarValue} setValue={setIsSolarValue} trueText="양력" falseText="음력" />
+            {birthAlertText && <span className="text-caption-01 text-orange -mt-2 font-bold">{birthAlertText}</span>}
           </div>
         </div>
       </div>
