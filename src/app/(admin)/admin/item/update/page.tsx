@@ -47,6 +47,7 @@ export default function AdminExhibitionUpdatePage() {
     price: 0,
     stock: 0,
     productCode: '',
+    saleStatus: '',
     width: 0,
     height: 0,
     depth: 0,
@@ -57,8 +58,6 @@ export default function AdminExhibitionUpdatePage() {
   const [thumbnailKey, setThumbnailKey] = useState<string>('');
   const [imageKeys, setImageKeys] = useState<{ key: string; sortOrder: number }[]>([]);
   const [sortOrder, setSortOrder] = useState<number>(1);
-  const [selectedArtistId, setSelectedArtistId] = useState<number>(0);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
 
   useEffect(() => {
     if (!selectedItemId) return;
@@ -78,6 +77,7 @@ export default function AdminExhibitionUpdatePage() {
         price: selectedItem.price,
         stock: selectedItem.stock,
         productCode: selectedItem.productCode,
+        saleStatus: selectedItem.saleStatus,
         width: selectedItem.width,
         height: selectedItem.height,
         depth: selectedItem.depth,
@@ -153,11 +153,28 @@ export default function AdminExhibitionUpdatePage() {
 
   const update = async (field: keyof typeof form | 'thumbnailKey' | 'imageKeys') => {
     if (field === 'thumbnailKey') {
-      await updateItem(selectedItemId, { thumbnailKey });
+      await updateItem(selectedItemId, {
+        saleStatus: form.saleStatus as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
+        artistId: form.artistId,
+        categoryId: form.categoryId,
+        imageKeys,
+        thumbnailKey,
+      });
     } else if (field === 'imageKeys') {
-      await updateItem(selectedItemId, { imageKeys });
+      await updateItem(selectedItemId, {
+        saleStatus: form.saleStatus as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
+        artistId: form.artistId,
+        categoryId: form.categoryId,
+        imageKeys,
+      });
     } else {
-      await updateItem(selectedItemId, { [field]: form[field] });
+      await updateItem(selectedItemId, {
+        saleStatus: form.saleStatus as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
+        artistId: form.artistId,
+        categoryId: form.categoryId,
+        imageKeys,
+        [field]: form[field],
+      });
     }
 
     queryClient.refetchQueries({ queryKey: ['admin-item-list'] });
@@ -184,6 +201,10 @@ export default function AdminExhibitionUpdatePage() {
     productCode: {
       title: '🔎 작품 코드',
       valueKey: 'productCode',
+    },
+    saleStatus: {
+      title: '🔎 작품 판매 상태',
+      valueKey: 'saleStatus',
     },
     width: {
       title: '🔎 작품 넓이(width)',
@@ -238,7 +259,7 @@ export default function AdminExhibitionUpdatePage() {
           <div className="flex flex-col gap-2">
             {/* 작품 텍스트 정보 수정 */}
             {(Object.keys(form) as (keyof typeof form)[])
-              .filter((key) => !['artistId', 'categoryId'].includes(key))
+              .filter((key) => !['saleStatus', 'artistId', 'categoryId'].includes(key))
               .map((key) => (
                 <React.Fragment key={`${selectedItemId}-${key}`}>
                   <p className="text-body-01 font-regular">
@@ -268,10 +289,31 @@ export default function AdminExhibitionUpdatePage() {
                   </button>
                 </React.Fragment>
               ))}
+            {/* 작품 판매 상태 정보 수정 */}
+            <div className="flex justify-between gap-5">
+              <p className="text-body-01 font-semibold">🔎 작품 판매 상태</p>
+            </div>
+            <select
+              name="🔎 작품 판매 상태"
+              value={form.saleStatus}
+              onChange={(e) => handleForm('saleStatus', e.target.value)}
+              className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
+            >
+              <option value="" disabled />
+              {['ON_SALE', 'SOLD_OUT', 'STOPPED'].map((item) => (
+                <option key={item} value={item} className="cursor-pointer">
+                  {item}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => update('saleStatus')} className="cursor-pointer">
+              <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
+                <p className="text-body-01 font-semibold">수정하기</p>
+              </div>
+            </button>
             {/* 작품 아티스트/카테고리 정보 수정 */}
             {(['artistId', 'categoryId'] as const).map((key) => {
-              const selectedId = key === 'artistId' ? selectedArtistId : selectedCategoryId;
-              const setSelectedId = key === 'artistId' ? setSelectedArtistId : setSelectedCategoryId;
+              const selectedId = key === 'artistId' ? form.artistId : form.categoryId;
               const idNames =
                 key === 'artistId'
                   ? artists.map((item) => ({ id: item.profile.artistId, name: item.profile.name }))
@@ -285,10 +327,7 @@ export default function AdminExhibitionUpdatePage() {
                   <select
                     name={formKeyMap[key].title}
                     value={selectedId}
-                    onChange={(e) => {
-                      setSelectedId(Number(e.target.value));
-                      handleForm(key, Number(e.target.value));
-                    }}
+                    onChange={(e) => handleForm(key, Number(e.target.value))}
                     className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
                   >
                     <option value={0} disabled />

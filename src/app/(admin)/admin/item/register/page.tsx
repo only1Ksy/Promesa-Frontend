@@ -39,8 +39,6 @@ export default function AdminItemRegisterPage() {
   });
   const [detailImageFiles, setDetailImageFiles] = useState<File[]>([]);
   const [sortOrder, setSortOrder] = useState<number>(1);
-  const [selectedArtistId, setSelectedArtistId] = useState<number>(0);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
 
   const handleForm = (field: keyof typeof form, value: string | number | null) => {
     if (
@@ -186,8 +184,7 @@ export default function AdminItemRegisterPage() {
             ))}
           {/* 작품 작가/카테고리 정보 입력 */}
           {(['artistId', 'categoryId'] as const).map((key) => {
-            const selectedId = key === 'artistId' ? selectedArtistId : selectedCategoryId;
-            const setSelectedId = key === 'artistId' ? setSelectedArtistId : setSelectedCategoryId;
+            const selectedId = key === 'artistId' ? form.artistId : form.categoryId;
             const idNames =
               key === 'artistId'
                 ? artists.map((item) => ({ id: item.profile.artistId, name: item.profile.name }))
@@ -201,10 +198,7 @@ export default function AdminItemRegisterPage() {
                 <select
                   name={formKeyMap[key].title}
                   value={selectedId}
-                  onChange={(e) => {
-                    setSelectedId(Number(e.target.value));
-                    handleForm(key, Number(e.target.value));
-                  }}
+                  onChange={(e) => handleForm(key, Number(e.target.value))}
                   className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
                 >
                   <option value={0} disabled />
