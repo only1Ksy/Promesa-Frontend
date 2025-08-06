@@ -53,9 +53,11 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
             <span className="font-light">작가</span>
           </h4>
           <div className="text-grey-6 flex gap-2">
-            <Link href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              <LinkToInstagramProfileIcon />
-            </Link>
+            {instagramUrl && (
+              <Link href={instagramUrl} target="_blank" rel="noopener noreferrer">
+                <LinkToInstagramProfileIcon />
+              </Link>
+            )}
           </div>
         </div>
       </div>

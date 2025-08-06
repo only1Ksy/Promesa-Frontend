@@ -9,10 +9,10 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @param payload - 등록할 작가 정보 (AdminArtist)
  * @returns 등록 성공 여부 또는 메시지
  */
-export const createArtist = (payload: AdminArtist) =>
-  withErrorBoundary<[AdminArtist], string>(async (payload) => {
+export const registerArtist = (payload: AdminArtist) =>
+  withErrorBoundary<[AdminArtist], boolean>(async (payload) => {
     const res = await axiosInstance.post('/admin/artists', payload);
-    return res.data.data;
+    return res.data.status;
   }, payload);
 
 /**
@@ -24,10 +24,10 @@ export const createArtist = (payload: AdminArtist) =>
  * @returns 수정 성공 여부 또는 메시지
  */
 export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =>
-  withErrorBoundary<[number, AdminArtistUpdate], string>(
+  withErrorBoundary<[number, AdminArtistUpdate], boolean>(
     async (artistId, payload) => {
       const res = await axiosInstance.patch(`/admin/artists/${artistId}`, payload);
-      return res.data.data;
+      return res.data.status;
     },
     artistId,
     payload,
@@ -42,10 +42,10 @@ export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =
  * @returns 변경 성공 여부 또는 메시지
  */
 export const updateArtistProfileImage = (artistId: number, payload: ArtistProfileImageUpdate) =>
-  withErrorBoundary<[number, ArtistProfileImageUpdate], string>(
+  withErrorBoundary<[number, ArtistProfileImageUpdate], boolean>(
     async (artistId, payload) => {
       const res = await axiosInstance.patch(`/admin/artists/${artistId}/profile-image`, payload);
-      return res.data.data;
+      return res.data.status;
     },
     artistId,
     payload,

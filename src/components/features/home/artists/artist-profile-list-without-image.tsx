@@ -73,7 +73,7 @@ export default function ArtistProfileListWithoutImage({
                     <Link key={idx} href={`/artist/${item.profile.artistId}`} className="w-fit">
                       <div className="flex items-center gap-2">
                         <p className="text-subhead font-medium text-black">{item.profile.name}</p>
-                        <p className="text-body-02 font-regular text-grey-5">{item.profile.name}</p>
+                        <p className="text-body-02 font-regular text-grey-5">{item.profile.subname}</p>
                       </div>
                     </Link>
                   ))}
