@@ -107,7 +107,7 @@ export default function AdminInquiryPage() {
             <p className="text-body-01 font-semibold">1️⃣ 문의 ID</p>
             <p className="text-body-02 font-regular text-orange italic">* 0으로 설정할 경우 문의 등록</p>
             <input
-              name="문의 ID"
+              name="1️⃣ 문의 ID"
               type="number"
               value={selectedInquiryId}
               min={0}
@@ -116,14 +116,14 @@ export default function AdminInquiryPage() {
             />
             <p className="text-body-01 font-semibold">2️⃣ 문의 질문</p>
             <TextareaAutosize
-              name="문의 질문"
+              name="2️⃣ 문의 질문"
               value={form.question}
               onChange={(e) => handleForm('question', e.target.value)}
               className="border-deep-green text-body-01 resize-none rounded-sm border px-2 py-1 font-semibold outline-none"
             />
             <p className="text-body-01 font-semibold">3️⃣ 문의 답변</p>
             <TextareaAutosize
-              name="문의 답변"
+              name="3️⃣ 문의 답변"
               value={form.answer}
               onChange={(e) => handleForm('answer', e.target.value)}
               className="border-deep-green text-body-01 resize-none rounded-sm border px-2 py-1 font-semibold outline-none"

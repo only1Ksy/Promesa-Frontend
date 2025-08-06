@@ -160,7 +160,7 @@ export default function AdminArtistUpdatePage() {
               </div>
             </div>
             <input
-              name="아티스트 프로필 이미지 선택"
+              name="🔎 아티스트 프로필 이미지"
               type="file"
               accept="image/*"
               onChange={(e) => {
