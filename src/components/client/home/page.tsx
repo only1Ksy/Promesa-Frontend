@@ -26,7 +26,7 @@ export default function ClientHomePage({ dehydratedState }: ClientHomePageProps)
         {/* 상단 배너 */}
         <HomeBackground />
 
-        <div className="bg-pale-green relative z-5 mt-112.5 flex flex-col">
+        <div className="bg-pale-green relative z-5 mt-114 flex flex-col">
           {/* 브랜드 정보 */}
           <MainSwiper />
 

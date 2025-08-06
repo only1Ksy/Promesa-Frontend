@@ -9,8 +9,14 @@ import PromesaTextLargeIcon from '@/public/icons/logo/text-lg.svg';
 
 export default function HomeBackground() {
   return (
-    <div className="fixed-component no-z-index bg-green top-11.5 flex h-112.5 flex-col items-center justify-center gap-15">
-      <ImageWithLoading src="/images/home-background.png" alt="프로메사 홈 페이지의 배경 이미지." fill priority />
+    <div className="fixed-component no-z-index bg-green top-11.5 flex h-114 flex-col items-center justify-center gap-15">
+      <ImageWithLoading
+        src="/images/home-background.png"
+        alt="프로메사 홈 페이지의 배경 이미지."
+        fill
+        priority
+        className="object-cover brightness-75 filter"
+      />
       <div className="z-3 flex flex-col gap-3">
         <PromesaMainSymbolIcon className="text-grey-1" />
         <PromesaTextLargeIcon className="text-grey-1" />

@@ -17,6 +17,8 @@ export default function CartButton() {
       queryFn: fetchCarts,
     });
 
+    if (data.length === 0) return null;
+
     return (
       <div className="bg-orange absolute right-0 bottom-0 flex h-4 w-4 items-center justify-center rounded-full">
         <p className="text-caption-02 text-center font-medium text-white">{data.length}</p>

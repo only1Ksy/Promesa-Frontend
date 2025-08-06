@@ -20,13 +20,13 @@ export interface AdminUpdateItemRequest {
   price?: number;
   stock?: number;
   productCode?: string;
-  saleStatus: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
+  saleStatus?: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
   width?: number;
   height?: number;
   depth?: number;
-  artistId: number;
-  categoryId: number;
-  imageKeys: {
+  artistId?: number;
+  categoryId?: number;
+  imageKeys?: {
     key: string;
     sortOrder: number;
   }[];
