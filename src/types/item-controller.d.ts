@@ -76,7 +76,6 @@ export interface ParsedItemData {
     name: string;
     profileImageUrl: string;
     bio: string;
-    instagramUrl: string;
     isWishlisted: boolean;
     wishCount: number;
   };
