@@ -27,7 +27,7 @@ export default function AdminArtistUpdatePage() {
     description: '',
     insta: '',
   });
-  const [profileImageKey, setProfileImageKey] = useState('');
+  const [profileImageKey, setProfileImageKey] = useState<string>('');
 
   const selectedArtist = useMemo(
     () => data.find((item) => item.profile.artistId === selectedArtistId),
@@ -37,9 +37,9 @@ export default function AdminArtistUpdatePage() {
   useEffect(() => {
     if (selectedArtist) {
       setForm({
-        artistName: selectedArtist.profile.name ?? '',
+        artistName: selectedArtist.profile.name,
         subName: selectedArtist.profile.subname ?? '',
-        description: selectedArtist.profile.bio ?? '',
+        description: selectedArtist.profile.bio,
         insta: selectedArtist.profile.instagramUrl ?? '',
       });
     }
@@ -150,7 +150,10 @@ export default function AdminArtistUpdatePage() {
             ))}
             {/* 아티스트 이미지 정보 수정 */}
             <div className="flex flex-col">
-              <p className="text-body-01 font-semibold">🔎 아티스트 프로필 이미지:</p>
+              <div className="flex flex-col gap-2">
+                <p className="text-body-01 font-semibold">🔎 아티스트 프로필 이미지:</p>
+                <p className="text-body-02 font-regular text-orange italic">* width: 402px, height: 200px</p>
+              </div>
               <div className="bg-green h-50 w-full">
                 <ImageWithEffect
                   src={selectedArtist.profile.profileImageUrl}

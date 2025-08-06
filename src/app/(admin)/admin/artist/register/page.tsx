@@ -116,7 +116,10 @@ export default function AdminArtistRegisterPage() {
               </React.Fragment>
             ))}
           {/* 아티스트 이미지 정보 입력 */}
-          <p className="text-body-01 font-semibold">7️⃣ 아티스트 프로필 이미지</p>
+          <div className="flex flex-col gap-2">
+            <p className="text-body-01 font-semibold">7️⃣ 아티스트 프로필 이미지</p>
+            <p className="text-body-02 font-regular text-orange italic">* width: 402px, height: 200px</p>
+          </div>
           <input
             name="7️⃣ 아티스트 프로필 이미지"
             type="file"
