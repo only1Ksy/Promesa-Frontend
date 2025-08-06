@@ -13,8 +13,6 @@ import { getQueryClient } from '@/services/query/client';
 import type { ArtistProfileSchema } from '@/types/artist.dto';
 
 export default function AdminArtistUpdatePage() {
-  const [selectedArtistId, setSelectedArtistId] = useState<number>(0);
-
   const queryClient = getQueryClient();
 
   const { data } = useSuspenseQuery({
@@ -22,19 +20,19 @@ export default function AdminArtistUpdatePage() {
     queryFn: fetchArtistList,
   });
 
-  const selectedArtist = useMemo(
-    () => data.find((item) => item.profile.artistId === selectedArtistId),
-    [selectedArtistId, data],
-  );
-
+  const [selectedArtistId, setSelectedArtistId] = useState<number>(0);
   const [form, setForm] = useState({
     artistName: '',
     subName: '',
     description: '',
     insta: '',
   });
-
   const [profileImageKey, setProfileImageKey] = useState('');
+
+  const selectedArtist = useMemo(
+    () => data.find((item) => item.profile.artistId === selectedArtistId),
+    [selectedArtistId, data],
+  );
 
   useEffect(() => {
     if (selectedArtist) {
@@ -51,17 +49,6 @@ export default function AdminArtistUpdatePage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const update = async (field: keyof typeof form | 'profileImageKey') => {
-    if (field === 'profileImageKey') {
-      await updateArtistProfileImage(selectedArtistId, { profileImageKey });
-    } else {
-      const updatedValue = form[field] === '' && (field === 'subName' || field === 'insta') ? null : form[field];
-      await updateArtistInfo(selectedArtistId, { [field]: updatedValue });
-    }
-
-    queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });
-  };
-
   const handleProfileImage = async (file: File) => {
     const { key, url } = (
       await postImages({
@@ -76,6 +63,17 @@ export default function AdminArtistUpdatePage() {
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
     setProfileImageKey(key);
+  };
+
+  const update = async (field: keyof typeof form | 'profileImageKey') => {
+    if (field === 'profileImageKey') {
+      await updateArtistProfileImage(selectedArtistId, { profileImageKey });
+    } else {
+      const updatedValue = form[field] === '' && (field === 'subName' || field === 'insta') ? null : form[field];
+      await updateArtistInfo(selectedArtistId, { [field]: updatedValue });
+    }
+
+    queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });
   };
 
   const formKeyMap: {
