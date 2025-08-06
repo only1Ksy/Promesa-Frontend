@@ -1,22 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { registerArtist } from '@/services/api/admin/admin-artist-controller';
 import { fetchMembers } from '@/services/api/admin/admin-member-controller';
 import { postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
+import type { MemberResponseSchema } from '@/types/member-controller';
 
 export default function AdminArtistRegisterPage() {
+  const router = useRouter();
   const queryClient = getQueryClient();
-
-  const { data } = useSuspenseQuery({
-    queryKey: ['admin-member-list'],
-    queryFn: fetchMembers,
-  });
 
   const [form, setForm] = useState({
     artistName: '',
@@ -26,6 +23,22 @@ export default function AdminArtistRegisterPage() {
     insta: '',
     memberId: 0,
   });
+  const [members, setMembers] = useState<MemberResponseSchema[]>([]);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchAndSet = async () => {
+      try {
+        const data = await fetchMembers();
+        setMembers(data);
+      } catch {
+        setError(true);
+        router.replace('/admin/artist');
+      }
+    };
+
+    fetchAndSet();
+  }, [error, router]);
 
   const handleForm = (field: keyof typeof form, value: string | number | null) => {
     if (field === 'memberId' && typeof value !== 'number') return;
@@ -86,6 +99,8 @@ export default function AdminArtistRegisterPage() {
     },
   } as const;
 
+  if (error) return null;
+
   return (
     <div className="flex flex-col">
       {/* 헤더 */}
@@ -133,7 +148,7 @@ export default function AdminArtistRegisterPage() {
             className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
           >
             <option value={0} disabled />
-            {data.map((item) => (
+            {members.map((item) => (
               <option key={item.profile.providerId} value={item.profile.providerId} className="cursor-pointer">
                 {`${item.profile.name} (성별: ${item.profile.gender}, 전화번호: ${item.profile.phone})`}
               </option>
