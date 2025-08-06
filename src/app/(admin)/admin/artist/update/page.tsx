@@ -85,19 +85,19 @@ export default function AdminArtistUpdatePage() {
     };
   } = {
     artistName: {
-      title: '아티스트 이름',
+      title: '🔎 아티스트 이름',
       valueKey: 'name',
     },
     subName: {
-      title: '아티스트 서브 이름',
+      title: '🔎 아티스트 서브 이름',
       valueKey: 'subname',
     },
     description: {
-      title: '아티스트 설명',
+      title: '🔎 아티스트 설명',
       valueKey: 'bio',
     },
     insta: {
-      title: '아티스트 인스타그램 주소',
+      title: '🔎 아티스트 인스타그램 주소',
       valueKey: 'instagramUrl',
     },
   } as const;
@@ -152,7 +152,7 @@ export default function AdminArtistUpdatePage() {
             ))}
             {/* 아티스트 이미지 정보 수정 */}
             <div className="flex flex-col">
-              <p className="text-body-01 font-semibold">아티스트 프로필 이미지:</p>
+              <p className="text-body-01 font-semibold">🔎 아티스트 프로필 이미지:</p>
               <div className="bg-green h-50 w-full">
                 <ImageWithEffect
                   src={selectedArtist.profile.profileImageUrl}

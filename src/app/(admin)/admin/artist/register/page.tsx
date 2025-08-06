@@ -54,22 +54,22 @@ export default function AdminArtistRegisterPage() {
     };
   } = {
     artistName: {
-      title: '아티스트 이름',
+      title: '1️⃣ 아티스트 이름',
     },
     subName: {
-      title: '아티스트 서브 이름',
+      title: '2️⃣ 아티스트 서브 이름',
     },
     profileKey: {
-      title: '아티스트 프로필 이미지',
+      title: '3️⃣ 아티스트 프로필 이미지',
     },
     description: {
-      title: '아티스트 설명',
+      title: '4️⃣ 아티스트 설명',
     },
     insta: {
-      title: '아티스트 인스타그램 주소',
+      title: '5️⃣ 아티스트 인스타그램 주소',
     },
     memberId: {
-      title: '아티스트 ID',
+      title: '6️⃣ 아티스트 ID',
     },
   } as const;
 
@@ -99,7 +99,7 @@ export default function AdminArtistRegisterPage() {
               </React.Fragment>
             ))}
           {/* 아티스트 이미지 정보 입력 */}
-          <p className="text-body-01 font-semibold">아티스트 프로필 이미지</p>
+          <p className="text-body-01 font-semibold">7️⃣ 아티스트 프로필 이미지</p>
           <input
             name="아티스트 프로필 이미지 선택"
             type="file"
