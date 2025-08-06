@@ -9,7 +9,7 @@ import PromesaTextLargeIcon from '@/public/icons/logo/text-lg.svg';
 
 export default function HomeBackground() {
   return (
-    <div className="fixed-component no-z-index bg-green top-11.5 flex h-112.5 flex-col items-center justify-center gap-15">
+    <div className="fixed-component no-z-index bg-green top-11.5 flex h-114 flex-col items-center justify-center gap-15">
       <ImageWithLoading
         src="/images/home-background.png"
         alt="프로메사 홈 페이지의 배경 이미지."
