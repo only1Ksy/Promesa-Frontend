@@ -58,7 +58,7 @@ export const DeleteReviewImage = (key: string) =>
 
 /** itemId, orderItemId, memberId, content, rating, imageKeys를 전달하면 리뷰를 업로드하는 함수 */
 export const PostReview = (itemId: number, orderItemId: number, content: string, rating: number, imageKeys: string[]) =>
-  withErrorBoundary<[number, number, string, number, string[]], PresignedUrlResponse>(
+  withErrorBoundary<[number, number, string, number, string[]], Review>(
     async (itemId, orderItemId, content, rating, imageKeys) => {
       const res = await axiosInstance.post(`/items/${itemId}/reviews`, {
         orderItemId,

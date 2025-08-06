@@ -12,7 +12,7 @@ import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
 import useAlert from '@/hooks/use-alert';
 import { DeleteReviewImage, PatchReview, PostReviewImages } from '@/services/api/review-controller';
-import { WrittenReviewsResponse } from '@/types/review-controller';
+import { PresignedUrlResponse, WrittenReviewsResponse } from '@/types/review-controller';
 
 interface MyReviewEditModalProps {
   reviews: WrittenReviewsResponse;
@@ -31,18 +31,21 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState('');
-  const [originalPreviews, setOriginalPreviews] = useState<string[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
-  const [deletedPreviews, setDeletedPreviews] = useState<string[]>([]);
+  // 기존 상태들 수정
+  const [originalImages, setOriginalImages] = useState<PresignedUrlResponse>([]);
+  const [deletedKeys, setDeletedKeys] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   // reviews와 editId가 로딩 완료된 후 상태 초기화
   useEffect(() => {
     if (currentReview) {
       setRating(currentReview.reviewResponse.rating);
       setContent(currentReview.reviewResponse.content);
-      setOriginalPreviews(currentReview.reviewResponse.reviewImages);
-      setPreviews(currentReview.reviewResponse.reviewImages);
+
+      const original = currentReview.reviewResponse.reviewImages;
+      setOriginalImages(original); // key, url 객체 배열
+      setPreviews(original.map((img) => img.url));
     }
   }, [currentReview]);
 
@@ -66,15 +69,19 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
   const handleImageRemove = (index: number) => {
     const previewToRemove = previews[index];
 
-    if (originalPreviews.includes(previewToRemove)) {
-      setDeletedPreviews((prev) => [...prev, previewToRemove]);
-      setOriginalPreviews((prev) => prev.filter((p) => p !== previewToRemove));
+    // 기존 originalImages에서 해당 preview URL 찾아서 key 삭제 리스트에 추가
+    const originalImage = originalImages.find((img) => img.url === previewToRemove);
+    if (originalImage) {
+      setDeletedKeys((prev) => [...prev, originalImage.key]);
+      setOriginalImages((prev) => prev.filter((img) => img.url !== previewToRemove));
     } else {
+      // 새로 올린 이미지 삭제
       const newImages = [...images];
-      newImages.splice(index - originalPreviews.length, 1);
+      newImages.splice(index - originalImages.length, 1);
       setImages(newImages);
     }
 
+    // 미리보기도 제거
     const newPreviews = [...previews];
     newPreviews.splice(index, 1);
     setPreviews(newPreviews);
@@ -94,9 +101,9 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
       cancelText: '취소',
       onConfirm: async () => {
         try {
-          await Promise.all(deletedPreviews.map((key) => DeleteReviewImage(key)));
+          await Promise.all(deletedKeys.map((key) => DeleteReviewImage(key)));
 
-          let imageKeys = [...originalPreviews];
+          let imageKeys = originalImages.map((img) => img.key);
 
           if (images.length > 0) {
             const fileNames = images.map((file) => file.name);
@@ -118,6 +125,7 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
             );
 
             const newKeys = presigned.map((item) => item.key);
+
             imageKeys = [...imageKeys, ...newKeys];
           }
 

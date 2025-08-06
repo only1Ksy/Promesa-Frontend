@@ -31,6 +31,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
         try {
           await DeleteReview(itemId, reviewId);
           showToast('리뷰를 삭제했습니다.');
+          router.refresh();
         } catch (error) {
           console.error('삭제 실패:', error);
           alertModal({ message: '삭제 중 오류가 발생했습니다. 다시 시도해주세요.' });
@@ -56,7 +57,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
               <MyReviewCard
                 rating={review.reviewResponse.rating}
                 content={review.reviewResponse.content}
-                reviewImages={review.reviewResponse.reviewImages}
+                reviewImages={review.reviewResponse.reviewImages.map((img) => img.url)}
               />
             </div>
             <div className="text-grey-9 text-body-02 flex items-center gap-1.5 font-medium">
