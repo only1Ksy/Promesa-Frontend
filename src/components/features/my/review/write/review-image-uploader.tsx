@@ -12,12 +12,11 @@ interface ReviewImageUploaderProps {
 }
 
 export default function ReviewImageUploader({
-  images,
   previews,
   handleImageChange,
   handleImageRemove,
 }: ReviewImageUploaderProps) {
-  const showUploadButton = images.length < 3;
+  const showUploadButton = previews.length < 3;
 
   return (
     <div className="mb-6">
@@ -59,7 +58,7 @@ export default function ReviewImageUploader({
               multiple
               onChange={handleImageChange}
               className="hidden"
-              disabled={images.length >= 3}
+              disabled={previews.length >= 3}
             />
             <CloseIcon width={30} height={30} className="rotate-45" />
           </label>

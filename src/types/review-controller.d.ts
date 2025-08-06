@@ -5,7 +5,7 @@ export interface Review {
   reviewerId: number;
   reviewerName: string;
   rating: number;
-  reviewImages: string[];
+  reviewImages: PresignedUrlResponse;
   createdAt: string;
   updatedAt: string;
 }
@@ -71,7 +71,7 @@ export interface WrittenReviews {
     reviewerId: number;
     reviewerName: string;
     rating: number;
-    reviewImages: string[];
+    reviewImages: PresignedUrlResponse;
     createdAt: string;
     updatedAt: string;
   };

@@ -52,7 +52,10 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
         <>
           {currentPage === 0 && (
             <div className="flex w-full flex-col items-center gap-5">
-              <ReviewImageOnly imageUrls={content.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
+              <ReviewImageOnly
+                imageUrls={content.flatMap((r) => (r.reviewImages ?? []).map((img) => img.url))}
+                itemId={itemId}
+              />
             </div>
           )}
           <div className="mb-10 flex w-full flex-col gap-5">
