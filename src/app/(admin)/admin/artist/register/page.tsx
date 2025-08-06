@@ -6,8 +6,11 @@ import Link from 'next/link';
 
 import { registerArtist } from '@/services/api/admin/admin-artist-controller';
 import { postImages } from '@/services/api/image-controller';
+import { getQueryClient } from '@/services/query/client';
 
 export default function AdminArtistRegisterPage() {
+  const queryClient = getQueryClient();
+
   const [form, setForm] = useState({
     artistName: '',
     subName: '',
@@ -46,6 +49,8 @@ export default function AdminArtistRegisterPage() {
       insta: form.insta === '' ? null : form.insta,
       memberId: Number(form.memberId),
     });
+
+    queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });
   };
 
   const formKeyMap: {
