@@ -7,7 +7,7 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @param inquiryId 수정할 inquiry의 ID (URL path param)
  * @param payload 수정할 데이터 (AdminEditInquiryRequest)
  */
-export const editInquiry = (inquiryId: number, payload: AdminEditInquiryRequest) =>
+export const updateInquiry = (inquiryId: number, payload: AdminEditInquiryRequest) =>
   withErrorBoundary<[number, AdminEditInquiryRequest], string>(
     async (inquiryId, payload) => {
       const res = await axiosInstance.put(`/admin/inquiries/${inquiryId}`, payload);
@@ -31,7 +31,7 @@ export const deleteInquiry = (inquiryId: number) =>
  * 문의를 등록하는 함수
  * @param payload 등록할 데이터 (AdminNewInquiryRequest)
  */
-export const postNewInquiry = (payload: AdminNewInquiryRequest) =>
+export const registerInquiry = (payload: AdminNewInquiryRequest) =>
   withErrorBoundary<[AdminNewInquiryRequest], string>(async (payload) => {
     const res = await axiosInstance.post('/admin/inquiries', payload);
     return res.data.data;

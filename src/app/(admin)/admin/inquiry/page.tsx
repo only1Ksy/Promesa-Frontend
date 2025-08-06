@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { deleteInquiry, editInquiry, postNewInquiry } from '@/services/api/admin/admin-inquiry-controller';
+import { deleteInquiry, registerInquiry, updateInquiry } from '@/services/api/admin/admin-inquiry-controller';
 import { fetchArtistList } from '@/services/api/artist-controller';
 import { fetchInquiries } from '@/services/api/inquiry-controller';
 import type { InquiryResponseSchema } from '@/types/inquiry-controller';
@@ -57,14 +57,14 @@ export default function AdminInquiryPage() {
   };
 
   const register = async () => {
-    await postNewInquiry({ ...form, artistId: selectedArtistId });
+    await registerInquiry({ ...form, artistId: selectedArtistId });
 
     const fetchedInquiryList = await fetchInquiries(selectedArtistId);
     setInquiryList(fetchedInquiryList);
   };
 
   const update = async () => {
-    await editInquiry(selectedInquiryId, form);
+    await updateInquiry(selectedInquiryId, form);
 
     const fetchedInquiryList = await fetchInquiries(selectedArtistId);
     setInquiryList(fetchedInquiryList);
