@@ -153,26 +153,11 @@ export default function AdminExhibitionUpdatePage() {
 
   const update = async (field: keyof typeof form | 'thumbnailKey' | 'imageKeys') => {
     if (field === 'thumbnailKey') {
-      await updateItem(selectedItemId, {
-        saleStatus: form.saleStatus as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
-        artistId: form.artistId,
-        categoryId: form.categoryId,
-        imageKeys,
-        thumbnailKey,
-      });
+      await updateItem(selectedItemId, { thumbnailKey });
     } else if (field === 'imageKeys') {
-      await updateItem(selectedItemId, {
-        saleStatus: form.saleStatus as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
-        artistId: form.artistId,
-        categoryId: form.categoryId,
-        imageKeys,
-      });
+      await updateItem(selectedItemId, { imageKeys });
     } else {
       await updateItem(selectedItemId, {
-        saleStatus: form.saleStatus as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
-        artistId: form.artistId,
-        categoryId: form.categoryId,
-        imageKeys,
         [field]: form[field],
       });
     }

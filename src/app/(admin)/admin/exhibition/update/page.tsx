@@ -157,14 +157,12 @@ export default function AdminExhibitionUpdatePage() {
 
   const update = async (field: keyof typeof form | 'thumbnailKey' | 'imageKeys') => {
     if (field === 'thumbnailKey') {
-      await updateExhibition(selectedExhibitionId, { startDate: form.startDate, itemIds: form.itemIds, thumbnailKey });
+      await updateExhibition(selectedExhibitionId, { thumbnailKey });
     } else if (field === 'imageKeys') {
-      await updateExhibition(selectedExhibitionId, { startDate: form.startDate, itemIds: form.itemIds, imageKeys });
+      await updateExhibition(selectedExhibitionId, { imageKeys });
     } else {
       const updatedValue = form[field] === '' && field === 'endDate' ? null : form[field];
       await updateExhibition(selectedExhibitionId, {
-        startDate: form.startDate,
-        itemIds: form.itemIds,
         [field]: updatedValue,
       });
     }
