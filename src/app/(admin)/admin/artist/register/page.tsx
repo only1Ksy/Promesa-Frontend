@@ -83,7 +83,7 @@ export default function AdminArtistRegisterPage() {
     <div className="flex flex-col">
       {/* 헤더 */}
       <div className="mb-5 flex flex-col pl-5">
-        <p className="text-headline-04">아티스트 추가하기</p>
+        <p className="text-headline-04">아티스트 등록하기</p>
         <Link href="/admin/artist">
           <p className="text-orange text-headline-04">뒤로가기</p>
         </Link>
