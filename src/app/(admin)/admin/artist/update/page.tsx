@@ -6,7 +6,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
-import { updateArtistInfo, updateArtistProfileImage } from '@/services/api/admin/admin-artist-controller';
+import { updateArtist, updateArtistProfileImage } from '@/services/api/admin/admin-artist-controller';
 import { fetchArtistList } from '@/services/api/artist-controller';
 import { postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
@@ -70,7 +70,7 @@ export default function AdminArtistUpdatePage() {
       await updateArtistProfileImage(selectedArtistId, { profileImageKey });
     } else {
       const updatedValue = form[field] === '' && (field === 'subName' || field === 'insta') ? null : form[field];
-      await updateArtistInfo(selectedArtistId, { [field]: updatedValue });
+      await updateArtist(selectedArtistId, { [field]: updatedValue });
     }
 
     queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });

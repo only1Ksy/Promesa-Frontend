@@ -23,7 +23,7 @@ export const registerArtist = (payload: AdminArtist) =>
  * @param payload - 수정할 필드 정보 (AdminArtistUpdate)
  * @returns 수정 성공 여부 또는 메시지
  */
-export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =>
+export const updateArtist = (artistId: number, payload: AdminArtistUpdate) =>
   withErrorBoundary<[number, AdminArtistUpdate], boolean>(
     async (artistId, payload) => {
       const res = await axiosInstance.patch(`/admin/artists/${artistId}`, payload);
