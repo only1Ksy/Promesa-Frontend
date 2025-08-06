@@ -1,7 +1,7 @@
 export interface ImagePostRequestSchema {
   imageType: 'ITEM' | 'ARTIST' | 'MEMBER' | 'EXHIBITION';
   referenceId: number | null;
-  subType: 'MAIN' | 'DETAIL' | 'PROFILE' | 'REVIEW' | 'THUMBNAIL';
+  subType: 'MAIN' | 'DETAIL' | 'PROFILE' | 'REVIEW' | 'THUMBNAIL' | 'PROMOTION';
   subReferenceId: number | null;
   fileNames: string[];
 }
