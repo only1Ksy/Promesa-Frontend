@@ -119,8 +119,8 @@ export default function AdminArtistUpdatePage() {
           className="text-body-01 cursor-pointer rounded-sm border font-semibold outline-none"
         >
           <option value={0} disabled />
-          {data.map((item, idx) => (
-            <option key={idx} value={item.profile.artistId} className="cursor-pointer">
+          {data.map((item) => (
+            <option key={item.profile.artistId} value={item.profile.artistId} className="cursor-pointer">
               {item.profile.name}
             </option>
           ))}
@@ -131,7 +131,7 @@ export default function AdminArtistUpdatePage() {
           <div className="flex flex-col gap-2">
             {/* 아티스트 텍스트 정보 수정 */}
             {(Object.keys(form) as (keyof typeof form)[]).map((key) => (
-              <React.Fragment key={key}>
+              <React.Fragment key={`${selectedArtistId}-${key}`}>
                 <p className="text-body-01 font-regular">
                   <strong className="font-semibold">{formKeyMap[key].title}: </strong>
                   {selectedArtist.profile[formKeyMap[key].valueKey]}
