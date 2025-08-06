@@ -2,14 +2,21 @@
 
 import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import { registerArtist } from '@/services/api/admin/admin-artist-controller';
+import { fetchMembers } from '@/services/api/admin/admin-member-controller';
 import { postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
 
 export default function AdminArtistRegisterPage() {
   const queryClient = getQueryClient();
+
+  const { data } = useSuspenseQuery({
+    queryKey: ['admin-member-list'],
+    queryFn: fetchMembers,
+  });
 
   const [form, setForm] = useState({
     artistName: '',
@@ -66,16 +73,16 @@ export default function AdminArtistRegisterPage() {
       title: '2️⃣ 아티스트 서브 이름',
     },
     profileKey: {
-      title: '3️⃣ 아티스트 프로필 이미지',
+      title: '6️⃣ 아티스트 프로필 이미지',
     },
     description: {
-      title: '4️⃣ 아티스트 설명',
+      title: '3️⃣ 아티스트 설명',
     },
     insta: {
-      title: '5️⃣ 아티스트 인스타그램 주소',
+      title: '4️⃣ 아티스트 인스타그램 주소',
     },
     memberId: {
-      title: '6️⃣ 아티스트 ID',
+      title: '5️⃣ 아티스트 - 멤버',
     },
   } as const;
 
@@ -92,7 +99,7 @@ export default function AdminArtistRegisterPage() {
         <div className="flex flex-col gap-2">
           {/* 아티스트 텍스트 정보 입력 */}
           {(Object.keys(form) as (keyof typeof form)[])
-            .filter((key) => key !== 'profileKey')
+            .filter((key) => !['profileKey', 'memberId'].includes(key))
             .map((key) => (
               <React.Fragment key={key}>
                 <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
@@ -115,13 +122,30 @@ export default function AdminArtistRegisterPage() {
                 )}
               </React.Fragment>
             ))}
+          {/* 아티스트 ID 정보 입력 */}
+          <div className="flex justify-between gap-5">
+            <p className="text-body-01 font-semibold">{formKeyMap['memberId'].title}</p>
+          </div>
+          <select
+            name={formKeyMap['memberId'].title}
+            value={form.memberId}
+            onChange={(e) => handleForm('memberId', Number(e.target.value))}
+            className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
+          >
+            <option value={0} disabled />
+            {data.map((item) => (
+              <option key={item.profile.providerId} value={item.profile.providerId} className="cursor-pointer">
+                {`${item.profile.name} (성별: ${item.profile.gender}, 전화번호: ${item.profile.phone})`}
+              </option>
+            ))}
+          </select>
           {/* 아티스트 이미지 정보 입력 */}
           <div className="flex flex-col gap-2">
-            <p className="text-body-01 font-semibold">7️⃣ 아티스트 프로필 이미지</p>
+            <p className="text-body-01 font-semibold">{formKeyMap['profileKey'].title}</p>
             <p className="text-body-02 font-regular text-orange italic">* width: 402px, height: 200px</p>
           </div>
           <input
-            name="7️⃣ 아티스트 프로필 이미지"
+            name={formKeyMap['profileKey'].title}
             type="file"
             accept="image/*"
             onChange={(e) => {

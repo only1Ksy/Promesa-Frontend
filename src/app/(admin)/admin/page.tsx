@@ -1,15 +1,36 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
+import { fetchIsAdmin } from '@/services/api/axios/auth';
 import { getQueryClient } from '@/services/query/client';
 
 export default function AdminPage() {
+  const router = useRouter();
   const queryClient = getQueryClient();
+
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    const check = async () => {
+      const isAdmin = await fetchIsAdmin();
+      if (!isAdmin) {
+        router.replace('/');
+      } else {
+        setChecked(true);
+      }
+    };
+
+    check();
+  }, [router]);
 
   const refetchAllQueries = () => {
     queryClient.refetchQueries({ type: 'all' });
   };
+
+  if (!checked) return null;
 
   return (
     <div className="mt-10 flex flex-col items-center gap-8">

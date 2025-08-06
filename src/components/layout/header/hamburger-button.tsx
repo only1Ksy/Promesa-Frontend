@@ -79,7 +79,7 @@ export default function HamburgerButton() {
           {/* 빠른 페이지 이동 */}
           <div className="text-body-01 text-grey-5 flex gap-8 font-medium">
             {!isLoggedIn ? (
-              <Link href="/login">
+              <Link href="/login?afterLogin=/admin">
                 <p>Login</p>
               </Link>
             ) : (

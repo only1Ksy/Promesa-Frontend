@@ -14,12 +14,12 @@ export interface AdminRegisterExhibitionRequest {
 export interface AdminUpdateExhibitionRequest {
   title?: string;
   description?: string;
-  startDate?: string;
+  startDate: string;
   endDate?: string | null;
   thumbnailKey?: string;
   imageKeys?: {
     key: string;
     sortOrder: number;
   }[];
-  itemIds?: number[];
+  itemIds: number[];
 }
