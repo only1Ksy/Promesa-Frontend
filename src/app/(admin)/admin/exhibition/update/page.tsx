@@ -77,6 +77,9 @@ export default function AdminExhibitionUpdatePage() {
         endDate: selectedExhibition.summary.endDate ?? '',
         itemIds: selectedExhibition.itemPreviews.map((item) => item.itemId),
       });
+
+      const maxSortOrder = Math.max(...selectedExhibition.detail.images.map((item) => item.sortOrder));
+      setSortOrder(maxSortOrder + 1);
     }
   }, [selectedExhibition]);
 
@@ -162,7 +165,7 @@ export default function AdminExhibitionUpdatePage() {
       await updateExhibition(selectedExhibitionId, { [field]: updatedValue });
     }
 
-    queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });
+    queryClient.refetchQueries({ queryKey: ['admin-exhibition-list'] });
   };
 
   const formKeyMap: {
@@ -202,7 +205,7 @@ export default function AdminExhibitionUpdatePage() {
           <p className="text-orange text-headline-04">뒤로가기</p>
         </Link>
       </div>
-      {/* 아티스트 선택 */}
+      {/* 기획전 선택 */}
       <div className="flex flex-col items-center justify-center">
         <p className="text-body-01 font-bold">기획전을 선택하세요</p>
         <select
@@ -301,7 +304,7 @@ export default function AdminExhibitionUpdatePage() {
               </div>
             </button>
             <div className="flex flex-col">
-              <div>
+              <div className="flex flex-col gap-2">
                 <p className="text-body-01 font-semibold">🔎 기획전 프로모션 이미지 목록:</p>
                 <p className="text-body-02 font-regular text-orange italic">
                   * 상하단 검은 선은 시각적 구분용, 이미지 비포함
@@ -324,7 +327,13 @@ export default function AdminExhibitionUpdatePage() {
                         onLoad={(e) => handleImageLoad(idx, e)}
                       />
                     </div>
-                    <button onClick={() => removePromotionImage(idx)} className="cursor-pointer">
+                    <button
+                      onClick={() => {
+                        removePromotionImage(idx);
+                        update('imageKeys');
+                      }}
+                      className="cursor-pointer"
+                    >
                       <div className="border-orange hover:bg-orange text-orange rounded-sm border px-2 py-1 hover:text-white">
                         <p className="text-body-01 font-semibold">{`${idx + 1}번째 이미지 삭제하기`}</p>
                       </div>
