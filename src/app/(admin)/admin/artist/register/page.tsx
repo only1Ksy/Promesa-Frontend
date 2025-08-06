@@ -117,7 +117,7 @@ export default function AdminArtistRegisterPage() {
           />
           <button onClick={register} className="cursor-pointer">
             <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
-              <p className="text-body-01 font-semibold">변경하기</p>
+              <p className="text-body-01 font-semibold">등록하기</p>
             </div>
           </button>
         </div>
