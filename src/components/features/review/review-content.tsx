@@ -32,7 +32,7 @@ export default function ReviewContent({ reviews, itemId, mode, onPageChange }: R
   return (
     <div className="relative flex w-full flex-col items-center pt-3" style={{ minHeight: 'calc(100vh - 46px)' }}>
       {mode === 'imageOnly' ? (
-        <ReviewImageGrid imageUrls={content.flatMap((r) => r.reviewImages ?? [])} />
+        <ReviewImageGrid imageUrls={content.flatMap((r) => (r.reviewImages ?? []).map((img) => img.url))} />
       ) : (
         <div className="flex h-full w-full flex-col items-center">
           <div className="flex w-full items-end justify-between px-5">

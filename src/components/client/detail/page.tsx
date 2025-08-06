@@ -139,7 +139,10 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
             ) : (
               <>
                 <div className="flex w-full flex-col items-center gap-5">
-                  <ReviewImageOnly imageUrls={reviewResponse.flatMap((r) => r.reviewImages ?? [])} itemId={itemId} />
+                  <ReviewImageOnly
+                    imageUrls={reviewResponse.flatMap((r) => (r.reviewImages ?? []).map((img) => img.url))}
+                    itemId={itemId}
+                  />
                 </div>
                 <div className="flex w-full flex-col items-center gap-5">
                   <ReviewPreview reviews={reviewResponse ?? []} openReviewModal={openReviewModal} />
