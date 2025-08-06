@@ -1,14 +1,14 @@
-import { AdminEditInquiryRequest, AdminNewInquiryRequest } from '@/types/admin/admin-inquiry-controller';
+import { AdminRegisterInquiryRequest, AdminUpdateInquiryRequest } from '@/types/admin/admin-inquiry-controller';
 
 import { axiosInstance, withErrorBoundary } from '../axios/instance';
 
 /**
  * 문의를 수정하는 함수
  * @param inquiryId 수정할 inquiry의 ID (URL path param)
- * @param payload 수정할 데이터 (AdminEditInquiryRequest)
+ * @param payload 수정할 데이터 (AdminUpdateInquiryRequest)
  */
-export const updateInquiry = (inquiryId: number, payload: AdminEditInquiryRequest) =>
-  withErrorBoundary<[number, AdminEditInquiryRequest], string>(
+export const updateInquiry = (inquiryId: number, payload: AdminUpdateInquiryRequest) =>
+  withErrorBoundary<[number, AdminUpdateInquiryRequest], string>(
     async (inquiryId, payload) => {
       const res = await axiosInstance.put(`/admin/inquiries/${inquiryId}`, payload);
       return res.data.data;
@@ -29,10 +29,10 @@ export const deleteInquiry = (inquiryId: number) =>
 
 /**
  * 문의를 등록하는 함수
- * @param payload 등록할 데이터 (AdminNewInquiryRequest)
+ * @param payload 등록할 데이터 (AdminRegisterInquiryRequest)
  */
-export const registerInquiry = (payload: AdminNewInquiryRequest) =>
-  withErrorBoundary<[AdminNewInquiryRequest], string>(async (payload) => {
+export const registerInquiry = (payload: AdminRegisterInquiryRequest) =>
+  withErrorBoundary<[AdminRegisterInquiryRequest], string>(async (payload) => {
     const res = await axiosInstance.post('/admin/inquiries', payload);
     return res.data.data;
   }, payload);

@@ -1,4 +1,4 @@
-export interface AdminArtist {
+export interface AdminRegisterArtistRequest {
   artistName: string;
   subName: string | null;
   profileKey: string;
@@ -6,13 +6,13 @@ export interface AdminArtist {
   memberId: number;
 }
 
-export interface AdminArtistUpdate {
+export interface AdminUpdateArtistRequest {
   artistName?: string;
   subName?: string | null;
   description?: string;
   insta?: string | null;
 }
 
-export interface ArtistProfileImageUpdate {
+export interface AdminUpdateArtistProfileImageRequest {
   profileImageKey: string;
 }
