@@ -1,10 +1,10 @@
 export interface ArtistProfileSchema {
   artistId: number;
   name: string;
-  subname: string;
+  subname: string | null;
   profileImageUrl: string;
   bio: string;
-  instagramUrl: string;
+  instagramUrl: string | null;
 }
 
 export interface ArtistWishSchema {

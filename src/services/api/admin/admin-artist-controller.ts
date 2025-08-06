@@ -1,4 +1,8 @@
-import { AdminArtist, AdminArtistUpdate, ArtistProfileImageUpdate } from '@/types/admin/admin-artist-controller';
+import {
+  AdminRegisterArtistRequest,
+  AdminUpdateArtistProfileImageRequest,
+  AdminUpdateArtistRequest,
+} from '@/types/admin/admin-artist-controller';
 
 import { axiosInstance, withErrorBoundary } from '../axios/instance';
 
@@ -6,13 +10,13 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * 작가 등록 API
  * POST /admin/artists
  *
- * @param payload - 등록할 작가 정보 (AdminArtist)
+ * @param payload - 등록할 작가 정보 (AdminRegisterArtistRequest)
  * @returns 등록 성공 여부 또는 메시지
  */
-export const createArtist = (payload: AdminArtist) =>
-  withErrorBoundary<[AdminArtist], string>(async (payload) => {
+export const registerArtist = (payload: AdminRegisterArtistRequest) =>
+  withErrorBoundary<[AdminRegisterArtistRequest], boolean>(async (payload) => {
     const res = await axiosInstance.post('/admin/artists', payload);
-    return res.data.data;
+    return res.data.status;
   }, payload);
 
 /**
@@ -20,14 +24,14 @@ export const createArtist = (payload: AdminArtist) =>
  * PATCH /admin/artists/{artistId}
  *
  * @param artistId - 수정할 작가 ID (path param)
- * @param payload - 수정할 필드 정보 (AdminArtistUpdate)
+ * @param payload - 수정할 필드 정보 (AdminUpdateArtistRequest)
  * @returns 수정 성공 여부 또는 메시지
  */
-export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =>
-  withErrorBoundary<[number, AdminArtistUpdate], string>(
+export const updateArtist = (artistId: number, payload: AdminUpdateArtistRequest) =>
+  withErrorBoundary<[number, AdminUpdateArtistRequest], boolean>(
     async (artistId, payload) => {
       const res = await axiosInstance.patch(`/admin/artists/${artistId}`, payload);
-      return res.data.data;
+      return res.data.status;
     },
     artistId,
     payload,
@@ -41,11 +45,11 @@ export const updateArtistInfo = (artistId: number, payload: AdminArtistUpdate) =
  * @param payload - 새 프로필 이미지 키
  * @returns 변경 성공 여부 또는 메시지
  */
-export const updateArtistProfileImage = (artistId: number, payload: ArtistProfileImageUpdate) =>
-  withErrorBoundary<[number, ArtistProfileImageUpdate], string>(
+export const updateArtistProfileImage = (artistId: number, payload: AdminUpdateArtistProfileImageRequest) =>
+  withErrorBoundary<[number, AdminUpdateArtistProfileImageRequest], boolean>(
     async (artistId, payload) => {
       const res = await axiosInstance.patch(`/admin/artists/${artistId}/profile-image`, payload);
-      return res.data.data;
+      return res.data.status;
     },
     artistId,
     payload,

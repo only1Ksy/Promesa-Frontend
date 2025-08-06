@@ -1,4 +1,4 @@
-import { AdminItemRequest } from '@/types/admin/admin-item-controller';
+import { AdminRegisterItemRequest, AdminUpdateItemRequest } from '@/types/admin/admin-item-controller';
 
 import { axiosInstance, withErrorBoundary } from '../axios/instance';
 
@@ -7,11 +7,11 @@ import { axiosInstance, withErrorBoundary } from '../axios/instance';
  * @param itemId 수정할 item의 ID (URL path param)
  * @param payload 수정할 데이터 (AdminItemRequest)
  */
-export const editItemDetail = (itemId: number, payload: AdminItemRequest) =>
-  withErrorBoundary<[number, AdminItemRequest], string>(
+export const updateItem = (itemId: number, payload: AdminUpdateItemRequest) =>
+  withErrorBoundary<[number, AdminUpdateItemRequest], boolean>(
     async (itemId, payload) => {
       const res = await axiosInstance.put(`/admin/items/${itemId}`, payload);
-      return res.data.data;
+      return res.data.status;
     },
     itemId,
     payload,
@@ -21,8 +21,8 @@ export const editItemDetail = (itemId: number, payload: AdminItemRequest) =>
  * 작품을 등록하는 함수
  * @param payload 등록할 데이터 (AdminItemRequest)
  */
-export const postNewItem = (payload: AdminItemRequest) =>
-  withErrorBoundary<[AdminItemRequest], string>(async (payload) => {
+export const registerItem = (payload: AdminRegisterItemRequest) =>
+  withErrorBoundary<[AdminRegisterItemRequest], boolean>(async (payload) => {
     const res = await axiosInstance.post('/admin/items', payload);
-    return res.data.data;
+    return res.data.status;
   }, payload);

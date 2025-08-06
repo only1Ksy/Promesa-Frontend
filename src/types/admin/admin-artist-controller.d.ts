@@ -1,26 +1,18 @@
-export interface AdminArtist {
+export interface AdminRegisterArtistRequest {
   artistName: string;
-  subName: string;
+  subName: string | null;
   profileKey: string;
-  insta: string;
+  insta: string | null;
   memberId: number;
 }
 
-export interface AdminArtistUpdate {
-  artistName: {
-    present: boolean;
-  };
-  subName: {
-    present: boolean;
-  };
-  description: {
-    present: boolean;
-  };
-  insta: {
-    present: boolean;
-  };
+export interface AdminUpdateArtistRequest {
+  artistName?: string;
+  subName?: string | null;
+  description?: string;
+  insta?: string | null;
 }
 
-export interface ArtistProfileImageUpdate {
+export interface AdminUpdateArtistProfileImageRequest {
   profileImageKey: string;
 }

@@ -7,7 +7,7 @@ export interface ExhibitionSummarySchema {
   description: string;
   artistNames: string[];
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   thumbnailImageKey: string;
   thumbnailImageUrl: string;
   createdAt: string;

@@ -52,7 +52,7 @@ export const parseItemResponse = (data: ItemResponseSchema): ParsedItemData => (
     name: data.artistProfile.name,
     profileImageUrl: data.artistProfile.profileImageUrl,
     bio: data.artistProfile.bio,
-    instagramUrl: data.artistProfile.instagramUrl,
+    instagramUrl: data.artistProfile.instagramUrl ?? '',
     isWishlisted: data.artistWish.isWishlisted,
     wishCount: data.artistWish.wishCount,
   },
