@@ -17,10 +17,12 @@ export default function AdminArtistRegisterPage() {
     profileKey: '',
     description: '',
     insta: '',
-    memberId: '',
+    memberId: 0,
   });
 
-  const handleForm = (field: keyof typeof form, value: string | null) => {
+  const handleForm = (field: keyof typeof form, value: string | number | null) => {
+    if (field === 'memberId' && typeof value !== 'number') return;
+
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -41,13 +43,12 @@ export default function AdminArtistRegisterPage() {
   };
 
   const register = async () => {
-    if (form.artistName === '' || form.profileKey === '' || form.description === '' || form.memberId === '') return;
+    if (form.artistName === '' || form.profileKey === '' || form.description === '' || form.memberId === 0) return;
 
     await registerArtist({
       ...form,
       subName: form.subName === '' ? null : form.subName,
       insta: form.insta === '' ? null : form.insta,
-      memberId: Number(form.memberId),
     });
 
     queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });
@@ -95,12 +96,23 @@ export default function AdminArtistRegisterPage() {
             .map((key) => (
               <React.Fragment key={key}>
                 <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
-                <TextareaAutosize
-                  name={formKeyMap[key].title}
-                  value={form[key]}
-                  onChange={(e) => handleForm(key, e.target.value)}
-                  className="text-body-01 font-regular resize-none border pl-2 outline-none"
-                />
+                {key !== 'memberId' ? (
+                  <TextareaAutosize
+                    name={formKeyMap[key].title}
+                    value={form[key]}
+                    onChange={(e) => handleForm(key, e.target.value)}
+                    className="border-deep-green text-body-01 resize-none rounded-sm border px-2 py-1 font-semibold outline-none"
+                  />
+                ) : (
+                  <input
+                    name={formKeyMap[key].title}
+                    type="number"
+                    value={form[key]}
+                    min={0}
+                    onChange={(e) => handleForm(key, Number(e.target.value))}
+                    className="border-deep-green text-body-01 resize-none rounded-sm border px-2 py-1 font-semibold outline-none"
+                  />
+                )}
               </React.Fragment>
             ))}
           {/* 아티스트 이미지 정보 입력 */}
@@ -113,7 +125,7 @@ export default function AdminArtistRegisterPage() {
               const file = e.target.files?.[0];
               if (file) handleProfileImage(file);
             }}
-            className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold"
+            className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
           />
           <button onClick={register} className="cursor-pointer">
             <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">

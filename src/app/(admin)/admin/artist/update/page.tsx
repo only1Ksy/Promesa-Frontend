@@ -139,7 +139,7 @@ export default function AdminArtistUpdatePage() {
                 <TextareaAutosize
                   value={form[key]}
                   onChange={(e) => handleForm(key, e.target.value)}
-                  className="text-body-01 font-regular resize-none border pl-2 outline-none"
+                  className="text-body-01 font-regular border-deep-green resize-none rounded-sm border px-2 py-1 outline-none"
                 />
                 <button onClick={() => update(key)} className="cursor-pointer">
                   <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
@@ -167,7 +167,7 @@ export default function AdminArtistUpdatePage() {
                 const file = e.target.files?.[0];
                 if (file) handleProfileImage(file);
               }}
-              className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold"
+              className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
             />
             <button onClick={() => update('profileImageKey')} className="cursor-pointer">
               <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
