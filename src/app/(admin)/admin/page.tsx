@@ -45,7 +45,7 @@ export default function AdminPage() {
       </Link>
       <Link href="/admin/inquiry">
         <div className="flex h-20 w-50 items-center justify-center rounded-sm border border-black hover:bg-black hover:text-white">
-          <p className="text-headline-05 font-regular">문의 등록/수정</p>
+          <p className="text-headline-05 font-regular">문의 등록/수정/삭제</p>
         </div>
       </Link>
     </div>
