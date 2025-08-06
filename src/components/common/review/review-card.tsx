@@ -56,8 +56,8 @@ export default function ReviewCard({ reviewerName, rating, content, reviewImages
               <div className="flex gap-2">
                 {reviewImages.map((src, i) => (
                   <div key={i} className="bg-green h-29 w-28.75 overflow-hidden">
-                    <button onClick={() => openModal(src)} className="h-full w-full cursor-pointer">
-                      <ImageWithEffect alt={`review image ${i + 1}`} src={src} fill className="object-cover" />
+                    <button onClick={() => openModal(src.url)} className="h-full w-full cursor-pointer">
+                      <ImageWithEffect alt={`review image ${i + 1}`} src={src.url} fill className="object-cover" />
                     </button>
                   </div>
                 ))}
