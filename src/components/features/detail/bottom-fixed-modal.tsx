@@ -150,7 +150,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
                 onClick={onCartClicked}
                 className={clsx(
                   'text-body-01 flex h-12 w-59 items-center justify-center rounded-xs border font-bold',
-                  isSoldOut ? 'border-grey-5 text-grey-5 cursor-not-allowed' : 'border-grey-9 cursor-pointer',
+                  isSoldOut ? 'border-grey-4 text-grey-4 cursor-not-allowed' : 'border-grey-9 cursor-pointer',
                 )}
               >
                 장바구니
