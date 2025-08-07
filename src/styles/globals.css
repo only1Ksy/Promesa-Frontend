@@ -88,6 +88,11 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  .fixed-image-optimization {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
   .home-shadow {
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.08);
   }
