@@ -1,5 +1,5 @@
 import { ArtistProfileSchema, ArtistWishSchema } from './artist.dto';
-import { ItemDetailSchema, ItemSalesSchema, ItemSummarySchema, ItemWishSchema } from './item.dto';
+import { ImageUrls, ItemDetailSchema, ItemSalesSchema, ItemSummarySchema, ItemWishSchema } from './item.dto';
 
 export interface ItemResponseSchema {
   itemSummary: ItemSummarySchema;
@@ -44,16 +44,11 @@ export interface DetailArtistResponseSchema {
   wishCount: number;
 }
 
-export interface MainImageUrls {
-  url: string;
-  sortOrder: number;
-}
-
 // detail page
 export interface ParsedItemData {
   itemId: number;
   title: string;
-  mainImageUrls: MainImageUrls[];
+  mainImageUrls: ImageUrls[];
   detailImageUrls: ImageUrls[];
   category: {
     id: number;

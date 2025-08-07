@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import { registerExhibition } from '@/services/api/admin/admin-exhibition-controller';
-import { postImages } from '@/services/api/image-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
 import { fetchShopItems } from '@/services/api/item-controller';
 import { getQueryClient } from '@/services/query/client';
 
@@ -42,6 +42,9 @@ export default function AdminExhibitionRegisterPage() {
   const [sortOrder, setSortOrder] = useState<number>(1);
   const [selectedItemId, setSelectedItemId] = useState<number>(0);
 
+  const fileInputRefMain = useRef<HTMLInputElement>(null);
+  const fileInputRefSub = useRef<HTMLInputElement>(null);
+
   const handleForm = (field: keyof typeof form, value: string | null) => {
     if (['imageKeys', 'itemIds'].includes(field)) return;
 
@@ -59,9 +62,14 @@ export default function AdminExhibitionRegisterPage() {
       })
     )[0];
 
+    if (form.thumbnailKey !== '') {
+      await deleteImages(form.thumbnailKey);
+      setForm((prev) => ({ ...prev, thumbnailKey: '' }));
+    }
+
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
-    setForm((prev) => ({ ...prev, thumbnailKey, imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...prev.imageKeys] }));
+    setForm((prev) => ({ ...prev, thumbnailKey }));
   };
 
   const handlePromotionImage = async (file: File) => {
@@ -86,7 +94,17 @@ export default function AdminExhibitionRegisterPage() {
     setForm((prev) => ({ ...prev, itemIds: [...prev.itemIds, itemId] }));
   };
 
-  const removePromotionImage = (idx: number) => {
+  const removePromotionImage = async (idx: number) => {
+    // same index: form.imageKeys <-> promotionImageFiles
+    await deleteImages(form.imageKeys[idx].key);
+    setForm((prev) => {
+      const nextImageKeys = [...prev.imageKeys];
+      nextImageKeys.splice(idx, 1);
+      return {
+        ...prev,
+        imageKeys: nextImageKeys,
+      };
+    });
     setPromotionImageFiles((prev) => {
       const next = [...prev];
       next.splice(idx, 1);
@@ -119,9 +137,23 @@ export default function AdminExhibitionRegisterPage() {
     await registerExhibition({
       ...form,
       endDate: form.endDate === '' ? null : form.endDate,
+      imageKeys: [{ key: form.thumbnailKey, sortOrder: 1 }, ...form.imageKeys], // add thumbnailKey when POST
     });
 
     queryClient.refetchQueries({ queryKey: ['admin-exhibition-list'] });
+
+    setForm({
+      title: '',
+      description: '',
+      startDate: '',
+      endDate: '',
+      thumbnailKey: '',
+      imageKeys: [] as { key: string; sortOrder: number }[],
+      itemIds: [] as number[],
+    });
+    setPromotionImageFiles([]);
+    setSortOrder(1);
+    setSelectedItemId(0);
   };
 
   const formKeyMap: {
@@ -204,6 +236,7 @@ export default function AdminExhibitionRegisterPage() {
           </div>
           <input
             name="5️⃣ 기획전 썸네일 이미지"
+            ref={fileInputRefMain}
             type="file"
             accept="image/*"
             onChange={(e) => {
@@ -215,7 +248,7 @@ export default function AdminExhibitionRegisterPage() {
           {/* 기획전 프로모션 이미지 목록 */}
           <p className="text-body-01 font-semibold">6️⃣ 기획전 프로모션 이미지 목록</p>
           {promotionImageFiles.map((file, idx) => (
-            <div key={file.name} className="flex justify-between">
+            <div key={`${file.name}-${idx}`} className="flex justify-between">
               <p className="text-body-02 font-regular">📷 {file.name}</p>
               <button onClick={() => removePromotionImage(idx)} className="cursor-pointer">
                 <p className="hover:text-orange text-body-02 font-bold">X</p>
@@ -225,6 +258,7 @@ export default function AdminExhibitionRegisterPage() {
           <input
             key={promotionImageFiles.length}
             name="6️⃣ 기획전 프로모션 이미지 목록"
+            ref={fileInputRefSub}
             type="file"
             accept="image/*"
             onChange={(e) => {

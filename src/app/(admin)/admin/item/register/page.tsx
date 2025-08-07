@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { registerItem } from '@/services/api/admin/admin-item-controller';
 import { fetchArtistList } from '@/services/api/artist-controller';
 import { fetchParentCategories } from '@/services/api/category-controller';
-import { postImages } from '@/services/api/image-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
 
 export default function AdminItemRegisterPage() {
@@ -40,6 +40,9 @@ export default function AdminItemRegisterPage() {
   const [detailImageFiles, setDetailImageFiles] = useState<File[]>([]);
   const [sortOrder, setSortOrder] = useState<number>(1);
 
+  const fileInputRefMain = useRef<HTMLInputElement>(null);
+  const fileInputRefSub = useRef<HTMLInputElement>(null);
+
   const handleForm = (field: keyof typeof form, value: string | number | null) => {
     if (
       field === 'imageKeys' ||
@@ -61,6 +64,11 @@ export default function AdminItemRegisterPage() {
         fileNames: [file.name],
       })
     )[0];
+
+    if (form.thumbnailKey !== '') {
+      await deleteImages(form.thumbnailKey);
+      setForm((prev) => ({ ...prev, thumbnailKey: '' }));
+    }
 
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
@@ -85,7 +93,17 @@ export default function AdminItemRegisterPage() {
     setDetailImageFiles((prev) => [...prev, file]);
   };
 
-  const removeDetailImage = (idx: number) => {
+  const removeDetailImage = async (idx: number) => {
+    // same index: form.imageKeys <-> detailImageFiles
+    await deleteImages(form.imageKeys[idx].key);
+    setForm((prev) => {
+      const nextImageKeys = [...prev.imageKeys];
+      nextImageKeys.splice(idx, 1);
+      return {
+        ...prev,
+        imageKeys: nextImageKeys,
+      };
+    });
     setDetailImageFiles((prev) => {
       const next = [...prev];
       next.splice(idx, 1);
@@ -101,9 +119,31 @@ export default function AdminItemRegisterPage() {
     )
       return;
 
-    await registerItem(form);
+    await registerItem({ ...form, imageKeys: [{ key: form.thumbnailKey, sortOrder: 1 }, ...form.imageKeys] }); // add thumbnailKey when POST
 
     queryClient.refetchQueries({ queryKey: ['admin-item-list'] });
+
+    setForm({
+      itemName: '',
+      price: 0,
+      stock: 0,
+      productCode: '',
+      width: 0,
+      height: 0,
+      depth: 0,
+      artistId: 0,
+      categoryId: 0,
+      imageKeys: [] as { key: string; sortOrder: number }[],
+      thumbnailKey: '',
+    });
+    setDetailImageFiles([]);
+    setSortOrder(1);
+    if (fileInputRefMain.current) {
+      fileInputRefMain.current.value = '';
+    }
+    if (fileInputRefSub.current) {
+      fileInputRefSub.current.value = '';
+    }
   };
 
   const formKeyMap: {
@@ -203,7 +243,12 @@ export default function AdminItemRegisterPage() {
                 >
                   <option value={0} disabled />
                   {idNames.map((item) => (
-                    <option key={item.id} value={item.id} className="cursor-pointer">
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      className="cursor-pointer"
+                      disabled={key === 'categoryId' && item.name === 'ALL'}
+                    >
                       {item.name}
                     </option>
                   ))}
@@ -218,6 +263,7 @@ export default function AdminItemRegisterPage() {
           </div>
           <input
             name="1️⃣0️⃣ 작품 메인 이미지"
+            ref={fileInputRefMain}
             type="file"
             accept="image/*"
             onChange={(e) => {
@@ -228,7 +274,7 @@ export default function AdminItemRegisterPage() {
           />
           <p className="text-body-01 font-semibold">1️⃣1️⃣ 작품 세부 이미지 목록</p>
           {detailImageFiles.map((file, idx) => (
-            <div key={file.name} className="flex justify-between">
+            <div key={`${file.name}-${idx}`} className="flex justify-between">
               <p className="text-body-02 font-regular">📷 {file.name}</p>
               <button onClick={() => removeDetailImage(idx)} className="cursor-pointer">
                 <p className="hover:text-orange text-body-02 font-bold">X</p>
@@ -238,6 +284,7 @@ export default function AdminItemRegisterPage() {
           <input
             key={detailImageFiles.length}
             name="1️⃣1️⃣ 작품 세부 이미지 목록"
+            ref={fileInputRefSub}
             type="file"
             accept="image/*"
             onChange={(e) => {

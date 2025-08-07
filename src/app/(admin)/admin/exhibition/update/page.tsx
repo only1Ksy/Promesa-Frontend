@@ -1,7 +1,7 @@
 'use client';
 
 import type { SyntheticEvent } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import { updateExhibition } from '@/services/api/admin/admin-exhibition-controller';
 import { fetchExhibition, fetchExhibitions } from '@/services/api/exhibition-controller';
-import { postImages } from '@/services/api/image-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
 import { fetchShopItems } from '@/services/api/item-controller';
 import { getQueryClient } from '@/services/query/client';
 import type { ExhibitionDetailResponseSchema, ExhibitionSummarySchema } from '@/types/exhibition-controller';
@@ -57,6 +57,9 @@ export default function AdminExhibitionUpdatePage() {
   const [sortOrder, setSortOrder] = useState<number>(0);
   const [selectedItemId, setSelectedItemId] = useState<number>(0);
 
+  const fileInputRefMain = useRef<HTMLInputElement>(null);
+  const fileInputRefSub = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (!selectedExhibitionId) return;
 
@@ -66,7 +69,7 @@ export default function AdminExhibitionUpdatePage() {
     };
 
     fetchAndSet();
-  }, [selectedExhibitionId]);
+  }, [selectedExhibitionId, data]);
 
   useEffect(() => {
     if (selectedExhibition) {
@@ -77,6 +80,11 @@ export default function AdminExhibitionUpdatePage() {
         endDate: selectedExhibition.summary.endDate ?? '',
         itemIds: selectedExhibition.itemPreviews.map((item) => item.itemId),
       });
+
+      setThumbnailKey(selectedExhibition.summary.thumbnailImageKey);
+      setImageKeys(
+        selectedExhibition.detail.images.map((item) => ({ key: item.detailImageKey, sortOrder: item.sortOrder })),
+      );
 
       const maxSortOrder = Math.max(...selectedExhibition.detail.images.map((item) => item.sortOrder));
       setSortOrder(maxSortOrder + 1);
@@ -110,9 +118,18 @@ export default function AdminExhibitionUpdatePage() {
       })
     )[0];
 
+    if (thumbnailKey !== '') {
+      await deleteImages(thumbnailKey);
+      setThumbnailKey('');
+    }
+
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
     setThumbnailKey(key);
+
+    if (fileInputRefMain.current) {
+      fileInputRefMain.current.value = '';
+    }
   };
 
   const handlePromotionImage = async (file: File) => {
@@ -130,18 +147,29 @@ export default function AdminExhibitionUpdatePage() {
 
     setImageKeys((prev) => [...prev, { key, sortOrder }]);
     setSortOrder((prev) => prev + 1);
+
+    if (fileInputRefSub.current) {
+      fileInputRefSub.current.value = '';
+    }
   };
 
   const handleSelectedItem = (itemId: number) => {
     setForm((prev) => ({ ...prev, itemIds: [...prev.itemIds, itemId] }));
   };
 
-  const removePromotionImage = (idx: number) => {
-    setImageKeys((prev) => {
-      const next = [...prev];
-      next.splice(idx, 1);
-      return next;
+  const removePromotionImage = async (idx: number) => {
+    await deleteImages(imageKeys[idx].key);
+
+    const nextKeys = imageKeys.filter((_, i) => i !== idx);
+    setImageKeys(nextKeys);
+
+    await updateExhibition(selectedExhibitionId, {
+      ...form,
+      thumbnailKey,
+      imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...nextKeys],
     });
+
+    queryClient.invalidateQueries({ queryKey: ['admin-exhibition-list'] });
   };
 
   const removeSelectedItem = (itemId: number) => {
@@ -156,13 +184,28 @@ export default function AdminExhibitionUpdatePage() {
   };
 
   const update = async (field: keyof typeof form | 'thumbnailKey' | 'imageKeys') => {
-    if (field === 'thumbnailKey') {
-      await updateExhibition(selectedExhibitionId, { thumbnailKey });
-    } else if (field === 'imageKeys') {
-      await updateExhibition(selectedExhibitionId, { imageKeys });
+    if (field === 'thumbnailKey' || field === 'imageKeys') {
+      await updateExhibition(selectedExhibitionId, {
+        ...form,
+        thumbnailKey,
+        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...imageKeys],
+      });
+
+      if (field === 'thumbnailKey') {
+        if (fileInputRefMain.current) {
+          fileInputRefMain.current.value = '';
+        }
+      } else if (field === 'imageKeys') {
+        if (fileInputRefSub.current) {
+          fileInputRefSub.current.value = '';
+        }
+      }
     } else {
       const updatedValue = form[field] === '' && field === 'endDate' ? null : form[field];
       await updateExhibition(selectedExhibitionId, {
+        ...form,
+        thumbnailKey,
+        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...imageKeys],
         [field]: updatedValue,
       });
     }
@@ -292,6 +335,7 @@ export default function AdminExhibitionUpdatePage() {
             </div>
             <input
               name="기획전 썸네일 이미지 선택"
+              ref={fileInputRefMain}
               type="file"
               accept="image/*"
               onChange={(e) => {
@@ -314,9 +358,8 @@ export default function AdminExhibitionUpdatePage() {
               </div>
               <div className="flex flex-col gap-3">
                 {selectedExhibition.detail.images.map((item, idx) => (
-                  <React.Fragment key={item.sortOrder}>
+                  <React.Fragment key={`${item.detailImageKey}-${idx}`}>
                     <div
-                      key={item.sortOrder}
                       className="relative w-full border-y"
                       style={{
                         paddingTop: `${ratios[idx] * 100}%`,
@@ -329,13 +372,7 @@ export default function AdminExhibitionUpdatePage() {
                         onLoad={(e) => handleImageLoad(idx, e)}
                       />
                     </div>
-                    <button
-                      onClick={() => {
-                        removePromotionImage(idx);
-                        update('imageKeys');
-                      }}
-                      className="cursor-pointer"
-                    >
+                    <button onClick={() => removePromotionImage(idx)} className="cursor-pointer">
                       <div className="border-orange hover:bg-orange text-orange rounded-sm border px-2 py-1 hover:text-white">
                         <p className="text-body-01 font-semibold">{`${idx + 1}번째 이미지 삭제하기`}</p>
                       </div>
@@ -346,6 +383,7 @@ export default function AdminExhibitionUpdatePage() {
             </div>
             <input
               name="기획전 프로모션 이미지 선택"
+              ref={fileInputRefSub}
               type="file"
               accept="image/*"
               onChange={(e) => {
