@@ -97,6 +97,13 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
       return;
     }
 
+    if (content.length > 1000) {
+      alertModal({
+        message: '내용은 최대 1000자까지 입력 가능합니다.',
+      });
+      return;
+    }
+
     alertModal({
       message: '이대로 수정하시겠습니까?',
       confirmText: '수정',
