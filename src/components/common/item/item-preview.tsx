@@ -9,8 +9,6 @@ import HeartEmptyIcon from '@/public/icons/item/heart-empty.svg';
 import HeartFilledIcon from '@/public/icons/item/heart-filled.svg';
 import type { ItemPreviewResponseSchema } from '@/types/item-controller';
 
-import ItemSoldOutDiv from './item-sold-out-div';
-
 interface ItemPreviewProps {
   item: ItemPreviewResponseSchema;
   maxWidthClass: string;
@@ -21,9 +19,6 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
   const { itemId, saleStatus, itemName, price, imageUrl, artistName, wished } = item;
 
   const { mutate: toggleWish } = useToggleWish();
-
-  if (saleStatus !== 'ON_SALE')
-    return <ItemSoldOutDiv item={item} maxWidthClass={maxWidthClass} heightClass={heightClass} />;
 
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
@@ -38,6 +33,18 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
           <div className="bg-green relative aspect-[4/5] w-full">
             {/* image optimization limit */}
             <ImageWithEffect src={imageUrl} alt={`아이템 ${itemId}의 프리뷰 이미지.`} fill className="object-cover" />
+            {saleStatus !== 'ON_SALE' && (
+              <div className="absolute top-0 z-5 flex h-full w-full items-center justify-center bg-black/50">
+                <p
+                  className={clsx(
+                    'font-medium text-white',
+                    maxWidthClass === 'max-w-29' ? 'text-body-02' : 'text-subhead',
+                  )}
+                >
+                  sold out
+                </p>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-col">
