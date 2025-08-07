@@ -19,7 +19,7 @@ export default function ReviewImageUploader({
   const showUploadButton = previews.length < 3;
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 pb-21">
       <div className="text-body-02 mb-3 flex gap-0.5 font-medium">
         <span className="text-black">상품 사진을 첨부해주세요.</span>
         <span className="text-grey-5">(선택)</span>
