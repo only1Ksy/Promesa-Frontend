@@ -257,7 +257,7 @@ export default function AdminItemRegisterPage() {
         <div className="flex flex-col gap-2">
           {/* 작품 텍스트 정보 입력 */}
           {(Object.keys(form) as (keyof typeof form)[])
-            .filter((key) => !['artistId', 'categoryId', 'imageKeys', 'thumbnailKey'].includes(key))
+            .filter((key) => !['artistId', 'categoryId', 'thumbnailKey', 'mainImageKeys', 'detailImageKeys'].includes(key))
             .map((key) => (
               <React.Fragment key={key}>
                 <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
