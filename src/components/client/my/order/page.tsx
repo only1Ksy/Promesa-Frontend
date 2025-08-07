@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 
@@ -13,13 +13,13 @@ interface ClientMyOrderPageProps {
 }
 
 export default function ClientMyOrderPage({ ordersState }: ClientMyOrderPageProps) {
-  const { data: orders, isLoading } = useQuery({
+  const { data: orders } = useSuspenseQuery({
     queryKey: ['orders'],
     queryFn: () => fetchOrders(),
     select: (res) => res,
   });
 
-  if (!orders || isLoading) return null;
+  if (!orders) return null;
 
   return (
     <HydrationBoundary state={ordersState}>

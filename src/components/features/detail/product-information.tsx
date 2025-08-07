@@ -67,7 +67,7 @@ export default function ProductInformation({ onSelect, item }: ProductInformatio
         <div className="border-green mx-5 flex items-start gap-1 self-stretch border p-4">
           <span className="text-grey-8 text-caption-01 w-15 font-bold">배송비</span>
           <div className="flex flex-col">
-            <span className="text-orange text-caption-01 font-bold">3000원</span>
+            <span className="text-orange text-caption-01 font-bold">3,000원</span>
             <span className="text-grey-8 text-caption-01 font-medium">70,000원 이상 구매 시 무료배송</span>
             <span className="text-grey-8 text-caption-01 font-medium">제주/도서산간 3,000원 추가</span>
           </div>

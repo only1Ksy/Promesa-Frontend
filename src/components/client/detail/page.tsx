@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import ReviewImageOnly from '@/components/common/review/review-image-only';
@@ -26,13 +26,13 @@ interface ClientDetailPageProps {
 }
 
 export default function ClientDetailPage({ itemId, itemDetailState }: ClientDetailPageProps) {
-  const { data: item, isLoading } = useQuery({
+  const { data: item } = useSuspenseQuery({
     queryKey: ['itemDetail', itemId],
     queryFn: () => fetchItemDetail(itemId),
     select: (res) => res,
   });
 
-  const { data: reviewResponse, isLoading: isReviewLoading } = useQuery({
+  const { data: reviewResponse } = useSuspenseQuery({
     queryKey: ['reviewList', itemId],
     queryFn: () => fetchItemReviews(itemId),
     select: (res) => res.content,
@@ -52,6 +52,8 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   // 스크롤 핸들러
   const scrollTo = (section: 'product' | 'notice' | 'review') => {
+    setActiveTab(section);
+
     setIsScrolling(true);
 
     const target =
@@ -93,7 +95,7 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolling]);
 
-  if (!item || isLoading || isReviewLoading || !reviewResponse) return null;
+  if (!item || !reviewResponse) return null;
 
   const images = item.mainImageUrls.map((image) => image.url);
 

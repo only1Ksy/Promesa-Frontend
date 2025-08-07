@@ -21,7 +21,7 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
   // 이미지가 1개인 경우
   if (images.length === 1) {
     return (
-      <div className="bg-green relative mb-5 aspect-square h-96 w-full">
+      <div className="bg-green relative mb-5 aspect-[4/5] w-full">
         <ImageWithEffect src={images[0]} alt={alt} fill className="object-cover" />
       </div>
     );
@@ -44,7 +44,7 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
   const barPosition = scrollProgress * (120 - 120 / images.length); // 60px = 120px - 60px
 
   return (
-    <div className="bg-green relative mb-5 aspect-square h-125.75 w-full">
+    <div className="bg-green relative mb-5 aspect-[4/5] w-full">
       <div
         ref={containerRef}
         className="flex h-full w-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
