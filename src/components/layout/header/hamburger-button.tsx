@@ -97,7 +97,7 @@ export default function HamburgerButton() {
           {/* 카테고리 (HOME/SHOP/ARTIST/EXHIBITION) */}
           <div className="flex flex-col gap-1">
             <div className="my-3">
-              <Link href="/">
+              <Link href="/home">
                 <p className="text-subhead font-medium">HOME</p>
               </Link>
             </div>

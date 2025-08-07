@@ -14,7 +14,7 @@ export default function ClientLogoutPage() {
       await logoutOnce();
       setLoggedIn(false);
       setHasChecked(true);
-      window.location.replace('/');
+      window.location.replace('/home');
     };
 
     logout();

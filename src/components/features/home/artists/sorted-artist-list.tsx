@@ -33,9 +33,8 @@ export default function SortedArtistList() {
 
   const sortedData = sortedDataWithSection.flatMap((sec) => sec.items);
   const sortedWishedData = sortedData.filter((item) => item.wish.isWishlisted);
-  const sortedNotWishedData = sortedData.filter((item) => !item.wish.isWishlisted);
 
-  const displayData = isWishedList ? sortedWishedData : [...sortedWishedData, ...sortedNotWishedData];
+  const displayData = isWishedList ? sortedWishedData : sortedData;
 
   useEffect(() => {
     const current = new URLSearchParams();

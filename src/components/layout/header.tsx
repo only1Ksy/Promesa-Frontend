@@ -88,7 +88,7 @@ export default function Header({ shadow }: HeaderProps) {
     else if (isMyProfilePage) return <span className="text-subhead text-grey-9 font-medium">기본정보 수정</span>;
     else
       return (
-        <Link href="/">
+        <Link href="/home">
           <PromesaTextSmallIcon className="text-black" />
         </Link>
       );
