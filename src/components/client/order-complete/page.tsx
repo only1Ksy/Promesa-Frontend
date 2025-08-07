@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Lottie from 'react-lottie-player';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import BottomFixedBar from '@/components/features/order/complete/bottom-fixed-bar';
 import OrderInformation from '@/components/features/order/complete/order-information';
@@ -17,7 +17,7 @@ interface ClientOrderCompletePageProps {
 }
 
 export default function ClientOrderCompletePage({ orderId, orderDetailState }: ClientOrderCompletePageProps) {
-  const { data: order, isLoading } = useQuery({
+  const { data: order } = useSuspenseQuery({
     queryKey: ['orderDetail', orderId],
     queryFn: () => fetchDetailedOrder(orderId),
     select: (res) => res,
@@ -31,7 +31,7 @@ export default function ClientOrderCompletePage({ orderId, orderDetailState }: C
     return () => clearTimeout(timer);
   }, []);
 
-  if (!order || isLoading) return null;
+  if (!order) return null;
 
   return (
     <HydrationBoundary state={orderDetailState}>

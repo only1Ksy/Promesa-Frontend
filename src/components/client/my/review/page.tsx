@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
 
@@ -19,19 +19,19 @@ interface ClientMyReviewPageProps {
 export default function ClientMyReviewPage({ myReviewsState }: ClientMyReviewPageProps) {
   const [activeTab, setActiveTab] = useState<'available' | 'written'>('available');
 
-  const { data: writtenReviews, isLoading } = useQuery({
+  const { data: writtenReviews } = useSuspenseQuery({
     queryKey: ['writtenReviews'],
     queryFn: () => fetchMyWrittenReviews(),
     select: (res) => res,
   });
 
-  const { data: eligibleReviews, isLoading: isEligibleReviewLoading } = useQuery({
+  const { data: eligibleReviews } = useSuspenseQuery({
     queryKey: ['eligibleReviews'],
     queryFn: () => fetchMyEligibleReviews(),
     select: (res) => res,
   });
 
-  if (!writtenReviews || !eligibleReviews || isLoading || isEligibleReviewLoading) return null;
+  if (!writtenReviews || !eligibleReviews) return null;
 
   const isWrittenReviewsEmpty = writtenReviews.length === 0;
   const isEligibleReviewsEmpty = eligibleReviews.length === 0;

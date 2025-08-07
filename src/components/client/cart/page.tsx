@@ -2,7 +2,7 @@
 
 import { DehydratedState } from '@tanstack/react-query';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import EmptyCard from '@/components/common/empty/empty-card';
@@ -19,13 +19,13 @@ interface ClientCartPageProps {
 export default function ClientCartPage({ cartsState }: ClientCartPageProps) {
   const router = useRouter();
 
-  const { data: carts, isLoading } = useQuery({
+  const { data: carts } = useSuspenseQuery({
     queryKey: ['carts'],
     queryFn: () => fetchCarts(),
     select: (res) => res,
   });
 
-  if (!carts || isLoading) return null;
+  if (!carts) return null;
 
   const totalPrice = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
