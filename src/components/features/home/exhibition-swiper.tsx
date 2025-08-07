@@ -8,7 +8,7 @@ import HorizontalScroll from '@/components/common/utilities/horizontal-scroll';
 import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import LinkIcon from '@/public/icons/common/link.svg';
 import { fetchArtistExhibitions } from '@/services/api/artist-controller';
-import { fetchOngoingExhibitions } from '@/services/api/exhibition-controller';
+import { fetchExhibitions } from '@/services/api/exhibition-controller';
 
 interface ExhibitionSwiperProps {
   title: string;
@@ -22,7 +22,7 @@ export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSw
     queryFn:
       page === 'HOME'
         ? async () => {
-            const data = await fetchOngoingExhibitions();
+            const data = await fetchExhibitions('ONGOING');
             return data.map((item) => item.summary);
           }
         : () => fetchArtistExhibitions(artistId!),
