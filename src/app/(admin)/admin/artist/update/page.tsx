@@ -144,10 +144,17 @@ export default function AdminArtistUpdatePage() {
             {/* 아티스트 텍스트 정보 수정 */}
             {(Object.keys(form) as (keyof typeof form)[]).map((key) => (
               <React.Fragment key={`${selectedArtistId}-${key}`}>
-                <p className="text-body-01 font-regular">
-                  <strong className="font-semibold">{formKeyMap[key].title}: </strong>
-                  {selectedArtist.profile[formKeyMap[key].valueKey]}
-                </p>
+                <div className="flex flex-col gap-2">
+                  <p className="text-body-01 font-regular">
+                    <strong className="font-semibold">{formKeyMap[key].title}: </strong>
+                    {selectedArtist.profile[formKeyMap[key].valueKey]}
+                  </p>
+                  {key === 'insta' && (
+                    <p className="text-body-02 font-regular text-orange italic">
+                      * 인스타그램 영문 ID만 입력 후 수정 진행
+                    </p>
+                  )}
+                </div>
                 <TextareaAutosize
                   value={form[key]}
                   onChange={(e) => handleForm(key, e.target.value)}

@@ -113,7 +113,7 @@ export default function AdminArtistRegisterPage() {
       title: '3️⃣ 아티스트 설명',
     },
     insta: {
-      title: '4️⃣ 아티스트 인스타그램 주소',
+      title: '4️⃣ 아티스트 인스타그램 ID',
     },
     memberId: {
       title: '5️⃣ 아티스트 - 멤버',
@@ -138,7 +138,12 @@ export default function AdminArtistRegisterPage() {
             .filter((key) => !['profileKey'].includes(key))
             .map((key) => (
               <React.Fragment key={key}>
-                <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
+                <div className="flex flex-col gap-2">
+                  <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
+                  {key === 'insta' && (
+                    <p className="text-body-02 font-regular text-orange italic">* 인스타그램 영문 ID만 입력</p>
+                  )}
+                </div>
                 {key !== 'memberId' ? (
                   <TextareaAutosize
                     name={formKeyMap[key].title}
