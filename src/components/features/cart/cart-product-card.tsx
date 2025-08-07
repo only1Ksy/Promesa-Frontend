@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { useDeleteCartItem, usePatchCartItem } from '@/hooks/use-cart';
@@ -16,6 +17,8 @@ export default function CartProductCard({ product }: CartProductCardProps) {
 
   const { mutate: patchCarts } = usePatchCartItem();
   const { mutate: deleteCarts } = useDeleteCartItem();
+
+  const router = useRouter();
 
   // 수량 조절
   const itemCount = product.stock;
@@ -37,11 +40,18 @@ export default function CartProductCard({ product }: CartProductCardProps) {
     }
   };
 
+  // 페이지 이동
+  const handleImageClick = () => {
+    if (product.itemId) {
+      router.push(`/detail/${product.itemId}`);
+    }
+  };
+
   return (
     <div className="flex gap-4">
-      <div className="h-35 w-28">
-        <ImageWithEffect alt="장바구니 미리보기 이미지" fill src={product.thumbnailUrl} />
-      </div>
+      <button onClick={handleImageClick} className="relative z-50 h-35 w-28 cursor-pointer">
+        <ImageWithEffect alt="장바구니 미리보기 이미지" fill src={product.thumbnailUrl} className="object-cover" />
+      </button>
       <div className="flex h-35 w-58.5 flex-col justify-between">
         <div className="flex justify-between">
           <div className="flex w-full flex-col gap-1">
@@ -56,7 +66,7 @@ export default function CartProductCard({ product }: CartProductCardProps) {
         </div>
         <div className="flex justify-between">
           {!isSoldOut ? (
-            <div className="flex h-6.5 w-21.5 items-center justify-between rounded-[99px] border px-2">
+            <div className="flex h-6.5 w-21.5 items-center justify-between gap-2.5 rounded-full border px-2">
               <button
                 onClick={handleQuantityDecrease}
                 disabled={quantity <= 1}
@@ -68,7 +78,7 @@ export default function CartProductCard({ product }: CartProductCardProps) {
               <button
                 onClick={handleQuantityIncrease}
                 disabled={quantity >= itemCount}
-                className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center disabled:opacity-50"
+                className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center pb-0.5 disabled:opacity-50"
               >
                 +
               </button>
