@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import clsx from 'clsx';
 
 import useAlert from '@/hooks/use-alert';
 import { useOrderStore } from '@/lib/store/order-information-store';
-import CloseIcon from '@/public/icons/layout/close.svg';
 import { fetchDefaultAddress } from '@/services/api/address-controller';
 import { AddressSchema } from '@/types/address-controller';
 
@@ -13,8 +12,6 @@ import { AddressSchema } from '@/types/address-controller';
 import OrderDropdown from './order-dropdown';
 
 export default function DeliveryForm() {
-  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
-
   const alertModal = useAlert();
 
   const delivery = useOrderStore((state) => state.delivery);
@@ -59,21 +56,14 @@ export default function DeliveryForm() {
   }, [delivery.deliveryType, alertModal, resetDelivery, updateDelivery]);
 
   const openAddressSearch = () => {
-    setIsPostcodeOpen(true);
+    if (typeof window === 'undefined' || !window.daum?.Postcode) return;
 
-    setTimeout(() => {
-      const postcode = new window.daum.Postcode({
-        oncomplete: (data: { zonecode: string; address: string }) => {
-          updateDelivery('postcode', data.zonecode);
-          updateDelivery('address', data.address);
-          setIsPostcodeOpen(false);
-        },
-      });
-
-      (postcode as unknown as { embed: (el: HTMLElement) => void }).embed(
-        document.getElementById('postcode-embed-container') as HTMLElement,
-      );
-    }, 0);
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        updateDelivery('postcode', data.zonecode);
+        updateDelivery('address', data.address);
+      },
+    }).open();
   };
 
   const handleSelect = (value: string) => {
@@ -145,26 +135,6 @@ export default function DeliveryForm() {
                 우편번호 검색
               </button>
             </div>
-            {isPostcodeOpen && (
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsPostcodeOpen(false)}
-                  className="absolute right-1.25 bottom-[-63] z-55 cursor-pointer"
-                >
-                  <CloseIcon width={20} height={20} />
-                </button>
-                <div
-                  id="postcode-embed-container"
-                  style={{
-                    transform: 'scale(0.725)',
-                    transformOrigin: 'top left',
-                    overflow: 'hidden',
-                  }}
-                  className="absolute z-50 shadow-lg"
-                />
-              </div>
-            )}
             <div className="border-deep-green flex flex-col rounded-md border">
               <input
                 type="text"
