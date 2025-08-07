@@ -1,18 +1,19 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+// import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
+// import { useRouter } from 'next/navigation';
 import { registerArtist } from '@/services/api/admin/admin-artist-controller';
-import { fetchMembers } from '@/services/api/admin/admin-member-controller';
+// import { fetchMembers } from '@/services/api/admin/admin-member-controller';
 import { deleteImages, postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
-import type { MemberResponseSchema } from '@/types/member-controller';
+// import type { MemberResponseSchema } from '@/types/member-controller';
 
 export default function AdminArtistRegisterPage() {
-  const router = useRouter();
+  // const router = useRouter();
   const queryClient = getQueryClient();
 
   const [form, setForm] = useState({
@@ -23,24 +24,24 @@ export default function AdminArtistRegisterPage() {
     insta: '',
     memberId: 0,
   });
-  const [members, setMembers] = useState<MemberResponseSchema[]>([]);
+  // const [members, setMembers] = useState<MemberResponseSchema[]>([]);
   const [error, setError] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const fetchAndSet = async () => {
-      try {
-        const data = await fetchMembers();
-        setMembers(data);
-      } catch {
-        setError(true);
-        router.replace('/admin/artist');
-      }
-    };
+  // useEffect(() => {
+  //   const fetchAndSet = async () => {
+  //     try {
+  //       const data = await fetchMembers();
+  //       setMembers(data);
+  //     } catch {
+  //       setError(true);
+  //       router.replace('/admin/artist');
+  //     }
+  //   };
 
-    fetchAndSet();
-  }, [error, router]);
+  //   fetchAndSet();
+  // }, [error, router]);
 
   const handleForm = (field: keyof typeof form, value: string | number | null) => {
     if (field === 'memberId' && typeof value !== 'number') return;
@@ -134,7 +135,7 @@ export default function AdminArtistRegisterPage() {
         <div className="flex flex-col gap-2">
           {/* 아티스트 텍스트 정보 입력 */}
           {(Object.keys(form) as (keyof typeof form)[])
-            .filter((key) => !['profileKey', 'memberId'].includes(key))
+            .filter((key) => !['profileKey'].includes(key))
             .map((key) => (
               <React.Fragment key={key}>
                 <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
@@ -158,7 +159,7 @@ export default function AdminArtistRegisterPage() {
               </React.Fragment>
             ))}
           {/* 아티스트 ID 정보 입력 */}
-          <div className="flex justify-between gap-5">
+          {/* <div className="flex justify-between gap-5">
             <p className="text-body-01 font-semibold">{formKeyMap['memberId'].title}</p>
           </div>
           <select
@@ -173,7 +174,7 @@ export default function AdminArtistRegisterPage() {
                 {`${item.profile.name} (성별: ${item.profile.gender}, 전화번호: ${item.profile.phone})`}
               </option>
             ))}
-          </select>
+          </select> */}
           {/* 아티스트 이미지 정보 입력 */}
           <div className="flex flex-col gap-2">
             <p className="text-body-01 font-semibold">{formKeyMap['profileKey'].title}</p>
