@@ -30,7 +30,7 @@ export default function ReviewImageUploader({
         {previews.map((src, idx) => (
           <div key={idx} className="bg-green relative h-29 w-28.75 overflow-hidden rounded">
             {/* 이미지 */}
-            <Image src={src} alt={`preview-${idx}`} fill className="rounded object-cover" />
+            <Image src={src} alt={`preview-${idx}`} fill unoptimized className="rounded object-cover" />
 
             {/* 그라디언트 오버레이 */}
             <div className="absolute top-0 left-0 h-10 w-full rounded bg-gradient-to-b from-[rgba(34,34,34,0.42)] to-[rgba(34,34,34,0)]" />
