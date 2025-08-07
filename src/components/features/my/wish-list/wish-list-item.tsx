@@ -28,7 +28,7 @@ export default function WishListItem({ item, isSelected, select }: WishListItemP
       </div>
       <Link href={`/detail/${item.targetId}`}>
         <div className="flex h-31.25 gap-3.5">
-          <div className="bg-green relative aspect-[4/5] w-full">
+          <div className="bg-green relative aspect-[4/5] h-full">
             <ImageWithEffect
               src={item.thumbnailUrl}
               alt={`아이템 ${item.targetId} 프리뷰 이미지.`}
