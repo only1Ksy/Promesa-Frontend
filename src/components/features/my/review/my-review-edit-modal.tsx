@@ -11,7 +11,8 @@ import ReviewImageUploader from '@/components/features/my/review/write/review-im
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
 import useAlert from '@/hooks/use-alert';
-import { DeleteReviewImage, PatchReview, PostReviewImages } from '@/services/api/review-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
+import { PatchReview } from '@/services/api/review-controller';
 import { PresignedUrlResponse, WrittenReviewsResponse } from '@/types/review-controller';
 
 interface MyReviewEditModalProps {
@@ -101,18 +102,19 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
       cancelText: '취소',
       onConfirm: async () => {
         try {
-          await Promise.all(deletedKeys.map((key) => DeleteReviewImage(key)));
+          await Promise.all(deletedKeys.map((key) => deleteImages(key)));
 
           let imageKeys = originalImages.map((img) => img.key);
 
           if (images.length > 0) {
             const fileNames = images.map((file) => file.name);
-            const presigned = await PostReviewImages(
-              'MEMBER',
-              'REVIEW',
-              currentReview.orderItemSummary.itemId,
+            const presigned = await postImages({
+              imageType: 'MEMBER',
+              referenceId: null,
+              subType: 'REVIEW',
+              subReferenceId: currentReview.orderItemSummary.itemId,
               fileNames,
-            );
+            });
 
             await Promise.all(
               presigned.map((item, i) =>
