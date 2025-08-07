@@ -12,8 +12,8 @@ import { fetchExhibitions } from '@/services/api/exhibition-controller';
 
 export default function HomeExhibitionsBackground() {
   const { data } = useSuspenseQuery({
-    queryKey: ['exhibitionList', 'ALL'],
-    queryFn: () => fetchExhibitions('ALL'),
+    queryKey: ['exhibitionList', 'ONGOING'],
+    queryFn: () => fetchExhibitions('ONGOING'),
   });
 
   const [active, setActive] = useState(0);
