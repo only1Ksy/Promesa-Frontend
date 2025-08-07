@@ -40,27 +40,33 @@ export default function HomeExhibitionsBackground() {
               priority
               className="object-cover"
             />
-            <div className="absolute z-5 h-full w-full bg-gradient-to-b from-[#000000]/0 from-80% to-[#000000] to-100%" />
+            <div className="pointer-events-none absolute bottom-0 left-0 z-5 h-3/10 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]/70" />
+            <div className="absolute bottom-10 left-0 z-10 mr-15 ml-10 flex h-full flex-col justify-end">
+              <p className="text-headline-03 text-grey-1">{data[idx].summary.title}</p>
+              <p className="text-body-01 text-grey-4 font-medium">{data[idx].summary.subTitle}</p>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-between">
-        <div className="mt-5 ml-10">
-          <p className="text-body-02 font-medium text-white">
-            {active + 1} / {imageUrls.length}
-          </p>
+      {imageUrls.length > 1 && (
+        <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col justify-between">
+          <div className="mt-5 ml-10">
+            <p className="text-body-02 font-medium text-white">
+              {active + 1} / {imageUrls.length}
+            </p>
+          </div>
+          <div className="relative mb-7 flex justify-center">
+            <hr className="absolute top-0 w-50 rounded-full border-t-3 border-t-white/30" />
+            <hr
+              className="absolute top-0 rounded-full border-t-3 border-t-white/80 transition-transform duration-300"
+              style={{
+                width: `calc(var(--spacing) * ${50 / imageUrls.length})`,
+                translate: `calc(var(--spacing) * ${(50 * active + 25) / imageUrls.length - 25}) var(--tw-translate-y)`,
+              }}
+            />
+          </div>
         </div>
-        <div className="relative mb-7 flex justify-center">
-          <hr className="absolute top-0 w-50 rounded-full border-t-3 border-t-white/30" />
-          <hr
-            className="absolute top-0 rounded-full border-t-3 border-t-white/80 transition-transform duration-300"
-            style={{
-              width: `calc(var(--spacing) * ${50 / imageUrls.length})`,
-              translate: `calc(var(--spacing) * ${(50 * active + 25) / imageUrls.length - 25}) var(--tw-translate-y)`,
-            }}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

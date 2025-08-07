@@ -51,7 +51,7 @@ export default function ExhibitionSwiper({ title, page, artistId }: ExhibitionSw
                 fill
                 className="object-cover"
               />
-              <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-3/10 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]" />
+              <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-3/10 w-full bg-gradient-to-b from-[#000000]/0 to-[#000000]/70" />
               <div className="z-10 flex flex-col gap-0.5">
                 <p className="text-subhead text-grey-1 font-bold">{item.title}</p>
                 <p className="text-caption-01 text-grey-2 font-medium">{item.subTitle}</p>
