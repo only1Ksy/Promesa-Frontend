@@ -74,7 +74,6 @@ export default function AdminExhibitionUpdatePage() {
   }, [selectedItemId, items]);
 
   useEffect(() => {
-    console.log(selectedItem);
     if (selectedItem) {
       setForm({
         itemName: selectedItem.title,
