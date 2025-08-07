@@ -1,7 +1,7 @@
 import { dehydrate } from '@tanstack/react-query';
 
 import ClientHomePage from '@/components/client/home/page';
-import { fetchOngoingExhibitions } from '@/services/api/exhibition-controller';
+import { fetchExhibitions } from '@/services/api/exhibition-controller';
 import { fetchBrandInfo } from '@/services/api/home-controller';
 import { fetchNowPopularItems } from '@/services/api/item-controller';
 import { createQueryClient } from '@/services/query/server';
@@ -14,7 +14,7 @@ export default async function HomePage() {
     queryClient.prefetchQuery({
       queryKey: ['onGoingExhibitions'],
       queryFn: async () => {
-        const data = await fetchOngoingExhibitions();
+        const data = await fetchExhibitions('ONGOING');
         return data.map((item) => item.summary);
       },
     }),

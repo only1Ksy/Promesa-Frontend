@@ -1,7 +1,7 @@
 'use client';
 
 import type { SyntheticEvent } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import { updateItem } from '@/services/api/admin/admin-item-controller';
 import { fetchArtistList } from '@/services/api/artist-controller';
 import { fetchParentCategories } from '@/services/api/category-controller';
-import { postImages } from '@/services/api/image-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
 import { fetchShopItems } from '@/services/api/item-controller';
 import { fetchItemDetail } from '@/services/api/item-controller';
 import { getQueryClient } from '@/services/query/client';
@@ -47,7 +47,7 @@ export default function AdminExhibitionUpdatePage() {
     price: 0,
     stock: 0,
     productCode: '',
-    saleStatus: '',
+    saleStatus: 'ON_SALE' as 'ON_SALE' | 'SOLD_OUT' | 'STOPPED',
     width: 0,
     height: 0,
     depth: 0,
@@ -59,6 +59,9 @@ export default function AdminExhibitionUpdatePage() {
   const [imageKeys, setImageKeys] = useState<{ key: string; sortOrder: number }[]>([]);
   const [sortOrder, setSortOrder] = useState<number>(1);
 
+  const fileInputRefMain = useRef<HTMLInputElement>(null);
+  const fileInputRefSub = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (!selectedItemId) return;
 
@@ -68,9 +71,10 @@ export default function AdminExhibitionUpdatePage() {
     };
 
     fetchAndSet();
-  }, [selectedItemId]);
+  }, [selectedItemId, items]);
 
   useEffect(() => {
+    console.log(selectedItem);
     if (selectedItem) {
       setForm({
         itemName: selectedItem.title,
@@ -84,6 +88,9 @@ export default function AdminExhibitionUpdatePage() {
         artistId: selectedItem.artist.id,
         categoryId: selectedItem.category.id,
       });
+
+      setThumbnailKey(selectedItem.mainImageUrls[0].imageKey);
+      setImageKeys(selectedItem.detailImageUrls.map((item) => ({ key: item.imageKey, sortOrder: item.sortOrder })));
 
       const maxSortOrder = Math.max(...selectedItem.detailImageUrls.map((item) => item.sortOrder));
       setSortOrder(maxSortOrder + 1);
@@ -121,6 +128,11 @@ export default function AdminExhibitionUpdatePage() {
       })
     )[0];
 
+    if (thumbnailKey !== '') {
+      await deleteImages(thumbnailKey);
+      setThumbnailKey('');
+    }
+
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
     setThumbnailKey(key);
@@ -143,21 +155,43 @@ export default function AdminExhibitionUpdatePage() {
     setSortOrder((prev) => prev + 1);
   };
 
-  const removeDetailImage = (idx: number) => {
-    setImageKeys((prev) => {
-      const next = [...prev];
-      next.splice(idx, 1);
-      return next;
+  const removeDetailImage = async (idx: number) => {
+    await deleteImages(imageKeys[idx].key);
+
+    const nextKeys = imageKeys.filter((_, i) => i !== idx);
+    setImageKeys(nextKeys);
+
+    await updateItem(selectedItemId, {
+      ...form,
+      thumbnailKey,
+      imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...nextKeys],
     });
+
+    queryClient.refetchQueries({ queryKey: ['admin-item-list'] });
   };
 
   const update = async (field: keyof typeof form | 'thumbnailKey' | 'imageKeys') => {
-    if (field === 'thumbnailKey') {
-      await updateItem(selectedItemId, { thumbnailKey });
-    } else if (field === 'imageKeys') {
-      await updateItem(selectedItemId, { imageKeys });
+    if (field === 'thumbnailKey' || field === 'imageKeys') {
+      await updateItem(selectedItemId, {
+        ...form,
+        thumbnailKey,
+        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...imageKeys],
+      });
+
+      if (field === 'thumbnailKey') {
+        if (fileInputRefMain.current) {
+          fileInputRefMain.current.value = '';
+        }
+      } else if (field === 'imageKeys') {
+        if (fileInputRefSub.current) {
+          fileInputRefSub.current.value = '';
+        }
+      }
     } else {
       await updateItem(selectedItemId, {
+        ...form,
+        thumbnailKey,
+        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...imageKeys],
         [field]: form[field],
       });
     }
@@ -275,8 +309,12 @@ export default function AdminExhibitionUpdatePage() {
                 </React.Fragment>
               ))}
             {/* 작품 판매 상태 정보 수정 */}
-            <div className="flex justify-between gap-5">
-              <p className="text-body-01 font-semibold">🔎 작품 판매 상태</p>
+            <div className="flex flex-col gap-2">
+              <p className="text-body-01 font-regular">
+                <strong className="font-semibold">🔎 작품 판매 상태: </strong>
+                {selectedItem.saleStatus}
+              </p>
+              <p className="text-body-02 font-regular text-orange italic">* 판매 상태 수동 변경은 불가능</p>
             </div>
             <select
               name="🔎 작품 판매 상태"
@@ -286,13 +324,13 @@ export default function AdminExhibitionUpdatePage() {
             >
               <option value="" disabled />
               {['ON_SALE', 'SOLD_OUT', 'STOPPED'].map((item) => (
-                <option key={item} value={item} className="cursor-pointer">
+                <option key={item} value={item} className="cursor-pointer" disabled>
                   {item}
                 </option>
               ))}
             </select>
-            <button onClick={() => update('saleStatus')} className="cursor-pointer">
-              <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
+            <button onClick={() => update('saleStatus')} disabled>
+              <div className="border-deep-green rounded-sm border px-2 py-1">
                 <p className="text-body-01 font-semibold">수정하기</p>
               </div>
             </button>
@@ -306,9 +344,12 @@ export default function AdminExhibitionUpdatePage() {
 
               return (
                 <React.Fragment key={key}>
-                  <div className="flex justify-between gap-5">
-                    <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
-                  </div>
+                  <p className="text-body-01 font-regular">
+                    <strong className="font-semibold">{formKeyMap[key].title}: </strong>
+                    {key === 'artistId'
+                      ? (artists.find((art) => art.profile.artistId === selectedItem.artist.id)?.profile.name ?? '')
+                      : (categories.find((cat) => cat.id === selectedItem.category.id)?.name ?? '')}
+                  </p>
                   <select
                     name={formKeyMap[key].title}
                     value={selectedId}
@@ -317,7 +358,12 @@ export default function AdminExhibitionUpdatePage() {
                   >
                     <option value={0} disabled />
                     {idNames.map((item) => (
-                      <option key={item.id} value={item.id} className="cursor-pointer">
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        className="cursor-pointer"
+                        disabled={key === 'categoryId' && item.name === 'ALL'}
+                      >
                         {item.name}
                       </option>
                     ))}
@@ -346,6 +392,7 @@ export default function AdminExhibitionUpdatePage() {
             </div>
             <input
               name="작품 썸네일 이미지 선택"
+              ref={fileInputRefMain}
               type="file"
               accept="image/*"
               onChange={(e) => {
@@ -368,16 +415,15 @@ export default function AdminExhibitionUpdatePage() {
               </div>
               <div className="flex flex-col gap-3">
                 {selectedItem.detailImageUrls.map((item, idx) => (
-                  <React.Fragment key={item.sortOrder}>
+                  <React.Fragment key={`${item.imageKey}-${idx}`}>
                     <div
-                      key={item.sortOrder}
                       className="relative w-full border-y"
                       style={{
                         paddingTop: `${ratios[idx] * 100}%`,
                       }}
                     >
                       <ImageWithLoading
-                        src={item.detailedImageUrl}
+                        src={item.url}
                         alt={`작품 ${selectedItem.title}의 세부 이미지.`}
                         fill
                         onLoad={(e) => handleImageLoad(idx, e)}
@@ -394,6 +440,7 @@ export default function AdminExhibitionUpdatePage() {
             </div>
             <input
               name="작품 상세 이미지 선택"
+              ref={fileInputRefSub}
               type="file"
               accept="image/*"
               onChange={(e) => {
@@ -402,7 +449,6 @@ export default function AdminExhibitionUpdatePage() {
               }}
               className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
             />
-            {/* 작품 수정 */}
             <button onClick={() => update('imageKeys')} className="cursor-pointer">
               <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
                 <p className="text-body-01 font-semibold">수정하기</p>

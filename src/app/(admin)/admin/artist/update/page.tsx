@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import Link from 'next/link';
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
 import { updateArtist, updateArtistProfileImage } from '@/services/api/admin/admin-artist-controller';
 import { fetchArtistList } from '@/services/api/artist-controller';
-import { postImages } from '@/services/api/image-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
 import type { ArtistProfileSchema } from '@/types/artist.dto';
 
@@ -29,6 +29,8 @@ export default function AdminArtistUpdatePage() {
   });
   const [profileImageKey, setProfileImageKey] = useState<string>('');
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const selectedArtist = useMemo(
     () => data.find((item) => item.profile.artistId === selectedArtistId),
     [selectedArtistId, data],
@@ -42,6 +44,7 @@ export default function AdminArtistUpdatePage() {
         description: selectedArtist.profile.bio,
         insta: selectedArtist.profile.instagramUrl ?? '',
       });
+      setProfileImageKey(selectedArtist.profile.profileImageKey);
     }
   }, [selectedArtist]);
 
@@ -60,6 +63,11 @@ export default function AdminArtistUpdatePage() {
       })
     )[0];
 
+    if (profileImageKey !== '') {
+      await deleteImages(profileImageKey);
+      setProfileImageKey('');
+    }
+
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
     setProfileImageKey(key);
@@ -68,6 +76,10 @@ export default function AdminArtistUpdatePage() {
   const update = async (field: keyof typeof form | 'profileImageKey') => {
     if (field === 'profileImageKey') {
       await updateArtistProfileImage(selectedArtistId, { profileImageKey });
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } else {
       const updatedValue = form[field] === '' && (field === 'subName' || field === 'insta') ? null : form[field];
       await updateArtist(selectedArtistId, { [field]: updatedValue });
@@ -164,6 +176,7 @@ export default function AdminArtistUpdatePage() {
             </div>
             <input
               name="🔎 아티스트 프로필 이미지"
+              ref={fileInputRef}
               type="file"
               accept="image/*"
               onChange={(e) => {

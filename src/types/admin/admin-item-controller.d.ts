@@ -16,19 +16,19 @@ export interface AdminRegisterItemRequest {
 }
 
 export interface AdminUpdateItemRequest {
-  itemName?: string;
-  price?: number;
-  stock?: number;
-  productCode?: string;
-  saleStatus?: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
-  width?: number;
-  height?: number;
-  depth?: number;
-  artistId?: number;
-  categoryId?: number;
-  imageKeys?: {
+  itemName: string;
+  price: number;
+  stock: number;
+  productCode: string;
+  saleStatus: 'ON_SALE' | 'SOLD_OUT' | 'STOPPED';
+  width: number;
+  height: number;
+  depth: number;
+  artistId: number;
+  categoryId: number;
+  imageKeys: {
     key: string;
     sortOrder: number;
   }[];
-  thumbnailKey?: string;
+  thumbnailKey: string;
 }

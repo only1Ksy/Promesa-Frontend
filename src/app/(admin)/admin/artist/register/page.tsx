@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { registerArtist } from '@/services/api/admin/admin-artist-controller';
 import { fetchMembers } from '@/services/api/admin/admin-member-controller';
-import { postImages } from '@/services/api/image-controller';
+import { deleteImages, postImages } from '@/services/api/image-controller';
 import { getQueryClient } from '@/services/query/client';
 import type { MemberResponseSchema } from '@/types/member-controller';
 
@@ -25,6 +25,8 @@ export default function AdminArtistRegisterPage() {
   });
   const [members, setMembers] = useState<MemberResponseSchema[]>([]);
   const [error, setError] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchAndSet = async () => {
@@ -57,6 +59,11 @@ export default function AdminArtistRegisterPage() {
       })
     )[0];
 
+    if (form.profileKey !== '') {
+      await deleteImages(form.profileKey);
+      setForm((prev) => ({ ...prev, profileKey: '' }));
+    }
+
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
     setForm((prev) => ({ ...prev, profileKey }));
@@ -72,6 +79,19 @@ export default function AdminArtistRegisterPage() {
     });
 
     queryClient.refetchQueries({ queryKey: ['admin-artist-list'] });
+
+    setForm({
+      artistName: '',
+      subName: '',
+      profileKey: '',
+      description: '',
+      insta: '',
+      memberId: 0,
+    });
+    setError(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const formKeyMap: {
@@ -161,6 +181,7 @@ export default function AdminArtistRegisterPage() {
           </div>
           <input
             name={formKeyMap['profileKey'].title}
+            ref={fileInputRef}
             type="file"
             accept="image/*"
             onChange={(e) => {

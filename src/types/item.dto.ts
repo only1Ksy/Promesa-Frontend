@@ -1,5 +1,6 @@
 export interface ImageUrls {
   url: string;
+  imageKey: string;
   sortOrder: number;
 }
 

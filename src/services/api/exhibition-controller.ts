@@ -12,12 +12,6 @@ export const fetchExhibitions = (status: ExhibitionSummarySchema['status'] | 'AL
     return res.data.data;
   }, status);
 
-export const fetchOngoingExhibitions = () =>
-  withErrorBoundary<[], ExhibitionSummaryResponseSchema[]>(async () => {
-    const res = await axiosInstance.get('/exhibitions?status=ONGOING');
-    return res.data.data;
-  });
-
 export const fetchExhibition = (exhibitionId: number) =>
   withErrorBoundary<[number], ExhibitionDetailResponseSchema>(async (exhibitionId) => {
     const res = await axiosInstance.get(`/exhibitions/${exhibitionId}`);
