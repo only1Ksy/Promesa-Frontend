@@ -11,8 +11,8 @@ import ReviewImageUploader from '@/components/features/my/review/write/review-im
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
 import useAlert from '@/hooks/use-alert';
+import { useReviewMutations } from '@/hooks/use-review-edit-delete';
 import { deleteImages, postImages } from '@/services/api/image-controller';
-import { PatchReview } from '@/services/api/review-controller';
 import { PresignedUrlResponse, WrittenReviewsResponse } from '@/types/review-controller';
 
 interface MyReviewEditModalProps {
@@ -26,6 +26,7 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
 
   const alertModal = useAlert();
   const { showToast } = useToast();
+  const { patchReview } = useReviewMutations();
 
   const currentReview = reviews.find((r) => r.reviewResponse.reviewId === editId);
 
@@ -131,12 +132,23 @@ export default function MyReviewEditModal({ reviews }: MyReviewEditModalProps) {
             imageKeys = [...imageKeys, ...newKeys];
           }
 
-          await PatchReview(
-            currentReview.orderItemSummary.itemId,
-            currentReview.reviewResponse.reviewId,
-            content,
-            rating,
-            imageKeys,
+          patchReview.mutate(
+            {
+              itemId: currentReview.orderItemSummary.itemId,
+              reviewId: currentReview.reviewResponse.reviewId,
+              content,
+              rating,
+              imageKeys,
+            },
+            {
+              onSuccess: () => {
+                showToast('리뷰를 수정했습니다.');
+                router.replace('/my/review');
+              },
+              onError: () => {
+                alertModal({ message: '리뷰 수정에 실패했습니다. 다시 시도해주세요.' });
+              },
+            },
           );
 
           showToast('리뷰를 수정했습니다.');
