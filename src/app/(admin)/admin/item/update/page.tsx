@@ -56,9 +56,12 @@ export default function AdminExhibitionUpdatePage() {
   });
   const [ratios, setRatios] = useState<number[]>([]);
   const [thumbnailKey, setThumbnailKey] = useState<string>('');
-  const [imageKeys, setImageKeys] = useState<{ key: string; sortOrder: number }[]>([]);
-  const [sortOrder, setSortOrder] = useState<number>(1);
+  const [mainImageKeys, setMainImageKeys] = useState<{ key: string; sortOrder: number }[]>([]);
+  const [detailImageKeys, setDetailImageKeys] = useState<{ key: string; sortOrder: number }[]>([]);
+  const [mainSortOrder, setMainSortOrder] = useState<number>(2);
+  const [detailSortOrder, setDetailSortOrder] = useState<number>(1);
 
+  const fileInputRefThumbnail = useRef<HTMLInputElement>(null);
   const fileInputRefMain = useRef<HTMLInputElement>(null);
   const fileInputRefSub = useRef<HTMLInputElement>(null);
 
@@ -89,10 +92,17 @@ export default function AdminExhibitionUpdatePage() {
       });
 
       setThumbnailKey(selectedItem.mainImageUrls[0].imageKey);
-      setImageKeys(selectedItem.detailImageUrls.map((item) => ({ key: item.imageKey, sortOrder: item.sortOrder })));
+      setMainImageKeys(
+        selectedItem.mainImageUrls.slice(1).map((item) => ({ key: item.imageKey, sortOrder: item.sortOrder })),
+      );
+      setDetailImageKeys(
+        selectedItem.detailImageUrls.map((item) => ({ key: item.imageKey, sortOrder: item.sortOrder })),
+      );
 
-      const maxSortOrder = Math.max(...selectedItem.detailImageUrls.map((item) => item.sortOrder));
-      setSortOrder(maxSortOrder + 1);
+      const maxMainSortOrder = Math.max(...selectedItem.mainImageUrls.map((item) => item.sortOrder));
+      setMainSortOrder(maxMainSortOrder + 1);
+      const maxDetailSortOrder = Math.max(...selectedItem.detailImageUrls.map((item) => item.sortOrder));
+      setDetailSortOrder(maxDetailSortOrder + 1);
     }
   }, [selectedItem]);
 
@@ -137,6 +147,23 @@ export default function AdminExhibitionUpdatePage() {
     setThumbnailKey(key);
   };
 
+  const handleMainImage = async (file: File) => {
+    const { key, url } = (
+      await postImages({
+        imageType: 'ITEM',
+        referenceId: selectedItemId,
+        subType: 'MAIN',
+        subReferenceId: null,
+        fileNames: [file.name],
+      })
+    )[0];
+
+    await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+
+    setMainImageKeys((prev) => [...prev, { key, sortOrder: mainSortOrder }]);
+    setMainSortOrder((prev) => prev + 1);
+  };
+
   const handleDetailImage = async (file: File) => {
     const { key, url } = (
       await postImages({
@@ -150,38 +177,57 @@ export default function AdminExhibitionUpdatePage() {
 
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
-    setImageKeys((prev) => [...prev, { key, sortOrder }]);
-    setSortOrder((prev) => prev + 1);
+    setDetailImageKeys((prev) => [...prev, { key, sortOrder: detailSortOrder }]);
+    setDetailSortOrder((prev) => prev + 1);
   };
 
-  const removeDetailImage = async (idx: number) => {
-    await deleteImages(imageKeys[idx].key);
+  const removeMainImage = async (idx: number) => {
+    await deleteImages(mainImageKeys[idx].key);
 
-    const nextKeys = imageKeys.filter((_, i) => i !== idx);
-    setImageKeys(nextKeys);
+    const nextKeys = mainImageKeys.filter((_, i) => i !== idx);
+    setMainImageKeys(nextKeys);
 
     await updateItem(selectedItemId, {
       ...form,
       thumbnailKey,
-      imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...nextKeys],
+      imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...nextKeys, ...detailImageKeys],
     });
 
     queryClient.refetchQueries({ queryKey: ['admin-item-list'] });
   };
 
-  const update = async (field: keyof typeof form | 'thumbnailKey' | 'imageKeys') => {
-    if (field === 'thumbnailKey' || field === 'imageKeys') {
+  const removeDetailImage = async (idx: number) => {
+    await deleteImages(detailImageKeys[idx].key);
+
+    const nextKeys = detailImageKeys.filter((_, i) => i !== idx);
+    setDetailImageKeys(nextKeys);
+
+    await updateItem(selectedItemId, {
+      ...form,
+      thumbnailKey,
+      imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...mainImageKeys, ...nextKeys],
+    });
+
+    queryClient.refetchQueries({ queryKey: ['admin-item-list'] });
+  };
+
+  const update = async (field: keyof typeof form | 'thumbnailKey' | 'mainImageKeys' | 'detailImageKeys') => {
+    if (field === 'thumbnailKey' || field === 'mainImageKeys' || field === 'detailImageKeys') {
       await updateItem(selectedItemId, {
         ...form,
         thumbnailKey,
-        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...imageKeys],
+        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...mainImageKeys, ...detailImageKeys],
       });
 
       if (field === 'thumbnailKey') {
+        if (fileInputRefThumbnail.current) {
+          fileInputRefThumbnail.current.value = '';
+        }
+      } else if (field === 'mainImageKeys') {
         if (fileInputRefMain.current) {
           fileInputRefMain.current.value = '';
         }
-      } else if (field === 'imageKeys') {
+      } else if (field === 'detailImageKeys') {
         if (fileInputRefSub.current) {
           fileInputRefSub.current.value = '';
         }
@@ -190,7 +236,7 @@ export default function AdminExhibitionUpdatePage() {
       await updateItem(selectedItemId, {
         ...form,
         thumbnailKey,
-        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...imageKeys],
+        imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...mainImageKeys, ...detailImageKeys],
         [field]: form[field],
       });
     }
@@ -391,7 +437,7 @@ export default function AdminExhibitionUpdatePage() {
             </div>
             <input
               name="작품 썸네일 이미지 선택"
-              ref={fileInputRefMain}
+              ref={fileInputRefThumbnail}
               type="file"
               accept="image/*"
               onChange={(e) => {
@@ -401,6 +447,52 @@ export default function AdminExhibitionUpdatePage() {
               className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
             />
             <button onClick={() => update('thumbnailKey')} className="cursor-pointer">
+              <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
+                <p className="text-body-01 font-semibold">수정하기</p>
+              </div>
+            </button>
+            <div className="flex flex-col">
+              <div className="flex flex-col gap-2">
+                <p className="text-body-01 font-semibold">🔎 작품 메인 이미지 목록 (썸네일 제외):</p>
+                <div className="flex flex-col">
+                  <p className="text-body-02 font-regular text-orange italic">* width : height = 4 : 5</p>
+                  <p className="text-body-02 font-regular text-orange italic">
+                    * 상하단 검은 선은 시각적 구분용, 이미지 비포함
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                {selectedItem.mainImageUrls.slice(1).map((item, idx) => (
+                  <React.Fragment key={`${item.imageKey}-${idx}`}>
+                    <div
+                      className="relative w-full border-y"
+                      style={{
+                        paddingTop: `${ratios[idx] * 100}%`,
+                      }}
+                    >
+                      <ImageWithEffect src={item.url} alt={`작품 ${selectedItem.title}의 메인 이미지.`} fill />
+                    </div>
+                    <button onClick={() => removeMainImage(idx)} className="cursor-pointer">
+                      <div className="border-orange hover:bg-orange text-orange rounded-sm border px-2 py-1 hover:text-white">
+                        <p className="text-body-01 font-semibold">{`${idx + 1}번째 이미지 삭제하기`}</p>
+                      </div>
+                    </button>
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+            <input
+              name="작품 메인 이미지 선택"
+              ref={fileInputRefMain}
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleMainImage(file);
+              }}
+              className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
+            />
+            <button onClick={() => update('mainImageKeys')} className="cursor-pointer">
               <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
                 <p className="text-body-01 font-semibold">수정하기</p>
               </div>
@@ -448,7 +540,7 @@ export default function AdminExhibitionUpdatePage() {
               }}
               className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
             />
-            <button onClick={() => update('imageKeys')} className="cursor-pointer">
+            <button onClick={() => update('detailImageKeys')} className="cursor-pointer">
               <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
                 <p className="text-body-01 font-semibold">수정하기</p>
               </div>
