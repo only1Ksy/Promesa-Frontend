@@ -30,16 +30,26 @@ export default function MyOrderCard({
   const isCancelButton = status === '입금확인중' || status === '배송준비중';
   const isReturnExchangeButton = status === '배송완료' || status === '반품완료' || status === '교환완료';
 
+  const orderButtonClicked = () => {
+    window.open('https://www.instagram.com/promesa_ceramic?igsh=MWZpMjU5eWpqYW90cQ==', '_blank');
+  };
+
   const renderButtons = () => {
     if (!isButton) return null;
 
     if (isCancelButton) {
       return (
         <>
-          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button
+            onClick={orderButtonClicked}
+            className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium"
+          >
             취소 접수
           </button>
-          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button
+            onClick={orderButtonClicked}
+            className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium"
+          >
             문의하기
           </button>
         </>
@@ -47,10 +57,16 @@ export default function MyOrderCard({
     } else if (isReturnExchangeButton) {
       return (
         <>
-          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button
+            onClick={orderButtonClicked}
+            className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium"
+          >
             반품 접수
           </button>
-          <button className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium">
+          <button
+            onClick={orderButtonClicked}
+            className="text-body-02 flex h-full w-44.25 cursor-pointer items-center justify-center rounded-xs border font-medium"
+          >
             교환 접수
           </button>
         </>
@@ -58,7 +74,10 @@ export default function MyOrderCard({
     }
     return (
       <>
-        <button className="text-body-02 flex h-full w-90.5 cursor-pointer items-center justify-center rounded-xs border font-medium">
+        <button
+          onClick={orderButtonClicked}
+          className="text-body-02 flex h-full w-90.5 cursor-pointer items-center justify-center rounded-xs border font-medium"
+        >
           문의하기
         </button>
       </>
