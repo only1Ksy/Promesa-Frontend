@@ -71,7 +71,7 @@ export default function DetailSwiper({ images, alt = 'product image' }: DetailSw
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 transform">
         <div className="relative">
           {/* 배경 바 (큰 바) */}
-          <div className="bg-grey-8 opacity-0.6 h-0.5 w-30 rounded-full" />
+          <div className="bg-grey-8/60 h-0.5 w-30 rounded-full" />
           {/* 실시간 움직이는 바 (작은 바) */}
           <div
             className={`bg-grey-1 absolute top-0 h-0.5 rounded-full transition-transform duration-100 ease-out`}
