@@ -52,6 +52,8 @@ export default function ClientDetailPage({ itemId, itemDetailState }: ClientDeta
 
   // 스크롤 핸들러
   const scrollTo = (section: 'product' | 'notice' | 'review') => {
+    setActiveTab(section);
+
     setIsScrolling(true);
 
     const target =
