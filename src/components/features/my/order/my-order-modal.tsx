@@ -31,6 +31,10 @@ export default function MyOrderModal() {
     select: (res) => res,
   });
 
+  const orderButtonClicked = () => {
+    window.open('https://www.instagram.com/promesa_ceramic?igsh=MWZpMjU5eWpqYW90cQ==', '_blank');
+  };
+
   if (!orderId || !order || isLoading) return null;
 
   // 날짜 계산
@@ -220,7 +224,10 @@ export default function MyOrderModal() {
               </div>
             )}
             <div className="flex w-full justify-center px-2.5 pb-7">
-              <button className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white">
+              <button
+                onClick={orderButtonClicked}
+                className="text-body-02 h-10.5 w-90.25 cursor-pointer bg-black font-medium text-white"
+              >
                 문의하기
               </button>
             </div>
