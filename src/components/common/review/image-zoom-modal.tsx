@@ -61,6 +61,7 @@ export default function ImageZoomModal({ src, onClose }: ImageZoomModalProps) {
             transformOrigin: 'center center',
           }}
           className="cursor-zoom-in"
+          unoptimized
         />
       </div>
     </div>,
