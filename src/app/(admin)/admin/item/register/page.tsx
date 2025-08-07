@@ -111,7 +111,7 @@ export default function AdminItemRegisterPage() {
 
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
-    setForm((prev) => ({ ...prev, imageKeys: [...prev.detailImageKeys, { key, sortOrder: detailSortOrder }] }));
+    setForm((prev) => ({ ...prev, detailImageKeys: [...prev.detailImageKeys, { key, sortOrder: detailSortOrder }] }));
     setDetailSortOrder((prev) => prev + 1);
     setDetailImageFiles((prev) => [...prev, file]);
   };
