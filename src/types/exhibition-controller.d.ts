@@ -4,6 +4,7 @@ export interface ExhibitionSummarySchema {
   id: number;
   status: 'ONGOING' | 'UPCOMING' | 'PERMANENT' | 'PAST';
   title: string;
+  subTitle: string;
   description: string;
   artistNames: string[];
   startDate: string;

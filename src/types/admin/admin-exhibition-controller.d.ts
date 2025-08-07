@@ -1,5 +1,6 @@
 export interface AdminRegisterExhibitionRequest {
   title: string;
+  subTitle: string;
   description: string;
   startDate: string;
   endDate: string | null;
@@ -13,6 +14,7 @@ export interface AdminRegisterExhibitionRequest {
 
 export interface AdminUpdateExhibitionRequest {
   title: string;
+  subTitle: string;
   description: string;
   startDate: string;
   endDate: string | null;
