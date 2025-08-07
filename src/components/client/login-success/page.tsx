@@ -12,7 +12,7 @@ export default function ClientLoginSuccessPage() {
 
   useEffect(() => {
     const accessToken = searchParams.get('accessToken');
-    const afterLogin = (searchParams.get('afterLogin') !== 'null' && searchParams.get('afterLogin')) || '/';
+    const afterLogin = (searchParams.get('afterLogin') !== 'null' && searchParams.get('afterLogin')) || '/home';
 
     if (accessToken) {
       setAccessToken(accessToken);
