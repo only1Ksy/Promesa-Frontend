@@ -15,5 +15,5 @@ export const BUSINESS_INFORMATION = {
 
 export const SHOP_INTRODUCTION_LINE_LIST = [
   '프로메사, 예술과 일상의 교차로',
-  '도예 작가의 섬세한 손길이 깃든 작품으로\n특별한 오기를 느껴보세요',
+  '도예 작가의 섬세한 손길이 깃든 작품으로\n특별한 온기를 느껴보세요',
 ] as const;
