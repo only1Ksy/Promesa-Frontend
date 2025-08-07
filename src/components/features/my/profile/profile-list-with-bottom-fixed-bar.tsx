@@ -152,25 +152,12 @@ export default function ProfileListWithBottomFixedBar() {
 
   // address search (DAUM)
   const openAddressSearch = () => {
-    history.pushState({ daumPostcode: true }, '');
-
-    const postcode = new window.daum.Postcode({
+    new window.daum.Postcode({
       oncomplete: (data: { zonecode: string; address: string }) => {
         setZipCodeValue(data.zonecode);
         setAddressMainValue(data.address);
-        window.removeEventListener('popstate', handlePopState);
-        history.back();
       },
-    });
-
-    postcode.open();
-
-    const handlePopState = () => {
-      window.removeEventListener('popstate', handlePopState);
-      window.location.reload();
-    };
-
-    window.addEventListener('popstate', handlePopState);
+    }).open();
   };
 
   // handle submit
