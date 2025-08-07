@@ -108,7 +108,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
           >
             <div className="flex flex-col items-start gap-5 self-stretch py-5">
               <div className="flex w-full items-center justify-between gap-3">
-                {isMultiple ? (
+                {isMultiple && !isSoldOut ? (
                   <div className="flex h-7 w-28 items-center justify-between rounded-[99px] border px-2">
                     <button
                       onClick={handleQuantityDecrease}
@@ -130,7 +130,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
                   <div
                     className={clsx(
                       'text-subhead ml-5 flex items-center font-medium',
-                      isSoldOut ? 'text-grey-9 opacity-40' : 'text-grey-6',
+                      isSoldOut ? 'text-orange' : 'text-grey-6',
                     )}
                   >
                     {isSoldOut ? '품절' : '단품'}
@@ -149,8 +149,8 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
                 disabled={isSoldOut}
                 onClick={onCartClicked}
                 className={clsx(
-                  'text-body-01 border-grey-9 flex h-12 w-59 items-center justify-center rounded-xs border font-bold',
-                  isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
+                  'text-body-01 flex h-12 w-59 items-center justify-center rounded-xs border font-bold',
+                  isSoldOut ? 'border-grey-4 text-grey-4 cursor-not-allowed' : 'border-grey-9 cursor-pointer',
                 )}
               >
                 장바구니
@@ -159,8 +159,8 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
                 disabled={isSoldOut}
                 onClick={onGetItemClicked}
                 className={clsx(
-                  'text-body-01 bg-grey-9 flex h-12 w-full items-center justify-center rounded-xs font-bold text-white',
-                  isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer',
+                  'text-body-01 flex h-12 w-full items-center justify-center rounded-xs font-bold',
+                  isSoldOut ? 'bg-grey-4 text-grey-1 cursor-not-allowed' : 'bg-grey-9 cursor-pointer text-white',
                 )}
               >
                 구매하기
