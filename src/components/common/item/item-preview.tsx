@@ -46,7 +46,7 @@ export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPr
                 {itemName}
               </p>
             </div>
-            <p className="text-body-02 font-regular text-grey-9">{`${price.toLocaleString()}원`}</p>
+            <p className="text-body-02 font-regular text-grey-9">{`${price.toLocaleString('ko-KR')}원`}</p>
           </div>
         </div>
       </Link>
