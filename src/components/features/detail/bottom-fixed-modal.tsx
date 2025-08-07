@@ -121,7 +121,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
                     <button
                       onClick={handleQuantityIncrease}
                       disabled={quantity >= itemCount}
-                      className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center disabled:opacity-50"
+                      className="text-grey-9 flex h-8 w-8 cursor-pointer items-center justify-center pb-0.5 disabled:opacity-50"
                     >
                       +
                     </button>
