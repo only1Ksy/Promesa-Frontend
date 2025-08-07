@@ -34,18 +34,23 @@ export default function AdminItemRegisterPage() {
     depth: 0,
     artistId: 0,
     categoryId: 0,
-    imageKeys: [] as { key: string; sortOrder: number }[],
+    mainImageKeys: [] as { key: string; sortOrder: number }[],
+    detailImageKeys: [] as { key: string; sortOrder: number }[],
     thumbnailKey: '',
   });
+  const [mainImageFiles, setMainImageFiles] = useState<File[]>([]);
   const [detailImageFiles, setDetailImageFiles] = useState<File[]>([]);
-  const [sortOrder, setSortOrder] = useState<number>(1);
+  const [mainSortOrder, setMainSortOrder] = useState<number>(2);
+  const [detailSortOrder, setDetailSortOrder] = useState<number>(1);
 
+  const fileInputRefThumbnail = useRef<HTMLInputElement>(null);
   const fileInputRefMain = useRef<HTMLInputElement>(null);
   const fileInputRefSub = useRef<HTMLInputElement>(null);
 
   const handleForm = (field: keyof typeof form, value: string | number | null) => {
     if (
-      field === 'imageKeys' ||
+      field === 'mainImageKeys' ||
+      field === 'detailImageKeys' ||
       (['price', 'stock', 'width', 'height', 'depth', 'artistId', 'categoryId'].includes(field) &&
         typeof value !== 'number')
     )
@@ -75,6 +80,24 @@ export default function AdminItemRegisterPage() {
     setForm((prev) => ({ ...prev, thumbnailKey }));
   };
 
+  const handleMainImage = async (file: File) => {
+    const { key, url } = (
+      await postImages({
+        imageType: 'ITEM',
+        referenceId: null,
+        subType: 'MAIN',
+        subReferenceId: null,
+        fileNames: [file.name],
+      })
+    )[0];
+
+    await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+
+    setForm((prev) => ({ ...prev, mainImageKeys: [...prev.mainImageKeys, { key, sortOrder: mainSortOrder }] }));
+    setMainSortOrder((prev) => prev + 1);
+    setMainImageFiles((prev) => [...prev, file]);
+  };
+
   const handleDetailImage = async (file: File) => {
     const { key, url } = (
       await postImages({
@@ -88,20 +111,38 @@ export default function AdminItemRegisterPage() {
 
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
-    setForm((prev) => ({ ...prev, imageKeys: [...prev.imageKeys, { key, sortOrder }] }));
-    setSortOrder((prev) => prev + 1);
+    setForm((prev) => ({ ...prev, imageKeys: [...prev.detailImageKeys, { key, sortOrder: detailSortOrder }] }));
+    setDetailSortOrder((prev) => prev + 1);
     setDetailImageFiles((prev) => [...prev, file]);
   };
 
-  const removeDetailImage = async (idx: number) => {
-    // same index: form.imageKeys <-> detailImageFiles
-    await deleteImages(form.imageKeys[idx].key);
+  const removeMainImage = async (idx: number) => {
+    // same index: form.mainImageKeys <-> mainImageFiles
+    await deleteImages(form.mainImageKeys[idx].key);
     setForm((prev) => {
-      const nextImageKeys = [...prev.imageKeys];
+      const nextImageKeys = [...prev.mainImageKeys];
       nextImageKeys.splice(idx, 1);
       return {
         ...prev,
-        imageKeys: nextImageKeys,
+        mainImageKeys: nextImageKeys,
+      };
+    });
+    setMainImageFiles((prev) => {
+      const next = [...prev];
+      next.splice(idx, 1);
+      return next;
+    });
+  };
+
+  const removeDetailImage = async (idx: number) => {
+    // same index: form.detailImageKeys <-> detailImageFiles
+    await deleteImages(form.detailImageKeys[idx].key);
+    setForm((prev) => {
+      const nextImageKeys = [...prev.detailImageKeys];
+      nextImageKeys.splice(idx, 1);
+      return {
+        ...prev,
+        detailImageKeys: nextImageKeys,
       };
     });
     setDetailImageFiles((prev) => {
@@ -115,11 +156,19 @@ export default function AdminItemRegisterPage() {
     if (
       Object.values(form).some((v) => v === '') ||
       Object.values(form).some((v) => v === 0) ||
-      form.imageKeys === ([] as { key: string; sortOrder: number }[])
+      form.detailImageKeys === ([] as { key: string; sortOrder: number }[]) // mainImageKeys can be empty
     )
       return;
 
-    await registerItem({ ...form, imageKeys: [{ key: form.thumbnailKey, sortOrder: 1 }, ...form.imageKeys] }); // add thumbnailKey when POST
+    const {
+      mainImageKeys: registeredMainImageKeys,
+      detailImageKeys: registeredDetailImageKeys,
+      ...registeredForm
+    } = form;
+    await registerItem({
+      ...registeredForm,
+      imageKeys: [{ key: form.thumbnailKey, sortOrder: 1 }, ...registeredMainImageKeys, ...registeredDetailImageKeys],
+    }); // add thumbnailKey when POST
 
     queryClient.refetchQueries({ queryKey: ['admin-item-list'] });
 
@@ -133,11 +182,17 @@ export default function AdminItemRegisterPage() {
       depth: 0,
       artistId: 0,
       categoryId: 0,
-      imageKeys: [] as { key: string; sortOrder: number }[],
+      mainImageKeys: [] as { key: string; sortOrder: number }[],
+      detailImageKeys: [] as { key: string; sortOrder: number }[],
       thumbnailKey: '',
     });
+    setMainImageFiles([]);
     setDetailImageFiles([]);
-    setSortOrder(1);
+    setMainSortOrder(2);
+    setDetailSortOrder(1);
+    if (fileInputRefThumbnail.current) {
+      fileInputRefThumbnail.current.value = '';
+    }
     if (fileInputRefMain.current) {
       fileInputRefMain.current.value = '';
     }
@@ -181,8 +236,11 @@ export default function AdminItemRegisterPage() {
     thumbnailKey: {
       title: '1️⃣0️⃣ 작품 썸네일 이미지',
     },
-    imageKeys: {
-      title: '1️⃣1️⃣ 작품 세부 이미지 목록',
+    mainImageKeys: {
+      title: '1️⃣1️⃣ 작품 메인 이미지 목록 (썸네일 제외)',
+    },
+    detailImageKeys: {
+      title: '1️⃣2️⃣ 작품 세부 이미지 목록',
     },
   } as const;
 
@@ -258,12 +316,12 @@ export default function AdminItemRegisterPage() {
           })}
           {/* 작품 이미지 정보 입력 */}
           <div className="flex flex-col gap-2">
-            <p className="text-body-01 font-semibold">1️⃣0️⃣ 작품 메인 이미지</p>
+            <p className="text-body-01 font-semibold">1️⃣0️⃣ 작품 썸네일 이미지</p>
             <p className="text-body-02 font-regular text-orange italic">* width : height = 4 : 5</p>
           </div>
           <input
-            name="1️⃣0️⃣ 작품 메인 이미지"
-            ref={fileInputRefMain}
+            name="1️⃣0️⃣ 작품 썸네일 이미지"
+            ref={fileInputRefThumbnail}
             type="file"
             accept="image/*"
             onChange={(e) => {
@@ -272,7 +330,30 @@ export default function AdminItemRegisterPage() {
             }}
             className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
           />
-          <p className="text-body-01 font-semibold">1️⃣1️⃣ 작품 세부 이미지 목록</p>
+          <div className="flex flex-col gap-2">
+            <p className="text-body-01 font-semibold">1️⃣1️⃣ 작품 메인 이미지 목록 (썸네일 제외)</p>
+            <p className="text-body-02 font-regular text-orange italic">* width : height = 4 : 5</p>
+          </div>
+          {mainImageFiles.map((file, idx) => (
+            <div key={`${file.name}-${idx}`} className="flex justify-between">
+              <p className="text-body-02 font-regular">📷 {file.name}</p>
+              <button onClick={() => removeMainImage(idx)} className="cursor-pointer">
+                <p className="hover:text-orange text-body-02 font-bold">X</p>
+              </button>
+            </div>
+          ))}
+          <input
+            name="1️⃣1️⃣ 작품 메인 이미지 목록 (썸네일 제외)"
+            ref={fileInputRefMain}
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleMainImage(file);
+            }}
+            className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
+          />
+          <p className="text-body-01 font-semibold">1️⃣2️⃣ 작품 세부 이미지 목록</p>
           {detailImageFiles.map((file, idx) => (
             <div key={`${file.name}-${idx}`} className="flex justify-between">
               <p className="text-body-02 font-regular">📷 {file.name}</p>
@@ -283,7 +364,7 @@ export default function AdminItemRegisterPage() {
           ))}
           <input
             key={detailImageFiles.length}
-            name="1️⃣1️⃣ 작품 세부 이미지 목록"
+            name="1️⃣2️⃣ 작품 세부 이미지 목록"
             ref={fileInputRefSub}
             type="file"
             accept="image/*"
