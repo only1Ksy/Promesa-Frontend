@@ -21,6 +21,9 @@ export default function ArtistPageButton({ artist }: ArtistPageButtonProps) {
       <Link href={`/artist/${artist.id}`} className="block w-full">
         <div className="bg-deep-green relative flex h-19 w-full items-center px-5">
           <Image alt="artist background" src={artist.profileImageUrl} fill unoptimized className="z-0 object-cover" />
+
+          <div className="absolute inset-0 z-5 bg-gradient-to-b from-transparent to-black/90" />
+
           <div className="relative z-10 flex flex-col text-white">
             <div className="flex items-center">
               <span className="text-body-01 font-medium">{artist.name}</span>

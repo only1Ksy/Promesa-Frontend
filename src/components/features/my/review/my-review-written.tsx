@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
 import useAlert from '@/hooks/use-alert';
-import { DeleteReview } from '@/services/api/review-controller';
+import { useReviewMutations } from '@/hooks/use-review-edit-delete';
 import { WrittenReviewsResponse } from '@/types/review-controller';
 
 import MyReviewCard from './my-review-card';
@@ -17,6 +17,7 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
 
   const alertModal = useAlert();
   const { showToast } = useToast();
+  const { deleteReview } = useReviewMutations();
 
   const editReview = (reviewId: number) => {
     router.push(`review?editId=${reviewId}`);
@@ -28,14 +29,17 @@ export default function MyReviewWritten({ writtenReviews }: MyReviewAvailablePro
       confirmText: '삭제',
       cancelText: '취소',
       onConfirm: async () => {
-        try {
-          await DeleteReview(itemId, reviewId);
-          showToast('리뷰를 삭제했습니다.');
-          router.refresh();
-        } catch (error) {
-          console.error('삭제 실패:', error);
-          alertModal({ message: '삭제 중 오류가 발생했습니다. 다시 시도해주세요.' });
-        }
+        deleteReview.mutate(
+          { itemId, reviewId },
+          {
+            onSuccess: () => {
+              showToast('리뷰를 삭제했습니다.');
+            },
+            onError: () => {
+              alertModal({ message: '삭제 중 오류가 발생했습니다. 다시 시도해주세요.' });
+            },
+          },
+        );
       },
     });
   };

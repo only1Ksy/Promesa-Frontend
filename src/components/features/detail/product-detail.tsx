@@ -18,10 +18,6 @@ export default function ProductDetail({ item }: ProductDetailProps) {
           <span className="w-8">종류</span>
           <span>{item.type}</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="w-8">사이즈</span>
-          <span>{`${item.width}x${item.height}x${item.depth}`}</span>
-        </div>
       </div>
       {/* 상세 이미지 */}
       <div className="w-full pt-6">
