@@ -20,7 +20,7 @@ export default function ArtistPageButton({ artist }: ArtistPageButtonProps) {
     <div className="relative z-10 flex h-19 w-full flex-col items-start gap-2.5 px-5">
       <Link href={`/artist/${artist.id}`} className="block w-full">
         <div className="bg-deep-green relative flex h-19 w-full items-center px-5">
-          <Image alt="artist background" src={artist.profileImageUrl} fill className="z-0 object-cover" />
+          <Image alt="artist background" src={artist.profileImageUrl} fill unoptimized className="z-0 object-cover" />
           <div className="relative z-10 flex flex-col text-white">
             <div className="flex items-center">
               <span className="text-body-01 font-medium">{artist.name}</span>
