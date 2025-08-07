@@ -108,7 +108,7 @@ export default function BottomFixedModal({ isOpen, onClose, item }: BottomFixedM
           >
             <div className="flex flex-col items-start gap-5 self-stretch py-5">
               <div className="flex w-full items-center justify-between gap-3">
-                {isMultiple ? (
+                {isMultiple && !isSoldOut ? (
                   <div className="flex h-7 w-28 items-center justify-between rounded-[99px] border px-2">
                     <button
                       onClick={handleQuantityDecrease}
