@@ -72,7 +72,7 @@ export default function AdminItemRegisterPage() {
 
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
-    setForm((prev) => ({ ...prev, thumbnailKey, imageKeys: [{ key: thumbnailKey, sortOrder: 1 }, ...prev.imageKeys] }));
+    setForm((prev) => ({ ...prev, thumbnailKey }));
   };
 
   const handleDetailImage = async (file: File) => {
