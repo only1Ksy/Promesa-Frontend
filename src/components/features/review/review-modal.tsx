@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -20,7 +21,9 @@ export default function ReviewModal({ itemId }: ReviewModalProps) {
   const pageParam = Number(searchParams.get('page')) || 1;
   const page = pageParam - 1; // 서버는 0부터 시작
 
-  const close = () => router.back();
+  const close = useCallback(() => {
+    router.back();
+  }, [router]);
 
   const { data: reviewResponse, isLoading } = useQuery({
     queryKey: ['itemReview', itemId, page],
@@ -34,7 +37,7 @@ export default function ReviewModal({ itemId }: ReviewModalProps) {
     };
     window.addEventListener('keydown', onEsc);
     return () => window.removeEventListener('keydown', onEsc);
-  }, []);
+  }, [close]);
 
   if (isLoading || !reviewResponse) return null;
 

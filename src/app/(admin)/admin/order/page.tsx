@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 
 import {
@@ -19,7 +20,7 @@ export default function AdminOrderPage() {
   const [orderStatusMap, setOrderStatusMap] = useState<Record<number, string>>({});
 
   // 주문 목록 조회
-  const loadOrders = async () => {
+  const loadOrders = useCallback(async () => {
     try {
       const data = await fetchAdminOrders({
         orderStatus: orderStatusFilter || undefined,
@@ -29,12 +30,12 @@ export default function AdminOrderPage() {
     } catch (e) {
       console.error('주문 조회 실패:', e);
     }
-  };
+  }, [orderStatusFilter, itemStatusFilter]);
 
   // 상태 동기화
   useEffect(() => {
     loadOrders();
-  }, [orderStatusFilter, itemStatusFilter]);
+  }, [orderStatusFilter, itemStatusFilter, loadOrders]);
 
   // 상태 맵 초기화
   useEffect(() => {

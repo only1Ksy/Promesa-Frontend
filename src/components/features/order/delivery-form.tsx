@@ -56,7 +56,7 @@ export default function DeliveryForm() {
     };
 
     loadDefault();
-  }, [delivery.deliveryType]);
+  }, [delivery.deliveryType, alertModal, resetDelivery, updateDelivery]);
 
   const openAddressSearch = () => {
     setIsPostcodeOpen(true);

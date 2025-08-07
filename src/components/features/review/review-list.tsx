@@ -44,7 +44,7 @@ export default function ReviewList({ reviews, itemId, onPageChange }: ReviewList
   useEffect(() => {
     const pageFromParams = Number(searchParams.get('page')) || 1;
     onPageChange(pageFromParams - 1); // 서버 데이터 요청
-  }, [searchParams]);
+  }, [searchParams, onPageChange]);
 
   return (
     <div ref={listTopRef} className="flex w-full flex-col items-center">
