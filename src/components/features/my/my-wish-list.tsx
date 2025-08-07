@@ -22,22 +22,27 @@ export default function MyWishList({ targetType, href }: MyWishListProps) {
 
   const displayData = useMemo(
     () => [
-      { src: data[0]?.thumbnailUrl ?? null, isEnd: false },
-      { src: data[1]?.thumbnailUrl ?? null, isEnd: false },
-      { src: data[2]?.thumbnailUrl ?? null, isEnd: true },
+      { item: data[0] ?? null, isEnd: false },
+      { item: data[1] ?? null, isEnd: false },
+      { item: data[2] ?? null, isEnd: true },
     ],
     [data],
   );
 
-  const isDisplay = useMemo(() => displayData[0].src || displayData[1].src || displayData[2].src, [displayData]);
+  const isDisplay = useMemo(() => displayData[0] || displayData[1] || displayData[2], [displayData]);
 
   return (
     <div className="flex gap-1.75">
       {isDisplay ? (
-        displayData.map(({ src, isEnd }, idx) =>
-          src ? (
+        displayData.map(({ item, isEnd }, idx) =>
+          item ? (
             <div key={idx} className="bg-green relative aspect-square flex-1 overflow-hidden rounded-xs">
-              <ImageWithEffect src={src} alt={`아이템 ${data[idx].title} 이미지.`} fill className="object-cover" />
+              <ImageWithEffect
+                src={item.thumbnailUrl}
+                alt={`${targetType === 'ARTIST' ? '아티스트' : '작품'} ${data[idx].title} 이미지.`}
+                fill
+                className="object-cover"
+              />
               {isEnd && (
                 <>
                   <div className="text-grey-1 text-body-02 bg-grey-3/50 absolute inset-0 z-5 flex h-full w-full flex-col items-center justify-center font-medium">
@@ -47,9 +52,12 @@ export default function MyWishList({ targetType, href }: MyWishListProps) {
                       <GoToFullListIcon />
                     </div>
                   </div>
-                  <Link href={href} className="absolute inset-0 z-10 h-full w-full" />
                 </>
               )}
+              <Link
+                href={isEnd ? href : targetType === 'ARTIST' ? `/artist/${item.targetId}` : `/detail/${item.targetId}`}
+                className="absolute inset-0 z-10 h-full w-full"
+              />
             </div>
           ) : (
             <div key={idx} className="aspect-square flex-1 bg-transparent"></div>

@@ -12,8 +12,8 @@ import { fetchExhibitions } from '@/services/api/exhibition-controller';
 
 export default function HomeExhibitionsBackground() {
   const { data } = useSuspenseQuery({
-    queryKey: ['exhibitionList', 'ALL'],
-    queryFn: () => fetchExhibitions('ALL'),
+    queryKey: ['exhibitionList', 'ONGOING'],
+    queryFn: () => fetchExhibitions('ONGOING'),
   });
 
   const [active, setActive] = useState(0);
@@ -33,7 +33,13 @@ export default function HomeExhibitionsBackground() {
       >
         {imageUrls.map((url, idx) => (
           <SwiperSlide key={idx}>
-            <ImageWithLoading src={url} alt={`프로메사 전시회 홈 페이지의 ${idx + 1}번째 배경 이미지`} fill priority />
+            <ImageWithLoading
+              src={url}
+              alt={`프로메사 전시회 홈 페이지의 ${idx + 1}번째 배경 이미지`}
+              fill
+              priority
+              className="object-cover"
+            />
             <div className="absolute z-5 h-full w-full bg-gradient-to-b from-[#000000]/0 from-80% to-[#000000] to-100%" />
           </SwiperSlide>
         ))}

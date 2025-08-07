@@ -29,9 +29,11 @@ export default function Header({ shadow }: HeaderProps) {
 
   const isArtistPage = pathname.startsWith('/artist');
   const isDetailPage = pathname.startsWith('/detail');
+  const isMyProfilePage = pathname.startsWith('/my/profile');
   const isMyOrderPage = pathname.startsWith('/my/order');
   const isMyReviewWritePage = pathname.startsWith('/my/review/write');
   const isMyReviewPage = pathname.startsWith('/my/review') && !isMyReviewWritePage;
+  const isMyWishListPage = pathname.startsWith('/my/wish-list');
   const isMyPage = pathname === '/my';
   const isOrderPage = pathname.startsWith('/order');
   const isOrderCompletePage = pathname.startsWith('/order/complete');
@@ -39,7 +41,6 @@ export default function Header({ shadow }: HeaderProps) {
   const isShopPage = pathname.startsWith('/shop');
   const isCartPage = pathname.startsWith('/cart');
   const isExhibitionPage = pathname.startsWith('/exhibition');
-  const isMyProfilePage = pathname.startsWith('/my/profile');
 
   const isBack =
     isArtistPage ||
@@ -49,6 +50,7 @@ export default function Header({ shadow }: HeaderProps) {
     isReviewPage ||
     isMyReviewPage ||
     isMyReviewWritePage ||
+    isMyWishListPage ||
     isMyOrderPage ||
     isCartPage;
 

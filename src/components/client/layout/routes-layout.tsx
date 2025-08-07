@@ -41,6 +41,7 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   const isSearchPage = pathname.startsWith('/search');
   const isMyReviewEditPage = isMyReviewPage && searchParams.get('editId') !== null;
   const isMyProfilePage = pathname.startsWith('/my/profile');
+  const isMyWishListPage = pathname.startsWith('/my/wish-list');
 
   const isBottomBarRef = isDetailPage || isOrderPage || isReviewPage || isCartPage || isMyReviewEditPage;
   const isHeaderShadow =
@@ -52,7 +53,13 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
     !isSearchPage &&
     !isMyProfilePage;
   const isFooter =
-    !isOrderPage && !isReviewPage && !isMyReviewPage && !isMyOrderPage && !isMyProfilePage && !isCartPage;
+    !isOrderPage &&
+    !isReviewPage &&
+    !isMyReviewPage &&
+    !isMyOrderPage &&
+    !isMyProfilePage &&
+    !isCartPage &&
+    !isMyWishListPage;
   const isFloatingButton = !isOrderPage && !isReviewPage && !isMyPage && !isCartPage;
 
   const loadingCount = useImageLoadingStore((s) => s.loadingCount);

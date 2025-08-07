@@ -23,9 +23,15 @@ export default function ArtistProfileWithImage({ item }: ArtistProfileWithImageP
   return (
     <Link href={`/artist/${artistId}`}>
       <div className="bg-green relative h-40 w-full overflow-hidden rounded-lg">
-        <ImageWithEffect src={profileImageUrl} alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`} fill priority />
+        <ImageWithEffect
+          src={profileImageUrl}
+          alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`}
+          fill
+          priority
+          className="object-cover"
+        />
         <div className="absolute bottom-0 flex w-full items-center justify-between px-4.5 py-3.5">
-          <div className="absolute inset-0 -bottom-5.5 z-5 w-full bg-gradient-to-t from-[#000000] via-[#111111]/50 via-85% to-[#222222]/0" />
+          <div className="absolute inset-0 -bottom-5.5 z-5 w-full bg-gradient-to-t from-[#000000]/85 to-[#222222]/0" />
           <div className="z-10 flex flex-col">
             <p className="text-body-01 font-bold text-white">{name}</p>
             <p className="text-body-02 text-grey-4 font-medium">{subname}</p>

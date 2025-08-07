@@ -107,8 +107,8 @@ export default function WishListWithPaginationComponent() {
       />
     </div>
   ) : (
-    // 31 = 11.5 (header) + 5 (margin top) + 14.5 (margin bottom)
-    <div className="mx-5 mt-5 mb-14.5 flex min-h-[calc(100vh-var(--spacing)*31)] flex-col gap-10">
+    // 31 = 11.5 (header) + 5 (margin top)
+    <div className="mx-5 mt-5 flex min-h-[calc(100vh-var(--spacing)*16.5)] flex-col gap-10 pb-14.5">
       <div className="flex flex-col gap-4.5">
         <div className="text-body-02 text-grey-6 flex justify-between font-medium">
           <button onClick={() => setSelectedList(Array(PAGE_SIZE).fill(true))} className="cursor-pointer">
