@@ -23,9 +23,11 @@ export default function ClientArtistPage({ dehydratedState, artistId, initialPar
         {/* 배경 */}
         <ArtistBackground artistId={artistId} />
 
-        <div className="bg-pale-green z-5 mt-50 flex flex-col gap-20 pt-5 pb-20">
+        <div className="bg-pale-green z-5 mt-50 flex flex-col gap-20">
           {/* 작가 정보 */}
-          <ArtistInformationSection artistId={artistId} />
+          <div className="mt-5">
+            <ArtistInformationSection artistId={artistId} />
+          </div>
 
           {/* 기획전 */}
           <ExhibitionSwiper title="참여한 기획전" page="ARTIST" artistId={artistId} />
@@ -36,7 +38,9 @@ export default function ClientArtistPage({ dehydratedState, artistId, initialPar
           </div>
 
           {/* 작가에게 질문 */}
-          <ArtistQuestionSection artistId={artistId} />
+          <div className="mb-20">
+            <ArtistQuestionSection artistId={artistId} />
+          </div>
         </div>
       </div>
     </HydrationBoundary>
