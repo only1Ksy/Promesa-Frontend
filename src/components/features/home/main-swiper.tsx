@@ -57,6 +57,7 @@ export default function MainSwiper() {
                     alt={`프로메사 홈 페이지의 ${(idx % 3) + 1}번째 메인 이미지.`}
                     fill
                     priority
+                    className="object-cover"
                   />
                 </div>
               </div>

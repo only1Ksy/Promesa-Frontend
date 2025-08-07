@@ -22,6 +22,7 @@ export default function ExhibitionBackground({ exhibitionId }: ExhibitionBackgro
         alt={`기획전 ${data.summary.title} 의 대표 이미지.`}
         fill
         priority
+        className="object-cover"
       />
     </div>
   );

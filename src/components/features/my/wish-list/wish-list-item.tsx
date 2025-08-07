@@ -24,7 +24,12 @@ export default function WishListItem({ item, isSelected, select }: WishListItemP
       <Link href={`/detail/${item.targetId}`}>
         <div className="flex h-full gap-3.5">
           <div className="bg-green relative aspect-[4/5]">
-            <ImageWithEffect src={item.thumbnailUrl} alt={`아이템 ${item.targetId} 프리뷰 이미지.`} fill />
+            <ImageWithEffect
+              src={item.thumbnailUrl}
+              alt={`아이템 ${item.targetId} 프리뷰 이미지.`}
+              fill
+              className="object-cover"
+            />
           </div>
           <div className="flex flex-col justify-between">
             <div className="flex flex-col">
