@@ -29,6 +29,8 @@ export default function ClientCartPage({ cartsState }: ClientCartPageProps) {
 
   const totalPrice = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
+  const isAvailable = carts.every((item) => item.saleStatus === 'ON_SALE');
+
   const handlePurchase = () => {
     router.push('order?mode=cart');
   };
@@ -45,7 +47,7 @@ export default function ClientCartPage({ cartsState }: ClientCartPageProps) {
               <CartTotalPrice totalPrice={totalPrice} />
             </div>
             <BottomFixedBarPortal>
-              <BottomFixedBar handlePurchase={handlePurchase} />
+              <BottomFixedBar handlePurchase={handlePurchase} isAvailable={isAvailable} />
             </BottomFixedBarPortal>
           </>
         ) : (
