@@ -464,12 +464,7 @@ export default function AdminExhibitionUpdatePage() {
               <div className="flex flex-col gap-3">
                 {selectedItem.mainImageUrls.slice(1).map((item, idx) => (
                   <React.Fragment key={`${item.imageKey}-${idx}`}>
-                    <div
-                      className="relative w-full border-y"
-                      style={{
-                        paddingTop: `${ratios[idx] * 100}%`,
-                      }}
-                    >
+                    <div className="relative aspect-[4/5] w-full border-y">
                       <ImageWithEffect src={item.url} alt={`작품 ${selectedItem.title}의 메인 이미지.`} fill />
                     </div>
                     <button onClick={() => removeMainImage(idx)} className="cursor-pointer">
