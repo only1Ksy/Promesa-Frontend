@@ -15,7 +15,7 @@ export default function HomeBackground() {
         alt="프로메사 홈 페이지의 배경 이미지."
         fill
         priority
-        className="object-cover brightness-75 filter"
+        className="fixed-image-optimization object-cover brightness-75 filter"
       />
       <div className="z-3 flex flex-col gap-3">
         <PromesaMainSymbolIcon className="text-grey-1" />

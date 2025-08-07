@@ -32,7 +32,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
         alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`}
         fill
         priority
-        className="object-cover"
+        className="fixed-image-optimization object-cover"
       />
       <div className="text-grey-0 absolute top-4 right-3.5 z-10 flex flex-col gap-0.5">
         <button
