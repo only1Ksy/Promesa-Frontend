@@ -20,7 +20,9 @@ export default function RootSplashPage() {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
-    const wait = new Promise((resolve) => setTimeout(resolve, 3500));
+    router.prefetch('/home');
+
+    const wait = new Promise((resolve) => setTimeout(resolve, 2500));
 
     const prefetch = async () => {
       await Promise.all([
