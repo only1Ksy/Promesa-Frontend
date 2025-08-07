@@ -12,8 +12,8 @@ export default function BottomFixedBar({ handlePurchase, isAvailable }: BottomFi
     <div className="bg-pale-green home-shadow flex h-21 w-full px-5 pt-3 pb-4">
       <button
         className={clsx(
-          'text-body-01 w-full cursor-pointer rounded-xs py-2 font-bold',
-          isAvailable ? 'bg-black text-white' : 'bg-grey-4 text-grey-1',
+          'text-body-01 w-full rounded-xs py-2 font-bold',
+          isAvailable ? 'cursor-pointer bg-black text-white' : 'bg-grey-4 text-grey-1 cursor-not-allowed',
         )}
         onClick={handlePurchase}
       >
