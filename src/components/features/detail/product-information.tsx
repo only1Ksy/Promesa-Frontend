@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import Link from 'next/link';
 
 import useAlert from '@/hooks/use-alert';
@@ -33,6 +34,8 @@ export default function ProductInformation({ onSelect, item }: ProductInformatio
   };
 
   const rating = item.averageRating;
+
+  const isSoldOut = item.saleStatus !== 'ON_SALE';
 
   return (
     <>
@@ -77,14 +80,22 @@ export default function ProductInformation({ onSelect, item }: ProductInformatio
         {/* 장바구니, 구매하기 버튼 */}
         <div className="flex w-full items-center justify-center gap-2 px-5 py-2">
           <button
+            disabled={isSoldOut}
             onClick={onCartClicked}
-            className="text-grey-9 text-body-01 border-grey-9 flex h-12 w-59 cursor-pointer items-center justify-center gap-[10px] rounded-xs border-[1.4px] font-bold"
+            className={clsx(
+              'text-body-01 flex h-12 w-59 items-center justify-center gap-2.5 rounded-xs border-[1.4px] font-bold',
+              isSoldOut ? 'text-grey-4 border-grey-4 cursor-not-allowed' : 'border-grey-9 text-grey-9 cursor-pointer',
+            )}
           >
             장바구니
           </button>
           <button
+            disabled={isSoldOut}
             onClick={onClicked}
-            className="bg-grey-9 text-body-01 text-grey-1 flex h-12 w-full cursor-pointer items-center justify-center gap-[10px] rounded-xs font-bold"
+            className={clsx(
+              'text-body-01 text-grey-1 flex h-12 w-full items-center justify-center gap-2.5 rounded-xs font-bold',
+              isSoldOut ? 'bg-grey-4 cursor-not-allowed' : 'bg-grey-9 cursor-pointer',
+            )}
           >
             구매하기
           </button>
