@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 
 import ImageWithEffect from '@/components/common/utilities/image-with-effect';
@@ -84,9 +85,9 @@ export default function CartProductCard({ product }: CartProductCardProps) {
               </button>
             </div>
           ) : (
-            <div className="text-subhead text-grey-9 ml-5 flex items-center font-medium opacity-40">품절</div>
+            <div className="text-body-01 text-grey-9 flex items-center font-medium opacity-40">품절</div>
           )}
-          <span className="text-grey-9 text-body-01 font-medium">
+          <span className={clsx('text-body-01 font-medium', isSoldOut ? 'text-grey-5' : 'text-grey-9')}>
             {(product.price * product.quantity).toLocaleString()}원
           </span>
         </div>
