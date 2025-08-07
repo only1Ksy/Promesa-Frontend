@@ -46,6 +46,7 @@ export default function AdminExhibitionUpdatePage() {
   const [selectedExhibition, setSelectedExhibition] = useState<ExhibitionDetailResponseSchema | null>(null);
   const [form, setForm] = useState({
     title: '',
+    subTitle: '',
     description: '',
     startDate: '',
     endDate: '',
@@ -75,6 +76,7 @@ export default function AdminExhibitionUpdatePage() {
     if (selectedExhibition) {
       setForm({
         title: selectedExhibition.summary.title,
+        subTitle: selectedExhibition.summary.subTitle,
         description: selectedExhibition.summary.description,
         startDate: selectedExhibition.summary.startDate,
         endDate: selectedExhibition.summary.endDate ?? '',
@@ -223,6 +225,10 @@ export default function AdminExhibitionUpdatePage() {
       title: '🔎 기획전 제목',
       valueKey: 'title',
     },
+    subTitle: {
+      title: '🔎 기획전 서브 제목',
+      valueKey: 'subTitle',
+    },
     description: {
       title: '🔎 기획전 설명',
       valueKey: 'description',
@@ -271,7 +277,7 @@ export default function AdminExhibitionUpdatePage() {
         <div className="mx-5 mt-10 mb-20 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             {/* 기획전 텍스트 정보 수정 */}
-            {(['title', 'description'] as const).map((key) => (
+            {(['title', 'subTitle', 'description'] as const).map((key) => (
               <React.Fragment key={`${selectedExhibitionId}-${key}`}>
                 <p className="text-body-01 font-regular">
                   <strong className="font-semibold">{formKeyMap[key].title}: </strong>

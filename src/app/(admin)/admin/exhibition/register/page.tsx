@@ -31,6 +31,7 @@ export default function AdminExhibitionRegisterPage() {
 
   const [form, setForm] = useState({
     title: '',
+    subTitle: '',
     description: '',
     startDate: '',
     endDate: '',
@@ -144,6 +145,7 @@ export default function AdminExhibitionRegisterPage() {
 
     setForm({
       title: '',
+      subTitle: '',
       description: '',
       startDate: '',
       endDate: '',
@@ -164,23 +166,26 @@ export default function AdminExhibitionRegisterPage() {
     title: {
       title: '1️⃣ 기획전 제목',
     },
+    subTitle: {
+      title: '2️⃣ 기획전 서브 제목',
+    },
     description: {
-      title: '2️⃣ 기획전 설명',
+      title: '3️⃣ 기획전 설명',
     },
     startDate: {
-      title: '3️⃣ 기획전 시작 날짜',
+      title: '4️⃣ 기획전 시작 날짜',
     },
     endDate: {
-      title: '4️⃣ 기획전 종료 날짜',
+      title: '5️⃣ 기획전 종료 날짜',
     },
     thumbnailKey: {
-      title: '5️⃣ 기획전 썸네일 이미지',
+      title: '6️⃣ 기획전 썸네일 이미지',
     },
     imageKeys: {
-      title: '6️⃣ 기획전 프로모션 이미지 목록',
+      title: '7️⃣ 기획전 프로모션 이미지 목록',
     },
     itemIds: {
-      title: '7️⃣ 기획전 작품 목록',
+      title: '8️⃣ 기획전 작품 목록',
     },
   } as const;
 
@@ -196,7 +201,7 @@ export default function AdminExhibitionRegisterPage() {
       <div className="mx-5 mt-10 mb-20 flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           {/* 기획전 텍스트 정보 입력 */}
-          {(['title', 'description'] as const).map((key) => (
+          {(['title', 'subTitle', 'description'] as const).map((key) => (
             <React.Fragment key={key}>
               <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
               <TextareaAutosize
