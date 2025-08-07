@@ -17,8 +17,6 @@ export default function ReviewImageUploader({
 }: ReviewImageUploaderProps) {
   const showUploadButton = previews.length < 3;
 
-  console.log(previews);
-
   return (
     <div className="mb-6 pb-21">
       <div className="text-body-02 mb-3 flex gap-0.5 font-medium">
