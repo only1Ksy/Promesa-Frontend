@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
-import { DehydratedState } from '@tanstack/react-query';
-import { HydrationBoundary } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -18,11 +16,10 @@ import { useImageLoadingStore } from '@/lib/store/use-image-loading-store';
 import { BottomFixedBarTargetContext } from '@/lib/utils/portal-target-context';
 
 interface ClientRoutesLayoutProps {
-  dehydratedState: DehydratedState;
   children: React.ReactNode;
 }
 
-export default function ClientRoutesLayout({ dehydratedState, children }: ClientRoutesLayoutProps) {
+export default function ClientRoutesLayout({ children }: ClientRoutesLayoutProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const bottomBarRef = useRef<HTMLDivElement>(null);
@@ -103,28 +100,26 @@ export default function ClientRoutesLayout({ dehydratedState, children }: Client
   }, []);
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <AlertProvider>
-        <ToastProvider>
-          {hasMounted && (loadingCount > 0 || isFetching > 0) && <FetchingSpinner />}
-          <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
-            {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
-            <Header shadow={isHeaderShadow} />
-            <div className="bg-pale-green pt-11.5">{children}</div>
-            {isFooter && isBottomBarRef ? (
-              // need to refactor
-              <div className="pb-21">
-                <Footer />
-              </div>
-            ) : isFooter ? (
+    <AlertProvider>
+      <ToastProvider>
+        {hasMounted && (loadingCount > 0 || isFetching > 0) && <FetchingSpinner />}
+        <BottomFixedBarTargetContext.Provider value={isBottomBarRef ? bottomBarRef : null}>
+          {isBottomBarRef && <div ref={bottomBarRef} className="fixed-component bottom-0" />}
+          <Header shadow={isHeaderShadow} />
+          <div className="bg-pale-green pt-11.5">{children}</div>
+          {isFooter && isBottomBarRef ? (
+            // need to refactor
+            <div className="pb-21">
               <Footer />
-            ) : (
-              <></>
-            )}
-            {isFloatingButton && <FloatingButton />}
-          </BottomFixedBarTargetContext.Provider>
-        </ToastProvider>
-      </AlertProvider>
-    </HydrationBoundary>
+            </div>
+          ) : isFooter ? (
+            <Footer />
+          ) : (
+            <></>
+          )}
+          {isFloatingButton && <FloatingButton />}
+        </BottomFixedBarTargetContext.Provider>
+      </ToastProvider>
+    </AlertProvider>
   );
 }

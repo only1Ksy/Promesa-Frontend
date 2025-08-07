@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 
 import PromesaLoginSymbolIcon from '@/public/icons/logo/login-symbol.svg';
 import PromesaTextMediumIcon from '@/public/icons/logo/text-md.svg';
+import { fetchCarts } from '@/services/api/cart-controller';
+import { fetchParentCategories } from '@/services/api/category-controller';
 import { fetchExhibitions } from '@/services/api/exhibition-controller';
 import { fetchBrandInfo } from '@/services/api/home-controller';
 import { fetchNowPopularItems } from '@/services/api/item-controller';
@@ -18,11 +20,12 @@ export default function RootSplashPage() {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
-    const wait = new Promise((resolve) => setTimeout(resolve, 2500));
+    const wait = new Promise((resolve) => setTimeout(resolve, 3500));
 
     const prefetch = async () => {
       await Promise.all([
         wait,
+        // home
         queryClient.prefetchQuery({ queryKey: ['brandInfo'], queryFn: fetchBrandInfo }),
         queryClient.prefetchQuery({
           queryKey: ['onGoingExhibitions'],
@@ -32,6 +35,15 @@ export default function RootSplashPage() {
           },
         }),
         queryClient.prefetchQuery({ queryKey: ['nowPopularItems'], queryFn: fetchNowPopularItems }),
+        // (routes)/layout
+        queryClient.prefetchQuery({
+          queryKey: ['itemCategories'],
+          queryFn: fetchParentCategories,
+        }),
+        queryClient.prefetchQuery({
+          queryKey: ['carts'],
+          queryFn: fetchCarts,
+        }),
       ]);
 
       router.replace('/home');
