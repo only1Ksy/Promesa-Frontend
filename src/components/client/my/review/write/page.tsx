@@ -15,8 +15,9 @@ import ReviewImageUploader from '@/components/features/my/review/write/review-im
 import ReviewRate from '@/components/features/my/review/write/review-rate';
 import ReviewText from '@/components/features/my/review/write/review-text';
 import useAlert from '@/hooks/use-alert';
+import { useReviewMutations } from '@/hooks/use-review-edit-delete';
+import { postImages } from '@/services/api/image-controller';
 import { fetchMyEligibleReviews } from '@/services/api/review-controller';
-import { PostReview, PostReviewImages } from '@/services/api/review-controller';
 
 interface ClientReviewWritePageProps {
   orderItemId: number;
@@ -34,6 +35,7 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
 
   const { showToast } = useToast();
   const alertModal = useAlert();
+  const { postReview } = useReviewMutations();
 
   const isUploadable = useMemo(() => {
     return rating > 0 && content.trim().length > 0;
@@ -90,7 +92,13 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
 
           if (images.length > 0) {
             const fileNames = images.map((file) => file.name);
-            const presigned = await PostReviewImages('MEMBER', 'REVIEW', itemId, fileNames);
+            const presigned = await postImages({
+              imageType: 'MEMBER',
+              referenceId: null,
+              subType: 'REVIEW',
+              subReferenceId: itemId,
+              fileNames,
+            });
 
             await Promise.all(
               presigned.map((item, i) =>
@@ -105,8 +113,24 @@ export default function ClientReviewWritePage({ orderItemId, orderDetailState }:
             imageKeys = presigned.map((item) => item.key);
           }
 
-          await PostReview(itemId, orderItemId, content, rating, imageKeys);
-          showToast('리뷰를 등록했습니다.');
+          postReview.mutate(
+            {
+              itemId,
+              orderItemId,
+              content,
+              rating,
+              imageKeys,
+            },
+            {
+              onSuccess: () => {
+                showToast('리뷰를 등록했습니다.');
+                router.replace('/my/review');
+              },
+              onError: () => {
+                alertModal({ message: '리뷰 등록에 실패했습니다. 다시 시도해주세요.' });
+              },
+            },
+          );
           router.replace('/my/review');
         } catch (e) {
           if (typeof window !== 'undefined') {
