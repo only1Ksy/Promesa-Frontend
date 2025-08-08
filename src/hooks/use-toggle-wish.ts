@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
 import { toggleWish } from '@/services/api/wish-controller';
@@ -23,7 +23,7 @@ const QUERY_KEYS_BY_TARGET_TYPE: Record<WishToggleSchema['target']['targetType']
   ],
   ITEM: [
     'nowPopularItems', // /home
-    'items', // /shop, /artist/[artist-id]
+    // 'items', // /shop, /artist/[artist-id]
     'itemDetail', // /detail/[item-id]
     'artist', // /artist/[artist-id]
     'itemWishList', // /my, /my.wish-list
@@ -37,6 +37,7 @@ export const useToggleWish = () => {
   const { showToast } = useToast();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   return useMutation<WishToggleSchema, Error, ToggleWishParams>({
     mutationFn: async ({ targetType, targetId, currentWished }) => {
@@ -62,7 +63,9 @@ export const useToggleWish = () => {
     },
     onError: (error) => {
       if (error instanceof HttpError && error.status === 401) {
-        router.push(`/login?afterLogin=${encodeURIComponent(pathname)}`);
+        router.push(
+          `/login?afterLogin=${encodeURIComponent(`${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`)}`,
+        );
       }
     },
   });

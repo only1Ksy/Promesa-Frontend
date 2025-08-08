@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 
@@ -18,15 +19,20 @@ interface ItemPreviewProps {
 export default function ItemPreview({ item, maxWidthClass, heightClass }: ItemPreviewProps) {
   const { itemId, saleStatus, itemName, price, imageUrl, artistName, wished } = item;
 
+  const [clientWished, setClientWished] = useState<boolean>(wished);
+
   const { mutate: toggleWish } = useToggleWish();
 
   return (
     <div className={clsx('relative flex-1', maxWidthClass, heightClass)}>
       <button
-        onClick={() => toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: wished })}
+        onClick={() => {
+          toggleWish({ targetType: 'ITEM', targetId: itemId, currentWished: clientWished });
+          setClientWished((prev) => !prev);
+        }}
         className="absolute top-2 right-2 z-10 w-7.5 cursor-pointer"
       >
-        {wished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
+        {clientWished ? <HeartFilledIcon className="text-orange" /> : <HeartEmptyIcon className="text-white" />}
       </button>
       <Link href={`/detail/${itemId}`}>
         <div className="flex flex-col gap-2.5">
