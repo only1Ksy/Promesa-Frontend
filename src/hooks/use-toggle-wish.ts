@@ -55,6 +55,12 @@ export const useToggleWish = () => {
             queryClient.invalidateQueries({ queryKey: query.queryKey });
           }
 
+          // stale
+          queryClient.invalidateQueries({
+            queryKey: ['items'],
+            refetchType: 'none',
+          });
+
           // show toast pop-up
           const toastTarget = targetType === 'ITEM' ? '위시리스트' : '아티스트 북마크';
           const toastAction = currentWished ? '에서 삭제했습니다' : '에 추가했습니다';
