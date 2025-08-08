@@ -45,7 +45,7 @@ export default function MyWishList({ targetType, href }: MyWishListProps) {
               />
               {isEnd && (
                 <>
-                  <div className="text-grey-1 text-body-02 bg-grey-3/50 absolute inset-0 z-5 flex h-full w-full flex-col items-center justify-center font-medium">
+                  <div className="text-grey-1 text-body-02 absolute inset-0 z-5 flex h-full w-full flex-col items-center justify-center bg-black/50 font-medium">
                     <p>{targetType === 'ARTIST' ? '북마크' : '위시'}</p>
                     <div className="flex items-center gap-1.5">
                       <p>전체 보기</p>
