@@ -32,7 +32,7 @@ export default function MyOrderModal() {
   });
 
   const orderButtonClicked = () => {
-    window.open('https://www.instagram.com/promesa_ceramic?igsh=MWZpMjU5eWpqYW90cQ==', '_blank');
+    window.open('https://pf.kakao.com/_IucNn', '_blank');
   };
 
   if (!orderId || !order || isLoading) return null;

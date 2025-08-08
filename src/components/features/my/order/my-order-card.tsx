@@ -31,7 +31,7 @@ export default function MyOrderCard({
   const isReturnExchangeButton = status === '배송완료' || status === '반품완료' || status === '교환완료';
 
   const orderButtonClicked = () => {
-    window.open('https://www.instagram.com/promesa_ceramic?igsh=MWZpMjU5eWpqYW90cQ==', '_blank');
+    window.open('https://pf.kakao.com/_IucNn', '_blank');
   };
 
   const renderButtons = () => {
