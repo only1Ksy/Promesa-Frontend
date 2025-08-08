@@ -52,7 +52,7 @@ export default function ArtistInformationSection({ artistId }: ArtistInformation
             <span>{name}</span>
             <span className="font-light">작가</span>
           </h4>
-          {instagramUrl && instagramUrl.split('/')[-1] !== 'null' && (
+          {instagramUrl && instagramUrl.split('/')[3] !== 'null' && (
             <div className="text-grey-6 flex gap-2">
               <Link href={instagramUrl} target="_blank" rel="noopener noreferrer">
                 <LinkToInstagramProfileIcon />
