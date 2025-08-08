@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 import Expandable from '@/components/common/utilities/expandable';
 import DropUpIcon from '@/public/icons/artist/drop-up.svg';
@@ -72,9 +73,11 @@ export default function ArtistQuestionSection({ artistId }: ArtistQuestionSectio
       </div>
 
       <div className="flex justify-end">
-        <span className="text-caption-01 text-grey-8 border-grey-4 flex h-6 w-17.5 flex-shrink-0 items-center justify-center rounded-[20px] border-[0.75px] p-2.5 font-medium">
-          질문하기
-        </span>
+        <Link href={`https://forms.gle/gMqkkMYT23DkrEKd6`} target="_blank" rel="noopener noreferrer">
+          <div className="border-grey-4 flex h-6 w-17.5 flex-shrink-0 items-center justify-center rounded-[20px] border-[0.75px] p-2.5">
+            <span className="text-caption-01 text-grey-8 font-medium">질문하기</span>
+          </div>
+        </Link>
       </div>
     </section>
   );
