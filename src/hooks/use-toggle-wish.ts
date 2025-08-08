@@ -23,7 +23,7 @@ const QUERY_KEYS_BY_TARGET_TYPE: Record<WishToggleSchema['target']['targetType']
   ],
   ITEM: [
     'nowPopularItems', // /home
-    'items', // /shop, /artist/[artist-id]
+    // 'items', // /shop, /artist/[artist-id]
     'itemDetail', // /detail/[item-id]
     'artist', // /artist/[artist-id]
     'itemWishList', // /my, /my.wish-list
