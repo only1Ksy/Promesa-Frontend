@@ -29,7 +29,7 @@ export default function MyWishList({ targetType, href }: MyWishListProps) {
     [data],
   );
 
-  const isDisplay = useMemo(() => displayData[0] || displayData[1] || displayData[2], [displayData]);
+  const isDisplay = useMemo(() => displayData[0].item || displayData[1].item || displayData[2].item, [displayData]);
 
   return (
     <div className="flex gap-1.75">
