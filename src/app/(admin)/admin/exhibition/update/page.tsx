@@ -128,10 +128,6 @@ export default function AdminExhibitionUpdatePage() {
     await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
 
     setThumbnailKey(key);
-
-    if (fileInputRefMain.current) {
-      fileInputRefMain.current.value = '';
-    }
   };
 
   const handlePromotionImage = async (file: File) => {
@@ -149,10 +145,6 @@ export default function AdminExhibitionUpdatePage() {
 
     setImageKeys((prev) => [...prev, { key, sortOrder }]);
     setSortOrder((prev) => prev + 1);
-
-    if (fileInputRefSub.current) {
-      fileInputRefSub.current.value = '';
-    }
   };
 
   const handleSelectedItem = (itemId: number) => {
