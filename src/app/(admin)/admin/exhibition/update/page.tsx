@@ -390,6 +390,11 @@ export default function AdminExhibitionUpdatePage() {
               }}
               className="border-deep-green text-body-01 cursor-pointer rounded-sm border px-2 py-1 font-semibold outline-none"
             />
+            <button onClick={() => update('imageKeys')} className="cursor-pointer">
+              <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
+                <p className="text-body-01 font-semibold">수정하기</p>
+              </div>
+            </button>
             {/* 기획전 작품 정보 입력 */}
             <p className="text-body-01 font-semibold">🔎 기획전 작품 목록</p>
             {form.itemIds.map((itemId) => (
@@ -416,8 +421,7 @@ export default function AdminExhibitionUpdatePage() {
                 </option>
               ))}
             </select>
-            {/* 기획전 수정 */}
-            <button onClick={() => update('imageKeys')} className="cursor-pointer">
+            <button onClick={() => update('itemIds')} className="cursor-pointer">
               <div className="border-deep-green rounded-sm border px-2 py-1 hover:bg-black hover:text-white">
                 <p className="text-body-01 font-semibold">수정하기</p>
               </div>
