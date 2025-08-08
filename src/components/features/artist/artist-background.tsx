@@ -34,7 +34,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
         priority
         className="fixed-image-optimization object-cover"
       />
-      <div className="text-grey-0 absolute top-4 right-3.5 z-10 flex flex-col gap-0.5">
+      <div className="text-grey-0 absolute top-4 right-3.5 z-2 flex flex-col gap-0.5">
         <button
           onClick={() => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })}
           className="cursor-pointer"
