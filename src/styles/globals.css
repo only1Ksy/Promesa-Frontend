@@ -17,7 +17,7 @@
     background-color: var(--color-white);
     color: var(--color-black);
     overflow-y: auto;
-    overscroll-behavior: none;
+    overscroll-behavior-y: contain;
   }
 }
 
