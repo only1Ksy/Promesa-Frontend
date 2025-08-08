@@ -112,7 +112,7 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
                         </div>
                       </div>
                       <p className="text-body-02 custom-break-words font-medium text-black">
-                        {exhibitionItem.summary.description}
+                        {exhibitionItem.summary.subTitle}
                       </p>
                     </div>
                   </div>
