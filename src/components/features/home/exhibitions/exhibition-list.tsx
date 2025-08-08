@@ -100,6 +100,7 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
                         alt={`전시회 ${exhibitionItem.summary.title}의 메인 이미지.`}
                         fill
                         priority
+                        className="object-cover"
                       />
                     </div>
                     <div className="mx-1.5 flex flex-col gap-5">
@@ -122,7 +123,12 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
                   {exhibitionItem.itemPreviews.map((item) => (
                     <Link key={item.itemId} href={`/detail/${item.itemId}`}>
                       <div className="bg-green aspect-[4/5] h-33">
-                        <ImageWithEffect src={item.imageUrl} alt={`아이템 ${item.itemId}의 프리뷰 이미지.`} fill />
+                        <ImageWithEffect
+                          src={item.imageUrl}
+                          alt={`아이템 ${item.itemId}의 프리뷰 이미지.`}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
                     </Link>
                   ))}
