@@ -32,7 +32,7 @@ export default function AdminExhibitionRegisterPage() {
   const [form, setForm] = useState({
     title: '',
     subTitle: '',
-    description: '',
+    description: 'EMPTY',
     startDate: '',
     endDate: '',
     thumbnailKey: '',
@@ -146,7 +146,7 @@ export default function AdminExhibitionRegisterPage() {
     setForm({
       title: '',
       subTitle: '',
-      description: '',
+      description: 'EMPTY',
       startDate: '',
       endDate: '',
       thumbnailKey: '',
@@ -201,7 +201,7 @@ export default function AdminExhibitionRegisterPage() {
       <div className="mx-5 mt-10 mb-20 flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           {/* 기획전 텍스트 정보 입력 */}
-          {(['title', 'subTitle', 'description'] as const).map((key) => (
+          {(['title', 'subTitle'] as const).map((key) => (
             <React.Fragment key={key}>
               <p className="text-body-01 font-semibold">{formKeyMap[key].title}</p>
               <TextareaAutosize
