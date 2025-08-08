@@ -1,10 +1,11 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useToast } from '@/components/common/alert/toast-provider';
 import { toggleWish } from '@/services/api/wish-controller';
+import { getQueryClient } from '@/services/query/client';
 import { HttpError } from '@/types/axios.dto';
 import type { WishToggleSchema } from '@/types/wish-controller';
 
@@ -33,7 +34,7 @@ const QUERY_KEYS_BY_TARGET_TYPE: Record<WishToggleSchema['target']['targetType']
 };
 
 export const useToggleWish = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const { showToast } = useToast();
   const router = useRouter();
   const pathname = usePathname();
