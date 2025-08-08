@@ -78,6 +78,7 @@ export default function ItemList({ initialParams, page }: ItemListGridProps) {
   const { data } = useSuspenseQuery({
     queryKey: ['items', serverParams],
     queryFn: page === 'SHOP' ? () => fetchShopItems(serverParams) : () => fetchArtistItems(serverParams),
+    refetchOnMount: true,
   });
 
   const push = (next: Partial<ItemControllerParams>) => {
