@@ -47,7 +47,7 @@ export default function AdminExhibitionUpdatePage() {
   const [form, setForm] = useState({
     title: '',
     subTitle: '',
-    description: '',
+    description: 'EMPTY',
     startDate: '',
     endDate: '',
     itemIds: [] as number[],
@@ -77,7 +77,7 @@ export default function AdminExhibitionUpdatePage() {
       setForm({
         title: selectedExhibition.summary.title,
         subTitle: selectedExhibition.summary.subTitle,
-        description: selectedExhibition.summary.description,
+        description: 'EMPTY',
         startDate: selectedExhibition.summary.startDate,
         endDate: selectedExhibition.summary.endDate ?? '',
         itemIds: selectedExhibition.itemPreviews.map((item) => item.itemId),
@@ -269,7 +269,7 @@ export default function AdminExhibitionUpdatePage() {
         <div className="mx-5 mt-10 mb-20 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             {/* 기획전 텍스트 정보 수정 */}
-            {(['title', 'subTitle', 'description'] as const).map((key) => (
+            {(['title', 'subTitle'] as const).map((key) => (
               <React.Fragment key={`${selectedExhibitionId}-${key}`}>
                 <p className="text-body-01 font-regular">
                   <strong className="font-semibold">{formKeyMap[key].title}: </strong>
