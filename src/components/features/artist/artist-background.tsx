@@ -26,7 +26,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
   const { isWishlisted, wishCount } = wish;
 
   return (
-    <div className="fixed-component no-z-index top-11.5 h-50 w-full">
+    <div className="fixed-component no-z-index top-11.5 flex h-50 w-full justify-end">
       <ImageWithLoading
         src={profileImageUrl}
         alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`}
@@ -34,7 +34,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
         priority
         className="fixed-image-optimization object-cover"
       />
-      <div className="text-grey-0 absolute top-4 right-3.5 z-2 flex flex-col gap-0.5">
+      <div className="text-grey-0 z-2 flex flex-col gap-0.5 pt-4 pr-3.5">
         <button
           onClick={() => toggleWish({ targetType: 'ARTIST', targetId: artistId, currentWished: isWishlisted })}
           className="cursor-pointer"
