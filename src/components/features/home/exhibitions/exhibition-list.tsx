@@ -68,7 +68,7 @@ export default function ExhibitionList({ status: initialStatus }: ExhibitionList
     <div className="relative mt-7.5 mb-20 flex flex-col">
       <div ref={listTopRef} className="scroll-mt-11.5" />
       {/* 헤더 */}
-      <div className="bg-pale-green sticky top-11.5 z-10 mx-5 flex flex-col gap-3 pb-7">
+      <div className="bg-pale-green sticky top-11.5 z-10 flex flex-col gap-3 px-5 pb-7">
         <p className="text-headline-06 text-black">Exhibition</p>
         <HorizontalScrollWithActiveLine
           activeId={`status-id-${selectedStatus}`}
