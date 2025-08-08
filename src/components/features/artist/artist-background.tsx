@@ -2,7 +2,7 @@
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import ImageWithEffect from '@/components/common/utilities/image-with-effect';
+import ImageWithLoading from '@/components/common/utilities/image-with-loading';
 import { useToggleWish } from '@/hooks/use-toggle-wish';
 import BookmarkEmptyIcon from '@/public/icons/artist/bookmark-empty.svg';
 import BookmarkFilledIcon from '@/public/icons/artist/bookmark-filled.svg';
@@ -27,7 +27,7 @@ export default function ArtistBackground({ artistId }: ArtistBackgroundDivProps)
 
   return (
     <div className="fixed-component no-z-index top-11.5 h-50 w-full">
-      <ImageWithEffect
+      <ImageWithLoading
         src={profileImageUrl}
         alt={`프로메사 ${name} 작가 페이지의 배경 이미지.`}
         fill
